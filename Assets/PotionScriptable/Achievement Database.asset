@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1caf6442f405b11459b4284ff85cd422, type: 3}
+  m_Name: Achievement Database
+  m_EditorClassIdentifier: 
+  achievements:
+  - name: Old Toby
+    content: Old Toby, The finest weed in the Southfarthing.
+    sprite: {fileID: 1773732111931389266, guid: bfdb12d5b05c3b14aa58fe379216ce6a, type: 3}
+    unlocked: 0
+  - name: Udun flame
+    content: Moria. You fear to go into those mines. The Dwarves dug too greedily
+      and too deep.
+    sprite: {fileID: 2412548871939554092, guid: 2ab09d5d5751a61488632ad2537225ea, type: 3}
+    unlocked: 0
+  - name: Pizza Express 3000
+    content: My God! It's the future. My parents, my co-workers, my girlfriend. I'll
+      never see any of them again. Yahoo!
+    sprite: {fileID: 8643757184048541398, guid: 0018984556d04474ea74cbb8f492fd8d, type: 3}
+    unlocked: 0

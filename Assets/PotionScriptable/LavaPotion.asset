@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08045c5222042224d87a969403307576, type: 3}
+  m_Name: LavaPotion
+  m_EditorClassIdentifier: 
+  _name: Lava Potion
+  _potColor: {r: 1, g: 0.34162226, b: 0, a: 0.8666667}
+  dialogs:
+  - I don't digest the lava before going to sleep...
+  - So hot!
+  - Blergh...
+  effectType: 3
+  burned: oh not again, where did I put the flame of Anor?
+  freezed: 
+  wet: 
+  grass: 
+  tree: 
+  balrog: 
+  none: {fileID: 0}
+  burned_audio: {fileID: 0}
+  freezed_audio: {fileID: 0}
+  wet_audio: {fileID: 0}
+  grass_audio: {fileID: 0}
+  tree_audio: {fileID: 0}
+  balrog_audio: {fileID: 0}
+  baseValue: 4
