@@ -54,8 +54,6 @@ public class GameMan : MonoBehaviour
 
     public void CompileLevelReferences()
     {
-        potionDrunked = 0;
-        potionToDrunk = levelPotions.Count;
         PotionScript[] potions = FindObjectsOfType<PotionScript>();
         levelPotions = new List<PotionScript>();
         foreach (PotionScript p in potions)
@@ -85,6 +83,8 @@ public class GameMan : MonoBehaviour
 
     public void LoadPotion()
     {
+        potionDrunked = 0;
+        potionToDrunk = levelPotions.Count;
 
         PopDialog(finalSentence);
 

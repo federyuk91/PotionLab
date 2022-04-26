@@ -6,6 +6,7 @@ public class PotionScript : MonoBehaviour
 {
     private Rigidbody2D _rb;
     private Sprite _potionSprite;
+    private AudioSource _audio;
 
     public PotionScriptable potion;
     public GameObject whiteSquare; 
@@ -15,7 +16,7 @@ public class PotionScript : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _potionSprite = GetComponent<Sprite>();
-
+        _audio = GetComponent<AudioSource>();
     }
 
     public void ActivateBox()
@@ -29,7 +30,7 @@ public class PotionScript : MonoBehaviour
         if (isActive)
         {
             Debug.Log("Drop Potion: " + this.name);
-
+            _audio.Play();
             _rb.bodyType = RigidbodyType2D.Dynamic;
             whiteSquare.SetActive(false);
         }
