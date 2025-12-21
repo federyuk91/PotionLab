@@ -1,10 +1,15 @@
 ManifestFileVersion: 0
-CRC: 1833596525
+UnityVersion: 6000.3.2f1
+CRC: 3536584846
+HashAppended: 0
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: rikrpoison
+      Name: rikrrage
       Dependencies: {}
     Info_1:
-      Name: rikrrage
+      Name: unifiedraytracing
+      Dependencies: {}
+    Info_2:
+      Name: rikrpoison
       Dependencies: {}

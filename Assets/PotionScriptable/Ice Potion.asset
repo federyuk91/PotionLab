@@ -14,5 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Ice Potion
   _potColor: {r: 0.51677644, g: 0.6341661, b: 0.745283, a: 0.8666667}
+  dialogs: []
   effectType: 4
+  burned: 
+  freezed: 
+  wet: 
+  grass: 
+  tree: 
+  balrog: 
+  poisoned: 
+  pupperFish: 
+  none: {fileID: 8300000, guid: e1e95c9809e60ea49a64efd451a956cc, type: 3}
+  burned_audio: {fileID: 0}
+  freezed_audio: {fileID: 8300000, guid: e1e95c9809e60ea49a64efd451a956cc, type: 3}
+  wet_audio: {fileID: 0}
+  grass_audio: {fileID: 0}
+  tree_audio: {fileID: 0}
+  balrog_audio: {fileID: 8300000, guid: 741f8ad35090ae04b992f578345f22f0, type: 3}
+  pupperFish_audio: {fileID: 0}
   baseValue: 1

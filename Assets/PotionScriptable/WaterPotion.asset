@@ -14,7 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Water Potion
   _potColor: {r: 0, g: 0.5121491, b: 1, a: 0.8666667}
-  dialogs: []
+  dialogs:
+  - I'm wet!
+  - I'm fresh!
+  - '*bubble*'
+  - Like a river
   effectType: 5
   burned: What a relief!
   freezed: 
@@ -22,11 +26,14 @@ MonoBehaviour:
   grass: It looks like it will be a loooong rest
   tree: 
   balrog: 
-  none: {fileID: 0}
-  burned_audio: {fileID: 0}
+  poisoned: 
+  pupperFish: 
+  none: {fileID: 8300000, guid: 1a4eb11d677abcf44bf65558d2f4f236, type: 3}
+  burned_audio: {fileID: 8300000, guid: eac9d9cd65b616043abccef39f526c73, type: 3}
   freezed_audio: {fileID: 0}
-  wet_audio: {fileID: 0}
+  wet_audio: {fileID: 8300000, guid: 1a4eb11d677abcf44bf65558d2f4f236, type: 3}
   grass_audio: {fileID: 0}
   tree_audio: {fileID: 0}
   balrog_audio: {fileID: 0}
+  pupperFish_audio: {fileID: 8300000, guid: 9cac0e3bc9262b945add7c7c1783ffeb, type: 3}
   baseValue: 1

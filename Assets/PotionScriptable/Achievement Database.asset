@@ -13,17 +13,169 @@ MonoBehaviour:
   m_Name: Achievement Database
   m_EditorClassIdentifier: 
   achievements:
-  - name: Old Toby
-    content: Old Toby, The finest weed in the Southfarthing.
-    sprite: {fileID: 1773732111931389266, guid: bfdb12d5b05c3b14aa58fe379216ce6a, type: 3}
+  - name: Goodnight!
+    content: The only true goodnight potion!
+    sprite: {fileID: -6716467235744403431, guid: 4519fb72ad3086c4197faba476ecdb1d, type: 3}
+    unlocked: 0
+  - name: The Mage
+    content: You are The Mage, you have completed everything
+    sprite: {fileID: -1919134810339289107, guid: e4a6490334af6724ba53101b13463fe5, type: 3}
+    unlocked: 0
+  - name: Perfectionist
+    content: Complete all level of Classic mode with max score!
+    sprite: {fileID: 21300000, guid: 758082c0ae3d70242bfaa112cfbcfb2d, type: 3}
+    unlocked: 0
+  - name: The classic
+    content: Complete all level of Classic mode
+    sprite: {fileID: 21300000, guid: a5e16b740d641394f874f098f9911b30, type: 3}
+    unlocked: 0
+  - name: Time to think
+    content: Ents are a race that thinks and speaks very slowly, and acts even more
+      slowly
+    sprite: {fileID: 1773732111931389266, guid: 531bb2b4bd6d9e5428c80fea1e50f8b9, type: 3}
+    unlocked: 0
+  - name: Under the sea! Under the sea!
+    content: Transform into a pupperfish!
+    sprite: {fileID: 6762519587811461384, guid: a7dbe47dcf575bb4694625dd90dd9ff2, type: 3}
     unlocked: 0
   - name: Udun flame
-    content: Moria. You fear to go into those mines. The Dwarves dug too greedily
-      and too deep.
+    content: The Dwarves dug too greedily and too deep.
     sprite: {fileID: 2412548871939554092, guid: 2ab09d5d5751a61488632ad2537225ea, type: 3}
+    unlocked: 0
+  - name: Roar!
+    content: Transform into a Yeti!
+    sprite: {fileID: -55999420773040779, guid: 20fc108f12129674fbd87e3d056641e3, type: 3}
+    unlocked: 0
+  - name: Wet wizard, lucky wizard
+    content: Extinguish the flames that are burning the magician
+    sprite: {fileID: -5495861832342831202, guid: 64f179e91eb8e6e4f8509b5ab4136a91, type: 3}
+    unlocked: 0
+  - name: Thank you lara
+    content: But your butler Winston is in another freezer
+    sprite: {fileID: 8643757184048541398, guid: 0018984556d04474ea74cbb8f492fd8d, type: 3}
+    unlocked: 0
+  - name: Advance knowledge
+    content: Burn alghae at maximum growth!
+    sprite: {fileID: 868961405481983498, guid: 7bbe159fa1be31748aca5317906d97ba, type: 3}
+    unlocked: 0
+  - name: Advance Tatics!
+    content: Drink an ice potion when you're burning as tree
+    sprite: {fileID: -4610821296591359423, guid: e79dd9cdda6c41f4aac0df98ab79e79b, type: 3}
+    unlocked: 0
+  - name: Exotic Interaction
+    content: Cast Bark Shield while flaming!
+    sprite: {fileID: 21300000, guid: a6be9dd9eb58dd144873eca7fb2e2d23, type: 3}
     unlocked: 0
   - name: Pizza Express 3000
     content: My God! It's the future. My parents, my co-workers, my girlfriend. I'll
       never see any of them again. Yahoo!
-    sprite: {fileID: 8643757184048541398, guid: 0018984556d04474ea74cbb8f492fd8d, type: 3}
+    sprite: {fileID: 21300000, guid: db2976ced8dfe314aa5e89c96c41fc34, type: 3}
+    unlocked: 0
+  - name: Sylvanus Blessing
+    content: Summon a flower with maximum power!
+    sprite: {fileID: 8712213265624741136, guid: b8778942a0a08ed48918a18a28b63fdd, type: 3}
+    unlocked: 0
+  - name: Cooking Mama!
+    content: Summon the cauldron at maximum power.
+    sprite: {fileID: -872718845115054588, guid: 29a8c16f09ae89b41833d4846453ff2b, type: 3}
+    unlocked: 0
+  - name: BLOB!
+    content: Inflate to maximum power and destroy!
+    sprite: {fileID: 1114599881857385755, guid: a2ced4c912a303e46acd5cb340f4fac6, type: 3}
+    unlocked: 0
+  - name: Falcon PUNCH!
+    content: Punch as Yeti 4 potions!
+    sprite: {fileID: 21300000, guid: a2d9ee4c1ec982c44afe6e930544a0aa, type: 3}
+    unlocked: 0
+  - name: Old Toby
+    content: Old Toby, The finest weed in the Southfarthing.
+    sprite: {fileID: 1773732111931389266, guid: bfdb12d5b05c3b14aa58fe379216ce6a, type: 3}
+    unlocked: 0
+  - name: ICE TW-ICE
+    content: Drink two potion of ice consecutively
+    sprite: {fileID: 1547809334161273600, guid: df86eb8c0b6abf0499a295c1d9b330b3, type: 3}
+    unlocked: 0
+  - name: Flounder is death
+    content: They found your fish body upside down! Bye!
+    sprite: {fileID: 2301780388802313298, guid: fe1fad6cc4261224aafa1db8c296f6fe, type: 3}
+    unlocked: 0
+  - name: Mastro Lindo
+    content: Use cleanse on poisoned Ice!
+    sprite: {fileID: 21300000, guid: e9d2678241ac54a47b783c9091a87090, type: 3}
+    unlocked: 0
+  - name: The sacrifice of the gray wizard
+    content: Sacrifice yourself to kill the demon.
+    sprite: {fileID: -2317178936316941921, guid: ee4a1a338bee81745bac56940f402586, type: 3}
+    unlocked: 0
+  - name: Casual Drinker
+    content: Obtain 25 points in Endless Mode!
+    sprite: {fileID: 8745328279068976687, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
+    unlocked: 0
+  - name: Regular Drinker
+    content: Obtain 75 points in Endless Mode!
+    sprite: {fileID: 4157264983450105251, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
+    unlocked: 0
+  - name: Hardcore Drinker
+    content: Obtain 150 points in Endless Mode!
+    sprite: {fileID: 71855861439738458, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
+    unlocked: 0
+  - name: Master Drinker
+    content: Obtain 300 points in Endless Mode!
+    sprite: {fileID: 6709105514680536145, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
+    unlocked: 0
+  - name: Almost a problem...Drinker
+    content: Obtain 500 points in Endless Mode!
+    sprite: {fileID: 5068339059601472793, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
+    unlocked: 0
+  - name: God of Libations!
+    content: Obtain 700 points in Endless Mode!
+    sprite: {fileID: 2914355713501389530, guid: 2fc0ad7e336c4b34080be2916f5c7705, type: 3}
+    unlocked: 0
+  - name: Burn Baby BURN!
+    content: Burn with a level 3 flames!
+    sprite: {fileID: -5417896545150781075, guid: 25474e329b6f63f468c33b477ee7eeda, type: 3}
+    unlocked: 0
+  - name: Shapeshifter!
+    content: Transform 10 times in a run!
+    sprite: {fileID: 4495391339491798990, guid: 4331130546b08d74ba2d7cbef2266dc9, type: 3}
+    unlocked: 0
+  - name: Ditto's Follower
+    content: Transform 20 times in a run!
+    sprite: {fileID: 21300000, guid: dec810c3c308b6947860c7d0d743067a, type: 3}
+    unlocked: 0
+  - name: Mana BURN!
+    content: Destroy with calduron 5 light potion!
+    sprite: {fileID: -872718845115054588, guid: 29a8c16f09ae89b41833d4846453ff2b, type: 3}
+    unlocked: 0
+  - name: Not a waster
+    content: In Advance mode brings the light to minimum power
+    sprite: {fileID: 6954784277877991272, guid: 4e598912d44a1fc4487d01aeff638030, type: 3}
+    unlocked: 0
+  - name: Spammer!
+    content: Click a summon 5 times!
+    sprite: {fileID: -3699974106684195094, guid: 2edd7a5c974e050488fae92e7117288b, type: 3}
+    unlocked: 0
+  - name: Fresh and Clean
+    content: Reach max mana with full health in mage form!
+    sprite: {fileID: -4808516141538984660, guid: c4b16c870c962fa43b07385d1b2a6305, type: 3}
+    unlocked: 0
+  - name: Necrotic Death!
+    content: Die with an Antimagic Potion!
+    sprite: {fileID: 9199872429839816550, guid: 531bc38a7e672414482189974260f0f8, type: 3}
+    unlocked: 0
+  - name: Shaky Shaky
+    content: Open Grimoire while taking damage!
+    sprite: {fileID: 7394717361452921571, guid: d22192a8ee92ea04aa8805a838f81b8d, type: 3}
+    unlocked: 0
+  - name: Pile of S...
+    content: Ground on ground on ground!
+    sprite: {fileID: -8870062075813610288, guid: 978c1b8ea02a26f4faa1213e0b580bdc, type: 3}
+    unlocked: 0
+  - name: Holy pile of ground!
+    content: Heal yourself as a tree with ground.
+    sprite: {fileID: 21300000, guid: c8aab11bd7de7e1429e1d1b8b7cc7f31, type: 3}
+    unlocked: 0
+  - name: Smart but fart!
+    content: Try to heal up as yeti with full life!
+    sprite: {fileID: -2054490447, guid: 98a132d39923e9041abb209d5e5ca729, type: 3}
     unlocked: 0

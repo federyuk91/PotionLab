@@ -1,9 +1,1167 @@
 fileFormatVersion: 2
-guid: 531bb2b4bd6d9e5428c80fea1e50f8b9
+guid: 569f3eba120034044a290f1f41c11646
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 43729913913265897
+    second: mage_tree_0
+  - first:
+      213: 1898047673537464395
+    second: mage_tree_1
+  - first:
+      213: 3533971231398833554
+    second: mage_tree_2
+  - first:
+      213: 4425555347852359943
+    second: mage_tree_3
+  - first:
+      213: 6256437590312243466
+    second: mage_tree_4
+  - first:
+      213: 2689040505580519330
+    second: mage_tree_5
+  - first:
+      213: -1829963399284226847
+    second: mage_tree_6
+  - first:
+      213: -1284213648604412469
+    second: mage_tree_7
+  - first:
+      213: -4883002561619460644
+    second: mage_tree_8
+  - first:
+      213: 3969743291392444598
+    second: mage_tree_9
+  - first:
+      213: -750047542661346187
+    second: mage_tree_10
+  - first:
+      213: 1031483682273992895
+    second: mage_tree_11
+  - first:
+      213: 5495933602107608451
+    second: mage_tree_12
+  - first:
+      213: -7806806167647369865
+    second: mage_tree_13
+  - first:
+      213: -4620570622374957994
+    second: mage_tree_14
+  - first:
+      213: 3532097488127161036
+    second: mage_tree_15
+  - first:
+      213: 7475383382393525297
+    second: mage_tree_16
+  - first:
+      213: 2566189133715137545
+    second: mage_tree_17
+  - first:
+      213: -4161067730256623035
+    second: mage_tree_18
+  - first:
+      213: -6129849678139096437
+    second: mage_tree_19
+  - first:
+      213: 711350067702530729
+    second: mage_tree_20
+  - first:
+      213: -7242215888000507176
+    second: mage_tree_21
+  - first:
+      213: -8507987648719363149
+    second: mage_tree_22
+  - first:
+      213: -7061512384761995728
+    second: mage_tree_23
+  - first:
+      213: 826705251477292332
+    second: mage_tree_24
+  - first:
+      213: 3610054639038272596
+    second: mage_tree_25
+  - first:
+      213: 5197819496905165925
+    second: mage_tree_26
+  - first:
+      213: -5998041020376383526
+    second: mage_tree_27
+  - first:
+      213: -5525512889364192184
+    second: mage_tree_28
+  - first:
+      213: -3119018530586503092
+    second: mage_tree_29
+  - first:
+      213: -1481445200637164602
+    second: mage_tree_30
+  - first:
+      213: 7449747532133226450
+    second: mage_tree_31
+  - first:
+      213: 3348398101900545746
+    second: mage_tree_32
+  - first:
+      213: -8836010614210302443
+    second: mage_tree_33
+  - first:
+      213: 2119754454857801390
+    second: mage_tree_34
+  - first:
+      213: 9132487191386017687
+    second: mage_tree_35
+  - first:
+      213: -8586929503170088881
+    second: mage_tree_36
+  - first:
+      213: -86092546016047806
+    second: mage_tree_37
+  - first:
+      213: 7065155084146349824
+    second: mage_tree_38
+  - first:
+      213: -832476700231637446
+    second: mage_tree_39
+  - first:
+      213: 6230306964895400426
+    second: mage_tree_40
+  - first:
+      213: -3450875675128357667
+    second: mage_tree_41
+  - first:
+      213: -5920025359129975317
+    second: mage_tree_42
+  - first:
+      213: 4200545381632767252
+    second: mage_tree_43
+  - first:
+      213: -3376329578245736857
+    second: mage_tree_44
+  - first:
+      213: 3763237039782413247
+    second: mage_tree_45
+  - first:
+      213: 2137470660900043101
+    second: mage_tree_46
+  - first:
+      213: 5673613918483236785
+    second: mage_tree_47
+  - first:
+      213: -8969842749442289880
+    second: mage_tree_48
+  - first:
+      213: 1920539143751705456
+    second: mage_tree_49
+  - first:
+      213: 8881455010332139954
+    second: mage_tree_50
+  - first:
+      213: 3088504157241352850
+    second: mage_tree_51
+  - first:
+      213: -6489722878086741268
+    second: mage_tree_52
+  - first:
+      213: 1788180864508960443
+    second: mage_tree_53
+  - first:
+      213: 4623080243878129790
+    second: mage_tree_54
+  - first:
+      213: 290044291809134549
+    second: mage_tree_55
+  - first:
+      213: 5347713838374991666
+    second: mage_tree_56
+  - first:
+      213: -5293688052732772537
+    second: mage_tree_57
+  - first:
+      213: -678811310112119396
+    second: mage_tree_58
+  - first:
+      213: -4377821154309906488
+    second: mage_tree_59
+  - first:
+      213: 2125014348118144625
+    second: mage_tree_60
+  - first:
+      213: -1620240404265310105
+    second: mage_tree_61
+  - first:
+      213: -8878369802977589979
+    second: mage_tree_62
+  - first:
+      213: -747000970306039357
+    second: mage_tree_63
+  - first:
+      213: 6208528532924525423
+    second: mage_tree_64
+  - first:
+      213: 546885411128750421
+    second: mage_tree_65
+  - first:
+      213: 3888222371969441431
+    second: mage_tree_66
+  - first:
+      213: -9076856069324971053
+    second: mage_tree_67
+  - first:
+      213: -5467786123857918007
+    second: mage_tree_68
+  - first:
+      213: -6052965793177357543
+    second: mage_tree_69
+  - first:
+      213: 378062852754478074
+    second: mage_tree_70
+  - first:
+      213: 8713046063170831079
+    second: mage_tree_71
+  - first:
+      213: -1847735994002515850
+    second: mage_tree_72
+  - first:
+      213: -8215986601628613148
+    second: mage_tree_73
+  - first:
+      213: -1264108888784531867
+    second: mage_tree_74
+  - first:
+      213: -646600458819902069
+    second: mage_tree_75
+  - first:
+      213: -3920378506844929126
+    second: mage_tree_76
+  - first:
+      213: 7847341262537592441
+    second: mage_tree_77
+  - first:
+      213: 6223507786988766590
+    second: mage_tree_78
+  - first:
+      213: -6849313578792406287
+    second: mage_tree_79
+  - first:
+      213: 8249760413366816954
+    second: mage_tree_80
+  - first:
+      213: -1116553197499980548
+    second: mage_tree_81
+  - first:
+      213: -3248117348741882155
+    second: mage_tree_82
+  - first:
+      213: 1228602484968391680
+    second: mage_tree_83
+  - first:
+      213: 9064865095338270565
+    second: mage_tree_84
+  - first:
+      213: -1710158458593812910
+    second: mage_tree_85
+  - first:
+      213: -3978055582183160221
+    second: mage_tree_86
+  - first:
+      213: -5438474314683611343
+    second: mage_tree_87
+  - first:
+      213: 4558127514764975861
+    second: mage_tree_88
+  - first:
+      213: -3632225783587966950
+    second: mage_tree_89
+  - first:
+      213: -2864947759392908272
+    second: mage_tree_90
+  - first:
+      213: 4907348336303091990
+    second: mage_tree_91
+  - first:
+      213: 992119352063446379
+    second: mage_tree_92
+  - first:
+      213: -6750605190456248146
+    second: mage_tree_93
+  - first:
+      213: -4952460662403416397
+    second: mage_tree_94
+  - first:
+      213: 7514920071487969449
+    second: mage_tree_95
+  - first:
+      213: 8635565640574467464
+    second: mage_tree_96
+  - first:
+      213: 8812120486966533238
+    second: mage_tree_97
+  - first:
+      213: 7210435858559698058
+    second: mage_tree_98
+  - first:
+      213: -2301218496378936355
+    second: mage_tree_99
+  - first:
+      213: 2090938465746376886
+    second: mage_tree_100
+  - first:
+      213: 2041763538076130983
+    second: mage_tree_101
+  - first:
+      213: 1148544111103795677
+    second: mage_tree_102
+  - first:
+      213: -7146404529552356010
+    second: mage_tree_103
+  - first:
+      213: 6264934823290498080
+    second: mage_tree_104
+  - first:
+      213: 7331636187499087266
+    second: mage_tree_105
+  - first:
+      213: -8307667893461415807
+    second: mage_tree_106
+  - first:
+      213: 7868825765829266187
+    second: mage_tree_107
+  - first:
+      213: -918966958676350456
+    second: mage_tree_108
+  - first:
+      213: 6263776790515430358
+    second: mage_tree_109
+  - first:
+      213: -7140944019387487487
+    second: mage_tree_110
+  - first:
+      213: -4563409553062085958
+    second: mage_tree_111
+  - first:
+      213: -3412542765790168387
+    second: mage_tree_112
+  - first:
+      213: -2463175112817814411
+    second: mage_tree_113
+  - first:
+      213: -1726685656119884989
+    second: mage_tree_114
+  - first:
+      213: -6225069493954830364
+    second: mage_tree_115
+  - first:
+      213: 7896816000392139193
+    second: mage_tree_116
+  - first:
+      213: 4564388176611507338
+    second: mage_tree_117
+  - first:
+      213: -1000123955404395884
+    second: mage_tree_118
+  - first:
+      213: 3522985880757191014
+    second: mage_tree_119
+  - first:
+      213: -4649557200000968362
+    second: mage_tree_120
+  - first:
+      213: -8181242677993952846
+    second: mage_tree_121
+  - first:
+      213: 1078343788332063876
+    second: mage_tree_122
+  - first:
+      213: -6546073061736306793
+    second: mage_tree_123
+  - first:
+      213: 304397089228629501
+    second: mage_tree_124
+  - first:
+      213: 5454411142729058517
+    second: mage_tree_125
+  - first:
+      213: -1424587319049754461
+    second: mage_tree_126
+  - first:
+      213: 4946685590785561316
+    second: mage_tree_127
+  - first:
+      213: 4687867102871707010
+    second: mage_tree_128
+  - first:
+      213: -8911034765434270390
+    second: mage_tree_129
+  - first:
+      213: -2770608885877805452
+    second: mage_tree_130
+  - first:
+      213: -2716259988785663621
+    second: mage_tree_131
+  - first:
+      213: -4327205453567126517
+    second: mage_tree_132
+  - first:
+      213: -2475504100572535273
+    second: mage_tree_133
+  - first:
+      213: -4566321423723711654
+    second: mage_tree_134
+  - first:
+      213: -2053973003082228405
+    second: mage_tree_135
+  - first:
+      213: -5696010231242107235
+    second: mage_tree_136
+  - first:
+      213: -5195812659519964463
+    second: mage_tree_137
+  - first:
+      213: 2326382935537596451
+    second: mage_tree_138
+  - first:
+      213: 5363995473174016980
+    second: mage_tree_139
+  - first:
+      213: 7626629356877910800
+    second: mage_tree_140
+  - first:
+      213: -7697169112136232713
+    second: mage_tree_141
+  - first:
+      213: -2353456652542176364
+    second: mage_tree_142
+  - first:
+      213: -3800515357846347171
+    second: mage_tree_143
+  - first:
+      213: -4702865450096586635
+    second: mage_tree_144
+  - first:
+      213: -5973934529843536384
+    second: mage_tree_145
+  - first:
+      213: 3370055128993052443
+    second: mage_tree_146
+  - first:
+      213: 7085635188709165552
+    second: mage_tree_147
+  - first:
+      213: 8022045384377144492
+    second: mage_tree_148
+  - first:
+      213: 4129357259557706968
+    second: mage_tree_149
+  - first:
+      213: 1828558901651204853
+    second: mage_tree_150
+  - first:
+      213: -801312082929446746
+    second: mage_tree_151
+  - first:
+      213: 4968246248219947319
+    second: mage_tree_152
+  - first:
+      213: 5384626676662172692
+    second: mage_tree_153
+  - first:
+      213: 4959773100724021020
+    second: mage_tree_154
+  - first:
+      213: 5859490040436078443
+    second: mage_tree_155
+  - first:
+      213: 3109481264161958620
+    second: mage_tree_156
+  - first:
+      213: 1804544040923855262
+    second: mage_tree_157
+  - first:
+      213: 1380180381627913682
+    second: mage_tree_158
+  - first:
+      213: -8191442479226077137
+    second: mage_tree_159
+  - first:
+      213: -8828509575424237500
+    second: mage_tree_160
+  - first:
+      213: 3216344115032939118
+    second: mage_tree_161
+  - first:
+      213: -5062344696653179663
+    second: mage_tree_162
+  - first:
+      213: 3748878656731730014
+    second: mage_tree_163
+  - first:
+      213: -8603264443487392316
+    second: mage_tree_164
+  - first:
+      213: 3562503961455115512
+    second: mage_tree_165
+  - first:
+      213: 71250357722775191
+    second: mage_tree_166
+  - first:
+      213: 8004529217962958452
+    second: mage_tree_167
+  - first:
+      213: 7464445569250846806
+    second: mage_tree_168
+  - first:
+      213: 2978672952167808102
+    second: mage_tree_169
+  - first:
+      213: 8942606484957325455
+    second: mage_tree_170
+  - first:
+      213: -5036627826226419261
+    second: mage_tree_171
+  - first:
+      213: 5277842661307139995
+    second: mage_tree_172
+  - first:
+      213: 8527875563544151093
+    second: mage_tree_173
+  - first:
+      213: -8288718365388994682
+    second: mage_tree_174
+  - first:
+      213: 2921390783351386780
+    second: mage_tree_175
+  - first:
+      213: 6099990066639287676
+    second: mage_tree_176
+  - first:
+      213: -3791838838423219716
+    second: mage_tree_177
+  - first:
+      213: -1802663060384157197
+    second: mage_tree_178
+  - first:
+      213: -5206761432594470503
+    second: mage_tree_179
+  - first:
+      213: -1859858990824681702
+    second: mage_tree_180
+  - first:
+      213: -4471879544934425421
+    second: mage_tree_181
+  - first:
+      213: -6851180884543331402
+    second: mage_tree_182
+  - first:
+      213: -7099373230851539581
+    second: mage_tree_183
+  - first:
+      213: 7519610089088868069
+    second: mage_tree_184
+  - first:
+      213: -2491626474563066076
+    second: mage_tree_185
+  - first:
+      213: -2061524823519985400
+    second: mage_tree_186
+  - first:
+      213: 3145952738564504569
+    second: mage_tree_187
+  - first:
+      213: 6470257241186568248
+    second: mage_tree_188
+  - first:
+      213: -4138620180412818759
+    second: mage_tree_189
+  - first:
+      213: -560471856148969686
+    second: mage_tree_190
+  - first:
+      213: 5248071495585119122
+    second: mage_tree_191
+  - first:
+      213: -7837192962278166236
+    second: mage_tree_192
+  - first:
+      213: -2844708993346325474
+    second: mage_tree_193
+  - first:
+      213: -4835122291536977938
+    second: mage_tree_194
+  - first:
+      213: 4569898971989217752
+    second: mage_tree_195
+  - first:
+      213: -2492097582912541251
+    second: mage_tree_196
+  - first:
+      213: 861254137704981451
+    second: mage_tree_197
+  - first:
+      213: -3394705258104925790
+    second: mage_tree_198
+  - first:
+      213: -5100864695215290205
+    second: mage_tree_199
+  - first:
+      213: 164419217062998753
+    second: mage_tree_200
+  - first:
+      213: 1535638711108262495
+    second: mage_tree_201
+  - first:
+      213: 300102779153105316
+    second: mage_tree_202
+  - first:
+      213: 7624798977345314880
+    second: mage_tree_203
+  - first:
+      213: 8908170557424603072
+    second: mage_tree_204
+  - first:
+      213: -1834789563806893219
+    second: mage_tree_205
+  - first:
+      213: -6286869446855785173
+    second: mage_tree_206
+  - first:
+      213: 3703608671921788208
+    second: mage_tree_207
+  - first:
+      213: -1236849762515686398
+    second: mage_tree_208
+  - first:
+      213: 7423289741877338084
+    second: mage_tree_209
+  - first:
+      213: 2296008073242996010
+    second: mage_tree_210
+  - first:
+      213: -9014872620512989810
+    second: mage_tree_211
+  - first:
+      213: 7237989629031587660
+    second: mage_tree_212
+  - first:
+      213: -8230560450001075216
+    second: mage_tree_213
+  - first:
+      213: 1856698493224253234
+    second: mage_tree_214
+  - first:
+      213: -1720697596162295804
+    second: mage_tree_215
+  - first:
+      213: 6851859108177815565
+    second: mage_tree_216
+  - first:
+      213: 5963154622215830352
+    second: mage_tree_217
+  - first:
+      213: -5826262493506002342
+    second: mage_tree_218
+  - first:
+      213: 5806916182443392403
+    second: mage_tree_219
+  - first:
+      213: 1363037652791685616
+    second: mage_tree_220
+  - first:
+      213: -2632122169172559742
+    second: mage_tree_221
+  - first:
+      213: 3603441953017370790
+    second: mage_tree_222
+  - first:
+      213: -3133181044489495015
+    second: mage_tree_223
+  - first:
+      213: -2561967080012442458
+    second: mage_tree_224
+  - first:
+      213: -3885582709172335043
+    second: mage_tree_225
+  - first:
+      213: -3184019262948074362
+    second: mage_tree_226
+  - first:
+      213: 4764750713751616898
+    second: mage_tree_227
+  - first:
+      213: -501682094273448918
+    second: mage_tree_228
+  - first:
+      213: -2642733681199376156
+    second: mage_tree_229
+  - first:
+      213: 5315156989371315141
+    second: mage_tree_230
+  - first:
+      213: -2626739159188868808
+    second: mage_tree_231
+  - first:
+      213: 1534998475733178055
+    second: mage_tree_232
+  - first:
+      213: 1838336952283130605
+    second: mage_tree_233
+  - first:
+      213: 454495083657142346
+    second: mage_tree_234
+  - first:
+      213: 7919523078687608040
+    second: mage_tree_235
+  - first:
+      213: -4184964763800468197
+    second: mage_tree_236
+  - first:
+      213: 3180199842857081717
+    second: mage_tree_237
+  - first:
+      213: 5712199647153135367
+    second: mage_tree_238
+  - first:
+      213: 424134168982853394
+    second: mage_tree_239
+  - first:
+      213: -4147198638047358132
+    second: mage_tree_240
+  - first:
+      213: 3300521799115659312
+    second: mage_tree_241
+  - first:
+      213: -6216443262535044550
+    second: mage_tree_242
+  - first:
+      213: -4193245702735124642
+    second: mage_tree_243
+  - first:
+      213: 5825678558215013902
+    second: mage_tree_244
+  - first:
+      213: 3605508844893970273
+    second: mage_tree_245
+  - first:
+      213: -9132559282733203256
+    second: mage_tree_246
+  - first:
+      213: -5075041902165088232
+    second: mage_tree_247
+  - first:
+      213: 8775320844317872966
+    second: mage_tree_248
+  - first:
+      213: -6003563472829813466
+    second: mage_tree_249
+  - first:
+      213: -1585716063219681441
+    second: mage_tree_250
+  - first:
+      213: -7196017907089002737
+    second: mage_tree_251
+  - first:
+      213: -5195997060672540396
+    second: mage_tree_252
+  - first:
+      213: 7991802882762418695
+    second: mage_tree_253
+  - first:
+      213: 64542569345606999
+    second: mage_tree_254
+  - first:
+      213: -3956662490239917979
+    second: mage_tree_255
+  - first:
+      213: -4363147229056518512
+    second: mage_tree_256
+  - first:
+      213: -3819983513555370201
+    second: mage_tree_257
+  - first:
+      213: 1026089775844380786
+    second: mage_tree_258
+  - first:
+      213: 2057696785959662171
+    second: mage_tree_259
+  - first:
+      213: -2289753781863487022
+    second: mage_tree_260
+  - first:
+      213: -645793319355888314
+    second: mage_tree_261
+  - first:
+      213: 7019911439598319982
+    second: mage_tree_262
+  - first:
+      213: -5677837144609231882
+    second: mage_tree_263
+  - first:
+      213: 8932119050877073719
+    second: mage_tree_264
+  - first:
+      213: -6512297822799840071
+    second: mage_tree_265
+  - first:
+      213: -6637163895036933036
+    second: mage_tree_266
+  - first:
+      213: -5770663695055471350
+    second: mage_tree_267
+  - first:
+      213: -3536771809405803038
+    second: mage_tree_268
+  - first:
+      213: 2894685964633655635
+    second: mage_tree_269
+  - first:
+      213: 2864900656134757940
+    second: mage_tree_270
+  - first:
+      213: -956628675918859037
+    second: mage_tree_271
+  - first:
+      213: -7486365285204551163
+    second: mage_tree_272
+  - first:
+      213: 8900928979022789433
+    second: mage_tree_273
+  - first:
+      213: -7963885348181557264
+    second: mage_tree_274
+  - first:
+      213: 8082721627040269911
+    second: mage_tree_275
+  - first:
+      213: 8723764453122010211
+    second: mage_tree_276
+  - first:
+      213: 4083220632922796965
+    second: mage_tree_277
+  - first:
+      213: 7470575237213242653
+    second: mage_tree_278
+  - first:
+      213: 7503882331647959548
+    second: mage_tree_279
+  - first:
+      213: -3760078222375617197
+    second: mage_tree_280
+  - first:
+      213: -3612890648887532119
+    second: mage_tree_281
+  - first:
+      213: -3350416243600820569
+    second: mage_tree_282
+  - first:
+      213: 290369340616367435
+    second: mage_tree_283
+  - first:
+      213: -2841040545255937474
+    second: mage_tree_284
+  - first:
+      213: 1108430085516283524
+    second: mage_tree_285
+  - first:
+      213: -3012726191257659882
+    second: mage_tree_286
+  - first:
+      213: -9151843231386071757
+    second: mage_tree_287
+  - first:
+      213: 1265949860417945212
+    second: mage_tree_288
+  - first:
+      213: 864510422891387851
+    second: mage_tree_289
+  - first:
+      213: -4527572743610718589
+    second: mage_tree_290
+  - first:
+      213: -2766363207351127495
+    second: mage_tree_291
+  - first:
+      213: -124814986095920528
+    second: mage_tree_292
+  - first:
+      213: -4478110224791281605
+    second: mage_tree_293
+  - first:
+      213: 264184149466579518
+    second: mage_tree_294
+  - first:
+      213: 6176232698272335822
+    second: mage_tree_295
+  - first:
+      213: 1503139161465446864
+    second: mage_tree_296
+  - first:
+      213: 148872811897766959
+    second: mage_tree_297
+  - first:
+      213: -8252817314173683110
+    second: mage_tree_298
+  - first:
+      213: 3091617235407181736
+    second: mage_tree_299
+  - first:
+      213: -6570205171345738908
+    second: mage_tree_300
+  - first:
+      213: -2414653258518347197
+    second: mage_tree_301
+  - first:
+      213: -2753306972396511774
+    second: mage_tree_302
+  - first:
+      213: -3518141061624886516
+    second: mage_tree_303
+  - first:
+      213: -4148241680154452173
+    second: mage_tree_304
+  - first:
+      213: 7416079524863962029
+    second: mage_tree_305
+  - first:
+      213: -4603218137814683185
+    second: mage_tree_306
+  - first:
+      213: -7306356623435900688
+    second: mage_tree_307
+  - first:
+      213: -5930170250253075040
+    second: mage_tree_308
+  - first:
+      213: 485916569434628778
+    second: mage_tree_309
+  - first:
+      213: 5868974957994761602
+    second: mage_tree_310
+  - first:
+      213: -4455888302836643510
+    second: mage_tree_311
+  - first:
+      213: 8579133517120523760
+    second: mage_tree_312
+  - first:
+      213: 6614302015721293520
+    second: mage_tree_313
+  - first:
+      213: -4167748751500445398
+    second: mage_tree_314
+  - first:
+      213: 8290817314471406987
+    second: mage_tree_315
+  - first:
+      213: -8332142345628258559
+    second: mage_tree_316
+  - first:
+      213: 6918787365317885332
+    second: mage_tree_317
+  - first:
+      213: -8899355545066639090
+    second: mage_tree_318
+  - first:
+      213: -8218885174731731938
+    second: mage_tree_319
+  - first:
+      213: 6784952016600714472
+    second: mage_tree_320
+  - first:
+      213: -2324394113634685660
+    second: mage_tree_321
+  - first:
+      213: -286473141448896032
+    second: mage_tree_322
+  - first:
+      213: -3643259896735995285
+    second: mage_tree_323
+  - first:
+      213: 3677486075505109368
+    second: mage_tree_324
+  - first:
+      213: -3785501252490448157
+    second: mage_tree_325
+  - first:
+      213: -330143080234730484
+    second: mage_tree_326
+  - first:
+      213: 6960618421595091833
+    second: mage_tree_327
+  - first:
+      213: -5981903259833908600
+    second: mage_tree_328
+  - first:
+      213: -2655373478664346751
+    second: mage_tree_329
+  - first:
+      213: -6000603374858226270
+    second: mage_tree_330
+  - first:
+      213: -8163844391885694853
+    second: mage_tree_331
+  - first:
+      213: -7326535178115196313
+    second: mage_tree_332
+  - first:
+      213: -377171648204393221
+    second: mage_tree_333
+  - first:
+      213: 3046096703662020662
+    second: mage_tree_334
+  - first:
+      213: 4118638704810781071
+    second: mage_tree_335
+  - first:
+      213: -2030478614438447214
+    second: mage_tree_336
+  - first:
+      213: 6381427892294799981
+    second: mage_tree_337
+  - first:
+      213: -4055754405778806515
+    second: mage_tree_338
+  - first:
+      213: 8605427780948168294
+    second: mage_tree_339
+  - first:
+      213: -4123490253367233270
+    second: mage_tree_340
+  - first:
+      213: 136305284449618838
+    second: mage_tree_341
+  - first:
+      213: -1208161188263590721
+    second: mage_tree_342
+  - first:
+      213: 8558428861259887690
+    second: mage_tree_343
+  - first:
+      213: 4339615202500452071
+    second: mage_tree_344
+  - first:
+      213: -3728339959749178239
+    second: mage_tree_345
+  - first:
+      213: -1274611540372013571
+    second: mage_tree_346
+  - first:
+      213: -155885622400159020
+    second: mage_tree_347
+  - first:
+      213: -6541581285389131036
+    second: mage_tree_348
+  - first:
+      213: 7482529728884384757
+    second: mage_tree_349
+  - first:
+      213: -8977278204513417201
+    second: mage_tree_350
+  - first:
+      213: 4523478912907329225
+    second: mage_tree_351
+  - first:
+      213: -8801076376257924821
+    second: mage_tree_352
+  - first:
+      213: 3448925198604101655
+    second: mage_tree_353
+  - first:
+      213: -8026138763909935140
+    second: mage_tree_354
+  - first:
+      213: 7834754079385384215
+    second: mage_tree_355
+  - first:
+      213: 1442050395089323948
+    second: mage_tree_356
+  - first:
+      213: -8319716195223908868
+    second: mage_tree_357
+  - first:
+      213: 7123762323979833804
+    second: mage_tree_358
+  - first:
+      213: 3113083515164991236
+    second: mage_tree_359
+  - first:
+      213: -7839210887788158418
+    second: mage_tree_360
+  - first:
+      213: -1519706102819945421
+    second: mage_tree_361
+  - first:
+      213: -7562535597636587150
+    second: mage_tree_362
+  - first:
+      213: 2413281464406383953
+    second: mage_tree_363
+  - first:
+      213: 108214344875759158
+    second: mage_tree_364
+  - first:
+      213: -3392062212963093413
+    second: mage_tree_365
+  - first:
+      213: -5632982634715045572
+    second: mage_tree_366
+  - first:
+      213: -8466574812844600183
+    second: mage_tree_367
+  - first:
+      213: 974056271209520525
+    second: mage_tree_368
+  - first:
+      213: 1720510632994901734
+    second: mage_tree_369
+  - first:
+      213: 5013687342051442250
+    second: mage_tree_370
+  - first:
+      213: 6629361014691596793
+    second: mage_tree_371
+  - first:
+      213: -6822807208334869392
+    second: mage_tree_372
+  - first:
+      213: -2380050296109565613
+    second: mage_tree_373
+  - first:
+      213: 4337519344850332208
+    second: mage_tree_374
+  - first:
+      213: -1388404514076993207
+    second: mage_tree_375
+  - first:
+      213: 4519679193414948683
+    second: mage_tree_376
+  - first:
+      213: 8329430391117531333
+    second: mage_tree_377
+  - first:
+      213: 8382645966657124657
+    second: mage_tree_378
+  - first:
+      213: 7353129412652058602
+    second: mage_tree_379
+  - first:
+      213: -9018182898536375158
+    second: mage_tree_380
+  - first:
+      213: 9211149057545790826
+    second: mage_tree_381
+  - first:
+      213: -6379939966661133897
+    second: mage_tree_382
+  - first:
+      213: -4511816663588157160
+    second: mage_tree_383
+  - first:
+      213: -2449595328402166838
+    second: mage_tree_384
+  - first:
+      213: -4220081372613615720
+    second: mage_tree_385
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,10 +1178,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -62,6 +1222,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -73,6 +1235,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -85,6 +1248,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -97,6 +1261,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -109,6 +1274,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -121,13 +1287,40 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: mage_idle_0
+      name: mage_tree_0
       rect:
         serializedVersion: 2
         x: 0
@@ -141,14 +1334,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8618db4040155a2d0800000000000000
-      internalID: -3268116876886179480
+      spriteID: 9eecbd0002c5b9000800000000000000
+      internalID: 43729913913265897
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mage_idle_1
+      name: mage_tree_1
       rect:
         serializedVersion: 2
         x: 32
@@ -162,14 +1355,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e9ff39428c6cab3b0800000000000000
-      internalID: -5495861832342831202
+      spriteID: b4805f38d48375a10800000000000000
+      internalID: 1898047673537464395
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mage_idle_2
+      name: mage_tree_2
       rect:
         serializedVersion: 2
         x: 64
@@ -183,14 +1376,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8a4c8a7ccc8235c20800000000000000
-      internalID: 3193941420723979432
+      spriteID: 29d2af57c103b0130800000000000000
+      internalID: 3533971231398833554
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mage_idle_3
+      name: mage_tree_3
       rect:
         serializedVersion: 2
         x: 96
@@ -204,14 +1397,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a0629b5ae9b434070800000000000000
-      internalID: 8089392500444833290
+      spriteID: 709f19a242bba6d30800000000000000
+      internalID: 4425555347852359943
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mage_idle_4
+      name: mage_tree_4
       rect:
         serializedVersion: 2
         x: 128
@@ -225,14 +1418,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b33b7dd2971ac4490800000000000000
-      internalID: -7760650516033981637
+      spriteID: a0156f127d453d650800000000000000
+      internalID: 6256437590312243466
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mage_idle_5
+      name: mage_tree_5
       rect:
         serializedVersion: 2
         x: 160
@@ -246,14 +1439,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 255bf5a45ff8d9810800000000000000
-      internalID: 1773732111931389266
+      spriteID: 2af73c9b714615520800000000000000
+      internalID: 2689040505580519330
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mage_idle_6
+      name: mage_tree_6
       rect:
         serializedVersion: 2
         x: 192
@@ -267,8 +1460,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c2bf933ba681b7120800000000000000
-      internalID: 2412548871939554092
+      spriteID: 1e482b1ebf9aa96e0800000000000000
+      internalID: -1829963399284226847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mage_tree_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc5c93b9d7e8d2ee0800000000000000
+      internalID: -1284213648604412469
       vertices: []
       indices: 
       edges: []
@@ -283,9 +1497,17 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    nameFileIdTable:
+      mage_tree_0: 43729913913265897
+      mage_tree_1: 1898047673537464395
+      mage_tree_2: 3533971231398833554
+      mage_tree_3: 4425555347852359943
+      mage_tree_4: 6256437590312243466
+      mage_tree_5: 2689040505580519330
+      mage_tree_6: -1829963399284226847
+      mage_tree_7: -1284213648604412469
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

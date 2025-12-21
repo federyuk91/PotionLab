@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dba4eebd0b30674394a08952a0c28ba, type: 3}
+  m_Name: Starting Phase
+  m_EditorClassIdentifier: 
+  eventType: 2
+  eventValue: 0
+  nextSetupAfterSpawnedPotion: 15
+  spawnSpeedIncrement: -0.1
+  platformSpeedIncrement: 0
+  spawnChanches:
+  - name: Grass  10%
+    potion: {fileID: 3442428152421652037, guid: b495d4c422deff94f9a1a6db97569e8e, type: 3}
+    chance: 10
+  - name: HealthSmall 40%
+    potion: {fileID: 6532710811918012463, guid: ca8fda648184e73408ab3c7eb723b749, type: 3}
+    chance: 40
+  - name: Lava  10%
+    potion: {fileID: 6700533919367633099, guid: d924e6c903e839746865df92c6cb9165, type: 3}
+    chance: 10
+  - name: Light  5%
+    potion: {fileID: 5395797321444799051, guid: f9944e69dd9d347438a61cf4174bc491, type: 3}
+    chance: 5
+  - name: LightSmall 35%
+    potion: {fileID: 5395797321444799051, guid: ab988a6268910204bbe48e1119c83cef, type: 3}
+    chance: 35

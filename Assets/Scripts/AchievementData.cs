@@ -31,4 +31,9 @@ public class Achievement
         return obj is Achievement achievement &&
                name == achievement.name;
     }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(name, content);
+    }
 }

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08045c5222042224d87a969403307576, type: 3}
+  m_Name: VenomPotion
+  m_EditorClassIdentifier: 
+  _name: Venom Potion
+  _potColor: {r: 0.5943396, g: 0, b: 0.5393421, a: 0.8666667}
+  dialogs:
+  - I'm poisoned!
+  - HELP!
+  - mmmh...spicy
+  - bleargh!
+  - 72' poison, what a wonderful year!
+  effectType: 9
+  burned: 
+  freezed: 
+  wet: 
+  grass: 
+  tree: 
+  balrog: 
+  poisoned: 
+  pupperFish: 
+  none: {fileID: 8300000, guid: 47a0bbbea0be0d343adc3a6c7d0fb9f1, type: 3}
+  burned_audio: {fileID: 8300000, guid: a1df6056fe4335e459ec623459723c40, type: 3}
+  freezed_audio: {fileID: 0}
+  wet_audio: {fileID: 0}
+  grass_audio: {fileID: 8300000, guid: 2957eb3d75070494c9c7d9cfe1972f5d, type: 3}
+  tree_audio: {fileID: 0}
+  balrog_audio: {fileID: 8300000, guid: cfe7a0d49f07b40459112117ebfcd4a8, type: 3}
+  pupperFish_audio: {fileID: 8300000, guid: cfe7a0d49f07b40459112117ebfcd4a8, type: 3}
+  baseValue: 4

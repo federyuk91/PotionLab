@@ -1,0 +1,28 @@
+namespace CharacterSystem
+{
+
+    // Stati elementali applicabili al personaggio
+    public enum Status
+    {
+        None,
+        Burned,
+        Wet,
+        Freezed,
+        Poisoned,
+        Grass,
+        Grounded,
+        Algae //Erba su stato bagnato
+    }
+
+    // Tipi di trasformazione
+    public enum CharacterType
+    {
+        Mage,
+        Balrog, //Lava su stato bruciato
+        Tree, //Acqua su stato erba
+        PupperFish, //Veleno su stato bagnato
+        Yeti, //Ghiaccio su stato grounded
+        Litch, //3 pozioni oscure consecutive senza luce o morte da oscurità
+        WhiteMage //3 pozioni di luce consecutive con luce al massimo
+    }
+}

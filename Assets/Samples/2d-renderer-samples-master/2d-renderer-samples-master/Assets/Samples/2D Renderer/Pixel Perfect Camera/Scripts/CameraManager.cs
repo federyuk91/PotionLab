@@ -1,11 +1,11 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.U2D;
 
 public class CameraManager : MonoBehaviour
 {
     public Camera ordinaryCamera;
-    public UnityEngine.Experimental.Rendering.Universal.PixelPerfectCamera pixelPerfectCamera;
 
     private bool isPixelPerfect;
 
@@ -26,12 +26,12 @@ public class CameraManager : MonoBehaviour
         if (value)
         {
             ordinaryCamera.gameObject.SetActive(false);
-            pixelPerfectCamera.gameObject.SetActive(true);
+           //pixelPerfectCamera.gameObject.SetActive(true);
         }
         else
         {
             ordinaryCamera.gameObject.SetActive(true);
-            pixelPerfectCamera.gameObject.SetActive(false);
+            //pixelPerfectCamera.gameObject.SetActive(false);
         }
     }
 }

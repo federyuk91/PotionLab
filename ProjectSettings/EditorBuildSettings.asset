@@ -6,36 +6,114 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/NewLevel/MainMenu.unity
+    path: Assets/Scenes/All Level/MainMenu.unity
     guid: 2bd8b2e5bb6a1d84398d33c509fe5f15
   - enabled: 1
-    path: Assets/Scenes/NewLevel/Level 1.unity
+    path: Assets/Scenes/All Level/Marco Level v2/Level 1 v2.unity
     guid: 8dd7bb0f06ce1af43b5b8aa458094158
   - enabled: 1
-    path: Assets/Scenes/NewLevel/Level 2.unity
+    path: Assets/Scenes/All Level/Marco Level v2/Level 2 v2.unity
+    guid: aa4f8b844af69594daa069e2fd28103a
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 3 v2.unity
+    guid: 41d95299d2a79df42bb3164520266b92
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 4 v2.unity
     guid: cdd8118bcb0e085448de919adb48cb6d
   - enabled: 1
-    path: Assets/Scenes/NewLevel/Level 3.unity
-    guid: 06447bbb305a1b24e85fc5b94389d488
+    path: Assets/Scenes/All Level/Marco Level v2/Level 5 v2.unity
+    guid: 5474bad6a27c5024488abe76f85dcf21
   - enabled: 1
-    path: Assets/Scenes/NewLevel/Level 5.unity
-    guid: 26a818c0bf5ed3848bb76b231e0f68db
+    path: Assets/Scenes/All Level/Marco Level v2/Level 6 v2.unity
+    guid: d5ce8e07f7da44441aa9c3f5f8868b69
   - enabled: 1
-    path: Assets/Scenes/NewLevel/Level 6.unity
-    guid: 616a4ab207cd30b4ab09bcf1266a51b0
+    path: Assets/Scenes/All Level/Marco Level v2/Level 7 v2.unity
+    guid: 09c6642cef9c49c48b03adf150a3eec9
   - enabled: 1
-    path: Assets/Scenes/NewLevel/Level 7.unity
-    guid: 5975752801890b240b014bae2586adc3
+    path: Assets/Scenes/All Level/Marco Level v2/Level 8 v3.unity
+    guid: 5b288ad823b6f604eb51484efdda6741
   - enabled: 1
-    path: Assets/Scenes/NewLevel/Level 9.unity
-    guid: 8b8f3d5d5ae1f6d4db5bbfd582c1b318
+    path: Assets/Scenes/All Level/Marco Level v2/Level 9 v2.unity
+    guid: 2b57e755ec014e445be70103af56c6f4
   - enabled: 1
-    path: Assets/Scenes/NewLevel/Level 8.unity
-    guid: 6e384e0237529964f80b7e93ae51e5de
+    path: Assets/Scenes/All Level/Marco Level v2/Level 10 v2.unity
+    guid: ddd6400adade9814b97e951afe5406c2
   - enabled: 1
-    path: Assets/Scenes/NewLevel/Level 10.unity
-    guid: a38789628874ec74980816d266edf584
+    path: Assets/Scenes/All Level/Marco Level v2/Level 11 v2.unity
+    guid: 0b5a174fe4453844e99fd7f79fb78b8a
   - enabled: 1
-    path: Assets/Scenes/NewLevel/Level 13.unity
-    guid: a4bef5502b2f11c45a63370cebcd3f00
+    path: Assets/Scenes/All Level/Marco Level v2/Level 12 v2.unity
+    guid: cf8e880024117eb4994630601986fe4d
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 13 v2.unity
+    guid: 3ec6ddd89ba457440ae2ec7c6d4f3fb5
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 14 v2.unity
+    guid: 0c25ba04cee218742a37e891e052d991
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 15 v1.unity
+    guid: c879f2e6f2393d541a44b69beed35a85
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 16 v2.unity
+    guid: 03c28613e8974894780206482286c3f7
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 17 v1.unity
+    guid: 79395b706a1af5843a4bd0bc48dec116
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 18 v1.unity
+    guid: a626c8cc490f6f242a264726437bd918
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 19 v2.unity
+    guid: a12cc942101ed5340a76148a5bde469e
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 20 v1.unity
+    guid: 7ae6b8ba41702a94fbc06e12b08b470d
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 21 v1.unity
+    guid: f07f17e7fcea303459cbbf3fd65fe44b
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 22 v1.unity
+    guid: 998b5052f59dbfa4ba3e9d59a1be116f
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 23 v1.unity
+    guid: 0cd661a30349b8b4f814c0d90889e621
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 24 v1.unity
+    guid: 9b2eb32769dee91499b49e24681bf343
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 25 v1.unity
+    guid: ddd98d109f1c3b34f8ce94290563ba43
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 26 v1.unity
+    guid: c11d2d90e8a239d4081c852609b68ff3
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 27 v1.unity
+    guid: 13054d299185d464fbb27cd2df81db65
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 28 v1.unity
+    guid: 5639f2afea2ec804bbb02c72d4b294f9
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 29 v1.unity
+    guid: c12bd448c893e7b46b30788a2beada7a
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 30.unity
+    guid: f1e5fe88b35bf0c48b22ca57f54cd60d
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 31.unity
+    guid: 099589e48686ddd4496a2c30f92ab58c
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 32.unity
+    guid: 5951b12158a7f3e4b808362afadcaeeb
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 33.unity
+    guid: 2d6446bf956c9024ab848c227c7e013d
+  - enabled: 1
+    path: Assets/Scenes/All Level/Marco Level v2/Level 34.unity
+    guid: 160b05e8f141fb349b28ddfdf275e5f2
+  - enabled: 1
+    path: Assets/Scenes/All Level/Procedural.unity
+    guid: 60dc9c5243e24124ab801f8b9ae18da5
+  - enabled: 1
+    path: Assets/Scenes/PotionTEST.unity
+    guid: e4e76e1747faeb54c997f16bb7a1a10a
   m_configObjects: {}

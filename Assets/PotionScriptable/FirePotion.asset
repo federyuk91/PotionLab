@@ -27,11 +27,14 @@ MonoBehaviour:
   grass: Ohhh I should call this one Attila
   tree: 
   balrog: 
+  poisoned: 
+  pupperFish: 
   none: {fileID: 0}
-  burned_audio: {fileID: 0}
-  freezed_audio: {fileID: 0}
-  wet_audio: {fileID: 0}
-  grass_audio: {fileID: 0}
-  tree_audio: {fileID: 0}
-  balrog_audio: {fileID: 0}
+  burned_audio: {fileID: 8300000, guid: a1df6056fe4335e459ec623459723c40, type: 3}
+  freezed_audio: {fileID: 8300000, guid: 939343b5a9797ca4986160e2589db3c7, type: 3}
+  wet_audio: {fileID: 8300000, guid: eac9d9cd65b616043abccef39f526c73, type: 3}
+  grass_audio: {fileID: 8300000, guid: 2957eb3d75070494c9c7d9cfe1972f5d, type: 3}
+  tree_audio: {fileID: 8300000, guid: 3d4f6ea1cf117674f9492e94d6be4aa6, type: 3}
+  balrog_audio: {fileID: 8300000, guid: e05fae91473184b478941338d90f1f26, type: 3}
+  pupperFish_audio: {fileID: 0}
   baseValue: 3

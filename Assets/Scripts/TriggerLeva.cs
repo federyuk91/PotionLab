@@ -53,7 +53,16 @@ public class TriggerLeva : MonoBehaviour
 
     public void ChangeSlidingPlatform(SurfaceEffector2D platform)
     {
-        platform.transform.localScale = new Vector3(-platform.transform.localScale.x, platform.transform.localScale.y, platform.transform.localScale.z);
+        //platform.transform.localScale = new Vector3(-platform.transform.localScale.x, platform.transform.localScale.y, platform.transform.localScale.z);
         platform.speed = platform.speed * -1f;
+        
+        if (platform.speed > 0)
+        {
+
+            platform.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = false;
+        } else
+        {
+            platform.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = true;
+        }
     }
 }

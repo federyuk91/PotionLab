@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dba4eebd0b30674394a08952a0c28ba, type: 3}
+  m_Name: FISHDROP
+  m_EditorClassIdentifier: 
+  eventType: 4
+  eventValue: 3
+  nextSetupAfterSpawnedPotion: 36
+  spawnSpeedIncrement: -0.5
+  platformSpeedIncrement: 0
+  spawnChanches:
+  - name: AntiMagic  10%
+    potion: {fileID: 5395797321444799051, guid: c103dd6a2ed00aa46b4283073d8626cf, type: 3}
+    chance: 10
+  - name: Grass  20%
+    potion: {fileID: 3442428152421652037, guid: b495d4c422deff94f9a1a6db97569e8e, type: 3}
+    chance: 20
+  - name: Ice  20%
+    potion: {fileID: 5559203231195097715, guid: 50a301a815139f54593f45be7547f709, type: 3}
+    chance: 20
+  - name: Light  10%
+    potion: {fileID: 5395797321444799051, guid: f9944e69dd9d347438a61cf4174bc491, type: 3}
+    chance: 10
+  - name: Venom  20%
+    potion: {fileID: 7936153903093390182, guid: 10ec1fb0819636546aa901e9156f37af, type: 3}
+    chance: 20
+  - name: Water  20%
+    potion: {fileID: 5988395684350905732, guid: 9c17d727d1a122b4da417124df4fe521, type: 3}
+    chance: 20

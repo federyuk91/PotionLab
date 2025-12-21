@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dba4eebd0b30674394a08952a0c28ba, type: 3}
+  m_Name: 0_regularDrop
+  m_EditorClassIdentifier: 
+  eventType: 0
+  eventValue: -3
+  nextSetupAfterSpawnedPotion: 20
+  spawnSpeedIncrement: 0.1
+  platformSpeedIncrement: 0
+  spawnChanches:
+  - name: Dark  8%
+    potion: {fileID: 5395797321444799051, guid: c103dd6a2ed00aa46b4283073d8626cf, type: 3}
+    chance: 8
+  - name: Fire  10%
+    potion: {fileID: 7936153903093390182, guid: 95bd17775022d084999372d9bec0469a, type: 3}
+    chance: 10
+  - name: Grass  9%
+    potion: {fileID: 3442428152421652037, guid: b495d4c422deff94f9a1a6db97569e8e, type: 3}
+    chance: 9
+  - name: HealthSmall 10%
+    potion: {fileID: 6532710811918012463, guid: ca8fda648184e73408ab3c7eb723b749, type: 3}
+    chance: 10
+  - name: Health 8%
+    potion: {fileID: 6532710811918012463, guid: 46ce09ad1997e7f48a4761500d772b0b, type: 3}
+    chance: 8
+  - name: HealthBig 1%
+    potion: {fileID: 6532710811918012463, guid: 6f771bc787f59c348b2a4c664a54cc31, type: 3}
+    chance: 1
+  - name: Ice  8%
+    potion: {fileID: 5559203231195097715, guid: 50a301a815139f54593f45be7547f709, type: 3}
+    chance: 8
+  - name: Lava  10%
+    potion: {fileID: 6700533919367633099, guid: d924e6c903e839746865df92c6cb9165, type: 3}
+    chance: 10
+  - name: Venom  8%
+    potion: {fileID: 7936153903093390182, guid: 10ec1fb0819636546aa901e9156f37af, type: 3}
+    chance: 8
+  - name: Water  10%
+    potion: {fileID: 5988395684350905732, guid: 9c17d727d1a122b4da417124df4fe521, type: 3}
+    chance: 10
+  - name: LightSmall 9%
+    potion: {fileID: 5395797321444799051, guid: ab988a6268910204bbe48e1119c83cef, type: 3}
+    chance: 9
+  - name: Light  2%
+    potion: {fileID: 5395797321444799051, guid: f9944e69dd9d347438a61cf4174bc491, type: 3}
+    chance: 2
+  - name: Ground  7%
+    potion: {fileID: 3442428152421652037, guid: fd0e819a113e53340b21ef1039f918d7, type: 3}
+    chance: 7
+  total: 100

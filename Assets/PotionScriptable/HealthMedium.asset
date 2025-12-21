@@ -26,7 +26,7 @@ MonoBehaviour:
   grass: 
   tree: 
   balrog: 
-  none: {fileID: 0}
+  none: {fileID: 8300000, guid: 701ac6075b8881643ab3713ad0a6e8ac, type: 3}
   burned_audio: {fileID: 0}
   freezed_audio: {fileID: 0}
   wet_audio: {fileID: 0}

@@ -16,8 +16,11 @@ public class DroppableObject : MonoBehaviour
 
     public void ActivateBox()
     {
-        whiteSquare.SetActive(true);
-        isActive = true;
+        if (whiteSquare)
+        {
+            whiteSquare.SetActive(true);
+            isActive = true;
+        }
     }
 
     public void Drop()

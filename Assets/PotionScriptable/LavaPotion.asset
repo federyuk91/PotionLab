@@ -25,11 +25,14 @@ MonoBehaviour:
   grass: 
   tree: 
   balrog: 
-  none: {fileID: 0}
-  burned_audio: {fileID: 0}
-  freezed_audio: {fileID: 0}
+  poisoned: 
+  pupperFish: 
+  none: {fileID: 8300000, guid: aad9f64df4608c14ab21d0154a651e66, type: 3}
+  burned_audio: {fileID: 8300000, guid: 9d48063c79aa90f4c81f26b561f16e5e, type: 3}
+  freezed_audio: {fileID: 8300000, guid: a1df6056fe4335e459ec623459723c40, type: 3}
   wet_audio: {fileID: 0}
   grass_audio: {fileID: 0}
   tree_audio: {fileID: 0}
-  balrog_audio: {fileID: 0}
+  balrog_audio: {fileID: 8300000, guid: e05fae91473184b478941338d90f1f26, type: 3}
+  pupperFish_audio: {fileID: 0}
   baseValue: 4

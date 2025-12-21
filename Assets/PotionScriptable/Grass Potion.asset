@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08045c5222042224d87a969403307576, type: 3}
   m_Name: Grass Potion
   m_EditorClassIdentifier: 
-  _name: Ice Potion
-  _potColor: {r: 0.51677644, g: 0.6341661, b: 0.745283, a: 0.8666667}
+  _name: Grass Potion
+  _potColor: {r: 0.23844782, g: 0.6415094, b: 0.3234199, a: 0.8666667}
   dialogs:
   - Grass everywhere, just like in '68
   - This was for a special occasion, oooh well
@@ -26,4 +26,15 @@ MonoBehaviour:
   wet: 
   grass: 
   tree: 
+  balrog: 
+  poisoned: 
+  pupperFish: 
+  none: {fileID: 8300000, guid: 4d14096e75f479f4f93ed89984c5d4bb, type: 3}
+  burned_audio: {fileID: 0}
+  freezed_audio: {fileID: 0}
+  wet_audio: {fileID: 0}
+  grass_audio: {fileID: 8300000, guid: 2957eb3d75070494c9c7d9cfe1972f5d, type: 3}
+  tree_audio: {fileID: 0}
+  balrog_audio: {fileID: 0}
+  pupperFish_audio: {fileID: 0}
   baseValue: 1
