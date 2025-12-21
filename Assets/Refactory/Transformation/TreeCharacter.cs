@@ -70,7 +70,7 @@ namespace CharacterSystem
 
         public override CharacterType GetCharacterForm()
         {
-            throw new System.NotImplementedException();
+            return CharacterType.Tree;
         }
 
         public override float GetFireTickDelay()
