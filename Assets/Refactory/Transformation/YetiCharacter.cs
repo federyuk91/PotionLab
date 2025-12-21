@@ -3,10 +3,6 @@ namespace CharacterSystem
 {
     public class YetiCharacter : BaseCharacter
     {
-        public override void ApplyDamage(PotionScriptable ps)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override void ApplyDark(PotionScriptable ps)
         {
@@ -48,10 +44,6 @@ namespace CharacterSystem
             throw new System.NotImplementedException();
         }
 
-        public override void ApplyNone(PotionScriptable ps)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override void ApplyPoison(PotionScriptable ps)
         {
@@ -63,59 +55,37 @@ namespace CharacterSystem
             throw new System.NotImplementedException();
         }
 
-        public override void FireTickFX()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override CharacterType GetCharacterForm()
         {
             return CharacterType.Yeti;
         }
 
-        public override float GetFireTickDelay()
+        #region TicksFX
+        public override void FireTick()
         {
-            throw new System.NotImplementedException();
-        }
-
-        public override float GetGroundTickDelay()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override float GetIceTickDelay()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override float GetPoisonTickDelay()
-        {
-            throw new System.NotImplementedException();
         }
 
         public override void GroundTick()
         {
-            throw new System.NotImplementedException();
+        }
+        public override void PoisonTick()
+        {
         }
 
         public override void IceTick()
         {
-            throw new System.NotImplementedException();
         }
+        #endregion
 
         public override void OnEnterTransformation()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Transformed into Yeti!");
         }
 
         public override void OnExitTransformation()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Exiting Yeti form! Returning to mage form");
         }
 
-        public override void PoisonTick()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

@@ -3,119 +3,146 @@ namespace CharacterSystem
 {
     public class TreeCharacter : BaseCharacter
     {
-        public override void ApplyDamage(PotionScriptable ps)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override void ApplyDark(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            status.TriggerImmunity();
         }
 
         public override void ApplyFire(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            if(status.Has(Status.Grounded))
+            {             
+                status.TriggerImmunity();
+                return;
+            }
+            status.Increase(Status.Burned);
         }
 
         public override void ApplyFreezed(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            if (status.Has(Status.Burned))
+            {
+                status.Remove(Status.Burned);
+                stats.Heal(2);
+                animator.SetTrigger("ReturnMage");
+                return;
+            }
+            stats.TakeDamage(2);
         }
 
         public override void ApplyGrass(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            stats.AddMana(2);
         }
 
         public override void ApplyGround(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            if (status.Has(Status.Burned))
+            {
+                status.Remove(Status.Burned);
+                status.Increase(Status.Grounded);
+                return;
+            }
+            status.Increase(Status.Grounded);
         }
 
         public override void ApplyHeal(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            status.TriggerImmunity();
         }
 
         public override void ApplyLava(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            if (status.Has(Status.Grounded))
+            {
+                status.Remove(Status.Grounded);
+                return;
+            }
+            stats.TakeDamage(ps.baseValue);
         }
 
         public override void ApplyLight(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            stats.AddMana(ps.baseValue);
         }
 
-        public override void ApplyNone(PotionScriptable ps)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override void ApplyPoison(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            if (status.Has(Status.Grounded))
+            {
+                status.TriggerImmunity();
+                return;
+            }
+            stats.TakeDamage(1);
         }
 
         public override void ApplyWet(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            if (status.Has(Status.Burned))
+            {
+                status.Remove(Status.Burned);
+                animator.SetTrigger("ReturnMage");
+                return;
+            }
+            if(status.Has(Status.Grounded))
+            {
+                stats.Heal(3);
+                return;
+            }
+            stats.Heal(2);
         }
 
-        public override void FireTickFX()
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override CharacterType GetCharacterForm()
         {
             return CharacterType.Tree;
         }
 
+
+
+        #region TicksFX
+
         public override float GetFireTickDelay()
         {
-            throw new System.NotImplementedException();
+            return 3f;
         }
 
         public override float GetGroundTickDelay()
         {
-            throw new System.NotImplementedException();
+            return 5f;
         }
 
-        public override float GetIceTickDelay()
+        public override void FireTick()
         {
-            throw new System.NotImplementedException();
+            stats.TakeDamage(status.fireLevel);
+            status.Increase(Status.Burned);
         }
-
-        public override float GetPoisonTickDelay()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override void GroundTick()
         {
-            throw new System.NotImplementedException();
+            if(status.groundLevel == 3)
+            {
+                stats.Heal(1);
+            }
         }
 
         public override void IceTick()
         {
-            throw new System.NotImplementedException();
+            // Tree form is immune to ice tick effects ?
         }
-
+        public override void PoisonTick()
+        {
+            // Tree form is immune to poison tick effects
+        }
+        #endregion
         public override void OnEnterTransformation()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Transforming into Tree form");
         }
 
         public override void OnExitTransformation()
         {
-            throw new System.NotImplementedException();
-        }
-
-        public override void PoisonTick()
-        {
-            throw new System.NotImplementedException();
+            Debug.Log("Exiting Tree form. Returning to mage form");
         }
     }
 }

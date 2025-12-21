@@ -5,15 +5,10 @@ namespace CharacterSystem
     {
 
 
-        public override void ApplyDamage(PotionScriptable ps)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override void ApplyDark(PotionScriptable ps)
         {
             OnExitTransformation();
-            TransformationManager.Instance.SwitchTo(CharacterType.Mage);
+            transformationManager.SwitchTo(CharacterType.Mage);
         }
 
         public override void ApplyFire(PotionScriptable ps)
@@ -51,11 +46,6 @@ namespace CharacterSystem
             throw new System.NotImplementedException();
         }
 
-        public override void ApplyNone(PotionScriptable ps)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override void ApplyPoison(PotionScriptable ps)
         {
             throw new System.NotImplementedException();
@@ -66,32 +56,13 @@ namespace CharacterSystem
             throw new System.NotImplementedException();
         }
 
-        public override void FireTickFX()
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override CharacterType GetCharacterForm()
         {
             return CharacterType.PupperFish;
         }
 
-        public override float GetFireTickDelay()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override float GetGroundTickDelay()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override float GetIceTickDelay()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override float GetPoisonTickDelay()
+        public override void FireTick()
         {
             throw new System.NotImplementedException();
         }
@@ -102,6 +73,10 @@ namespace CharacterSystem
         }
 
         public override void IceTick()
+        {
+            throw new System.NotImplementedException();
+        }
+        public override void PoisonTick()
         {
             throw new System.NotImplementedException();
         }
@@ -116,9 +91,5 @@ namespace CharacterSystem
 
         }
 
-        public override void PoisonTick()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

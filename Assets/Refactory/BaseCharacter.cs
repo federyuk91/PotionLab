@@ -6,15 +6,17 @@ namespace CharacterSystem
     public abstract class BaseCharacter : MonoBehaviour, ICharacter
     {
         [Header("References")]
-        [SerializeField] protected Animator animator;
+        [SerializeField] public Animator animator;
         [SerializeField] protected CharacterStats stats;
         [SerializeField] protected CharacterStatusController status;
+        [SerializeField] protected TransformationManager transformationManager;
 
         private void Awake()
         {
             animator = GetComponent<Animator>();
             stats = GetComponentInParent<CharacterStats>();
             status = GetComponentInParent<CharacterStatusController>();
+            transformationManager = GetComponentInParent<TransformationManager>();
         }
 
         private void OnEnable()
@@ -43,9 +45,6 @@ namespace CharacterSystem
                 case PotionScriptable.EffectType.healing:
                     ApplyHeal(potion.potion);
                     break;
-                case PotionScriptable.EffectType.damage:
-                    ApplyDamage(potion.potion);
-                    break;
                 case PotionScriptable.EffectType.burned:
                     ApplyFire(potion.potion);
                     break;
@@ -73,26 +72,37 @@ namespace CharacterSystem
                 case PotionScriptable.EffectType.grounded:
                     ApplyGround(potion.potion);
                     break;
-                case PotionScriptable.EffectType.none:
-                    ApplyNone(potion.potion);
+
+                    default:
+                    Debug.LogWarning("Potion effect not handled in DrunkRoutine: "+ potion.potion.effectType.ToString());
                     break;
             }
         }
 
         // 🔴 OBBLIGATORI: se mancano, NON COMPILA
 
-        public abstract void FireTickFX();
+        public abstract void FireTick();
         public abstract void PoisonTick();
         public abstract void GroundTick();
         public abstract void IceTick();
 
-        public abstract float GetFireTickDelay();
-        public abstract float GetPoisonTickDelay();
-        public abstract float GetGroundTickDelay();
-        public abstract float GetIceTickDelay();
+        public virtual float GetFireTickDelay() { 
+            return Mathf.Infinity;
+        }
+        public virtual float GetPoisonTickDelay()
+        {
+            return Mathf.Infinity;
+        }
+        public virtual float GetGroundTickDelay()
+        {
+            return Mathf.Infinity;
+        }
+        public virtual float GetIceTickDelay()
+        {
+            return Mathf.Infinity;
+        }
 
         public abstract void ApplyHeal(PotionScriptable ps);
-        public abstract void ApplyDamage(PotionScriptable ps);
         public abstract void ApplyFire(PotionScriptable ps);
         public abstract void ApplyLava(PotionScriptable ps);
         public abstract void ApplyFreezed(PotionScriptable ps);
@@ -102,9 +112,13 @@ namespace CharacterSystem
         public abstract void ApplyDark(PotionScriptable ps);
         public abstract void ApplyPoison(PotionScriptable ps);
         public abstract void ApplyGround(PotionScriptable ps);
-        public abstract void ApplyNone(PotionScriptable ps);
 
         public abstract void OnEnterTransformation();
         public abstract void OnExitTransformation();
+
+        public void ReturnMage()
+        {
+            transformationManager.SwitchTo(CharacterType.Mage);
+        }
     }
 }

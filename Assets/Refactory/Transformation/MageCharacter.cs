@@ -6,12 +6,6 @@ namespace CharacterSystem
     {
 
 
-        public override void ApplyDamage(PotionScriptable ps)
-        {
-            animator.SetTrigger("isDamaged");
-            stats.TakeDamage(ps.baseValue);
-        }
-
         public override void ApplyFire(PotionScriptable ps)
         {
             if (status.Has(Status.Grounded))
@@ -89,7 +83,7 @@ namespace CharacterSystem
             //Se sono grounded mi trasformo in yeti
             if (status.Has(Status.Grounded))
             {
-                TransformationManager.Instance.SwitchTo(CharacterType.Yeti);
+                transformationManager.SwitchTo(CharacterType.Yeti);
                 return;
             }
 
@@ -174,7 +168,7 @@ namespace CharacterSystem
             // Se sto bruciando, mi trasformo in Balrog
             if (status.Has(Status.Burned))
             {
-                TransformationManager.Instance.SwitchTo(CharacterType.Balrog);
+                transformationManager.SwitchTo(CharacterType.Balrog);
                 return;
             }
             //Se sono congelato, rimuovo lo stato congelato e non prendo danno
@@ -204,10 +198,6 @@ namespace CharacterSystem
             stats.AddMana(ps.baseValue);
         }
 
-        public override void ApplyNone(PotionScriptable ps)
-        {
-            throw new System.NotImplementedException();
-        }
 
         /***** TRASFORMAZIONE ***** Il veleno transforma in Pesce se si è bagnati */
         public override void ApplyPoison(PotionScriptable ps)
@@ -233,7 +223,7 @@ namespace CharacterSystem
             if (status.Has(Status.Wet))
             {
                 status.Remove(Status.Wet);
-                TransformationManager.Instance.SwitchTo(CharacterType.PupperFish);
+                transformationManager.SwitchTo(CharacterType.PupperFish);
                 return;
             }
 
@@ -285,7 +275,7 @@ namespace CharacterSystem
             if (status.Has(Status.Grass))
             {
                 status.Remove(Status.Grass);
-                TransformationManager.Instance.SwitchTo(CharacterType.Tree);
+                transformationManager.SwitchTo(CharacterType.Tree);
                 return;
             }
 
@@ -314,13 +304,29 @@ namespace CharacterSystem
         public override void OnEnterTransformation()
         {
             //Diventare Mago non ha effetti particolari
+            switch (transformationManager.previousForm)
+            {
+                case CharacterType.Balrog:
+                    break;
+                case CharacterType.Tree:
+                    animator.SetTrigger("smoking");
+                    break;
+                case CharacterType.PupperFish:
+                    break;
+                case CharacterType.Yeti:
+                    break;
+                case CharacterType.Litch:
+                    break;
+                case CharacterType.WhiteMage:
+                    break;
+            }
         }
         public override void OnExitTransformation()
         {
             //Uscire dalla forma Mago non ha effetti particolari
         }
 
-        public override void FireTickFX()
+        public override void FireTick()
         {
             animator.SetTrigger("isDamaged");
             stats.TakeDamage(status.fireLevel);
@@ -373,10 +379,10 @@ namespace CharacterSystem
             return 5f;
         }
 
-        public override float GetIceTickDelay()
+        /*public override float GetIceTickDelay()
         {
             return Mathf.Infinity; //Mage non subisce danni da ghiaccio
-        }
+        }*/
     }
 }
 

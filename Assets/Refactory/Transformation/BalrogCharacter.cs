@@ -3,10 +3,6 @@ namespace CharacterSystem
 {
     public class BalrogCharacter : BaseCharacter
     {
-        public override void ApplyDamage(PotionScriptable ps)
-        {
-            stats.TakeDamage(ps.baseValue);
-        }
 
         public override void ApplyDark(PotionScriptable ps)
         {
@@ -15,8 +11,7 @@ namespace CharacterSystem
 
         public override void ApplyFire(PotionScriptable ps)
         {
-            status.Add(Status.Burned);
-
+            status.Increase(Status.Burned);
         }
 
         public override void ApplyFreezed(PotionScriptable ps)
@@ -58,13 +53,9 @@ namespace CharacterSystem
 
         public override void ApplyLight(PotionScriptable ps)
         {
-            TransformationManager.Instance.SwitchTo(CharacterType.Mage);
+            animator.SetTrigger("ReturnMage");
         }
 
-        public override void ApplyNone(PotionScriptable ps)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override void ApplyPoison(PotionScriptable ps)
         {
@@ -84,45 +75,37 @@ namespace CharacterSystem
             status.Remove(Status.Burned);
         }
 
-        public override void FireTickFX()
-        {
-            stats.Heal(1);
-        }
-
         public override CharacterType GetCharacterForm()
         {
             return CharacterType.Balrog;
         }
 
+        #region TicksFX
         public override float GetFireTickDelay()
         {
             return 7f - status.fireLevel;
         }
 
-        public override float GetGroundTickDelay()
+        public override void FireTick()
         {
-            throw new System.NotImplementedException();
+            stats.Heal(1);
         }
-
-        public override float GetIceTickDelay()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override float GetPoisonTickDelay()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override void GroundTick()
         {
-            throw new System.NotImplementedException();
+            // Balrog is immune to ground tick effects.
         }
 
         public override void IceTick()
         {
-            throw new System.NotImplementedException();
+            // Balrog is immune to ice tick effects.
         }
+
+        public override void PoisonTick()
+        {
+            // Balrog is immune to poison tick effects.
+        }
+        #endregion
+
 
         public override void OnEnterTransformation()
         {
@@ -131,13 +114,8 @@ namespace CharacterSystem
 
         public override void OnExitTransformation()
         {
-            stats.SetHP(1);
+            stats.TakeDamage(stats.HP-1);
             stats.SetMP(10);
-        }
-
-        public override void PoisonTick()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

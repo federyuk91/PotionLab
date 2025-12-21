@@ -38,7 +38,7 @@ public class StatusTickRunner : MonoBehaviour
         if (fireTimer >= delay)
         {
             fireTimer = 0f;
-            character.FireTickFX();
+            character.FireTick();
         }
     }
     private void TickPoison()

@@ -6,9 +6,13 @@ namespace CharacterSystem
     public class TransformationManager : MonoBehaviour
     {
         public static TransformationManager Instance;
+        private CharacterType startCharacter = CharacterType.Mage;
+
         [Header("Characters")]
-        [SerializeField] private CharacterType startCharacter = CharacterType.Mage;
+        public CharacterType previousForm = CharacterType.Mage;
+
         [SerializeField] private List<MonoBehaviour> characterBehaviours;
+
 
         private readonly Dictionary<CharacterType, BaseCharacter> characters = new();
         private BaseCharacter currentCharacter;
@@ -46,6 +50,8 @@ namespace CharacterSystem
 
         public void SwitchTo(CharacterType type)
         {
+            if(currentCharacter != null)
+                previousForm = currentCharacter.GetCharacterForm();   
             if (!characters.TryGetValue(type, out var next))
             {
                 Debug.LogError($"Character {type} not registered");
@@ -53,8 +59,7 @@ namespace CharacterSystem
             }
 
             if (currentCharacter is MonoBehaviour currentMb)
-                currentMb.gameObject.SetActive(false);
-
+                currentMb.gameObject.SetActive(false);         
             currentCharacter = next;
 
             if (currentCharacter is MonoBehaviour nextMb)
