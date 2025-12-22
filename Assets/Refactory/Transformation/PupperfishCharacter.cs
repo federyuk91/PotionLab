@@ -13,47 +13,60 @@ namespace CharacterSystem
 
         public override void ApplyFire(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            status.TriggerImmunity();
         }
 
         public override void ApplyFreezed(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            stats.TakeDamage(ps.baseValue);
         }
 
         public override void ApplyGrass(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            if(status.Has(Status.Wet))
+            {
+                status.Remove(Status.Wet);
+                status.Increase(Status.Algae);
+                return;
+            }
+            status.Add(Status.Grass);
         }
 
         public override void ApplyGround(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            status.TriggerImmunity();
         }
 
         public override void ApplyHeal(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            stats.Heal(ps.baseValue);
         }
 
         public override void ApplyLava(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            stats.TakeDamage(ps.baseValue);
         }
 
         public override void ApplyLight(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            stats.AddMana(ps.baseValue);
         }
 
         public override void ApplyPoison(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            stats.AddMana(1);
         }
 
         public override void ApplyWet(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            if(status.Has(Status.Grass))
+            {
+                status.Remove(Status.Grass);
+                status.Increase(Status.Algae);
+                return;
+            }
+
+            status.Add(Status.Wet);
         }
 
 
@@ -64,21 +77,17 @@ namespace CharacterSystem
 
         public override void FireTick()
         {
-            throw new System.NotImplementedException();
         }
 
         public override void GroundTick()
         {
-            throw new System.NotImplementedException();
         }
 
         public override void IceTick()
         {
-            throw new System.NotImplementedException();
         }
         public override void PoisonTick()
         {
-            throw new System.NotImplementedException();
         }
 
         public override void OnEnterTransformation()
