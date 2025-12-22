@@ -11,6 +11,8 @@ public class StatusTickRunner : MonoBehaviour
     private float groundTimer;
     private float iceTimer;
 
+
+
     private void Awake()
     {
         status = GetComponent<CharacterStatusController>();

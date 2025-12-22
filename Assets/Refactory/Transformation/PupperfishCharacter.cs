@@ -65,6 +65,11 @@ namespace CharacterSystem
                 status.Increase(Status.Algae);
                 return;
             }
+            if (status.Has(Status.Algae))
+            {
+                status.Increase(Status.Algae);
+                return;
+            }
 
             status.Add(Status.Wet);
         }

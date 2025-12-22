@@ -5,6 +5,7 @@ namespace CharacterSystem
     public class MageCharacter : BaseCharacter
     {
 
+        public int lightLevel = 0, darkLevel = 0;
 
         public override void ApplyFire(PotionScriptable ps)
         {
@@ -196,6 +197,14 @@ namespace CharacterSystem
         public override void ApplyLight(PotionScriptable ps)
         {
             stats.AddMana(ps.baseValue);
+            if (stats.MP == stats.MaxMP)
+            {
+                lightLevel++;
+            }
+            else
+            {
+                lightLevel = 0;
+            }
         }
 
 
@@ -291,7 +300,17 @@ namespace CharacterSystem
             }
             else
             {
+                if (stats.MP == 0)
+                {
+                    darkLevel++;
+                }
+                else
+                {
+                    darkLevel = 0;
+                }
                 stats.LoseMana(ps.baseValue);
+
+                
             }
         }
 

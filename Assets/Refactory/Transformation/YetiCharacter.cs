@@ -6,53 +6,69 @@ namespace CharacterSystem
 
         public override void ApplyDark(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            if (stats.MP > 0)
+            {
+                stats.LoseMana(1);
+                return;
+            }
+            stats.TakeDamage(2);
         }
 
         public override void ApplyFire(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            status.TriggerImmunity();
         }
 
         public override void ApplyFreezed(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            stats.Heal(ps.baseValue);
         }
 
         public override void ApplyGrass(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            status.TriggerImmunity();
         }
 
         public override void ApplyGround(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            status.Increase(Status.Grounded);
         }
 
         public override void ApplyHeal(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            stats.Heal(ps.baseValue);
         }
 
         public override void ApplyLava(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            if(status.Has(Status.Grounded))
+            {
+                status.Remove(Status.Grounded);
+                return;
+            }
+            stats.TakeDamage(ps.baseValue);
         }
 
         public override void ApplyLight(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            stats.TakeDamage(ps.baseValue);
+            stats.AddMana(ps.baseValue);
         }
 
 
         public override void ApplyPoison(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            status.Add(Status.Poisoned);
         }
 
         public override void ApplyWet(PotionScriptable ps)
         {
-            throw new System.NotImplementedException();
+            if (status.Has(Status.Poisoned))
+            {
+                status.Remove(Status.Poisoned);
+                return;
+            }
+            status.TriggerImmunity();
         }
 
         public override CharacterType GetCharacterForm()
@@ -65,9 +81,28 @@ namespace CharacterSystem
         {
         }
 
+        public override float GetGroundTickDelay()
+        {
+            return 5f;
+        }
         public override void GroundTick()
         {
+            if (status.groundLevel == 3)
+            {
+                stats.TakeDamage(2);
+            }
         }
+
+
+        public override float GetPoisonTickDelay()
+        {
+            if(status.Has(Status.Grounded))
+            {
+                return 5f;
+            }
+            return 4f;
+        }
+
         public override void PoisonTick()
         {
         }
