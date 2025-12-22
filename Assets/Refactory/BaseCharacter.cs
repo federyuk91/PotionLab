@@ -10,6 +10,8 @@ namespace CharacterSystem
         [SerializeField] protected CharacterStats stats;
         [SerializeField] protected CharacterStatusController status;
         [SerializeField] protected TransformationManager transformationManager;
+        [SerializeField] protected DialogManager dialogManager;
+
 
         private void Awake()
         {
@@ -17,6 +19,7 @@ namespace CharacterSystem
             stats = GetComponentInParent<CharacterStats>();
             status = GetComponentInParent<CharacterStatusController>();
             transformationManager = GetComponentInParent<TransformationManager>();
+            dialogManager = GetComponentInParent<DialogManager>();
         }
 
         private void OnEnable()
@@ -32,6 +35,7 @@ namespace CharacterSystem
 
         public void Drunk(PotionScript potion)
         {
+            dialogManager.OnPotionDrunk(potion.potion, GetCharacterForm());
             StartCoroutine(DrunkRoutine(potion));
         }
 

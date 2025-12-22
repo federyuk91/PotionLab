@@ -168,9 +168,6 @@ public class CharacterController : MonoBehaviour
                 case PotionScriptable.EffectType.grounded:
                     StartCoroutine(GetGrounded(ps));
                     break;
-                case PotionScriptable.EffectType.none:
-                    Debug.Log("None");
-                    break;
 
             }
         }
@@ -1125,9 +1122,7 @@ public class CharacterController : MonoBehaviour
 
                 GetMagic(2);
                 break;
-            case PotionScriptable.EffectType.none:
-                Debug.Log("None");
-                break;
+
 
         }
     }
@@ -1257,9 +1252,7 @@ public class CharacterController : MonoBehaviour
             case PotionScriptable.EffectType.grounded:
                 StartCoroutine(GetGrounded(ps));
                 break;
-            case PotionScriptable.EffectType.none:
-                Debug.Log("None");
-                break;
+
 
         }
     }
@@ -1311,9 +1304,7 @@ public class CharacterController : MonoBehaviour
                 spellManager.OnMageMutate(SpellManager.Mutation.Mage);
                 GameMan.Instance.ChangeLightColor(lightColor[0]);
                 break;
-            case PotionScriptable.EffectType.none:
-                Debug.Log("None");
-                break;
+
 
         }
     }
@@ -1397,9 +1388,7 @@ public class CharacterController : MonoBehaviour
             case PotionScriptable.EffectType.grounded:
                 StartCoroutine(GetGrounded(ps));
                 break;
-            case PotionScriptable.EffectType.none:
-                Debug.Log("None");
-                break;
+
 
         }
     }

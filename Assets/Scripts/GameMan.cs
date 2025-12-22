@@ -223,18 +223,27 @@ public class GameMan : MonoBehaviour
 
     IEnumerator StartingDialog()
     {
+        //nasconde il testo iniziale
         text_dialog.SetActive(false);
         continueButton.SetActive(false);
+        //lancia l'animazione della magia di luce determinando il livello di intensità stabilito per questo livello
         lightAnimation.SetTrigger("lightOn");
         lightAnimation.SetInteger("lightIntesity", lightIntensity);
+
         lightAnimation.gameObject.GetComponent<LightScript>().PlayAudio();
+        
+        //Lancia l'animazione del personaggio per castare la magia 1
         cc.mageAnimator.SetTrigger("cast");
         cc.mageAnimator.SetInteger("castInt", 1);
+
         //Invoke("LoadPotion", 6f);
+        //Attende 6 secondi (durata animazione ?)
         yield return new WaitForSeconds(6f);
 
+        //Attiva la visualizzazione per gli oggetti droppabili
         LoadPotion();
         yield return new WaitForSeconds(.3f);
+        //Attiva hp, magie e mp 
         cc.hpBar.gameObject.SetActive(true);
         cc.spellBar.SetActive(true);
         cc.magicBar.gameObject.SetActive(true);
@@ -264,6 +273,8 @@ public class GameMan : MonoBehaviour
         //Evita di sovrapporre dialoghi e di parlare da morto
         if (text_dialog.activeSelf || cc.currentHP <= 0)
             text_dialog.SetActive(false);
+
+        Debug.Log("[GameMan] PopDialog: " + dialog);
         //return;
         text_dialog.SetActive(true);
         text_dialog.GetComponentInChildren<Text>().text = dialog;

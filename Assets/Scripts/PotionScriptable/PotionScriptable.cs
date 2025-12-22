@@ -31,7 +31,8 @@ public class PotionScriptable : ScriptableObject
         magicDown,
         poisoned,
         grounded,//3 tick over time
-        none,
+        //none,
+        Any
     }
 
 

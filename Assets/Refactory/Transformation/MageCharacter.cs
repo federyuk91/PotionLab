@@ -235,6 +235,11 @@ namespace CharacterSystem
                 transformationManager.SwitchTo(CharacterType.PupperFish);
                 return;
             }
+            if(status.Has(Status.Freezed) && status.Has(Status.Poisoned))
+            {
+                status.TriggerImmunity();
+                return;
+            }
 
             status.Increase(Status.Poisoned);
 
