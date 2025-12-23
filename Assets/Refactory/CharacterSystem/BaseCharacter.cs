@@ -24,10 +24,12 @@ namespace CharacterSystem
 
         private void OnEnable()
         {
+            Debug.Log(this.name+ " called on enable from Base");
             OnEnterTransformation();
         }
         private void OnDisable()
         {
+            Debug.Log(this.name + " called on disable from Base");
             OnExitTransformation();
         }
 

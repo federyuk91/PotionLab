@@ -3,7 +3,28 @@ namespace CharacterSystem
 {
     public class YetiCharacter : BaseCharacter
     {
+        private void OnEnable()
+        {
+            Debug.Log("Yeti on enable");
+            stats.OnHealtUp += CheckMutation;
+            stats.OnHealtDown += CheckMutation;
+            stats.OnManaDown += CheckMutation;
+            stats.OnManaUp += CheckMutation;
+        }
+        private void OnDisable()
+        {
+            Debug.Log("Yeti on disable");
+            stats.OnHealtUp -= CheckMutation;
+            stats.OnHealtDown -= CheckMutation;
+            stats.OnManaDown -= CheckMutation;
+            stats.OnManaUp -= CheckMutation;
+        }
 
+        public void CheckMutation()
+        {
+            if (stats.HP == stats.MP)
+                transformationManager.SwitchTo(CharacterType.Mage);
+        }
         public override void ApplyDark(PotionScriptable ps)
         {
             if (stats.MP > 0)

@@ -44,8 +44,8 @@ public class VFXStatusController : MonoBehaviour
         statusController.OnImmunity += OnStatusImmunity;
         statusController.OnExplosion += OnExplosion;
 
-        stats.OnHeal += OnHeal;
-        stats.OnLight += OnMana;
+        stats.OnHealtUp += OnHeal;
+        stats.OnManaUp += OnMana;
 
         RefreshVFX(); // sicurezza all’avvio
     }
@@ -174,7 +174,7 @@ public class VFXStatusController : MonoBehaviour
         statusController.OnImmunity -= OnStatusImmunity;
         statusController.OnExplosion -= OnExplosion;
 
-        stats.OnHeal -= OnHeal;
-        stats.OnLight -= OnMana;
+        stats.OnHealtUp -= OnHeal;
+        stats.OnManaUp -= OnMana;
     }
 }
