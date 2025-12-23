@@ -27,8 +27,8 @@ public class PotionScriptable : ScriptableObject
         ice,
         water,
         grass,
-        magicUP,
-        magicDown,
+        light,
+        dark,
         poisoned,
         grounded,//3 tick over time
         //none,

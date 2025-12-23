@@ -66,10 +66,10 @@ namespace CharacterSystem
                 case PotionScriptable.EffectType.grass:
                     ApplyGrass(potion.potion);
                     break;
-                case PotionScriptable.EffectType.magicUP:
+                case PotionScriptable.EffectType.light:
                     ApplyLight(potion.potion);
                     break;
-                case PotionScriptable.EffectType.magicDown:
+                case PotionScriptable.EffectType.dark:
                     ApplyDark(potion.potion);
                     break;
                 case PotionScriptable.EffectType.poisoned:

@@ -18,7 +18,7 @@ public class CalderoneScript : MonoBehaviour
         {
             
             collision.gameObject.SetActive(false);
-            if(collision.gameObject.GetComponent<PotionScript>().potion.effectType == PotionScriptable.EffectType.magicUP)
+            if(collision.gameObject.GetComponent<PotionScript>().potion.effectType == PotionScriptable.EffectType.light)
             {
                 consecutivePotion++;
                 if(consecutivePotion == 5)

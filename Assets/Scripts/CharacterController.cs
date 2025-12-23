@@ -135,11 +135,11 @@ public class CharacterController : MonoBehaviour
                 case PotionScriptable.EffectType.water:
                     GetWet(ps);
                     break;
-                case PotionScriptable.EffectType.magicUP:
+                case PotionScriptable.EffectType.light:
                     GetMagic(ps.baseValue);
                     GameMan.Instance.PopDialog("*sparkle*", 1.5f);
                     break;
-                case PotionScriptable.EffectType.magicDown:
+                case PotionScriptable.EffectType.dark:
 
                     if (currentMagicPoint == 0)
                     {
@@ -1095,7 +1095,7 @@ public class CharacterController : MonoBehaviour
 
                 break;
 
-            case PotionScriptable.EffectType.magicUP:
+            case PotionScriptable.EffectType.light:
                 GameMan.Instance.PopDialog("What is happening? NOOOOO", 2f);
                 mageAnimator.SetTrigger("isDamaged");
                 TakeDamage(0);
@@ -1109,7 +1109,7 @@ public class CharacterController : MonoBehaviour
 
 
                 break;
-            case PotionScriptable.EffectType.magicDown:
+            case PotionScriptable.EffectType.dark:
                 GameMan.Instance.PopDialog("Liquid Death! mmh mmmmhhhh", 2f);
 
                 GetMagic(2);
@@ -1229,12 +1229,12 @@ public class CharacterController : MonoBehaviour
 
                 }
                 break;
-            case PotionScriptable.EffectType.magicUP:
+            case PotionScriptable.EffectType.light:
                 GetMagic(ps.baseValue);
                 GameMan.Instance.PopDialog(":)", 1.5f);
 
                 break;
-            case PotionScriptable.EffectType.magicDown:
+            case PotionScriptable.EffectType.dark:
                 GameMan.Instance.PopDialog("This things doesn't work on trees", 2f);
                 immuneFX.SetActive(true);
 
@@ -1277,7 +1277,7 @@ public class CharacterController : MonoBehaviour
             case PotionScriptable.EffectType.water:
                 GetWet(ps);
                 break;
-            case PotionScriptable.EffectType.magicUP:
+            case PotionScriptable.EffectType.light:
                 GetMagic(ps.baseValue);
                 GameMan.Instance.PopDialog("*blob*", 1.5f);
                 break;
@@ -1285,7 +1285,7 @@ public class CharacterController : MonoBehaviour
                 immuneFX.SetActive(true);
                 GameMan.Instance.PopDialog("blob? bloob?", 1f);
                 break;
-            case PotionScriptable.EffectType.magicDown:
+            case PotionScriptable.EffectType.dark:
                 GameMan.Instance.PopDialog("Blooooooooooooob!", 2f);
                 mageAnimator.SetTrigger("isDamaged");
                 currentStatus.Remove(Status.pupperfish);
@@ -1341,7 +1341,7 @@ public class CharacterController : MonoBehaviour
                 }
 
                 break;
-            case PotionScriptable.EffectType.magicUP:
+            case PotionScriptable.EffectType.light:
 
                 if (currentMagicPoint == 10)
                 {
@@ -1359,7 +1359,7 @@ public class CharacterController : MonoBehaviour
                 }
 
                 break;
-            case PotionScriptable.EffectType.magicDown:
+            case PotionScriptable.EffectType.dark:
                 if (currentMagicPoint == 0)
                 {
                     TakeDamage(2);

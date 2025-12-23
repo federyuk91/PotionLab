@@ -85,6 +85,7 @@ namespace CharacterSystem
             //Se sono grounded mi trasformo in yeti
             if (status.Has(Status.Grounded))
             {
+                status.Remove(Status.Grounded);
                 transformationManager.SwitchTo(CharacterType.Yeti);
                 return;
             }
@@ -370,7 +371,7 @@ namespace CharacterSystem
                 stats.TakeDamage(1); //Se è interrato prende meno danni da veleno, ma non diminuisce il livello
             else
             {
-                stats.TakeDamage(4 - status.poisonLevel);
+                stats.TakeDamage(status.poisonLevel);
                 status.poisonLevel--;
                 if (status.poisonLevel <= 0)
                 {

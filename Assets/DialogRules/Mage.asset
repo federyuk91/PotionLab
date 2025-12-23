@@ -14,19 +14,121 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDialogRule
   character: 0
   potionDialogs:
+  - potion: 0
+    cases:
+    - requiredStatuses: 
+      lines:
+      - '*slurp*'
+      - So juicy!
+      - Red like me!
+      - Love it!
+      - ahh! The goodnight potion!
+  - potion: 2
+    cases:
+    - requiredStatuses: 
+      lines:
+      - Someone is roasting the chicken
+      - 'I''m in burnout...
+
+        at GameManager.cs:277 at DialogueManager.cs:46'
+      - this will burn a little
+    - requiredStatuses: 03000000
+      lines:
+      - I'm still wet, I guess that's an improvement
+    - requiredStatuses: 02000000
+      lines:
+      - Washed and dried, ready to sleep?
+    - requiredStatuses: 05000000
+      lines:
+      - Ohhh I should call this one Attila
+    - requiredStatuses: 04000000
+      lines:
+      - I washed the poison off my clothes
+  - potion: 3
+    cases:
+    - requiredStatuses: 
+      lines:
+      - I don't digest the lava before going to sleep...
+      - So hot!
+      - Blergh...
+    - requiredStatuses: 01000000
+      lines:
+      - ah shit... here we go again.
+      - Where did I put the flame of Anor?
+  - potion: 4
+    cases:
+    - requiredStatuses: 
+      lines:
+      - ...
+      - I'm freeez...
+    - requiredStatuses: 06000000
+      lines:
+      - Big foot, big muscle... something else?
+      - I like my white hair
   - potion: 5
     cases:
     - requiredStatuses: 01000000
       lines:
-      - ahhhh what a relief
+      - What a relief!
     - requiredStatuses: 03000000
       lines:
       - Brr i'm freezing
-  - potion: 2
+    - requiredStatuses: 
+      lines:
+      - I'm fresh!
+      - I'm wet!
+      - '*bubble*'
+      - Like a river
+    - requiredStatuses: 05000000
+      lines:
+      - It looks like it will be a loooong rest
+  - potion: 6
     cases:
+    - requiredStatuses: 
+      lines:
+      - Grass everywhere, just like in '68
+      - Old tobia, i like it
+      - This was for a special occasion, oooh well
     - requiredStatuses: 01000000
       lines:
-      - Che sollievo
-    - requiredStatuses: 03000000
+      - Maybe some water can help me
+  - potion: 7
+    cases:
+    - requiredStatuses: 
       lines:
-      - Brr i'm freezing
+      - '**sparkle sparkle**'
+      - My magic is going Up!
+      - Yohooo! A light potion!
+      - 'HM05: Flash!'
+  - potion: 8
+    cases:
+    - requiredStatuses: 
+      lines:
+      - Hello darkness, my old friend
+      - Goodbye
+      - I stop whenever I want
+  - potion: 9
+    cases:
+    - requiredStatuses: 
+      lines:
+      - I'm poisoned!
+      - 72' poison, what a wonderful year!
+      - ah Poison... Ivy would love it
+      - I have to stop with this stuff
+    - requiredStatuses: 02000000
+      lines:
+      - Blub blub
+      - Gulp
+  - potion: 10
+    cases:
+    - requiredStatuses: 
+      lines:
+      - I'm digging
+      - soils everywhere!
+      - Well... Time to farm
+    - requiredStatuses: 06000000
+      lines:
+      - A nice pile of steaming shit!
+    - requiredStatuses: 01000000
+      lines:
+      - This works too I guess
