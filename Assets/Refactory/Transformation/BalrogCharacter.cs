@@ -71,7 +71,6 @@ namespace CharacterSystem
 
         public override void ApplyWet(PotionScriptable ps)
         {
-            status.TriggerImmunity();
             status.Remove(Status.Burned);
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace CharacterSystem
@@ -7,7 +8,11 @@ namespace CharacterSystem
     public class DialogRule : ScriptableObject
     {
         public CharacterType character;
+
         public DialogTrigger trigger;
+
+        //Lista Regole per pozioni bevute
+
         public PotionScriptable.EffectType potion;
 
         public Status[] requiredStatuses;
@@ -39,4 +44,26 @@ namespace CharacterSystem
             return true;
         }
     }
+    [Serializable]
+    public class PotionLines
+    {
+        public PotionScriptable.EffectType potion;
+        //Lista di regole per status pre esistenti
+        public StatusLines[] statusLines;
+
+        public PotionLines(PotionScriptable.EffectType potion)
+        {
+            this.potion = potion;
+            int status = Enum.GetValues(typeof(Status)).Length;
+            this.statusLines = new StatusLines[0];
+        }
+    }
+
+    [Serializable]
+    public class StatusLines
+    {
+        public Status status;
+        public string[] lines;
+    }
+
 }
