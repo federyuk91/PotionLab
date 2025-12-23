@@ -1,4 +1,5 @@
 
+using UnityEditor.Rendering;
 using UnityEngine;
 namespace CharacterSystem
 {
@@ -61,7 +62,7 @@ namespace CharacterSystem
             status.Increase(Status.Burned);
         }
         /***** TRASFORMAZIONE ***** Il ghiaccio transforma in Yeti se si è grounded */
-        public override void ApplyFreezed(PotionScriptable ps)
+        public override void ApplyIce(PotionScriptable ps)
         {
             //Se sto bruciando, divento bagnato
             if (status.Has(Status.Burned))
@@ -85,6 +86,12 @@ namespace CharacterSystem
             if (status.Has(Status.Grounded))
             {
                 transformationManager.SwitchTo(CharacterType.Yeti);
+                return;
+            }
+            if (status.Has(Status.Algae))
+            {
+                status.Remove(Status.Algae);
+                status.Add(Status.Freezed);
                 return;
             }
 

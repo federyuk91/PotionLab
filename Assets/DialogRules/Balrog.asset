@@ -13,4 +13,14 @@ MonoBehaviour:
   m_Name: Balrog
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDialogRule
   character: 1
-  potionDialogs: []
+  potionDialogs:
+  - potion: 3
+    cases:
+    - requiredStatuses: 
+      lines:
+      - Lava gives me more power!
+  - potion: 2
+    cases:
+    - requiredStatuses: 01000000
+      lines:
+      - Hot, like me!

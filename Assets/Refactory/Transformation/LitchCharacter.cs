@@ -13,7 +13,7 @@ namespace CharacterSystem
             throw new System.NotImplementedException();
         }
 
-        public override void ApplyFreezed(PotionScriptable ps)
+        public override void ApplyIce(PotionScriptable ps)
         {
             throw new System.NotImplementedException();
         }

@@ -16,7 +16,7 @@ namespace CharacterSystem
             status.TriggerImmunity();
         }
 
-        public override void ApplyFreezed(PotionScriptable ps)
+        public override void ApplyIce(PotionScriptable ps)
         {
             stats.TakeDamage(ps.baseValue);
         }
@@ -27,6 +27,10 @@ namespace CharacterSystem
             {
                 status.Remove(Status.Wet);
                 status.Increase(Status.Algae);
+                return;
+            }
+            if (status.Has(Status.Algae)) {
+                status.TriggerImmunity();
                 return;
             }
             status.Add(Status.Grass);

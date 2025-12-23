@@ -49,16 +49,16 @@ namespace CharacterSystem
                 case PotionScriptable.EffectType.healing:
                     ApplyHeal(potion.potion);
                     break;
-                case PotionScriptable.EffectType.burned:
+                case PotionScriptable.EffectType.fire:
                     ApplyFire(potion.potion);
                     break;
                 case PotionScriptable.EffectType.lava:
                     ApplyLava(potion.potion);
                     break;
-                case PotionScriptable.EffectType.freezed:
-                    ApplyFreezed(potion.potion);
+                case PotionScriptable.EffectType.ice:
+                    ApplyIce(potion.potion);
                     break;
-                case PotionScriptable.EffectType.wet:
+                case PotionScriptable.EffectType.water:
                     ApplyWet(potion.potion);
                     break;
                 case PotionScriptable.EffectType.grass:
@@ -109,7 +109,7 @@ namespace CharacterSystem
         public abstract void ApplyHeal(PotionScriptable ps);
         public abstract void ApplyFire(PotionScriptable ps);
         public abstract void ApplyLava(PotionScriptable ps);
-        public abstract void ApplyFreezed(PotionScriptable ps);
+        public abstract void ApplyIce(PotionScriptable ps);
         public abstract void ApplyWet(PotionScriptable ps);
         public abstract void ApplyGrass(PotionScriptable ps);
         public abstract void ApplyLight(PotionScriptable ps);

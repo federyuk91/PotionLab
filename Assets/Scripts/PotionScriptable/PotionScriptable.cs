@@ -22,10 +22,10 @@ public class PotionScriptable : ScriptableObject
     {
         healing,
         damage,
-        burned,//damageOverTime,
+        fire,//damageOverTime,
         lava,
-        freezed,
-        wet,
+        ice,
+        water,
         grass,
         magicUP,
         magicDown,
