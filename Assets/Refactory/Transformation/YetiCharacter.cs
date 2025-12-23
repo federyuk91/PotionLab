@@ -3,16 +3,18 @@ namespace CharacterSystem
 {
     public class YetiCharacter : BaseCharacter
     {
-        private void OnEnable()
+        public override void OnEnable()
         {
+            base.OnEnable();
             Debug.Log("Yeti on enable");
             stats.OnHealtUp += CheckMutation;
             stats.OnHealtDown += CheckMutation;
             stats.OnManaDown += CheckMutation;
             stats.OnManaUp += CheckMutation;
         }
-        private void OnDisable()
+        public override void OnDisable()
         {
+            base.OnDisable();
             Debug.Log("Yeti on disable");
             stats.OnHealtUp -= CheckMutation;
             stats.OnHealtDown -= CheckMutation;

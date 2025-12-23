@@ -274,7 +274,7 @@ public class GameMan : MonoBehaviour
         if (text_dialog.activeSelf || cc.currentHP <= 0)
             text_dialog.SetActive(false);
 
-        Debug.Log("[GameMan] PopDialog: " + dialog);
+        //Debug.Log("[GameMan] PopDialog: " + dialog);
         //return;
         text_dialog.SetActive(true);
         text_dialog.GetComponentInChildren<Text>().text = dialog;

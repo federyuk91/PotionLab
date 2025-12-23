@@ -22,12 +22,12 @@ namespace CharacterSystem
             dialogManager = GetComponentInParent<DialogManager>();
         }
 
-        private void OnEnable()
+        public virtual void OnEnable()
         {
             Debug.Log(this.name+ " called on enable from Base");
             OnEnterTransformation();
         }
-        private void OnDisable()
+        public virtual void OnDisable()
         {
             Debug.Log(this.name + " called on disable from Base");
             OnExitTransformation();
