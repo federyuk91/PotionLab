@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace CharacterSystem
@@ -35,6 +36,7 @@ namespace CharacterSystem
     }
 
     // Tipi di trasformazione
+    [Serializable]
     public enum CharacterType
     {
         Mage,
