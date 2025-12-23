@@ -1,0 +1,183 @@
+{
+  "rules": [
+    {
+      "id": "balrog_water_joke",
+      "priority": 100,
+      "trigger": "PotionDrink",
+      "character": "Balrog",
+      "potion": "wet",
+      "lines": [
+        "Water? You think we are in pokemon?"
+      ]
+    },
+    {
+      "id": "balrog_lava_power",
+      "priority": 90,
+      "trigger": "PotionDrink",
+      "character": "Balrog",
+      "potion": "lava",
+      "lines": [
+        "Lava give me more power!"
+      ]
+    },
+    {
+      "id": "balrog_poison_mock",
+      "priority": 80,
+      "trigger": "PotionDrink",
+      "character": "Balrog",
+      "potion": "poisoned",
+      "lines": [
+        "Human venom? ptz..."
+      ]
+    },
+    {
+      "id": "mage_grass_on_fire",
+      "priority": 70,
+      "trigger": "PotionDrink",
+      "character": "Mage",
+      "potion": "grass",
+      "requiredStatuses": ["Burned"],
+      "lines": [
+        "mmh, poor grass!"
+      ]
+    },
+    {
+      "id": "mage_grass_on_ice",
+      "priority": 70,
+      "trigger": "PotionDrink",
+      "character": "Mage",
+      "potion": "grass",
+      "requiredStatuses": ["Freezed"],
+      "lines": [
+        "NO GRASS ON MY ICE"
+      ]
+    },
+    {
+      "id": "mage_grass_on_algae",
+      "priority": 70,
+      "trigger": "PotionDrink",
+      "character": "Mage",
+      "potion": "grass",
+      "requiredStatuses": ["Algae"],
+      "lines": [
+        "Not more grass on my alghe!"
+      ]
+    },
+    {
+      "id": "mage_poison_on_fire",
+      "priority": 80,
+      "trigger": "PotionDrink",
+      "character": "Mage",
+      "potion": "poisoned",
+      "requiredStatuses": ["Burned"],
+      "lines": [
+        "KABOOM!"
+      ]
+    },
+    {
+      "id": "mage_water_on_ice",
+      "priority": 60,
+      "trigger": "PotionDrink",
+      "character": "Mage",
+      "potion": "wet",
+      "requiredStatuses": ["Freezed"],
+      "lines": [
+        "Water on ice? Are you stupid?"
+      ]
+    },
+    {
+      "id": "mage_water_on_poison",
+      "priority": 60,
+      "trigger": "PotionDrink",
+      "character": "Mage",
+      "potion": "wet",
+      "requiredStatuses": ["Poisoned"],
+      "lines": [
+        "My skin is clear and fresh!"
+      ]
+    },
+    {
+      "id": "mage_fire_burning",
+      "priority": 50,
+      "trigger": "StatusTick",
+      "character": "Mage",
+      "requiredStatuses": ["Burned"],
+      "lines": [
+        "AHHHHH I'm burning!!!"
+      ]
+    },
+    {
+      "id": "mage_ground_love",
+      "priority": 40,
+      "trigger": "PotionDrink",
+      "character": "Mage",
+      "potion": "lava",
+      "requiredStatuses": ["Grounded"],
+      "lines": [
+        "Ground i Love You"
+      ]
+    },
+    {
+      "id": "mage_tree_transform",
+      "priority": 90,
+      "trigger": "Transformation",
+      "character": "Mage",
+      "resultForm": "Tree",
+      "lines": [
+        "what! a tree?"
+      ]
+    },
+    {
+      "id": "mage_yeti_transform",
+      "priority": 90,
+      "trigger": "Transformation",
+      "character": "Mage",
+      "resultForm": "Yeti",
+      "lines": [
+        "Roar!"
+      ]
+    },
+    {
+      "id": "pufferfish_generic",
+      "priority": 30,
+      "trigger": "PotionDrink",
+      "character": "PupperFish",
+      "lines": [
+        "blob blob blob",
+        "BLOOOB!",
+        "*blob*"
+      ]
+    },
+    {
+      "id": "tree_heal",
+      "priority": 30,
+      "trigger": "PotionDrink",
+      "character": "Tree",
+      "potion": "wet",
+      "lines": [
+        "sip... nice",
+        "more nutrition!"
+      ]
+    },
+    {
+      "id": "yeti_no_fire",
+      "priority": 40,
+      "trigger": "PotionDrink",
+      "character": "Yeti",
+      "potion": "burned",
+      "lines": [
+        "No FLAMES here!"
+      ]
+    },
+    {
+      "id": "yeti_no_water",
+      "priority": 40,
+      "trigger": "PotionDrink",
+      "character": "Yeti",
+      "potion": "wet",
+      "lines": [
+        "No SHOWER here!"
+      ]
+    }
+  ]
+}

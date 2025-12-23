@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44c32041f6ee9a94b8b79acdccac003f, type: 3}
+  m_Name: PupperFish_drank_healing_in_None.
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterSystem.DialogRule
+  character: 3
+  trigger: 0
+  potion: 0
+  requiredStatuses: 
+  forbiddenStatuses: 
+  lines:
+  - PupperFish drank healing with status None.
+  priority: 0

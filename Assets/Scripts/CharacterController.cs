@@ -111,13 +111,7 @@ public class CharacterController : MonoBehaviour
                 case PotionScriptable.EffectType.lava:
                     GetLava(ps);
                     break;
-                case PotionScriptable.EffectType.damage:
-                    mageAnimator.SetTrigger("isDamaged");
-                    TakeDamage(ps.baseValue);
-                    if (ps.dialogs.Count > 0)
-                        GameMan.Instance.PickADialog(ps.dialogs, 1.5f);
 
-                    break;
                 case PotionScriptable.EffectType.healing:
                     if (!AchievementManager.d_achievements["Goodnight!"].unlocked)
                         AchievementManager.instance.Achive("Goodnight!");
@@ -1033,8 +1027,6 @@ public class CharacterController : MonoBehaviour
                 GetHealth(ps.baseValue);
                 GameMan.Instance.PopDialog("Lava give me more power!", 3f);
                 break;
-            case PotionScriptable.EffectType.damage:
-                break;
             case PotionScriptable.EffectType.healing:
                 GameMan.Instance.PopDialog("This potion is not enough for my power", 4f);
                 immuneFX.SetActive(true);
@@ -1153,8 +1145,6 @@ public class CharacterController : MonoBehaviour
                 }
 
                 break;
-            case PotionScriptable.EffectType.damage:
-                break;
             case PotionScriptable.EffectType.healing:
                 GameMan.Instance.PopDialog("This things doesn't work on trees", 3f);
                 immuneFX.SetActive(true);
@@ -1264,8 +1254,6 @@ public class CharacterController : MonoBehaviour
             case PotionScriptable.EffectType.lava:
                 TakeDamage(ps.baseValue);
                 GameMan.Instance.PopDialog("BLOOOB!", 1f);
-                break;
-            case PotionScriptable.EffectType.damage:
                 break;
             case PotionScriptable.EffectType.healing:
                 GetHealth(ps.baseValue);

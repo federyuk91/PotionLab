@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44c32041f6ee9a94b8b79acdccac003f, type: 3}
   m_Name: HealOnMage
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSystem.DialogRule
-  character: 7
+  character: 0
   trigger: 0
   potion: 0
   requiredStatuses: 

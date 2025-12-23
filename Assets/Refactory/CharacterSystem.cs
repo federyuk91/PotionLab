@@ -9,7 +9,8 @@ namespace CharacterSystem
         StatusAdded,
         StatusRemoved,
         Explosion,
-        Immunity
+        Immunity,
+        StatusTick
     }
 
     public struct DialogContext

@@ -5,6 +5,7 @@ namespace CharacterSystem
 {
     public class TransformationManager : MonoBehaviour
     {
+        private DialogManager dialogManager;
         public static TransformationManager Instance;
         private CharacterType startCharacter = CharacterType.Mage;
 
@@ -30,6 +31,7 @@ namespace CharacterSystem
                 Instance = this;
             }
 
+            dialogManager = GetComponentInParent<DialogManager>();
             foreach (var behaviour in characterBehaviours)
                 {
                     if (behaviour is not BaseCharacter character)

@@ -21,7 +21,6 @@ public class PotionScriptable : ScriptableObject
     public enum EffectType
     {
         healing,
-        damage,
         burned,//damageOverTime,
         lava,
         freezed,
