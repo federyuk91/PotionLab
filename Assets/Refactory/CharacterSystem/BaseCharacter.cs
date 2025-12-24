@@ -22,12 +22,14 @@ namespace CharacterSystem
             dialogManager = GetComponentInParent<DialogManager>();
         }
 
-        private void OnEnable()
+        public virtual void OnEnable()
         {
+            Debug.Log(this.name+ " called on enable from Base");
             OnEnterTransformation();
         }
-        private void OnDisable()
+        public virtual void OnDisable()
         {
+            Debug.Log(this.name + " called on disable from Base");
             OnExitTransformation();
         }
 
@@ -49,25 +51,25 @@ namespace CharacterSystem
                 case PotionScriptable.EffectType.healing:
                     ApplyHeal(potion.potion);
                     break;
-                case PotionScriptable.EffectType.burned:
+                case PotionScriptable.EffectType.fire:
                     ApplyFire(potion.potion);
                     break;
                 case PotionScriptable.EffectType.lava:
                     ApplyLava(potion.potion);
                     break;
-                case PotionScriptable.EffectType.freezed:
-                    ApplyFreezed(potion.potion);
+                case PotionScriptable.EffectType.ice:
+                    ApplyIce(potion.potion);
                     break;
-                case PotionScriptable.EffectType.wet:
+                case PotionScriptable.EffectType.water:
                     ApplyWet(potion.potion);
                     break;
                 case PotionScriptable.EffectType.grass:
                     ApplyGrass(potion.potion);
                     break;
-                case PotionScriptable.EffectType.magicUP:
+                case PotionScriptable.EffectType.light:
                     ApplyLight(potion.potion);
                     break;
-                case PotionScriptable.EffectType.magicDown:
+                case PotionScriptable.EffectType.dark:
                     ApplyDark(potion.potion);
                     break;
                 case PotionScriptable.EffectType.poisoned:
@@ -109,7 +111,7 @@ namespace CharacterSystem
         public abstract void ApplyHeal(PotionScriptable ps);
         public abstract void ApplyFire(PotionScriptable ps);
         public abstract void ApplyLava(PotionScriptable ps);
-        public abstract void ApplyFreezed(PotionScriptable ps);
+        public abstract void ApplyIce(PotionScriptable ps);
         public abstract void ApplyWet(PotionScriptable ps);
         public abstract void ApplyGrass(PotionScriptable ps);
         public abstract void ApplyLight(PotionScriptable ps);

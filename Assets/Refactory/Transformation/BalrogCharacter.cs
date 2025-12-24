@@ -14,7 +14,7 @@ namespace CharacterSystem
             status.Increase(Status.Burned);
         }
 
-        public override void ApplyFreezed(PotionScriptable ps)
+        public override void ApplyIce(PotionScriptable ps)
         {
             if (status.Has(Status.Burned))
             {

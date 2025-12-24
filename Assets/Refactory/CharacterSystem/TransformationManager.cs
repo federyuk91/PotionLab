@@ -5,6 +5,7 @@ namespace CharacterSystem
 {
     public class TransformationManager : MonoBehaviour
     {
+        public LightController lightController;
         private DialogManager dialogManager;
         public static TransformationManager Instance;
         private CharacterType startCharacter = CharacterType.Mage;
@@ -66,6 +67,8 @@ namespace CharacterSystem
 
             if (currentCharacter is MonoBehaviour nextMb)
                 nextMb.gameObject.SetActive(true);
+
+            lightController.ChangeLightColor(type);
         }
     }
 }

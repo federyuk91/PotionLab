@@ -20,35 +20,35 @@ namespace CharacterSystem
 
 
 
-        public event Action OnHeal, OnTakeDamage, OnLight, OnLoseLight;
+        public event Action OnHealtUp, OnHealtDown, OnManaUp, OnManaDown;
 
         public void TakeDamage(int value)
         {
             ModifyHP(-value);
             PopUp("-" + value, hpColor);
             StartCoroutine(cameraShake.Shake(.15f, 1));
-            OnTakeDamage?.Invoke();
+            OnHealtDown?.Invoke();
         }
 
         public void Heal(int value)
         {
             ModifyHP(value);
             PopUp("+" + value, hpColor);
-            OnHeal?.Invoke();
+            OnHealtUp?.Invoke();
         }
 
         public void AddMana(int value)
         {
             ModifyMP(value);
             PopUp("+" + value, lightColor);
-            OnLight?.Invoke();
+            OnManaUp?.Invoke();
         }
 
         public void LoseMana(int value)
         {
             ModifyMP(-value);
             PopUp("-" + value, lightColor);
-            OnLoseLight?.Invoke();
+            OnManaDown?.Invoke();
         }
 
         public void PopUp(string text, Color col)

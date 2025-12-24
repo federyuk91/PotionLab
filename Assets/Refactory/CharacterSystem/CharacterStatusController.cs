@@ -124,7 +124,7 @@ namespace CharacterSystem
             activeStatuses.Clear();
         }
 
-        public HashSet<Status> GetAllStatuses()
+        public HashSet<Status> GetCurrentStatuses()
         {
             return activeStatuses;
         }

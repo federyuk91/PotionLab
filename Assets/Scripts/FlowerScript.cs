@@ -27,8 +27,8 @@ public class FlowerScript : MonoBehaviour
         {
             if(other.gameObject.GetComponent<PotionScript>().potion.effectType == PotionScriptable.EffectType.lava ||
             other.gameObject.GetComponent<PotionScript>().potion.effectType == PotionScriptable.EffectType.poisoned ||
-            other.gameObject.GetComponent<PotionScript>().potion.effectType == PotionScriptable.EffectType.freezed ||
-            other.gameObject.GetComponent<PotionScript>().potion.effectType == PotionScriptable.EffectType.burned)
+            other.gameObject.GetComponent<PotionScript>().potion.effectType == PotionScriptable.EffectType.ice ||
+            other.gameObject.GetComponent<PotionScript>().potion.effectType == PotionScriptable.EffectType.fire)
             {
                 if (status == 0)
                 {

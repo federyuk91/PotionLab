@@ -3,7 +3,30 @@ namespace CharacterSystem
 {
     public class YetiCharacter : BaseCharacter
     {
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            Debug.Log("Yeti on enable");
+            stats.OnHealtUp += CheckMutation;
+            stats.OnHealtDown += CheckMutation;
+            stats.OnManaDown += CheckMutation;
+            stats.OnManaUp += CheckMutation;
+        }
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            Debug.Log("Yeti on disable");
+            stats.OnHealtUp -= CheckMutation;
+            stats.OnHealtDown -= CheckMutation;
+            stats.OnManaDown -= CheckMutation;
+            stats.OnManaUp -= CheckMutation;
+        }
 
+        public void CheckMutation()
+        {
+            if (stats.HP == stats.MP)
+                transformationManager.SwitchTo(CharacterType.Mage);
+        }
         public override void ApplyDark(PotionScriptable ps)
         {
             if (stats.MP > 0)
@@ -19,7 +42,7 @@ namespace CharacterSystem
             status.TriggerImmunity();
         }
 
-        public override void ApplyFreezed(PotionScriptable ps)
+        public override void ApplyIce(PotionScriptable ps)
         {
             stats.Heal(ps.baseValue);
         }
@@ -102,9 +125,20 @@ namespace CharacterSystem
             }
             return 4f;
         }
-
         public override void PoisonTick()
         {
+            animator.SetTrigger("isDamaged");
+            if (status.Has(Status.Grounded))
+                stats.TakeDamage(1); //Se è interrato prende 1 danno da veleno, utile per annullare la trasformazione ma non ridusce il poisonLevel
+            else
+            {
+                stats.TakeDamage(1);
+                status.poisonLevel--;
+                if (status.poisonLevel <= 0)
+                {
+                    status.Remove(Status.Poisoned);
+                }
+            }
         }
 
         public override void IceTick()
