@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CharacterSystem
@@ -6,9 +8,10 @@ namespace CharacterSystem
     public abstract class BaseCharacter : MonoBehaviour, ICharacter
     {
         [Header("References")]
+        public List<Spell> spellList;
         [SerializeField] public Animator animator;
-        [SerializeField] protected CharacterStats stats;
-        [SerializeField] protected CharacterStatusController status;
+        [SerializeField] public CharacterStats stats;
+        [SerializeField] public CharacterStatusController status;
         [SerializeField] protected TransformationManager transformationManager;
         [SerializeField] protected DialogManager dialogManager;
 
@@ -118,6 +121,10 @@ namespace CharacterSystem
         public abstract void ApplyDark(PotionScriptable ps);
         public abstract void ApplyPoison(PotionScriptable ps);
         public abstract void ApplyGround(PotionScriptable ps);
+
+
+        public abstract void Cast(Spell spell, bool powered);
+
 
         public abstract void OnEnterTransformation();
         public abstract void OnExitTransformation();

@@ -3,6 +3,24 @@ namespace CharacterSystem
 {
     public class WhiteMageCharacter : BaseCharacter
     {
+        public override void Cast(Spell spell, bool powered)
+        {
+            if (stats.HasMana(spell.cost))
+            {
+                stats.LoseMana(spell.cost);
+                animator.SetTrigger(spell.spellName);
+                switch (spell.spellName)
+                {
+                    case "Light":
+                        break;
+                    case "Heal":
+                        break;
+                    case "Cleanse":
+                        break;
+
+                }
+            }
+        }
         public override void ApplyDark(PotionScriptable ps)
         {
             throw new System.NotImplementedException();

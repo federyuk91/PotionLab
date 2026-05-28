@@ -51,6 +51,15 @@ namespace CharacterSystem
             OnManaDown?.Invoke();
         }
 
+        public bool HasMana(int value)
+        {
+            return MP >= value;
+        }
+        public bool HasHealt(int value)
+        {
+            return HP >= value;
+        }
+
         public void PopUp(string text, Color col)
         {
             popUpStats.text = text;

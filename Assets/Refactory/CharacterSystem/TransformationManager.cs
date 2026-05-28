@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,11 +6,12 @@ namespace CharacterSystem
 {
     public class TransformationManager : MonoBehaviour
     {
+        private SpellManager spellManager;
         public LightController lightController;
         private DialogManager dialogManager;
         public static TransformationManager Instance;
         private CharacterType startCharacter = CharacterType.Mage;
-
+        public event Action<CharacterType, CharacterType> OnTransformation;
         [Header("Characters")]
         public CharacterType previousForm = CharacterType.Mage;
 
@@ -23,38 +25,40 @@ namespace CharacterSystem
 
         private void Awake()
         {
+            spellManager = FindFirstObjectByType<SpellManager>();
             if (Instance != null && Instance != this)
             {
                 Destroy(this.gameObject);
                 return;
-            }else
+            }
+            else
             {
                 Instance = this;
             }
 
             dialogManager = GetComponentInParent<DialogManager>();
             foreach (var behaviour in characterBehaviours)
+            {
+                if (behaviour is not BaseCharacter character)
                 {
-                    if (behaviour is not BaseCharacter character)
-                    {
-                        Debug.LogError($"{behaviour.name} does not implement ICharacter");
-                        continue;
-                    }
-
-                    CharacterType type = character.GetCharacterForm();
-                    characters[type] = character;
-
-                    // Disattiva tutto all’avvio
-                    behaviour.gameObject.SetActive(false);
+                    Debug.LogError($"{behaviour.name} does not implement ICharacter");
+                    continue;
                 }
+
+                CharacterType type = character.GetCharacterForm();
+                characters[type] = character;
+
+                // Disattiva tutto all’avvio
+                behaviour.gameObject.SetActive(false);
+            }
 
             SwitchTo(startCharacter);
         }
 
         public void SwitchTo(CharacterType type)
         {
-            if(currentCharacter != null)
-                previousForm = currentCharacter.GetCharacterForm();   
+            if (currentCharacter != null)
+                previousForm = currentCharacter.GetCharacterForm();
             if (!characters.TryGetValue(type, out var next))
             {
                 Debug.LogError($"Character {type} not registered");
@@ -62,13 +66,15 @@ namespace CharacterSystem
             }
 
             if (currentCharacter is MonoBehaviour currentMb)
-                currentMb.gameObject.SetActive(false);         
+                currentMb.gameObject.SetActive(false);
             currentCharacter = next;
 
             if (currentCharacter is MonoBehaviour nextMb)
                 nextMb.gameObject.SetActive(true);
 
             lightController.ChangeLightColor(type);
+            spellManager.OnMageMutate(type);
+            OnTransformation?.Invoke(previousForm, type);
         }
     }
 }

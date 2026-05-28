@@ -62,20 +62,6 @@ public class GameMan : MonoBehaviour
         potionDrunked = 0;
         mutationCounter = 0;
         currentLevel = SceneManager.GetActiveScene().buildIndex;
-        //Mooved to Data Saver
-        /*if (PlayerPrefs.HasKey("MaxLevelReached"))
-        {
-            maxLevelReached = PlayerPrefs.GetInt("MaxLevelReached");
-            Debug.Log("Max level reached is " + maxLevelReached);
-        }*/
-
-        /* 
-         if (currentLevel > maxLevelReached)
-         {
-             maxLevelReached = currentLevel;
-             PlayerPrefs.SetInt("MaxLevelReached", maxLevelReached);
-         }*/
-
         GetLightRef();
         CompileUILevel();
         
@@ -102,22 +88,19 @@ public class GameMan : MonoBehaviour
 
     public void CompileLevelReferences()
     {
-        PotionScript[] potions = FindObjectsOfType<PotionScript>();
+        PotionScript[] potions = FindObjectsByType<PotionScript>(FindObjectsSortMode.None);
         levelPotions = new List<PotionScript>();
         foreach (PotionScript p in potions)
         {
             levelPotions.Add(p);
         }
 
-        DroppableObject[] drops = FindObjectsOfType<DroppableObject>();
+        DroppableObject[] drops = FindObjectsByType<DroppableObject>(FindObjectsSortMode.None);
         droppables = new List<DroppableObject>();
         foreach (DroppableObject d in drops)
         {
             droppables.Add(d);
-        }
-
-
-       
+        }       
     }
 
     public void GetLightRef()
@@ -463,15 +446,8 @@ public class GameMan : MonoBehaviour
             DataSaver.instance.SaveScore(sceneIndex - 1, pointsNew);
         }
 
-        /*float potionPoints = (float)potionDrunked / (float)potionToDrunk;
-        float hpPoints = (float)cc.currentHP / (float)cc.staringHP;
-        float malus = (float)cc.currentStatus.Count / 5f;
-        float result = potionPoints * 3f + hpPoints * 3f - malus * 3f;
-
-        int viewerLevel = Mathf.FloorToInt(result);*/
         levelCompletePanel.SetActive(true);
         cc.spellBar.SetActive(false);
-        //scoreViewer.SetInteger("Points", viewerLevel);
     }
 
 
@@ -485,7 +461,7 @@ public class GameMan : MonoBehaviour
         cc.currentHP = 0;
         if (isProceduralMode)
         {
-            FindObjectOfType<SpawnerManager>().StopAllCoroutines();
+            spawnerManager.StopAllCoroutines();
             FindObjectOfType<Spawner>().StopAllCoroutines();
             OnLevelComplete();
         }
@@ -494,7 +470,6 @@ public class GameMan : MonoBehaviour
             deathPanel.SetActive(true);
             deathPanel.GetComponentInChildren<Text>().text = deathDialog;
             DataSaver.instance.UpdateStats(1, potionDrunked, mutationCounter);
-            //StopAllCoroutines();
         }
         //Rimuovere le pozioni rimaste per evitare ulteriori interazioni con il livello
 

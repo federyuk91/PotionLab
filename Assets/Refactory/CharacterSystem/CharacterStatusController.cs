@@ -129,5 +129,9 @@ namespace CharacterSystem
             return activeStatuses;
         }
 
+        public int Count()
+        {
+            return activeStatuses.Count;
+        }
     }
 }

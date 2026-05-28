@@ -1,3 +1,4 @@
+using CharacterSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -117,10 +118,11 @@ public class SpellManager : MonoBehaviour
         switch (level)
         {
             case 0:
-                if(GameMan.Instance.lightIntensity == 3)
+                if (GameMan.Instance.lightIntensity == 3)
                 {
                     gameManager.PopDialog("maximum lumen", 2f);
-                } else
+                }
+                else
                 {
                     cc.LostMagic(mageSpellCost[level]);
                     cc.mageAnimator.SetTrigger("cast");
@@ -130,7 +132,7 @@ public class SpellManager : MonoBehaviour
                     ChangeSpellText("LIGHT!");
                     Debug.Log("Magia LUCE!");
                 }
-               
+
                 break;
             case 1:
                 if (cc.currentHP < cc.staringHP)
@@ -140,17 +142,18 @@ public class SpellManager : MonoBehaviour
                     Debug.Log("Magia CURA!");
                     cc.mageAnimator.SetTrigger("cast");
                     cc.mageAnimator.SetInteger("castInt", 2);
-                    ChangeSpellText("HEAL!"); 
+                    ChangeSpellText("HEAL!");
 
-                    if(gameManager.lightIntensity == 3)
+                    if (gameManager.lightIntensity == 3)
                     {
                         cc.GetHealth(4);
                         gameManager.PopDialog("Amazing heal!", 2f);
-                    } else
+                    }
+                    else
                     {
                         cc.GetHealth(3);
                     }
-                    
+
                 }
                 else
                 {
@@ -268,8 +271,8 @@ public class SpellManager : MonoBehaviour
                 if (terrainStatus.Equals(TerrainStatus.fire))
                 {
                     calderonePrefab.transform.localScale = new Vector3(2, 2, 2);
-                    
-                    AchievementManager.instance.Achive("Cooking Mama!"); 
+
+                    AchievementManager.instance.Achive("Cooking Mama!");
                 }
                 else
                 {
@@ -363,54 +366,11 @@ public class SpellManager : MonoBehaviour
                         AchievementManager.instance.Achive("Sylvanus Blessing");
                     }
 
-                } else
+                }
+                else
                 {
                     GameMan.Instance.PopDialog("I already spawn my child...", 1.5f);
                 }
-
-
-
-
-                /* //OLD SPELL
-                List<PotionScript> tempList = new List<PotionScript>();
-                List<FlowerScript> seedList = new List<FlowerScript>();
-                foreach (PotionScript g in gameManager.levelPotions)
-                {
-                    if (g.potion.effectType.Equals(PotionScriptable.EffectType.wet))
-                    {
-                        GameObject s = Instantiate(seedPrefab, g.gameObject.transform.position, Quaternion.identity);
-                        seedList.Add(s.GetComponent<FlowerScript>());
-                        tempList.Add(g);
-
-                    }
-                }
-
-                PotionScriptable c = tempList[0].potion;
-                foreach (PotionScript p in tempList)
-                {
-                    Debug.Log(p);
-                    gameManager.RemovePotion(p, true);
-                    Destroy(p.gameObject);
-
-                }
-
-
-
-                if (terrainStatus.Equals(TerrainStatus.grass))
-                {
-                    foreach (FlowerScript p in seedList)
-                    {
-                        p.Grow();
-                        cc.GetMagic(1);
-                    }
-
-
-
-                }
-
-                tempList.Clear();
-                seedList.Clear();
-                bloom = false;*/
                 break;
         }
 
@@ -494,7 +454,8 @@ public class SpellManager : MonoBehaviour
 
     }
 
-    public void YetiCastSpell(int level) {
+    public void YetiCastSpell(int level)
+    {
 
         if (cc.currentMagicPoint < yetiSpellCost[level])
         {
@@ -533,9 +494,9 @@ public class SpellManager : MonoBehaviour
                 break;
             case 1:
 
-                
 
-                if(!(cc.currentHP == cc.staringHP))
+
+                if (!(cc.currentHP == cc.staringHP))
                 {
                     cc.LostMagic(yetiSpellCost[level]);
                     if (terrainStatus.Equals(TerrainStatus.ice))
@@ -554,15 +515,16 @@ public class SpellManager : MonoBehaviour
                     cc.mageAnimator.SetInteger("castInt", 2);
                     ChangeSpellText("CONVERT");
 
-                } else
+                }
+                else
                 {
-                    AchievementManager.instance.Achive("Smart but fart!"); 
+                    AchievementManager.instance.Achive("Smart but fart!");
                     GameMan.Instance.PopDialog("FULL", 1f);
-                } 
+                }
 
                 break;
             case 2:
-                
+
                 ChangeSpellText("PUNCH!");
                 cc.mageAnimator.SetTrigger("cast");
                 cc.mageAnimator.SetInteger("castInt", 3);
@@ -578,12 +540,13 @@ public class SpellManager : MonoBehaviour
                 {
                     yetiPunch.SetActive(false);
                     yetiPunch.SetActive(true);
-                } else
+                }
+                else
                 {
                     yetiPunch.SetActive(true);
                 }
 
-                
+
                 break;
         }
     }
@@ -605,6 +568,45 @@ public class SpellManager : MonoBehaviour
 
 
 
+
+
+    public void OnMageMutate(CharacterType c_type)
+    {
+        transformationThisRun++;
+        ClearAreaFx("strange");
+        if (transformationThisRun == 8) { AchievementManager.instance.Achive("Shapeshifter!"); }
+        if (transformationThisRun == 14) { AchievementManager.instance.Achive("Ditto's Follower"); }
+
+        //Update magic cost
+        for (int i = 0; i < SpellButtonsCost.Length; i++)
+        {
+            switch (c_type)
+            {
+                case CharacterType.Mage:
+                    SpellButtonsCost[i].text = mageSpellCost[i].ToString();
+                    terrainStatus = TerrainStatus.none;
+                    break;
+                case CharacterType.Balrog:
+                    SpellButtonsCost[i].text = balrogSpellCost[i].ToString();
+                    GameMan.Instance.mutationCounter++;
+                    break;
+                case CharacterType.Tree:
+                    SpellButtonsCost[i].text = treeSpellCost[i].ToString();
+                    GameMan.Instance.mutationCounter++;
+                    break;
+                case CharacterType.PupperFish:
+                    SpellButtonsCost[i].text = pupperfishSpellCost[i].ToString();
+                    GameMan.Instance.mutationCounter++;
+                    break;
+                case CharacterType.Yeti:
+                    SpellButtonsCost[i].text = yetiSpellCost[i].ToString();
+                    GameMan.Instance.mutationCounter++;
+                    break;
+
+            }
+        }
+        OnManaChange();
+    }
 
 
     public void OnMageMutate(Mutation mut)
@@ -661,7 +663,7 @@ public class SpellManager : MonoBehaviour
                     spellAnimators[i].SetBool("isOpen", mageSpellCost[i] <= cc.currentMagicPoint);
                     spellImages[i].gameObject.SetActive(mageSpellCost[i] <= cc.currentMagicPoint);
                     spellImages[i].sprite = mageSpellSprites[i];
-                    
+
                     break;
                 case Mutation.Balrog:
                     spellAnimators[i].SetBool("isOpen", balrogSpellCost[i] <= cc.currentMagicPoint);

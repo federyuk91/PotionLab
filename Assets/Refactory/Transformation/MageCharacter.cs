@@ -8,6 +8,25 @@ namespace CharacterSystem
 
         public int lightLevel = 0, darkLevel = 0;
 
+        public override void Cast(Spell spell, bool powered)
+        {
+            if (stats.HasMana(spell.cost))
+            {
+                stats.LoseMana(spell.cost);
+                animator.SetTrigger(spell.spellName);
+                switch (spell.spellName) {
+                    case "Light":
+                        break;
+                    case "Heal":
+                        break;
+                    case "Cleanse":
+                        break;
+
+                }
+            }
+        }
+
+
         public override void ApplyFire(PotionScriptable ps)
         {
             if (status.Has(Status.Grounded))

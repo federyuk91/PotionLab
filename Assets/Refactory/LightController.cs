@@ -71,4 +71,13 @@ public class LightController : MonoBehaviour
     {
         if (audioSource.clip != null) audioSource.Play();
     }
+
+    public void StartLight()
+    {
+
+        //lancia l'animazione della magia di luce determinando il livello di intensità stabilito per questo livello
+        animator.SetTrigger("lightOn");
+        animator.SetInteger("lightIntesity", lightIntensity);
+        PlayAudio();
+    }
 }
