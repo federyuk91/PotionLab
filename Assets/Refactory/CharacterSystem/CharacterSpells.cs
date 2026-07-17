@@ -15,8 +15,6 @@ namespace CharacterSystem
         //Immagine sulle pergamene da 0 a 2
         public Text[] spellsCost;
 
-        //Lista degli sprite da applicare alle image, cambia con la mutazione, contiene anche costo e nome della magia che può essere usato come trigger
-        private List<Spell> spellList;
         private TransformationManager transformationManager;
         private CharacterStats characterStats;
         private BaseCharacter Character => TransformationManager.Instance.Current;
@@ -35,25 +33,29 @@ namespace CharacterSystem
             //Apro o chiudo gli spell di diverso livello:
             for (int i = 0; i < 3; i++)
             {
-                spellsAnimator[i].SetBool("isOpen", characterStats.HasMana(spellList[i].cost));
+                spellsAnimator[i].SetBool("isOpen", characterStats.HasMana(Character.spellList[i].cost));
             }
         }
 
         public void OnMageMutate(CharacterType fromType, CharacterType toType)
         {
-            spellList = Character.spellList;
             
             //Aggiorno la UI
             for(int i = 0; i<3; i++)
             {
-                spellsImage[i].sprite = spellList[i].sprite;
-                spellsAnimator[i].SetBool("isOpen", characterStats.HasMana(spellList[i].cost));
+                spellsImage[i].sprite = Character.spellList[i].sprite;
+                spellsAnimator[i].SetBool("isOpen", characterStats.HasMana(Character.spellList[i].cost));
             }
         }
 
         public void OnSpell(int i)
         {
-            Character.Cast(spellList[i], false);
+            Character.Cast(i, IsPowered());
+        }
+
+        private bool IsPowered()
+        {
+            return transformationManager.lightController.IsPoweredFor(Character.GetCharacterForm());
         }
 
     }

@@ -3,6 +3,11 @@ namespace CharacterSystem
 {
     public class LitchCharacter : BaseCharacter
     {
+
+        protected override void CastSpell(int i, bool powered)
+        {
+            throw new System.NotImplementedException();
+        }
         public override void ApplyDark(PotionScriptable ps)
         {
             throw new System.NotImplementedException();

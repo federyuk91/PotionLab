@@ -1,4 +1,4 @@
-﻿
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -122,8 +122,18 @@ namespace CharacterSystem
         public abstract void ApplyPoison(PotionScriptable ps);
         public abstract void ApplyGround(PotionScriptable ps);
 
+        public void Cast(int index, bool powered)
+        {
+            if (spellList == null || index < 0 || index >= spellList.Count)
+            {
+                Debug.LogError($"{name} has no spell at index {index}", this);
+                return;
+            }
 
-        public abstract void Cast(Spell spell, bool powered);
+            CastSpell(index, powered);
+        }
+
+        protected abstract void CastSpell(int index, bool powered);
 
 
         public abstract void OnEnterTransformation();

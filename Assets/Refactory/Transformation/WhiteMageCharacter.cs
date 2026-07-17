@@ -1,24 +1,17 @@
+
 using UnityEngine;
 namespace CharacterSystem
 {
     public class WhiteMageCharacter : BaseCharacter
     {
-        public override void Cast(Spell spell, bool powered)
+        protected override void CastSpell(int i, bool powered)
         {
+            Spell spell = spellList[i];
             if (stats.HasMana(spell.cost))
             {
                 stats.LoseMana(spell.cost);
                 animator.SetTrigger(spell.spellName);
-                switch (spell.spellName)
-                {
-                    case "Light":
-                        break;
-                    case "Heal":
-                        break;
-                    case "Cleanse":
-                        break;
-
-                }
+                throw new System.NotImplementedException();
             }
         }
         public override void ApplyDark(PotionScriptable ps)

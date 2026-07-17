@@ -35,6 +35,14 @@ namespace CharacterSystem
         Algae //Erba su stato bagnato
     }
 
+    public enum LightFieldType
+    {
+        None,
+        Fire,
+        Grass,
+        Water,
+        Ice
+    }
     // Tipi di trasformazione
     [Serializable]
     public enum CharacterType
@@ -44,7 +52,7 @@ namespace CharacterSystem
         Tree, //Acqua su stato erba
         PupperFish, //Veleno su stato bagnato
         Yeti, //Ghiaccio su stato grounded
-        Litch, //3 pozioni oscure consecutive senza luce o morte da oscurit‡
+        Litch, //3 pozioni oscure consecutive senza luce o morte da oscurit√†
         WhiteMage, //3 pozioni di luce consecutive con luce al massimo
         Any
     }

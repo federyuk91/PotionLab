@@ -1,5 +1,4 @@
 
-using UnityEditor.Rendering;
 using UnityEngine;
 namespace CharacterSystem
 {
@@ -7,23 +6,117 @@ namespace CharacterSystem
     {
 
         public int lightLevel = 0, darkLevel = 0;
-
-        public override void Cast(Spell spell, bool powered)
+        protected override void CastSpell(int index, bool powered)
         {
-            if (stats.HasMana(spell.cost))
+            Spell spell = spellList[index];
+            switch (index)
             {
-                stats.LoseMana(spell.cost);
-                animator.SetTrigger(spell.spellName);
-                switch (spell.spellName) {
-                    case "Light":
-                        break;
-                    case "Heal":
-                        break;
-                    case "Cleanse":
-                        break;
-
-                }
+                case 0:
+                    CastLight(spell, powered);
+                    break;
+                case 1:
+                    CastHeal(spell, powered);
+                    break;
+                case 2:
+                    CastCleanse(spell, powered);
+                    break;
+                default:
+                    Debug.LogError($"{name} has no Mage spell behaviour for index {index}", this);
+                    break;
             }
+        }
+
+        private void CastLight(Spell spell, bool powered)
+        {
+            if (powered)
+            {
+                GameMan.Instance.PopDialog("maximum lumen", 2f);
+                return;
+            }
+
+            if (!stats.HasMana(spell.cost))
+            {
+                GameMan.Instance.PopDialog("I need more magic for this spell", 3f);
+                return;
+            }
+
+            stats.LoseMana(spell.cost);
+            animator.SetTrigger("cast");
+            animator.SetInteger("castInt", 1);
+
+            transformationManager.lightController.IncreaseLightLevel();
+        }
+
+        private void CastHeal(Spell spell, bool powered)
+        {
+            if (stats.HP >= stats.MaxHP)
+            {
+                GameMan.Instance.PopDialog("No need for this now!", 2f);
+                return;
+            }
+
+            if (!stats.HasMana(spell.cost))
+            {
+                GameMan.Instance.PopDialog("I need more magic for this spell", 3f);
+                return;
+            }
+
+            stats.LoseMana(spell.cost);
+            animator.SetTrigger("cast");
+            animator.SetInteger("castInt", 2);
+
+            if (powered)
+            {
+                stats.Heal(4);
+                GameMan.Instance.PopDialog("Amazing heal!", 2f);
+            }
+            else
+            {
+                stats.Heal(3);
+            }
+        }
+
+        private void CastCleanse(Spell spell, bool powered)
+        {
+            if (!HasCleanseableStatus())
+            {
+                GameMan.Instance.PopDialog("No base status to remove!", 2f);
+                return;
+            }
+
+            if (!stats.HasMana(spell.cost))
+            {
+                GameMan.Instance.PopDialog("I need more magic for this spell", 3f);
+                return;
+            }
+
+            stats.LoseMana(spell.cost);
+
+            status.Remove(Status.Burned);
+            status.Remove(Status.Grass);
+            status.Remove(Status.Wet);
+            status.Remove(Status.Freezed);
+            status.Remove(Status.Poisoned);
+            status.Remove(Status.Grounded);
+
+            if (powered)
+            {
+                GameMan.Instance.PopDialog("A bit of health too!", 2f);
+                stats.Heal(1);
+            }
+
+            animator.SetTrigger("cast");
+            animator.SetInteger("castInt", 3);
+        }
+
+        private bool HasCleanseableStatus()
+        {
+            return status.Has(Status.Grass)
+                || status.Has(Status.Wet)
+                || status.Has(Status.Burned)
+                || status.Has(Status.Freezed)
+                || status.Has(Status.Poisoned)
+                || status.Has(Status.Grounded);
         }
 
 
@@ -80,7 +173,7 @@ namespace CharacterSystem
             //Altrimenti inizio a bruciare
             status.Increase(Status.Burned);
         }
-        /***** TRASFORMAZIONE ***** Il ghiaccio transforma in Yeti se si è grounded */
+        /***** TRASFORMAZIONE ***** Il ghiaccio transforma in Yeti se si Ã¨ grounded */
         public override void ApplyIce(PotionScriptable ps)
         {
             //Se sto bruciando, divento bagnato
@@ -123,7 +216,7 @@ namespace CharacterSystem
         {
             if (status.Has(Status.Freezed) || status.Has(Status.Algae) || status.Has(Status.Poisoned))
             {
-                //Il mago è immune all'erba in questi stati
+                //Il mago Ã¨ immune all'erba in questi stati
                 status.TriggerImmunity();
                 return;
             }
@@ -189,7 +282,7 @@ namespace CharacterSystem
             stats.Heal(ps.baseValue);
         }
 
-        /***** TRASFORMAZIONE ***** Il fuoco transforma in Balrog se si è burned */
+        /***** TRASFORMAZIONE ***** Il fuoco transforma in Balrog se si Ã¨ burned */
         public override void ApplyLava(PotionScriptable ps)
         {
             animator.SetTrigger("lavaDrunked");
@@ -235,7 +328,7 @@ namespace CharacterSystem
         }
 
 
-        /***** TRASFORMAZIONE ***** Il veleno transforma in Pesce se si è bagnati */
+        /***** TRASFORMAZIONE ***** Il veleno transforma in Pesce se si Ã¨ bagnati */
         public override void ApplyPoison(PotionScriptable ps)
         {
             //L'erba neutralizza il veleno e viene rimossa
@@ -387,7 +480,7 @@ namespace CharacterSystem
         {
             animator.SetTrigger("isDamaged");
             if (status.Has(Status.Grounded))
-                stats.TakeDamage(1); //Se è interrato prende meno danni da veleno, ma non diminuisce il livello
+                stats.TakeDamage(1); //Se Ã¨ interrato prende meno danni da veleno, ma non diminuisce il livello
             else
             {
                 stats.TakeDamage(status.poisonLevel);
@@ -418,7 +511,7 @@ namespace CharacterSystem
         public override float GetPoisonTickDelay()
         {
             if (status.Has(Status.Freezed))
-                return Mathf.Infinity; //Se è congelato o interrato non prende danni da veleno
+                return Mathf.Infinity; //Se Ã¨ congelato o interrato non prende danni da veleno
 
             return 4.0f;
         }
@@ -426,7 +519,7 @@ namespace CharacterSystem
         public override float GetGroundTickDelay()
         {
             if (status.groundLevel < 3)
-                return Mathf.Infinity; //Se è interrato a livello 0,1 o 2 non prende danni da terra
+                return Mathf.Infinity; //Se Ã¨ interrato a livello 0,1 o 2 non prende danni da terra
             return 5f;
         }
 

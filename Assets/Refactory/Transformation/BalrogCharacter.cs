@@ -3,7 +3,93 @@ namespace CharacterSystem
 {
     public class BalrogCharacter : BaseCharacter
     {
+        [Header("Spell References")]
+        [SerializeField] private GameObject calderoneObject;
 
+        protected override void CastSpell(int i, bool powered)
+        {
+            Spell spell = spellList[i];
+
+            switch (i)
+            {
+                case 0:
+                    CastFireZone(spell);
+                    break;
+                case 1:
+                    CastBalance(spell, powered);
+                    break;
+                case 2:
+                    CastCalderone(spell, powered);
+                    break;
+                default:
+                    Debug.LogError($"{name} has no Balrog spell behaviour for index {i}", this);
+                    break;
+            }
+        }
+
+        private void CastFireZone(Spell spell)
+        {
+            if (!TrySpendMana(spell, "Ohoh, not enough magic!"))
+            {
+                return;
+            }
+
+            transformationManager.lightController.ToggleLightField(LightFieldType.Fire);
+
+            if (transformationManager.lightController.IsLightFieldActive(LightFieldType.Fire))
+            {
+                GameMan.Instance.PopDialog("Burn baby burn! Disco INFERNO!", 2f);
+            }
+            else
+            {
+                GameMan.Instance.PopDialog("Goodbye heat ):", 2f);
+            }
+        }
+
+        private void CastBalance(Spell spell, bool powered)
+        {
+            if (!TrySpendMana(spell, "Ohoh, not enough magic!"))
+            {
+                return;
+            }
+
+            stats.TakeDamage(3);
+            stats.AddMana(powered ? 2 : 1);
+        }
+
+        private void CastCalderone(Spell spell, bool powered)
+        {
+            if (!TrySpendMana(spell, "Ohoh, not enough magic!"))
+            {
+                return;
+            }
+
+            if (calderoneObject == null)
+            {
+                Debug.LogWarning($"{name} has no calderone object assigned.", this);
+                return;
+            }
+
+            calderoneObject.SetActive(true);
+            calderoneObject.transform.localScale = powered ? new Vector3(2f, 2f, 2f) : Vector3.one;
+
+            if (powered)
+            {
+                AchievementManager.instance.Achive("Cooking Mama!");
+            }
+        }
+
+        private bool TrySpendMana(Spell spell, string notEnoughManaDialog)
+        {
+            if (!stats.HasMana(spell.cost))
+            {
+                GameMan.Instance.PopDialog(notEnoughManaDialog, 3f);
+                return false;
+            }
+
+            stats.LoseMana(spell.cost);
+            return true;
+        }
         public override void ApplyDark(PotionScriptable ps)
         {
             stats.AddMana(2);

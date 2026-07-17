@@ -3,6 +3,142 @@ namespace CharacterSystem
 {
     public class TreeCharacter : BaseCharacter
     {
+        [Header("Spell References")]
+        [SerializeField] private GameObject treeShieldObject;
+        [SerializeField] private GameObject overgrowthObject;
+
+        private bool hasTreeShield;
+        private bool hasOvergrowth;
+
+        protected override void CastSpell(int i, bool powered)
+        {
+            Spell spell = spellList[i];
+
+            switch (i)
+            {
+                case 0:
+                    CastGrassZone(spell);
+                    break;
+                case 1:
+                    CastTreeBark(spell, powered);
+                    break;
+                case 2:
+                    CastOvergrowth(spell, powered);
+                    break;
+                default:
+                    Debug.LogError($"{name} has no Tree spell behaviour for index {i}", this);
+                    break;
+            }
+        }
+
+        private void CastGrassZone(Spell spell)
+        {
+            if (!TrySpendMana(spell, "Ohoh, not enough magic!"))
+            {
+                return;
+            }
+
+            transformationManager.lightController.ToggleLightField(LightFieldType.Grass);
+
+            if (transformationManager.lightController.IsLightFieldActive(LightFieldType.Grass))
+            {
+                GameMan.Instance.PopDialog("Grass everywhere!", 2f);
+            }
+            else
+            {
+                GameMan.Instance.PopDialog("Goodbye grassss!", 2f);
+            }
+        }
+
+        private void CastTreeBark(Spell spell, bool powered)
+        {
+            if (hasTreeShield)
+            {
+                GameMan.Instance.PopDialog("I already have shield", 3f);
+                return;
+            }
+
+            if (status.Has(Status.Burned))
+            {
+                GameMan.Instance.PopDialog("Barks can't form any shield with flames", 3f);
+                AchievementManager.instance.Achive("Exotic Interaction");
+                return;
+            }
+
+            if (!TrySpendMana(spell, "Ohoh, not enough magic!"))
+            {
+                return;
+            }
+
+            hasTreeShield = true;
+            SetTreeShieldActive(true);
+
+            if (powered)
+            {
+                stats.Heal(2);
+            }
+        }
+
+        private void CastOvergrowth(Spell spell, bool powered)
+        {
+            if (hasOvergrowth)
+            {
+                GameMan.Instance.PopDialog("I already spawn my child...", 1.5f);
+                return;
+            }
+
+            if (!TrySpendMana(spell, "Ohoh, not enough magic!"))
+            {
+                return;
+            }
+
+            hasOvergrowth = true;
+
+            if (overgrowthObject == null)
+            {
+                Debug.LogWarning($"{name} has no overgrowth object assigned.", this);
+                return;
+            }
+
+            overgrowthObject.SetActive(true);
+
+            if (powered && overgrowthObject.TryGetComponent(out FlowerScript flower))
+            {
+                flower.Grow();
+                AchievementManager.instance.Achive("Sylvanus Blessing");
+            }
+        }
+
+        private bool TrySpendMana(Spell spell, string notEnoughManaDialog)
+        {
+            if (!stats.HasMana(spell.cost))
+            {
+                GameMan.Instance.PopDialog(notEnoughManaDialog, 3f);
+                return false;
+            }
+
+            stats.LoseMana(spell.cost);
+            return true;
+        }
+
+        private void BreakTreeShield(string dialog)
+        {
+            hasTreeShield = false;
+            SetTreeShieldActive(false);
+            GameMan.Instance.PopDialog(dialog, 3f);
+        }
+
+        private void SetTreeShieldActive(bool active)
+        {
+            if (treeShieldObject == null)
+            {
+                Debug.LogWarning($"{name} has no tree shield object assigned.", this);
+                return;
+            }
+
+            treeShieldObject.SetActive(active);
+        }
+
         public override void ApplyDark(PotionScriptable ps)
         {
             status.TriggerImmunity();
@@ -10,6 +146,12 @@ namespace CharacterSystem
 
         public override void ApplyFire(PotionScriptable ps)
         {
+            if (hasTreeShield)
+            {
+                BreakTreeShield("Tree's bark burn away");
+                return;
+            }
+
             if(status.Has(Status.Grounded))
             {             
                 status.TriggerImmunity();
@@ -20,6 +162,12 @@ namespace CharacterSystem
 
         public override void ApplyIce(PotionScriptable ps)
         {
+            if (hasTreeShield)
+            {
+                BreakTreeShield("Tree's bark freeze away");
+                return;
+            }
+
             if (status.Has(Status.Burned))
             {
                 status.Remove(Status.Burned);
@@ -53,6 +201,12 @@ namespace CharacterSystem
 
         public override void ApplyLava(PotionScriptable ps)
         {
+            if (hasTreeShield)
+            {
+                BreakTreeShield("Tree's bark fade away");
+                return;
+            }
+
             if (status.Has(Status.Grounded))
             {
                 status.Remove(Status.Grounded);
@@ -144,5 +298,6 @@ namespace CharacterSystem
         {
             Debug.Log("Exiting Tree form. Returning to mage form");
         }
+
     }
 }

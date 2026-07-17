@@ -3,6 +3,96 @@ namespace CharacterSystem
 {
     public class YetiCharacter : BaseCharacter
     {
+        [Header("Spell References")]
+        [SerializeField] private GameObject punchObject;
+
+        protected override void CastSpell(int i, bool powered)
+        {
+            Spell spell = spellList[i];
+
+            switch (i)
+            {
+                case 0:
+                    CastIceZone(spell);
+                    break;
+                case 1:
+                    CastConvert(spell, powered);
+                    break;
+                case 2:
+                    CastPunch(spell, powered);
+                    break;
+                default:
+                    Debug.LogError($"{name} has no Yeti spell behaviour for index {i}", this);
+                    break;
+            }
+        }
+
+        private void CastIceZone(Spell spell)
+        {
+            if (!TrySpendMana(spell, "eh?"))
+            {
+                return;
+            }
+
+            transformationManager.lightController.ToggleLightField(LightFieldType.Ice);
+
+            if (transformationManager.lightController.IsLightFieldActive(LightFieldType.Ice))
+            {
+                GameMan.Instance.PopDialog("Dance Move!", 2f);
+            }
+            else
+            {
+                GameMan.Instance.PopDialog("nooooooo", 2f);
+            }
+        }
+
+        private void CastConvert(Spell spell, bool powered)
+        {
+            if (stats.HP >= stats.MaxHP)
+            {
+                AchievementManager.instance.Achive("Smart but fart!");
+                GameMan.Instance.PopDialog("FULL", 1f);
+                return;
+            }
+
+            if (!TrySpendMana(spell, "eh?"))
+            {
+                return;
+            }
+
+            stats.Heal(powered ? 4 : 3);
+        }
+
+        private void CastPunch(Spell spell, bool powered)
+        {
+            if (!TrySpendMana(spell, "eh?"))
+            {
+                return;
+            }
+
+            stats.TakeDamage(powered ? 1 : 2);
+
+            if (punchObject == null)
+            {
+                Debug.LogWarning($"{name} has no punch object assigned.", this);
+                return;
+            }
+
+            punchObject.SetActive(false);
+            punchObject.SetActive(true);
+        }
+
+        private bool TrySpendMana(Spell spell, string notEnoughManaDialog)
+        {
+            if (!stats.HasMana(spell.cost))
+            {
+                GameMan.Instance.PopDialog(notEnoughManaDialog, 1f);
+                return false;
+            }
+
+            stats.LoseMana(spell.cost);
+            return true;
+        }
         public override void OnEnable()
         {
             base.OnEnable();
@@ -129,7 +219,7 @@ namespace CharacterSystem
         {
             animator.SetTrigger("isDamaged");
             if (status.Has(Status.Grounded))
-                stats.TakeDamage(1); //Se è interrato prende 1 danno da veleno, utile per annullare la trasformazione ma non ridusce il poisonLevel
+                stats.TakeDamage(1); //Se Ã¨ interrato prende 1 danno da veleno, utile per annullare la trasformazione ma non ridusce il poisonLevel
             else
             {
                 stats.TakeDamage(1);
