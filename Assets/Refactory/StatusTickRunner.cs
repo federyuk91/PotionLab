@@ -88,7 +88,7 @@ public class StatusTickRunner : MonoBehaviour
         if (iceTimer >= character.GetIceTickDelay())
         {
             iceTimer = 0f;
-            character.GroundTick();
+            character.IceTick();
         }
     }
 }

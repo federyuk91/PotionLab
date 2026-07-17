@@ -25,25 +25,52 @@ namespace CharacterSystem
             characterStats = GetComponent<CharacterStats>();
             characterStats.OnManaDown += OnManaChange;
             characterStats.OnManaUp += OnManaChange;
-            transformationManager.OnTransformation += OnMageMutate;
+            transformationManager.OnTransformation += OnTransformation;
+        }
+
+        private void Start()
+        {
+            RefreshSpellUI();
+        }
+
+        private void OnDestroy()
+        {
+            if (characterStats != null)
+            {
+                characterStats.OnManaDown -= OnManaChange;
+                characterStats.OnManaUp -= OnManaChange;
+            }
+
+            if (transformationManager != null)
+            {
+                transformationManager.OnTransformation -= OnTransformation;
+            }
         }
 
         public void OnManaChange()
         {
-            //Apro o chiudo gli spell di diverso livello:
-            for (int i = 0; i < 3; i++)
-            {
-                spellsAnimator[i].SetBool("isOpen", characterStats.HasMana(Character.spellList[i].cost));
-            }
+            RefreshSpellAvailability();
         }
 
-        public void OnMageMutate(CharacterType fromType, CharacterType toType)
+        private void OnTransformation(CharacterType fromType, CharacterType toType)
         {
-            
-            //Aggiorno la UI
-            for(int i = 0; i<3; i++)
+            RefreshSpellUI();
+        }
+
+        private void RefreshSpellUI()
+        {
+            for (int i = 0; i < 3; i++)
             {
                 spellsImage[i].sprite = Character.spellList[i].sprite;
+            }
+
+            RefreshSpellAvailability();
+        }
+
+        private void RefreshSpellAvailability()
+        {
+            for (int i = 0; i < 3; i++)
+            {
                 spellsAnimator[i].SetBool("isOpen", characterStats.HasMana(Character.spellList[i].cost));
             }
         }

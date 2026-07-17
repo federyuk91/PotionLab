@@ -6,7 +6,6 @@ namespace CharacterSystem
 {
     public class TransformationManager : MonoBehaviour
     {
-        private SpellManager spellManager;
         public LightController lightController;
         private DialogManager dialogManager;
         public static TransformationManager Instance;
@@ -25,7 +24,6 @@ namespace CharacterSystem
 
         private void Awake()
         {
-            spellManager = FindFirstObjectByType<SpellManager>();
             if (Instance != null && Instance != this)
             {
                 Destroy(this.gameObject);
@@ -48,7 +46,7 @@ namespace CharacterSystem
                 CharacterType type = character.GetCharacterForm();
                 characters[type] = character;
 
-                // Disattiva tutto all’avvio
+                // Disattiva tutto all'avvio
                 behaviour.gameObject.SetActive(false);
             }
 
@@ -73,7 +71,6 @@ namespace CharacterSystem
                 nextMb.gameObject.SetActive(true);
 
             lightController.ChangeLightColor(type);
-            spellManager.OnMageMutate(type);
             OnTransformation?.Invoke(previousForm, type);
         }
     }

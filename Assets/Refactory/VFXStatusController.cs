@@ -47,7 +47,7 @@ public class VFXStatusController : MonoBehaviour
         stats.OnHealtUp += OnHeal;
         stats.OnManaUp += OnMana;
 
-        RefreshVFX(); // sicurezza all’avvio
+        RefreshVFX(); // sicurezza all'avvio
     }
 
     // ---------------- STATUS ----------------
@@ -105,7 +105,7 @@ public class VFXStatusController : MonoBehaviour
         wetVFX.SetActive(wet);
         grassVFX.SetActive(grass);
         algaeVFX.SetActive(algae);
-        //La disattivazione di grounded e freezed avviene tramite animazioni per permettere l’effetto di scioglimento/lava
+        // La disattivazione di grounded e freezed avviene tramite animazioni per permettere l'effetto di scioglimento/lava
         if (grounded)
             groundedVFX.SetActive(grounded);
         if (freezed)
@@ -169,7 +169,7 @@ public class VFXStatusController : MonoBehaviour
         if (statusController == null) return;
 
         statusController.StatusAdded -= OnStatudsAdded;
-        statusController.StatusRemoved -= OnStatudsAdded;
+        statusController.StatusRemoved -= OnStatudsRemoved;
         statusController.StatusLevelChanged -= OnStatusLevelChange;
         statusController.OnImmunity -= OnStatusImmunity;
         statusController.OnExplosion -= OnExplosion;
