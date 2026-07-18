@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    private static readonly int DieParameter = Animator.StringToHash("Die");
+
     public static GameManager Instance { get; private set; }
     public static int currentLevel = 0;
 
-    public BaseCharacter Character => TransformationManager.Instance.Current;
+    public BaseCharacter Character => TransformationManager.Instance != null ? TransformationManager.Instance.Current : null;
     public bool IsPuzzleMode => isPuzzleMode;
 
     [Header("Compiled from code")]
@@ -20,10 +23,13 @@ public class GameManager : MonoBehaviour
     public GameObject spellBar;
     public LightController lightController;
     [SerializeField] private DialogManager dialogManager;
+    [SerializeField] private GameObject deathPanel;
+    [SerializeField] private Text deathText;
     [SerializeField] private bool isPuzzleMode = true;
 
     public int potionDrunked = 0, spawnedPotion = 0;
     public int dieCounter = 0, mutationCounter = 0;
+    private bool deathHandled;
 
     private void Awake()
     {
@@ -46,6 +52,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 1;
+        SubscribeToCharacterDeath();
+    }
+
+    private void OnDestroy()
+    {
+        UnsubscribeFromCharacterDeath();
     }
 
     // Puzzle mode uses the potions and droppables already placed in the level.
@@ -218,16 +230,46 @@ public class GameManager : MonoBehaviour
 
     public void OnCharacterDie(string deathDialog)
     {
+        if (deathHandled)
+        {
+            return;
+        }
+
+        deathHandled = true;
         dieCounter++;
         Debug.Log("Char DIE");
-        Character.stats.HP = 0;
 
-        dialogManager.PopDialog(deathDialog, 3f);
+        BaseCharacter character = Character;
+        if (character != null && character.stats != null && character.stats.HP > 0)
+        {
+            character.stats.SetHP(0);
+        }
+
+        TriggerDeathAnimation();
+        ShowDeathPanel(deathDialog);
+
+        if (spellBar != null)
+        {
+            spellBar.SetActive(false);
+        }
+
+        if (DataSaver.instance != null)
+        {
+            DataSaver.instance.UpdateStats(1, potionDrunked, mutationCounter);
+        }
 
         // Remaining potions must stop interacting after death.
+        if (levelPotions == null)
+        {
+            return;
+        }
+
         foreach (PotionScript potion in levelPotions)
         {
-            potion.gameObject.SetActive(false);
+            if (potion != null)
+            {
+                potion.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -250,5 +292,79 @@ public class GameManager : MonoBehaviour
     public void TryAgain()
     {
         SceneManager.LoadScene(currentLevel);
+    }
+
+    private void SubscribeToCharacterDeath()
+    {
+        if (Character == null || Character.stats == null)
+        {
+            Debug.LogError("GameManager cannot subscribe to character death: CharacterStats reference is missing.", this);
+            return;
+        }
+
+        Character.stats.OnDeath += HandleCharacterDeath;
+    }
+
+    private void UnsubscribeFromCharacterDeath()
+    {
+        if (TransformationManager.Instance == null || Character == null || Character.stats == null)
+        {
+            return;
+        }
+
+        Character.stats.OnDeath -= HandleCharacterDeath;
+    }
+
+    private void HandleCharacterDeath()
+    {
+        OnCharacterDie(GetDeathDialog(Character.GetCharacterForm()));
+    }
+
+    private string GetDeathDialog(CharacterType characterType)
+    {
+        switch (characterType)
+        {
+            case CharacterType.Tree:
+                return "...you will remain ash throught time...";
+            case CharacterType.Balrog:
+                return "...back from where i belong...";
+            case CharacterType.PupperFish:
+                return "...the sea takes back what is its own...";
+            case CharacterType.Yeti:
+                return "...mountains call me back...";
+            default:
+                return "...the last goodnight potion is unforgettable...";
+        }
+    }
+
+    private void TriggerDeathAnimation()
+    {
+        if (Character == null || Character.animator == null)
+        {
+            return;
+        }
+
+        Character.animator.SetBool(DieParameter, true);
+    }
+
+    private void ShowDeathPanel(string deathDialog)
+    {
+        if (dialogManager != null)
+        {
+            dialogManager.CloseDialog();
+        }
+
+        if (deathPanel == null)
+        {
+            Debug.LogWarning("GameManager cannot show retry UI: deathPanel reference is missing.", this);
+            return;
+        }
+
+        deathPanel.SetActive(true);
+
+        if (deathText != null)
+        {
+            deathText.text = deathDialog;
+        }
     }
 }

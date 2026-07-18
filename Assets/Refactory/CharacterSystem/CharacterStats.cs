@@ -21,6 +21,9 @@ namespace CharacterSystem
 
 
         public event Action OnHealtUp, OnHealtDown, OnManaUp, OnManaDown;
+        public event Action OnDeath;
+
+        private bool deathNotified;
 
         public void TakeDamage(int value)
         {
@@ -69,9 +72,22 @@ namespace CharacterSystem
 
         private void ModifyHP(int delta)
         {
+            int previousHP = HP;
             HP = Mathf.Clamp(HP + delta, 0, MaxHP);
             healtFiller.fillAmount = (float)HP / MaxHP;
             hpText.text = HP.ToString();
+
+            if (HP > 0)
+            {
+                deathNotified = false;
+                return;
+            }
+
+            if (previousHP > 0 && !deathNotified)
+            {
+                deathNotified = true;
+                OnDeath?.Invoke();
+            }
         }
 
         private void ModifyMP(int delta)

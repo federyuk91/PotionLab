@@ -141,6 +141,7 @@ namespace CharacterSystem
 
         public override void ApplyLight(PotionScriptable ps)
         {
+            //Alla fine dell'animazione di trasformazione, il balrog ritorna alla forma del mago con un animation event.
             animator.SetTrigger("ReturnMage");
         }
 

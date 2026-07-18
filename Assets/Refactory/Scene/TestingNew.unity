@@ -48776,13 +48776,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1398186236}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d11bc74806ef8c74783d0f483c7c4ab4, type: 3}
+  m_Script: {fileID: 11500000, guid: e5e87b3bd2094c879473caf49f40dcbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sentenceForPotion: BLOOOOB!
-  burst: 0
+  dialogOnPotionDestroyed: BLOOOOB!
+  playBurstAnimation: 0
   animator: {fileID: 0}
   audioSource: {fileID: 1398186238}
+  gameManager: {fileID: 1930363838}
+  dialogManager: {fileID: 1215253487}
+  lightController: {fileID: 340449490}
+  countLightPotionsForAchievement: 1
+  lightPotionsForAchievement: 5
+  lightPotionAchievementName: Mana BURN!
+  increaseLightAfterNonLightPotions: 1
+  nonLightPotionsBeforeLightIncrease: 5
 --- !u!114 &1398186241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68159,13 +68167,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1779480972}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d11bc74806ef8c74783d0f483c7c4ab4, type: 3}
+  m_Script: {fileID: 11500000, guid: e5e87b3bd2094c879473caf49f40dcbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sentenceForPotion: BURN!
-  burst: 0
+  dialogOnPotionDestroyed: BURN!
+  playBurstAnimation: 0
   animator: {fileID: 1779480978}
   audioSource: {fileID: 1779480974}
+  gameManager: {fileID: 1930363838}
+  dialogManager: {fileID: 1215253487}
+  lightController: {fileID: 340449490}
+  countLightPotionsForAchievement: 1
+  lightPotionsForAchievement: 5
+  lightPotionAchievementName: Mana BURN!
+  increaseLightAfterNonLightPotions: 1
+  nonLightPotionsBeforeLightIncrease: 5
 --- !u!61 &1779480976
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -78744,6 +78760,8 @@ MonoBehaviour:
   spellBar: {fileID: 1960752204496933283}
   lightController: {fileID: 340449490}
   dialogManager: {fileID: 1215253487}
+  deathPanel: {fileID: 7943069551962130518}
+  deathText: {fileID: 7943069551303232881}
   isPuzzleMode: 0
   potionDrunked: 0
   spawnedPotion: 0
