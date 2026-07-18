@@ -9,6 +9,7 @@ namespace CharacterSystem
 
         private bool hasTreeShield;
         private bool hasOvergrowth;
+        private FlowerScript overgrowthFlower;
 
         protected override bool CastSpell(int i, bool powered)
         {
@@ -101,15 +102,37 @@ namespace CharacterSystem
                 return true;
             }
 
+            if (!overgrowthObject.TryGetComponent(out overgrowthFlower))
+            {
+                Debug.LogWarning($"{name} overgrowth object has no FlowerScript assigned.", this);
+                overgrowthObject.SetActive(true);
+                return true;
+            }
+
+            overgrowthFlower.Destroyed -= OnOvergrowthDestroyed;
+            overgrowthFlower.Destroyed += OnOvergrowthDestroyed;
+            overgrowthFlower.ResetFlower();
             overgrowthObject.SetActive(true);
 
-            if (powered && overgrowthObject.TryGetComponent(out FlowerScript flower))
+            if (powered)
             {
-                flower.Grow();
+                overgrowthFlower.Grow();
                 AchievementManager.instance.Achive("Sylvanus Blessing");
             }
 
             return true;
+        }
+
+        private void OnOvergrowthDestroyed(FlowerScript flower)
+        {
+            if (flower != overgrowthFlower)
+            {
+                return;
+            }
+
+            hasOvergrowth = false;
+            overgrowthFlower.Destroyed -= OnOvergrowthDestroyed;
+            overgrowthFlower = null;
         }
 
         private bool TrySpendMana(Spell spell, string notEnoughManaDialog)
@@ -300,6 +323,14 @@ namespace CharacterSystem
         public override void OnExitTransformation()
         {
             Debug.Log("Exiting Tree form. Returning to mage form");
+        }
+
+        private void OnDestroy()
+        {
+            if (overgrowthFlower != null)
+            {
+                overgrowthFlower.Destroyed -= OnOvergrowthDestroyed;
+            }
         }
 
     }
