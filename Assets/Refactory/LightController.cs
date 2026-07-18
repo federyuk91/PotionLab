@@ -1,9 +1,13 @@
 using CharacterSystem;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public class LightController : MonoBehaviour
 {
+    private const int MinLightIntensity = 0;
+    private const int MaxLightIntensity = 3;
+
     public Color Mage, Balrog, Tree, Yeti, Pupperfish, Litch, WhiteMage;
     [Header("Light Fields")]
     [SerializeField] private GameObject fireField;
@@ -11,9 +15,18 @@ public class LightController : MonoBehaviour
     [SerializeField] private GameObject waterField;
     [SerializeField] private GameObject iceField;
 
+    [Header("Procedural Light Decay")]
+    [SerializeField] private Image lightTimerBar;
+    [SerializeField] private float lightDecayInterval = 43f;
+
+    [Header("Light Level")]
+    [SerializeField, Range(MinLightIntensity, MaxLightIntensity)] private int startingLightIntensity = 1;
+    [SerializeField] private Text lightLevelText;
+
     private AudioSource audioSource;
     private Animator animator;
     private Light2D light2D;
+    private float lightDecayTimer = 0f;
     [SerializeField] private LightFieldType currentLightField = LightFieldType.None;
 
     public int lightIntensity = 0;
@@ -24,9 +37,29 @@ public class LightController : MonoBehaviour
         animator = GetComponent<Animator>();
         light2D = GetComponent<Light2D>();
         audioSource = GetComponent<AudioSource>();
+        SetLightLevel(startingLightIntensity, false, false, false);
         RefreshLightFields();
 
     }
+
+    private void Update()
+    {
+        if (!ShouldDecayLight())
+        {
+            return;
+        }
+
+        lightDecayTimer += Time.deltaTime;
+
+        if (lightDecayTimer >= lightDecayInterval)
+        {
+            DecreaseLightLevel();
+            ResetLightDecayTimer();
+        }
+
+        RefreshLightTimerBar();
+    }
+
     public void ChangeLightColor(Color c)
     {
         light2D.color = c;
@@ -94,7 +127,7 @@ public class LightController : MonoBehaviour
         switch (characterType)
         {
             case CharacterType.Mage:
-                return lightIntensity == 3;
+                return lightIntensity == MaxLightIntensity;
             case CharacterType.Balrog:
                 return IsLightFieldActive(LightFieldType.Fire);
             case CharacterType.Tree:
@@ -128,19 +161,97 @@ public class LightController : MonoBehaviour
     }
     public void IncreaseLightLevel()
     {
-        if (lightIntensity < 3)
+        if (lightIntensity < MaxLightIntensity)
         {
-            lightIntensity++;
-            //CompileUILevel();
-            animator.SetTrigger("lightOn");
-            animator.SetInteger("lightIntesity", lightIntensity);
-            PlayAudio();
-        }
-        if (GameMan.Instance.isProceduralMode)
-        {
-            GameMan.Instance.spawnerManager.timer = 0;
+            SetLightLevel(lightIntensity + 1, true, true, true);
         }
 
+        if (ShouldDecayLight())
+        {
+            ResetLightDecayTimer();
+        }
+
+    }
+
+    public void DecreaseLightLevel()
+    {
+        SetLightLevel(lightIntensity - 1, false, true, true);
+    }
+
+    public void SetLightLevel(int intensity)
+    {
+        SetLightLevel(intensity, false, true, true);
+    }
+
+    private void SetLightLevel(int intensity, bool triggerLightOn, bool triggerAnimation, bool playAudio)
+    {
+        lightIntensity = Mathf.Clamp(intensity, MinLightIntensity, MaxLightIntensity);
+
+        if (triggerAnimation && triggerLightOn)
+        {
+            animator.SetTrigger("lightOn");
+        }
+        else if (triggerAnimation)
+        {
+            animator.SetTrigger("lightAdvance");
+        }
+
+        animator.SetInteger("lightIntesity", lightIntensity);
+        RefreshLightLevelText();
+
+        if (playAudio)
+        {
+            PlayAudio();
+        }
+    }
+
+    private bool ShouldDecayLight()
+    {
+        return GameManager.Instance != null && !GameManager.Instance.IsPuzzleMode;
+    }
+
+    private void ResetLightDecayTimer()
+    {
+        lightDecayTimer = 0f;
+        RefreshLightTimerBar();
+    }
+
+    private void RefreshLightTimerBar()
+    {
+        if (lightTimerBar == null || lightDecayInterval <= 0f)
+        {
+            return;
+        }
+
+        lightTimerBar.fillAmount = lightDecayTimer / lightDecayInterval;
+    }
+
+    private void RefreshLightLevelText()
+    {
+        if (lightLevelText == null)
+        {
+            return;
+        }
+
+        switch (lightIntensity)
+        {
+            case 0:
+                lightLevelText.text = "No Magic Power";
+                lightLevelText.color = Color.red;
+                break;
+            case 1:
+                lightLevelText.text = "Low Magic Power";
+                lightLevelText.color = Color.green;
+                break;
+            case 2:
+                lightLevelText.text = "Medium Magic Power";
+                lightLevelText.color = Color.blue;
+                break;
+            case 3:
+                lightLevelText.text = "High Magic Power";
+                lightLevelText.color = Color.yellow;
+                break;
+        }
     }
 
     public void PlayAudio()

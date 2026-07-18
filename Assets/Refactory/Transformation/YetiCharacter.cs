@@ -35,11 +35,11 @@ namespace CharacterSystem
 
             if (transformationManager.lightController.IsLightFieldActive(LightFieldType.Ice))
             {
-                GameMan.Instance.PopDialog("Dance Move!", 2f);
+                dialogManager.PopDialog("Dance Move!", 2f);
             }
             else
             {
-                GameMan.Instance.PopDialog("nooooooo", 2f);
+                dialogManager.PopDialog("nooooooo", 2f);
             }
 
             return true;
@@ -50,7 +50,7 @@ namespace CharacterSystem
             if (stats.HP >= stats.MaxHP)
             {
                 AchievementManager.instance.Achive("Smart but fart!");
-                GameMan.Instance.PopDialog("FULL", 1f);
+                dialogManager.PopDialog("FULL", 1f);
                 return false;
             }
 
@@ -87,7 +87,7 @@ namespace CharacterSystem
         {
             if (!stats.HasMana(spell.cost))
             {
-                GameMan.Instance.PopDialog(notEnoughManaDialog, 1f);
+                dialogManager.PopDialog(notEnoughManaDialog, 1f);
                 return false;
             }
 

@@ -1,4 +1,5 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FlowerScript : MonoBehaviour
@@ -7,21 +8,6 @@ public class FlowerScript : MonoBehaviour
     public Animator animator;
     public int status = 0;
     public AudioSource audioSource;
-    public event Action<FlowerScript> Destroyed;
-
-    private void OnEnable()
-    {
-        ResetFlower();
-    }
-
-    public void ResetFlower()
-    {
-        status = 0;
-        if (animator != null)
-        {
-            animator.SetInteger("status", status);
-        }
-    }
 
     public void Grow()
     {
@@ -86,7 +72,6 @@ public class FlowerScript : MonoBehaviour
     public void DestroyFlowers()
     {
         //Destroy(gameObject, 0.1f);
-        Destroyed?.Invoke(this);
         gameObject.SetActive(false);
 
     }

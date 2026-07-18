@@ -36,11 +36,11 @@ namespace CharacterSystem
 
             if (transformationManager.lightController.IsLightFieldActive(LightFieldType.Water))
             {
-                GameMan.Instance.PopDialog("Water BLO BLOB!", 2f);
+                dialogManager.PopDialog("Water BLO BLOB!", 2f);
             }
             else
             {
-                GameMan.Instance.PopDialog("Goodbye water blob blob!", 2f);
+                dialogManager.PopDialog("Goodbye water blob blob!", 2f);
             }
 
             return true;
@@ -50,7 +50,7 @@ namespace CharacterSystem
         {
             if (!status.Has(Status.Algae))
             {
-                GameMan.Instance.PopDialog("I need some alghe to eat", 3f);
+                dialogManager.PopDialog("I need some alghe to eat", 3f);
                 return false;
             }
 
@@ -99,7 +99,7 @@ namespace CharacterSystem
         {
             if (!stats.HasMana(spell.cost))
             {
-                GameMan.Instance.PopDialog(notEnoughManaDialog, 3f);
+                dialogManager.PopDialog(notEnoughManaDialog, 3f);
                 return false;
             }
 
@@ -108,7 +108,6 @@ namespace CharacterSystem
         }
         public override void ApplyDark(PotionScriptable ps)
         {
-            OnExitTransformation();
             transformationManager.SwitchTo(CharacterType.Mage);
         }
 

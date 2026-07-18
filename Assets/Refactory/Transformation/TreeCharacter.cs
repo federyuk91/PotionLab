@@ -9,7 +9,7 @@ namespace CharacterSystem
 
         private bool hasTreeShield;
         private bool hasOvergrowth;
-        private FlowerScript overgrowthFlower;
+        private Flower overgrowthFlower;
 
         protected override bool CastSpell(int i, bool powered)
         {
@@ -40,11 +40,11 @@ namespace CharacterSystem
 
             if (transformationManager.lightController.IsLightFieldActive(LightFieldType.Grass))
             {
-                GameMan.Instance.PopDialog("Grass everywhere!", 2f);
+                dialogManager.PopDialog("Grass everywhere!", 2f);
             }
             else
             {
-                GameMan.Instance.PopDialog("Goodbye grassss!", 2f);
+                dialogManager.PopDialog("Goodbye grassss!", 2f);
             }
 
             return true;
@@ -54,13 +54,13 @@ namespace CharacterSystem
         {
             if (hasTreeShield)
             {
-                GameMan.Instance.PopDialog("I already have shield", 3f);
+                dialogManager.PopDialog("I already have shield", 3f);
                 return false;
             }
 
             if (status.Has(Status.Burned))
             {
-                GameMan.Instance.PopDialog("Barks can't form any shield with flames", 3f);
+                dialogManager.PopDialog("Barks can't form any shield with flames", 3f);
                 AchievementManager.instance.Achive("Exotic Interaction");
                 return false;
             }
@@ -85,7 +85,7 @@ namespace CharacterSystem
         {
             if (hasOvergrowth)
             {
-                GameMan.Instance.PopDialog("I already spawn my child...", 1.5f);
+                dialogManager.PopDialog("I already spawn my child...", 1.5f);
                 return false;
             }
 
@@ -104,7 +104,7 @@ namespace CharacterSystem
 
             if (!overgrowthObject.TryGetComponent(out overgrowthFlower))
             {
-                Debug.LogWarning($"{name} overgrowth object has no FlowerScript assigned.", this);
+                Debug.LogWarning($"{name} overgrowth object has no Flower assigned.", this);
                 overgrowthObject.SetActive(true);
                 return true;
             }
@@ -123,7 +123,7 @@ namespace CharacterSystem
             return true;
         }
 
-        private void OnOvergrowthDestroyed(FlowerScript flower)
+        private void OnOvergrowthDestroyed(Flower flower)
         {
             if (flower != overgrowthFlower)
             {
@@ -139,7 +139,7 @@ namespace CharacterSystem
         {
             if (!stats.HasMana(spell.cost))
             {
-                GameMan.Instance.PopDialog(notEnoughManaDialog, 3f);
+                dialogManager.PopDialog(notEnoughManaDialog, 3f);
                 return false;
             }
 
@@ -151,7 +151,7 @@ namespace CharacterSystem
         {
             hasTreeShield = false;
             SetTreeShieldActive(false);
-            GameMan.Instance.PopDialog(dialog, 3f);
+            dialogManager.PopDialog(dialog, 3f);
         }
 
         private void SetTreeShieldActive(bool active)

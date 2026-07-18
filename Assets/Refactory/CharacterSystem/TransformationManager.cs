@@ -35,7 +35,7 @@ namespace CharacterSystem
             }
 
             dialogManager = GetComponentInParent<DialogManager>();
-            foreach (var behaviour in characterBehaviours)
+            foreach (MonoBehaviour behaviour in characterBehaviours)
             {
                 if (behaviour is not BaseCharacter character)
                 {
@@ -55,20 +55,28 @@ namespace CharacterSystem
 
         public void SwitchTo(CharacterType type)
         {
-            if (currentCharacter != null)
-                previousForm = currentCharacter.GetCharacterForm();
-            if (!characters.TryGetValue(type, out var next))
+            if (!characters.TryGetValue(type, out BaseCharacter next))
             {
                 Debug.LogError($"Character {type} not registered");
                 return;
             }
 
-            if (currentCharacter is MonoBehaviour currentMb)
-                currentMb.gameObject.SetActive(false);
+            if (currentCharacter == next)
+            {
+                return;
+            }
+
+            if (currentCharacter != null)
+            {
+                previousForm = currentCharacter.GetCharacterForm();
+                currentCharacter.OnExitTransformation();
+                currentCharacter.gameObject.SetActive(false);
+            }
+
             currentCharacter = next;
 
-            if (currentCharacter is MonoBehaviour nextMb)
-                nextMb.gameObject.SetActive(true);
+            currentCharacter.gameObject.SetActive(true);
+            currentCharacter.OnEnterTransformation();
 
             lightController.ChangeLightColor(type);
             OnTransformation?.Invoke(previousForm, type);

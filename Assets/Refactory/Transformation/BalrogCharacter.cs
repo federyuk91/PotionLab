@@ -35,11 +35,11 @@ namespace CharacterSystem
 
             if (transformationManager.lightController.IsLightFieldActive(LightFieldType.Fire))
             {
-                GameMan.Instance.PopDialog("Burn baby burn! Disco INFERNO!", 2f);
+                dialogManager.PopDialog("Burn baby burn! Disco INFERNO!", 2f);
             }
             else
             {
-                GameMan.Instance.PopDialog("Goodbye heat ):", 2f);
+                dialogManager.PopDialog("Goodbye heat ):", 2f);
             }
 
             return true;
@@ -85,7 +85,7 @@ namespace CharacterSystem
         {
             if (!stats.HasMana(spell.cost))
             {
-                GameMan.Instance.PopDialog(notEnoughManaDialog, 3f);
+                dialogManager.PopDialog(notEnoughManaDialog, 3f);
                 return false;
             }
 

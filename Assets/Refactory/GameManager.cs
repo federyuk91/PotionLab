@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-
 
 public class GameManager : MonoBehaviour
 {
@@ -12,19 +10,19 @@ public class GameManager : MonoBehaviour
     public static int currentLevel = 0;
 
     public BaseCharacter Character => TransformationManager.Instance.Current;
-
+    public bool IsPuzzleMode => isPuzzleMode;
 
     [Header("Compiled from code")]
     public List<PotionScript> levelPotions;
     public List<DroppableObject> droppables;
-    public SpawnerManager spawnerManager;
 
     [Header("Reference necessarie")]
     public GameObject spellBar;
     public LightController lightController;
-    public GameObject text_dialog, text_magic, continueButton;
+    [SerializeField] private DialogManager dialogManager;
+    [SerializeField] private bool isPuzzleMode = true;
+
     public int potionDrunked = 0, spawnedPotion = 0;
-    //Stats
     public int dieCounter = 0, mutationCounter = 0;
 
     private void Awake()
@@ -34,12 +32,15 @@ public class GameManager : MonoBehaviour
         mutationCounter = 0;
         currentLevel = SceneManager.GetActiveScene().buildIndex;
 
-        CompileLevelReferences();
+        if (isPuzzleMode)
+        {
+            CompileLevelReferences();
+        }
+
         if (Instance == null)
         {
             Instance = this;
         }
-
     }
 
     private void Start()
@@ -47,189 +48,203 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-
-
-    public void CompileLevelReferences()
+    // Puzzle mode uses the potions and droppables already placed in the level.
+    private void CompileLevelReferences()
     {
         PotionScript[] potions = FindObjectsByType<PotionScript>(FindObjectsSortMode.None);
         levelPotions = new List<PotionScript>();
-        foreach (PotionScript p in potions)
+        foreach (PotionScript potion in potions)
         {
-            levelPotions.Add(p);
+            levelPotions.Add(potion);
         }
 
         DroppableObject[] drops = FindObjectsByType<DroppableObject>(FindObjectsSortMode.None);
         droppables = new List<DroppableObject>();
-        foreach (DroppableObject d in drops)
+        foreach (DroppableObject droppable in drops)
         {
-            droppables.Add(d);
+            droppables.Add(droppable);
         }
     }
-
-
-
 
     public void StartGame()
     {
-        Time.timeScale = 1;
-        StartCoroutine("StartingDialog");
-
+        StartLevel();
     }
 
+    public void StartLevel()
+    {
+        Time.timeScale = 1;
+        StartCoroutine(nameof(StartingLevel));
+    }
 
-    public void LoadPotion()
+    private void LoadPotion()
     {
         potionDrunked = 0;
 
-        foreach (PotionScript ps in levelPotions)
+        foreach (PotionScript potion in levelPotions)
         {
-            ps.ActivateBox();
+            potion.ActivateBox();
         }
-        foreach (DroppableObject d in droppables)
+
+        foreach (DroppableObject droppable in droppables)
         {
-            d.ActivateBox();
+            droppable.ActivateBox();
         }
     }
 
-    IEnumerator StartingDialog()
+    public void RegisterSpawnedPotion(PotionScript potion)
     {
-        //nasconde il testo iniziale
-        text_dialog.SetActive(false);
-        continueButton.SetActive(false);
+        if (potion == null)
+        {
+            return;
+        }
+
+        if (levelPotions == null)
+        {
+            levelPotions = new List<PotionScript>();
+        }
+
+        spawnedPotion++;
+        levelPotions.Add(potion);
+    }
+
+    public bool IsCharacterAlive()
+    {
+        return Character != null && Character.stats != null && Character.stats.HP > 0;
+    }
+
+    // Initial light and character animation before level interaction starts.
+    private IEnumerator StartingLevel()
+    {
+        if (dialogManager == null)
+        {
+            Debug.LogError("GameManager cannot start level: DialogManager reference is missing.", this);
+            yield break;
+        }
+
+        if (lightController == null && TransformationManager.Instance != null)
+        {
+            lightController = TransformationManager.Instance.lightController;
+        }
+
+        if (lightController == null)
+        {
+            Debug.LogError("GameManager cannot start level: LightController reference is missing.", this);
+            yield break;
+        }
+
+        if (spellBar == null)
+        {
+            Debug.LogError("GameManager cannot start level: spellBar reference is missing.", this);
+            yield break;
+        }
+
+        dialogManager.CloseDialog();
+        dialogManager.SetContinueButtonActive(false);
 
         lightController.StartLight();
 
-        //Lancia l'animazione del personaggio per castare la magia 1
-        TransformationManager.Instance.Current.animator.SetTrigger("cast");
-        TransformationManager.Instance.Current.animator.SetInteger("castInt", 1);
+        //Parametri di animazione legacy? 
+        //TransformationManager.Instance.Current.animator.SetTrigger("cast");
+        //TransformationManager.Instance.Current.animator.SetInteger("castInt", 1);
 
-        //Invoke("LoadPotion", 6f);
-        //Attende 6 secondi (durata animazione ?)
         yield return new WaitForSeconds(6f);
 
-        //Attiva la visualizzazione per gli oggetti droppabili
         LoadPotion();
         yield return new WaitForSeconds(.3f);
-        
-        spellBar.SetActive(true);
 
+        spellBar.SetActive(true);
 
         yield return new WaitForSeconds(3.2f);
 
-        CloseDialog();
-
+        dialogManager.CloseDialog();
     }
-    
-    public void PickADialog(List<string> dialogs, float duration = -1f)
-    {
-        int d = Random.Range(0, dialogs.Count);
-        PopDialog(dialogs[d], duration);
-
-    }
-
-    public void PopDialog(string dialog, float duration = -1f)
-    {
-        //Evita di sovrapporre dialoghi e di parlare da morto
-        if (text_dialog.activeSelf || Character.stats.HP <= 0)
-            text_dialog.SetActive(false);
-
-        Debug.Log("[GameMan] PopDialog: " + dialog);
-        //return;
-        text_dialog.SetActive(true);
-        text_dialog.GetComponentInChildren<Text>().text = dialog;
-        if (duration > 0)
-        {
-            Invoke("CloseDialog", duration);
-        }
-    }
-
-    public void CloseDialog()
-    {
-        text_dialog.SetActive(false);
-    }
-
 
     public void RemovePotion(PotionScript potion, bool drunked = true)
     {
         if (drunked)
         {
             potionDrunked++;
-            
         }
 
         levelPotions.Remove(potion);
 
-        if (levelPotions.Count <= 0)
+        // Other game modes should end only through their own failure conditions.
+        if (isPuzzleMode && levelPotions.Count <= 0)
         {
             OnLevelComplete();
         }
     }
 
-
     public void OnLevelComplete()
     {
         DataSaver.instance.UpdateStats(dieCounter, potionDrunked, mutationCounter);
         spellBar.SetActive(false);
-       
-        if (Character.GetCharacterForm().Equals(CharacterType.Tree))
+
+        CharacterType characterForm = Character.GetCharacterForm();
+
+        if (characterForm.Equals(CharacterType.Tree))
         {
             if (Character.status.Has(Status.Burned))
             {
-                //cc.PlayClip(audio);
                 Character.animator.SetTrigger("treeBurned");
                 AchievementManager.instance.Achive("Old Toby");
             }
+
             OnCharacterDie("trees never sleeps");
             return;
         }
-        else if (Character.GetCharacterForm().Equals(CharacterType.Balrog))
+
+        if (characterForm.Equals(CharacterType.Balrog))
         {
             OnCharacterDie("evil doens't sleep");
             return;
         }
-        else if (Character.GetCharacterForm().Equals(CharacterType.PupperFish))
+
+        if (characterForm.Equals(CharacterType.PupperFish))
         {
             OnCharacterDie("you drowned in your nightmare");
             return;
         }
-        else if (Character.GetCharacterForm().Equals(CharacterType.Yeti))
+
+        if (characterForm.Equals(CharacterType.Yeti))
         {
             OnCharacterDie("freezing to death");
             return;
         }
 
         Character.animator.SetBool("goodNight", true);
-
-
     }
 
     public void OnCharacterDie(string deathDialog)
     {
-
         dieCounter++;
         Debug.Log("Char DIE");
         Character.stats.HP = 0;
-        //Rimuovere le pozioni rimaste per evitare ulteriori interazioni con il livello
 
-        foreach (PotionScript s in levelPotions)
+        dialogManager.PopDialog(deathDialog, 3f);
+
+        // Remaining potions must stop interacting after death.
+        foreach (PotionScript potion in levelPotions)
         {
-            s.gameObject.SetActive(false);
+            potion.gameObject.SetActive(false);
         }
-
     }
 
     public void NextLevel()
     {
         currentLevel++;
         if (currentLevel >= SceneManager.sceneCountInBuildSettings)
+        {
             currentLevel = 0;
+        }
 
         SceneManager.LoadScene(currentLevel);
     }
+
     public void MainMenu()
     {
         SceneManager.LoadScene(0);
-
     }
 
     public void TryAgain()
@@ -237,6 +252,3 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(currentLevel);
     }
 }
-
-
-

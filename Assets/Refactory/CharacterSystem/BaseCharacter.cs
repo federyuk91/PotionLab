@@ -31,13 +31,9 @@ namespace CharacterSystem
 
         public virtual void OnEnable()
         {
-            Debug.Log(this.name+ " called on enable from Base");
-            OnEnterTransformation();
         }
         public virtual void OnDisable()
         {
-            Debug.Log(this.name + " called on disable from Base");
-            OnExitTransformation();
         }
 
         public abstract CharacterType GetCharacterForm();

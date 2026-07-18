@@ -27,13 +27,13 @@ namespace CharacterSystem
         {
             if (powered)
             {
-                GameMan.Instance.PopDialog("maximum lumen", 2f);
+                dialogManager.PopDialog("maximum lumen", 2f);
                 return false;
             }
 
             if (!stats.HasMana(spell.cost))
             {
-                GameMan.Instance.PopDialog("I need more magic for this spell", 3f);
+                dialogManager.PopDialog("I need more magic for this spell", 3f);
                 return false;
             }
 
@@ -46,13 +46,13 @@ namespace CharacterSystem
         {
             if (stats.HP >= stats.MaxHP)
             {
-                GameMan.Instance.PopDialog("No need for this now!", 2f);
+                dialogManager.PopDialog("No need for this now!", 2f);
                 return false;
             }
 
             if (!stats.HasMana(spell.cost))
             {
-                GameMan.Instance.PopDialog("I need more magic for this spell", 3f);
+                dialogManager.PopDialog("I need more magic for this spell", 3f);
                 return false;
             }
 
@@ -61,7 +61,7 @@ namespace CharacterSystem
             if (powered)
             {
                 stats.Heal(4);
-                GameMan.Instance.PopDialog("Amazing heal!", 2f);
+                dialogManager.PopDialog("Amazing heal!", 2f);
             }
             else
             {
@@ -75,13 +75,13 @@ namespace CharacterSystem
         {
             if (!HasCleanseableStatus())
             {
-                GameMan.Instance.PopDialog("No base status to remove!", 2f);
+                dialogManager.PopDialog("No base status to remove!", 2f);
                 return false;
             }
 
             if (!stats.HasMana(spell.cost))
             {
-                GameMan.Instance.PopDialog("I need more magic for this spell", 3f);
+                dialogManager.PopDialog("I need more magic for this spell", 3f);
                 return false;
             }
 
@@ -96,7 +96,7 @@ namespace CharacterSystem
 
             if (powered)
             {
-                GameMan.Instance.PopDialog("A bit of health too!", 2f);
+                dialogManager.PopDialog("A bit of health too!", 2f);
                 stats.Heal(1);
             }
 

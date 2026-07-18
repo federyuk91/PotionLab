@@ -1,14 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class Spawner : MonoBehaviour
 {
     public PhaseSettings spawnSettings;
     public PotionScript potion;
     public BoxCollider2D blockCollider;
-    private AudioSource audio;
+    private AudioSource audioSource;
     public GameObject spawnerButton;
 
     public GameObject currentPot;
@@ -19,7 +17,7 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        audio = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
         //spawnerButton.SetActive(false);
 
         Spawn();
@@ -38,19 +36,22 @@ public class Spawner : MonoBehaviour
 
     public void Spawn()
     {
-        audio.Play();
+        if (audioSource != null)
+        {
+            audioSource.Play();
+        }
+
         //Instanzio la nuova pozione, scelta casualmente, alla posizione dello spawner
         GameObject potionObj = Instantiate(spawnSettings.PickRandomPotion(), transform.position, Quaternion.identity);
         potion = potionObj.GetComponent<PotionScript>();
         //Riattivo il collider per essere sicuro che la pozione non cada direttamente nel livello
         blockCollider.enabled = true;
 
-        //Questo controllo è probabilmente superfluo, la pozione è appena stata instanziata quindi esiste
+        //Questo controllo Ã¨ probabilmente superfluo, la pozione Ã¨ appena stata instanziata quindi esiste
         if (potion != null)
         {
             potion.isActive = true;
-            GameMan.Instance.spawnedPotion++;
-            GameMan.Instance.levelPotions.Add(potion);
+            RegisterSpawnedPotion(potion);
             potion.DropPotion();
         }
     }
@@ -63,10 +64,13 @@ public class Spawner : MonoBehaviour
 
     public void DropPotion()
     {
-        if (!stopDrop && (GameMan.Instance.cc.currentHP != 0))
+        if (!stopDrop && IsCharacterAlive())
+        {
             DropRoutine();
-        else
-            Debug.Log("Wait");
+            return;
+        }
+
+        Debug.Log("Wait");
     }
 
 
@@ -77,7 +81,7 @@ public class Spawner : MonoBehaviour
         //Disattivo il bottone di spawn per evitare venga premuto ripetutamente troppo velocemente 
         spawnerButton.SetActive(false);
         //Aspetto droptime e creo una nuova pozione
-        Invoke("Spawn", dropTime);
+        Invoke(nameof(Spawn), dropTime);
     }
 
     public void DeactivateCollider()
@@ -100,9 +104,34 @@ public class Spawner : MonoBehaviour
         }
     }
 
+    private void RegisterSpawnedPotion(PotionScript spawnedPotion)
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterSpawnedPotion(spawnedPotion);
+            return;
+        }
 
+        if (GameMan.Instance != null)
+        {
+            GameMan.Instance.spawnedPotion++;
+            GameMan.Instance.levelPotions.Add(spawnedPotion);
+        }
+    }
 
+    private bool IsCharacterAlive()
+    {
+        if (GameManager.Instance != null)
+        {
+            return GameManager.Instance.IsCharacterAlive();
+        }
 
+        if (GameMan.Instance != null && GameMan.Instance.cc != null)
+        {
+            return GameMan.Instance.cc.currentHP != 0;
+        }
 
+        return true;
+    }
 
 }
