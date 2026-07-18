@@ -10,32 +10,29 @@ namespace CharacterSystem
         private bool hasTreeShield;
         private bool hasOvergrowth;
 
-        protected override void CastSpell(int i, bool powered)
+        protected override bool CastSpell(int i, bool powered)
         {
             Spell spell = spellList[i];
 
             switch (i)
             {
                 case 0:
-                    CastGrassZone(spell);
-                    break;
+                    return CastGrassZone(spell);
                 case 1:
-                    CastTreeBark(spell, powered);
-                    break;
+                    return CastTreeBark(spell, powered);
                 case 2:
-                    CastOvergrowth(spell, powered);
-                    break;
+                    return CastOvergrowth(spell, powered);
                 default:
                     Debug.LogError($"{name} has no Tree spell behaviour for index {i}", this);
-                    break;
+                    return false;
             }
         }
 
-        private void CastGrassZone(Spell spell)
+        private bool CastGrassZone(Spell spell)
         {
             if (!TrySpendMana(spell, "Ohoh, not enough magic!"))
             {
-                return;
+                return false;
             }
 
             transformationManager.lightController.ToggleLightField(LightFieldType.Grass);
@@ -48,26 +45,28 @@ namespace CharacterSystem
             {
                 GameMan.Instance.PopDialog("Goodbye grassss!", 2f);
             }
+
+            return true;
         }
 
-        private void CastTreeBark(Spell spell, bool powered)
+        private bool CastTreeBark(Spell spell, bool powered)
         {
             if (hasTreeShield)
             {
                 GameMan.Instance.PopDialog("I already have shield", 3f);
-                return;
+                return false;
             }
 
             if (status.Has(Status.Burned))
             {
                 GameMan.Instance.PopDialog("Barks can't form any shield with flames", 3f);
                 AchievementManager.instance.Achive("Exotic Interaction");
-                return;
+                return false;
             }
 
             if (!TrySpendMana(spell, "Ohoh, not enough magic!"))
             {
-                return;
+                return false;
             }
 
             hasTreeShield = true;
@@ -77,19 +76,21 @@ namespace CharacterSystem
             {
                 stats.Heal(2);
             }
+
+            return true;
         }
 
-        private void CastOvergrowth(Spell spell, bool powered)
+        private bool CastOvergrowth(Spell spell, bool powered)
         {
             if (hasOvergrowth)
             {
                 GameMan.Instance.PopDialog("I already spawn my child...", 1.5f);
-                return;
+                return false;
             }
 
             if (!TrySpendMana(spell, "Ohoh, not enough magic!"))
             {
-                return;
+                return false;
             }
 
             hasOvergrowth = true;
@@ -97,7 +98,7 @@ namespace CharacterSystem
             if (overgrowthObject == null)
             {
                 Debug.LogWarning($"{name} has no overgrowth object assigned.", this);
-                return;
+                return true;
             }
 
             overgrowthObject.SetActive(true);
@@ -107,6 +108,8 @@ namespace CharacterSystem
                 flower.Grow();
                 AchievementManager.instance.Achive("Sylvanus Blessing");
             }
+
+            return true;
         }
 
         private bool TrySpendMana(Spell spell, string notEnoughManaDialog)

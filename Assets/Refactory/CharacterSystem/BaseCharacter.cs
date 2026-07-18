@@ -7,6 +7,10 @@ namespace CharacterSystem
 {
     public abstract class BaseCharacter : MonoBehaviour, ICharacter
     {
+        private static readonly int Spell1Trigger = Animator.StringToHash("Spell1");
+        private static readonly int Spell2Trigger = Animator.StringToHash("Spell2");
+        private static readonly int Spell3Trigger = Animator.StringToHash("Spell3");
+
         [Header("References")]
         public List<Spell> spellList;
         [SerializeField] public Animator animator;
@@ -130,10 +134,29 @@ namespace CharacterSystem
                 return;
             }
 
-            CastSpell(index, powered);
+            if (CastSpell(index, powered))
+            {
+                TriggerSpellAnimation(index);
+            }
         }
 
-        protected abstract void CastSpell(int index, bool powered);
+        private void TriggerSpellAnimation(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    animator.SetTrigger(Spell1Trigger);
+                    break;
+                case 1:
+                    animator.SetTrigger(Spell2Trigger);
+                    break;
+                case 2:
+                    animator.SetTrigger(Spell3Trigger);
+                    break;
+            }
+        }
+
+        protected abstract bool CastSpell(int index, bool powered);
 
 
         public abstract void OnEnterTransformation();

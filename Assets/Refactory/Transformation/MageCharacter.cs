@@ -6,64 +6,57 @@ namespace CharacterSystem
     {
 
         public int lightLevel = 0, darkLevel = 0;
-        protected override void CastSpell(int index, bool powered)
+        protected override bool CastSpell(int index, bool powered)
         {
             Spell spell = spellList[index];
             switch (index)
             {
                 case 0:
-                    CastLight(spell, powered);
-                    break;
+                    return CastLight(spell, powered);
                 case 1:
-                    CastHeal(spell, powered);
-                    break;
+                    return CastHeal(spell, powered);
                 case 2:
-                    CastCleanse(spell, powered);
-                    break;
+                    return CastCleanse(spell, powered);
                 default:
                     Debug.LogError($"{name} has no Mage spell behaviour for index {index}", this);
-                    break;
+                    return false;
             }
         }
 
-        private void CastLight(Spell spell, bool powered)
+        private bool CastLight(Spell spell, bool powered)
         {
             if (powered)
             {
                 GameMan.Instance.PopDialog("maximum lumen", 2f);
-                return;
+                return false;
             }
 
             if (!stats.HasMana(spell.cost))
             {
                 GameMan.Instance.PopDialog("I need more magic for this spell", 3f);
-                return;
+                return false;
             }
 
             stats.LoseMana(spell.cost);
-            animator.SetTrigger("cast");
-            animator.SetInteger("castInt", 1);
-
             transformationManager.lightController.IncreaseLightLevel();
+            return true;
         }
 
-        private void CastHeal(Spell spell, bool powered)
+        private bool CastHeal(Spell spell, bool powered)
         {
             if (stats.HP >= stats.MaxHP)
             {
                 GameMan.Instance.PopDialog("No need for this now!", 2f);
-                return;
+                return false;
             }
 
             if (!stats.HasMana(spell.cost))
             {
                 GameMan.Instance.PopDialog("I need more magic for this spell", 3f);
-                return;
+                return false;
             }
 
             stats.LoseMana(spell.cost);
-            animator.SetTrigger("cast");
-            animator.SetInteger("castInt", 2);
 
             if (powered)
             {
@@ -74,20 +67,22 @@ namespace CharacterSystem
             {
                 stats.Heal(3);
             }
+
+            return true;
         }
 
-        private void CastCleanse(Spell spell, bool powered)
+        private bool CastCleanse(Spell spell, bool powered)
         {
             if (!HasCleanseableStatus())
             {
                 GameMan.Instance.PopDialog("No base status to remove!", 2f);
-                return;
+                return false;
             }
 
             if (!stats.HasMana(spell.cost))
             {
                 GameMan.Instance.PopDialog("I need more magic for this spell", 3f);
-                return;
+                return false;
             }
 
             stats.LoseMana(spell.cost);
@@ -105,8 +100,7 @@ namespace CharacterSystem
                 stats.Heal(1);
             }
 
-            animator.SetTrigger("cast");
-            animator.SetInteger("castInt", 3);
+            return true;
         }
 
         private bool HasCleanseableStatus()

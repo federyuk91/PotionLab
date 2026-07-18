@@ -71,7 +71,10 @@ namespace CharacterSystem
         {
             for (int i = 0; i < 3; i++)
             {
-                spellsAnimator[i].SetBool("isOpen", characterStats.HasMana(Character.spellList[i].cost));
+                bool isActive = characterStats.HasMana(Character.spellList[i].cost);
+                spellsAnimator[i].SetBool("isOpen", isActive);
+                spellsImage[i].sprite = Character.spellList[i].sprite;
+                spellsImage[i].gameObject.SetActive(isActive);
             }
         }
 

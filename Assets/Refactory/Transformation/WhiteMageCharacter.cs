@@ -4,7 +4,7 @@ namespace CharacterSystem
 {
     public class WhiteMageCharacter : BaseCharacter
     {
-        protected override void CastSpell(int i, bool powered)
+        protected override bool CastSpell(int i, bool powered)
         {
             Spell spell = spellList[i];
             if (stats.HasMana(spell.cost))
@@ -13,6 +13,8 @@ namespace CharacterSystem
                 animator.SetTrigger(spell.spellName);
                 throw new System.NotImplementedException();
             }
+
+            return false;
         }
         public override void ApplyDark(PotionScriptable ps)
         {

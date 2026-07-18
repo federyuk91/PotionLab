@@ -6,32 +6,29 @@ namespace CharacterSystem
         [Header("Spell References")]
         [SerializeField] private GameObject calderoneObject;
 
-        protected override void CastSpell(int i, bool powered)
+        protected override bool CastSpell(int i, bool powered)
         {
             Spell spell = spellList[i];
 
             switch (i)
             {
                 case 0:
-                    CastFireZone(spell);
-                    break;
+                    return CastFireZone(spell);
                 case 1:
-                    CastBalance(spell, powered);
-                    break;
+                    return CastBalance(spell, powered);
                 case 2:
-                    CastCalderone(spell, powered);
-                    break;
+                    return CastCalderone(spell, powered);
                 default:
                     Debug.LogError($"{name} has no Balrog spell behaviour for index {i}", this);
-                    break;
+                    return false;
             }
         }
 
-        private void CastFireZone(Spell spell)
+        private bool CastFireZone(Spell spell)
         {
             if (!TrySpendMana(spell, "Ohoh, not enough magic!"))
             {
-                return;
+                return false;
             }
 
             transformationManager.lightController.ToggleLightField(LightFieldType.Fire);
@@ -44,30 +41,33 @@ namespace CharacterSystem
             {
                 GameMan.Instance.PopDialog("Goodbye heat ):", 2f);
             }
+
+            return true;
         }
 
-        private void CastBalance(Spell spell, bool powered)
+        private bool CastBalance(Spell spell, bool powered)
         {
             if (!TrySpendMana(spell, "Ohoh, not enough magic!"))
             {
-                return;
+                return false;
             }
 
             stats.TakeDamage(3);
             stats.AddMana(powered ? 2 : 1);
+            return true;
         }
 
-        private void CastCalderone(Spell spell, bool powered)
+        private bool CastCalderone(Spell spell, bool powered)
         {
             if (!TrySpendMana(spell, "Ohoh, not enough magic!"))
             {
-                return;
+                return false;
             }
 
             if (calderoneObject == null)
             {
                 Debug.LogWarning($"{name} has no calderone object assigned.", this);
-                return;
+                return true;
             }
 
             calderoneObject.SetActive(true);
@@ -77,6 +77,8 @@ namespace CharacterSystem
             {
                 AchievementManager.instance.Achive("Cooking Mama!");
             }
+
+            return true;
         }
 
         private bool TrySpendMana(Spell spell, string notEnoughManaDialog)

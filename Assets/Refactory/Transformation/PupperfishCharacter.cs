@@ -7,32 +7,29 @@ namespace CharacterSystem
         [SerializeField] private GameObject pufferFishProjectionObject;
 
 
-        protected override void CastSpell(int i, bool powered)
+        protected override bool CastSpell(int i, bool powered)
         {
             Spell spell = spellList[i];
 
             switch (i)
             {
                 case 0:
-                    CastWaterZone(spell);
-                    break;
+                    return CastWaterZone(spell);
                 case 1:
-                    CastEatAlgae(spell, powered);
-                    break;
+                    return CastEatAlgae(spell, powered);
                 case 2:
-                    CastPufferFish(spell, powered);
-                    break;
+                    return CastPufferFish(spell, powered);
                 default:
                     Debug.LogError($"{name} has no PupperFish spell behaviour for index {i}", this);
-                    break;
+                    return false;
             }
         }
 
-        private void CastWaterZone(Spell spell)
+        private bool CastWaterZone(Spell spell)
         {
             if (!TrySpendMana(spell, "Ohoh, bloblob!"))
             {
-                return;
+                return false;
             }
 
             transformationManager.lightController.ToggleLightField(LightFieldType.Water);
@@ -45,19 +42,21 @@ namespace CharacterSystem
             {
                 GameMan.Instance.PopDialog("Goodbye water blob blob!", 2f);
             }
+
+            return true;
         }
 
-        private void CastEatAlgae(Spell spell, bool powered)
+        private bool CastEatAlgae(Spell spell, bool powered)
         {
             if (!status.Has(Status.Algae))
             {
                 GameMan.Instance.PopDialog("I need some alghe to eat", 3f);
-                return;
+                return false;
             }
 
             if (!TrySpendMana(spell, "Ohoh, bloblob!"))
             {
-                return;
+                return false;
             }
 
             stats.AddMana(status.algaeLevel * 2);
@@ -67,13 +66,15 @@ namespace CharacterSystem
             {
                 stats.Heal(2);
             }
+
+            return true;
         }
 
-        private void CastPufferFish(Spell spell, bool powered)
+        private bool CastPufferFish(Spell spell, bool powered)
         {
             if (!TrySpendMana(spell, "Ohoh, bloblob!"))
             {
-                return;
+                return false;
             }
 
             if (pufferFishProjectionObject != null)
@@ -90,6 +91,8 @@ namespace CharacterSystem
                 stats.AddMana(3);
                 AchievementManager.instance.Achive("BLOB!");
             }
+
+            return true;
         }
 
         private bool TrySpendMana(Spell spell, string notEnoughManaDialog)

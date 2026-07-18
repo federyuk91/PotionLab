@@ -2197,7 +2197,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2d97fb1a2c95dc40a707d26bb3995a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSystem.CharacterBalrog
-  spellList: []
+  spellList:
+  - spellName: Fire Zone
+    cost: 2
+    sprite: {fileID: 21300000, guid: 4e37fdc8cf5486a488c7ee7fa3bcffab, type: 3}
+  - spellName: Balance
+    cost: 0
+    sprite: {fileID: 21300000, guid: 5e12bad24caf60d489a377595771f903, type: 3}
+  - spellName: Calderone
+    cost: 8
+    sprite: {fileID: 21300000, guid: a6dfd8a67c41b1543bdc42e767163a6b, type: 3}
   animator: {fileID: 0}
   stats: {fileID: 0}
   status: {fileID: 0}
@@ -4871,7 +4880,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f17d08d9ac94b7b4eab2bf97849637eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSystem.TreeCharacter
-  spellList: []
+  spellList:
+  - spellName: Grass Zone
+    cost: 1
+    sprite: {fileID: 21300000, guid: 6814811798e893e49aeb69f4232536e0, type: 3}
+  - spellName: Tree Bark
+    cost: 4
+    sprite: {fileID: 21300000, guid: 051fcadb1cfd7104db4a81008112d33f, type: 3}
+  - spellName: Overgrow
+    cost: 6
+    sprite: {fileID: 21300000, guid: 0fc91a701bc5a5b4b8616ad1e1118739, type: 3}
   animator: {fileID: 0}
   stats: {fileID: 0}
   status: {fileID: 0}
@@ -8710,7 +8728,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c28d7838bf6fdfd4da94a84ceb59cc5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSystem.YetiCharacter
-  spellList: []
+  spellList:
+  - spellName: Ice Zone
+    cost: 2
+    sprite: {fileID: 21300000, guid: 5e8e420252e25c645b3111e5a722cdd6, type: 3}
+  - spellName: Convert
+    cost: 4
+    sprite: {fileID: 21300000, guid: 0d54c02d80430f4498b0e334031ec7ed, type: 3}
+  - spellName: Punch
+    cost: 0
+    sprite: {fileID: 21300000, guid: 133d5512087f4e04ea05c169e70b4f80, type: 3}
   animator: {fileID: 0}
   stats: {fileID: 0}
   status: {fileID: 0}
@@ -10389,7 +10416,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e97a691f7d1da4f469d061ca6c0747c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSystem.PupperFishCharacter
-  spellList: []
+  spellList:
+  - spellName: Water Zone
+    cost: 1
+    sprite: {fileID: 21300000, guid: 6d5e66595d498d84bb86f9f5e20b4712, type: 3}
+  - spellName: Eat Algae
+    cost: 0
+    sprite: {fileID: 21300000, guid: d7a2a8145bd68b845a85d47848717296, type: 3}
+  - spellName: PufferFish
+    cost: 6
+    sprite: {fileID: 21300000, guid: 0521791b244e6f94a987517795167fd9, type: 3}
   animator: {fileID: 0}
   stats: {fileID: 0}
   status: {fileID: 0}

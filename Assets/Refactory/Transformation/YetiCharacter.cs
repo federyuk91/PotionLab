@@ -6,32 +6,29 @@ namespace CharacterSystem
         [Header("Spell References")]
         [SerializeField] private GameObject punchObject;
 
-        protected override void CastSpell(int i, bool powered)
+        protected override bool CastSpell(int i, bool powered)
         {
             Spell spell = spellList[i];
 
             switch (i)
             {
                 case 0:
-                    CastIceZone(spell);
-                    break;
+                    return CastIceZone(spell);
                 case 1:
-                    CastConvert(spell, powered);
-                    break;
+                    return CastConvert(spell, powered);
                 case 2:
-                    CastPunch(spell, powered);
-                    break;
+                    return CastPunch(spell, powered);
                 default:
                     Debug.LogError($"{name} has no Yeti spell behaviour for index {i}", this);
-                    break;
+                    return false;
             }
         }
 
-        private void CastIceZone(Spell spell)
+        private bool CastIceZone(Spell spell)
         {
             if (!TrySpendMana(spell, "eh?"))
             {
-                return;
+                return false;
             }
 
             transformationManager.lightController.ToggleLightField(LightFieldType.Ice);
@@ -44,30 +41,33 @@ namespace CharacterSystem
             {
                 GameMan.Instance.PopDialog("nooooooo", 2f);
             }
+
+            return true;
         }
 
-        private void CastConvert(Spell spell, bool powered)
+        private bool CastConvert(Spell spell, bool powered)
         {
             if (stats.HP >= stats.MaxHP)
             {
                 AchievementManager.instance.Achive("Smart but fart!");
                 GameMan.Instance.PopDialog("FULL", 1f);
-                return;
+                return false;
             }
 
             if (!TrySpendMana(spell, "eh?"))
             {
-                return;
+                return false;
             }
 
             stats.Heal(powered ? 4 : 3);
+            return true;
         }
 
-        private void CastPunch(Spell spell, bool powered)
+        private bool CastPunch(Spell spell, bool powered)
         {
             if (!TrySpendMana(spell, "eh?"))
             {
-                return;
+                return false;
             }
 
             stats.TakeDamage(powered ? 1 : 2);
@@ -75,11 +75,12 @@ namespace CharacterSystem
             if (punchObject == null)
             {
                 Debug.LogWarning($"{name} has no punch object assigned.", this);
-                return;
+                return true;
             }
 
             punchObject.SetActive(false);
             punchObject.SetActive(true);
+            return true;
         }
 
         private bool TrySpendMana(Spell spell, string notEnoughManaDialog)

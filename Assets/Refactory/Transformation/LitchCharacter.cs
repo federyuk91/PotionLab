@@ -4,7 +4,7 @@ namespace CharacterSystem
     public class LitchCharacter : BaseCharacter
     {
 
-        protected override void CastSpell(int i, bool powered)
+        protected override bool CastSpell(int i, bool powered)
         {
             throw new System.NotImplementedException();
         }
