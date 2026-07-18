@@ -78,6 +78,11 @@ namespace CharacterSystem
             currentCharacter.gameObject.SetActive(true);
             currentCharacter.OnEnterTransformation();
 
+            if (type == CharacterType.Mage)
+            {
+                lightController.ClearLightField();
+            }
+
             lightController.ChangeLightColor(type);
             OnTransformation?.Invoke(previousForm, type);
         }
