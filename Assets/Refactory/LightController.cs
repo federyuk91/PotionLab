@@ -1,7 +1,7 @@
+using System;
 using CharacterSystem;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.UI;
 
 public class LightController : MonoBehaviour
 {
@@ -16,12 +16,10 @@ public class LightController : MonoBehaviour
     [SerializeField] private GameObject iceField;
 
     [Header("Procedural Light Decay")]
-    [SerializeField] private Image lightTimerBar;
     [SerializeField] private float lightDecayInterval = 43f;
 
     [Header("Light Level")]
     [SerializeField, Range(MinLightIntensity, MaxLightIntensity)] private int startingLightIntensity = 1;
-    [SerializeField] private Text lightLevelText;
 
     private AudioSource audioSource;
     private Animator animator;
@@ -31,6 +29,11 @@ public class LightController : MonoBehaviour
 
     public int lightIntensity = 0;
     public LightFieldType CurrentLightField => currentLightField;
+    public int LightIntensity => lightIntensity;
+    public float LightDecayProgress => GetLightDecayProgress();
+
+    public event Action<int> LightLevelChanged;
+    public event Action<float> LightTimerChanged;
 
     private void Awake()
     {
@@ -57,7 +60,7 @@ public class LightController : MonoBehaviour
             ResetLightDecayTimer();
         }
 
-        RefreshLightTimerBar();
+        NotifyLightTimerChanged();
     }
 
     public void ChangeLightColor(Color c)
@@ -197,7 +200,7 @@ public class LightController : MonoBehaviour
         }
 
         animator.SetInteger("lightIntesity", lightIntensity);
-        RefreshLightLevelText();
+        LightLevelChanged?.Invoke(lightIntensity);
 
         if (playAudio)
         {
@@ -213,45 +216,22 @@ public class LightController : MonoBehaviour
     private void ResetLightDecayTimer()
     {
         lightDecayTimer = 0f;
-        RefreshLightTimerBar();
+        NotifyLightTimerChanged();
     }
 
-    private void RefreshLightTimerBar()
+    private void NotifyLightTimerChanged()
     {
-        if (lightTimerBar == null || lightDecayInterval <= 0f)
-        {
-            return;
-        }
-
-        lightTimerBar.fillAmount = lightDecayTimer / lightDecayInterval;
+        LightTimerChanged?.Invoke(GetLightDecayProgress());
     }
 
-    private void RefreshLightLevelText()
+    private float GetLightDecayProgress()
     {
-        if (lightLevelText == null)
+        if (lightDecayInterval <= 0f)
         {
-            return;
+            return 0f;
         }
 
-        switch (lightIntensity)
-        {
-            case 0:
-                lightLevelText.text = "No Magic Power";
-                lightLevelText.color = Color.red;
-                break;
-            case 1:
-                lightLevelText.text = "Low Magic Power";
-                lightLevelText.color = Color.green;
-                break;
-            case 2:
-                lightLevelText.text = "Medium Magic Power";
-                lightLevelText.color = Color.blue;
-                break;
-            case 3:
-                lightLevelText.text = "High Magic Power";
-                lightLevelText.color = Color.yellow;
-                break;
-        }
+        return Mathf.Clamp01(lightDecayTimer / lightDecayInterval);
     }
 
     public void PlayAudio()

@@ -1,19 +1,13 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UI;
 
 namespace CharacterSystem
 {
     public class CharacterSpells : MonoBehaviour
     {
-        [Header("UI visualization")]
-        //Animazione pergamene da 0 a 2
-        public Animator[] spellsAnimator;
-        //Immagine sulle pergamene da 0 a 2
-        public Image[] spellsImage;
-        //Immagine sulle pergamene da 0 a 2
-        public Text[] spellsCost;
+        public event Action<IReadOnlyList<Spell>, CharacterType> SpellListChanged;
+        public event Action<int, Spell, bool> SpellAvailabilityChanged;
 
         private TransformationManager transformationManager;
         private CharacterStats characterStats;
@@ -59,10 +53,7 @@ namespace CharacterSystem
 
         private void RefreshSpellUI()
         {
-            for (int i = 0; i < 3; i++)
-            {
-                spellsImage[i].sprite = Character.spellList[i].sprite;
-            }
+            SpellListChanged?.Invoke(Character.spellList, Character.GetCharacterForm());
 
             RefreshSpellAvailability();
         }
@@ -72,9 +63,7 @@ namespace CharacterSystem
             for (int i = 0; i < 3; i++)
             {
                 bool isActive = characterStats.HasMana(Character.spellList[i].cost);
-                spellsAnimator[i].SetBool("isOpen", isActive);
-                spellsImage[i].sprite = Character.spellList[i].sprite;
-                spellsImage[i].gameObject.SetActive(isActive);
+                SpellAvailabilityChanged?.Invoke(i, Character.spellList[i], isActive);
             }
         }
 

@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CharacterSystem
 {
@@ -14,13 +13,10 @@ namespace CharacterSystem
         public int MaxMP;
         public int MP;
 
-        private float hpPercentage, mpPercentage;
-        public Image healtFiller, manaFiller;
-        public Text hpText, popUpStats, mpText;
-
-
-
         public event Action OnHealtUp, OnHealtDown, OnManaUp, OnManaDown;
+        public event Action<int, int> HPChanged;
+        public event Action<int, int> MPChanged;
+        public event Action<string, Color> StatPopupRequested;
         public event Action OnDeath;
 
         private bool deathNotified;
@@ -65,17 +61,14 @@ namespace CharacterSystem
 
         public void PopUp(string text, Color col)
         {
-            popUpStats.text = text;
-            popUpStats.color = col;
-            popUpStats.gameObject.SetActive(true);
+            StatPopupRequested?.Invoke(text, col);
         }
 
         private void ModifyHP(int delta)
         {
             int previousHP = HP;
             HP = Mathf.Clamp(HP + delta, 0, MaxHP);
-            healtFiller.fillAmount = (float)HP / MaxHP;
-            hpText.text = HP.ToString();
+            HPChanged?.Invoke(HP, MaxHP);
 
             if (HP > 0)
             {
@@ -93,8 +86,7 @@ namespace CharacterSystem
         private void ModifyMP(int delta)
         {
             MP = Mathf.Clamp(MP + delta, 0, MaxMP);
-            manaFiller.fillAmount = (float)MP / MaxMP;
-            mpText.text = MP.ToString();
+            MPChanged?.Invoke(MP, MaxMP);
         }
 
         public void SetHP(int value)

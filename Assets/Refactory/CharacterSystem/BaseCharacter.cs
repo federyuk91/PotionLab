@@ -40,7 +40,7 @@ namespace CharacterSystem
 
         public void Drunk(PotionScript potion)
         {
-            dialogManager.OnPotionDrunk(potion.potion.effectType, GetCharacterForm(), status);
+            dialogManager.OnPotionDrunk(potion.potion, GetCharacterForm(), status);
             StartCoroutine(DrunkRoutine(potion));
         }
 

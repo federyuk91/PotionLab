@@ -22,20 +22,40 @@ namespace CharacterSystem
             }
         }
 
+        public void OnPotionDrunk(PotionScriptable potion, CharacterType character, CharacterStatusController statusController, float popUpDuration = 1.5f)
+        {
+            if (potion == null)
+            {
+                return;
+            }
+
+            if (TryPopRuleDialog(potion.effectType, character, statusController, popUpDuration))
+            {
+                return;
+            }
+
+            PickADialog(potion.dialogs, popUpDuration);
+        }
+
         public void OnPotionDrunk(PotionScriptable.EffectType effectType, CharacterType character, CharacterStatusController statusController, float popUpDuration = 1.5f)
+        {
+            TryPopRuleDialog(effectType, character, statusController, popUpDuration);
+        }
+
+        private bool TryPopRuleDialog(PotionScriptable.EffectType effectType, CharacterType character, CharacterStatusController statusController, float popUpDuration)
         {
             CharacterDialogRule rule = characterRules.Find(r => r.character == character);
 
             if (rule == null)
             {
-                return;
+                return false;
             }
 
             PotionDialogEntry entry = rule.potionDialogs.Find(p => p.potion == effectType);
 
             if (entry == null)
             {
-                return;
+                return false;
             }
 
             HashSet<Status> currentStatuses = statusController.GetCurrentStatuses();
@@ -53,13 +73,15 @@ namespace CharacterSystem
                 // Empty lines intentionally stop the search: this case wants no popup.
                 if (dialogCase.lines.Count == 0)
                 {
-                    return;
+                    return true;
                 }
 
                 string line = dialogCase.lines[Random.Range(0, dialogCase.lines.Count)];
                 PopDialog(line, popUpDuration);
-                return;
+                return true;
             }
+
+            return false;
         }
 
         public void PickADialog(List<string> dialogs, float duration = -1f)

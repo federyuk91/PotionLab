@@ -6,6 +6,9 @@ namespace CharacterSystem
         [Header("Spell References")]
         [SerializeField] private GameObject calderoneObject;
 
+        private Vector3 calderoneBaseScale;
+        private bool calderoneBaseScaleCaptured;
+
         protected override bool CastSpell(int i, bool powered)
         {
             Spell spell = spellList[i];
@@ -71,7 +74,8 @@ namespace CharacterSystem
             }
 
             calderoneObject.SetActive(true);
-            calderoneObject.transform.localScale = powered ? new Vector3(2f, 2f, 2f) : Vector3.one;
+            ApplyCalderoneScale(powered);
+            RestartCalderoneAnimation();
 
             if (powered)
             {
@@ -79,6 +83,32 @@ namespace CharacterSystem
             }
 
             return true;
+        }
+
+        private void ApplyCalderoneScale(bool powered)
+        {
+            if (!calderoneBaseScaleCaptured)
+            {
+                calderoneBaseScale = calderoneObject.transform.localScale;
+                calderoneBaseScaleCaptured = true;
+            }
+
+            calderoneObject.transform.localScale = powered ? calderoneBaseScale * 2f : calderoneBaseScale;
+        }
+
+        private void RestartCalderoneAnimation()
+        {
+            Animation calderoneAnimation = calderoneObject.GetComponent<Animation>();
+
+            if (calderoneAnimation == null)
+            {
+                Debug.LogWarning($"{calderoneObject.name} has no legacy Animation component assigned.", calderoneObject);
+                return;
+            }
+
+            calderoneAnimation.Stop();
+            calderoneAnimation.Rewind();
+            calderoneAnimation.Play();
         }
 
         private bool TrySpendMana(Spell spell, string notEnoughManaDialog)

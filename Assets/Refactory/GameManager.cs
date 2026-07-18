@@ -1,13 +1,19 @@
+using System;
 using CharacterSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     private static readonly int DieParameter = Animator.StringToHash("Die");
+
+    public event Action LevelStarted;
+    public event Action LevelInteractionStarted;
+    public event Action LevelCompleted;
+    public event Action<bool> SpellBarVisibilityChanged;
+    public event Action<string> CharacterDied;
 
     public static GameManager Instance { get; private set; }
     public static int currentLevel = 0;
@@ -20,11 +26,8 @@ public class GameManager : MonoBehaviour
     public List<DroppableObject> droppables;
 
     [Header("Reference necessarie")]
-    public GameObject spellBar;
     public LightController lightController;
     [SerializeField] private DialogManager dialogManager;
-    [SerializeField] private GameObject deathPanel;
-    [SerializeField] private Text deathText;
     [SerializeField] private bool isPuzzleMode = true;
 
     public int potionDrunked = 0, spawnedPotion = 0;
@@ -86,6 +89,7 @@ public class GameManager : MonoBehaviour
     public void StartLevel()
     {
         Time.timeScale = 1;
+        LevelStarted?.Invoke();
         StartCoroutine(nameof(StartingLevel));
     }
 
@@ -145,12 +149,6 @@ public class GameManager : MonoBehaviour
             yield break;
         }
 
-        if (spellBar == null)
-        {
-            Debug.LogError("GameManager cannot start level: spellBar reference is missing.", this);
-            yield break;
-        }
-
         dialogManager.CloseDialog();
         dialogManager.SetContinueButtonActive(false);
 
@@ -165,7 +163,8 @@ public class GameManager : MonoBehaviour
         LoadPotion();
         yield return new WaitForSeconds(.3f);
 
-        spellBar.SetActive(true);
+        SetSpellBarVisible(true);
+        LevelInteractionStarted?.Invoke();
 
         yield return new WaitForSeconds(3.2f);
 
@@ -190,8 +189,9 @@ public class GameManager : MonoBehaviour
 
     public void OnLevelComplete()
     {
+        LevelCompleted?.Invoke();
         DataSaver.instance.UpdateStats(dieCounter, potionDrunked, mutationCounter);
-        spellBar.SetActive(false);
+        SetSpellBarVisible(false);
 
         CharacterType characterForm = Character.GetCharacterForm();
 
@@ -246,17 +246,16 @@ public class GameManager : MonoBehaviour
         }
 
         TriggerDeathAnimation();
-        ShowDeathPanel(deathDialog);
+        CloseActiveDialog();
 
-        if (spellBar != null)
-        {
-            spellBar.SetActive(false);
-        }
+        SetSpellBarVisible(false);
 
         if (DataSaver.instance != null)
         {
             DataSaver.instance.UpdateStats(1, potionDrunked, mutationCounter);
         }
+
+        CharacterDied?.Invoke(deathDialog);
 
         // Remaining potions must stop interacting after death.
         if (levelPotions == null)
@@ -347,24 +346,16 @@ public class GameManager : MonoBehaviour
         Character.animator.SetBool(DieParameter, true);
     }
 
-    private void ShowDeathPanel(string deathDialog)
+    private void CloseActiveDialog()
     {
         if (dialogManager != null)
         {
             dialogManager.CloseDialog();
         }
+    }
 
-        if (deathPanel == null)
-        {
-            Debug.LogWarning("GameManager cannot show retry UI: deathPanel reference is missing.", this);
-            return;
-        }
-
-        deathPanel.SetActive(true);
-
-        if (deathText != null)
-        {
-            deathText.text = deathDialog;
-        }
+    private void SetSpellBarVisible(bool visible)
+    {
+        SpellBarVisibilityChanged?.Invoke(visible);
     }
 }
