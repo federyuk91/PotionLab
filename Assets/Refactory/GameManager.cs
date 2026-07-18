@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public static int currentLevel = 0;
 
     public BaseCharacter Character => TransformationManager.Instance.Current;
 
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
         dieCounter = 0;
         potionDrunked = 0;
         mutationCounter = 0;
+        currentLevel = SceneManager.GetActiveScene().buildIndex;
 
         CompileLevelReferences();
         if (Instance == null)
@@ -218,7 +220,11 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
+        currentLevel++;
+        if (currentLevel >= SceneManager.sceneCountInBuildSettings)
+            currentLevel = 0;
 
+        SceneManager.LoadScene(currentLevel);
     }
     public void MainMenu()
     {
@@ -228,6 +234,7 @@ public class GameManager : MonoBehaviour
 
     public void TryAgain()
     {
+        SceneManager.LoadScene(currentLevel);
     }
 }
 
