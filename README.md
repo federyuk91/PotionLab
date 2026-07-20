@@ -153,18 +153,27 @@ Tick implementati per PupperFish:
 
 Fonte: `Assets/Refactory/Transformation/LitchCharacter.cs`.
 
-`LitchCharacter` contiene ancora `NotImplementedException` per le pozioni, i tick e gli hook di trasformazione. Tutte le interazioni sono quindi da definire.
+Nota: per il Litch alcune regole dipendono anche dal livello di `Grounded`, non solo dalla presenza dello status. Quando `Grounded` arriva al livello 3, il Litch torna `Mage`, rimuovendo eventuali `Burned` e `Freezed` ma lasciando `Grounded`.
 
 | Status precedente | Healing | Fire | Lava | Ice | Water | Grass | Light | Dark | Poison | Ground |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Nessuno | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire |
-| Burned | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire |
-| Wet | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire |
-| Freezed | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire |
-| Poisoned | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire |
-| Grass | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire |
-| Grounded | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire |
-| Algae | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire | Da definire |
+| Nessuno | Danno `baseValue` | Aumenta `Burned` | Danno `baseValue` | Aggiunge `Freezed` | Immunita | Danno `baseValue` | Danno `baseValue` | Se HP non massimi cura `baseValue`, altrimenti aggiunge `baseValue` MP | Immunita | Aumenta `Grounded`; al livello 3 torna `Mage` |
+| Burned | Danno `baseValue` | Immunita | Immunita | Danno `baseValue`; se anche `Grounded`, immunita | Danno `baseValue`; se anche `Grounded`, diminuisce `Grounded` | Danno `baseValue` | Danno `baseValue` | Se HP non massimi cura `baseValue`, altrimenti aggiunge `baseValue` MP | Immunita | Aumenta `Grounded`; al livello 3 rimuove `Burned` e torna `Mage` |
+| Wet | Danno `baseValue` | Aumenta `Burned` | Danno `baseValue` | Aggiunge `Freezed` | Immunita | Danno `baseValue` | Danno `baseValue` | Se HP non massimi cura `baseValue`, altrimenti aggiunge `baseValue` MP | Immunita | Aumenta `Grounded`; al livello 3 torna `Mage` |
+| Freezed | Danno `baseValue` | Danno `baseValue`; se anche `Grounded`, immunita | Danno `baseValue + 1`; se anche `Grounded`, rimuove `Grounded` | Immunita | Immunita; se anche `Grounded`, diminuisce `Grounded` | Danno `baseValue` | Danno `baseValue` | Se HP non massimi cura `baseValue`, altrimenti aggiunge `baseValue` MP | Immunita | Aumenta `Grounded`; al livello 3 rimuove `Freezed` e torna `Mage` |
+| Poisoned | Danno `baseValue` | Aumenta `Burned` | Danno `baseValue` | Aggiunge `Freezed` | Immunita | Danno `baseValue` | Danno `baseValue` | Se HP non massimi cura `baseValue`, altrimenti aggiunge `baseValue` MP | Immunita | Aumenta `Grounded`; al livello 3 torna `Mage` |
+| Grass | Danno `baseValue` | Aumenta `Burned` | Danno `baseValue` | Aggiunge `Freezed` | Immunita | Danno `baseValue` | Danno `baseValue` | Se HP non massimi cura `baseValue`, altrimenti aggiunge `baseValue` MP | Immunita | Aumenta `Grounded`; al livello 3 torna `Mage` |
+| Grounded | Danno `baseValue` | Aumenta `Burned`; se anche `Freezed`, immunita | Rimuove `Grounded` | Aggiunge `Freezed`; se anche `Burned`, immunita | Diminuisce `Grounded` | Danno `baseValue` | Danno `baseValue` | Se HP non massimi cura `baseValue`, altrimenti aggiunge `baseValue` MP | Immunita | Aumenta `Grounded`; al livello 3 rimuove `Burned`/`Freezed` e torna `Mage` |
+| Algae | Danno `baseValue` | Aumenta `Burned` | Danno `baseValue` | Aggiunge `Freezed` | Immunita | Danno `baseValue` | Danno `baseValue` | Se HP non massimi cura `baseValue`, altrimenti aggiunge `baseValue` MP | Immunita | Aumenta `Grounded`; al livello 3 torna `Mage` |
+
+Tick implementati per Litch:
+
+| Status | Delay | Effetto |
+|---|---:|---|
+| Burned | Da definire | Nessun effetto implementato |
+| Poisoned | Da definire | Nessun effetto implementato |
+| Grounded | Da definire | Nessun effetto implementato |
+| Freezed | Da definire | Nessun effetto implementato |
 
 ## WhiteMage
 
