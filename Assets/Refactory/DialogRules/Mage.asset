@@ -82,6 +82,12 @@ MonoBehaviour:
     - requiredStatuses: 05000000
       lines:
       - It looks like it will be a loooong rest
+    - requiredStatuses: 02000000
+      lines:
+      - "eeeetci\xF9!"
+    - requiredStatuses: 04000000
+      lines:
+      - oh, this cleanse poison!
   - potion: 6
     cases:
     - requiredStatuses: 

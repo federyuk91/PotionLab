@@ -7,18 +7,22 @@ public class StatusDialogCaseDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        var statusesProp = property.FindPropertyRelative("requiredStatuses");
+        SerializedProperty statusesProp = property.FindPropertyRelative("requiredStatuses");
 
-        string title = "None";
+        string title = "No Status (empty list)";
         if (statusesProp.arraySize > 0)
         {
             title = "";
             for (int i = 0; i < statusesProp.arraySize; i++)
             {
-                var s = statusesProp.GetArrayElementAtIndex(i).enumDisplayNames[
-                    statusesProp.GetArrayElementAtIndex(i).enumValueIndex
-                ];
-                title += s + (i < statusesProp.arraySize - 1 ? "-" : "");
+                SerializedProperty statusProperty = statusesProp.GetArrayElementAtIndex(i);
+                string statusName = statusProperty.enumDisplayNames[statusProperty.enumValueIndex];
+                if (statusName == Status.None.ToString())
+                {
+                    statusName = "Status.None (invalid)";
+                }
+
+                title += statusName + (i < statusesProp.arraySize - 1 ? "-" : "");
             }
         }
 
