@@ -6,8 +6,21 @@ namespace CharacterSystem
 
         protected override bool CastSpell(int i, bool powered)
         {
-            Debug.LogWarning($"{name} has no Litch spell behaviour for index {i}", this);
-            return false;
+            Spell spell = spellList[i];
+            Debug.LogWarning("Not implemented yet: " + spell.spellName);
+            switch (i)
+            {
+                case 0:
+
+                    return true;
+                case 1:
+                    return true;
+                case 2:
+                    return true;
+                default:
+                    Debug.LogError($"{name} has no Balrog spell behaviour for index {i}", this);
+                    return false;
+            }
         }
 
         public override void ApplyDark(PotionScriptable ps)

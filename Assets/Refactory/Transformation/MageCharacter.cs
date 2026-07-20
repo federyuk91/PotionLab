@@ -350,7 +350,7 @@ namespace CharacterSystem
                 transformationManager.SwitchTo(CharacterType.PupperFish);
                 return;
             }
-            if((status.Has(Status.Freezed) || status.Has(Status.Grounded)) && status.Has(Status.Poisoned))
+            if ((status.Has(Status.Freezed) || status.Has(Status.Grounded)) && status.Has(Status.Poisoned))
             {
                 status.TriggerImmunity();
                 return;
@@ -414,25 +414,27 @@ namespace CharacterSystem
 
         public override void ApplyDark(PotionScriptable ps)
         {
+            Debug.Log("Dark potion?");
+
             if (stats.MP == 0)
             {
                 stats.TakeDamage(2);
+                Debug.Log("Mage darkLevel up");
+                darkLevel++;
+                //Rimuovere gli stati di luce se presenti?
+                //Se darkLevel raggiunge 3, il mago si trasforma in Lictch
+                if (darkLevel > 2)
+                {
+                    transformationManager.SwitchTo(CharacterType.Litch);
+                }
             }
             else
             {
-                if (stats.MP == 0)
-                {
-                    darkLevel++;
-                    //Se darkLevel raggiunge 3, il mago si trasforma in Lich
-                }
-                else
-                {
-                    darkLevel = 0;
-                }
-                stats.LoseMana(ps.baseValue);
-
-                
+                Debug.Log("Mage darkLevel reset");
+                darkLevel = 0;
             }
+            stats.LoseMana(ps.baseValue);
+
         }
 
         public override CharacterType GetCharacterForm()
