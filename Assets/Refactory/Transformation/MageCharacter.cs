@@ -314,6 +314,7 @@ namespace CharacterSystem
             if (stats.MP == stats.MaxMP)
             {
                 lightLevel++;
+                //Se lightLevel raggiunge 3, il mago si trasforma in WhiteMage
             }
             else
             {
@@ -422,6 +423,7 @@ namespace CharacterSystem
                 if (stats.MP == 0)
                 {
                     darkLevel++;
+                    //Se darkLevel raggiunge 3, il mago si trasforma in Lich
                 }
                 else
                 {
