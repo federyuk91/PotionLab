@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86fa637e20a0cc44ea7a9e31a215c556, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: 
 --- !u!111 &13680042
 Animation:
@@ -8895,12 +8895,15 @@ MonoBehaviour:
   - spellName: Fire Zone
     cost: 2
     sprite: {fileID: 21300000, guid: 4e37fdc8cf5486a488c7ee7fa3bcffab, type: 3}
+    castAudio: {fileID: 8300000, guid: e05fae91473184b478941338d90f1f26, type: 3}
   - spellName: Balance
     cost: 0
     sprite: {fileID: 21300000, guid: 5e12bad24caf60d489a377595771f903, type: 3}
+    castAudio: {fileID: 8300000, guid: e05fae91473184b478941338d90f1f26, type: 3}
   - spellName: Calderone
     cost: 8
     sprite: {fileID: 21300000, guid: a6dfd8a67c41b1543bdc42e767163a6b, type: 3}
+    castAudio: {fileID: 8300000, guid: e05fae91473184b478941338d90f1f26, type: 3}
   animator: {fileID: 0}
   stats: {fileID: 0}
   status: {fileID: 0}
@@ -34190,12 +34193,15 @@ MonoBehaviour:
   - spellName: Grass Zone
     cost: 1
     sprite: {fileID: 21300000, guid: 6814811798e893e49aeb69f4232536e0, type: 3}
+    castAudio: {fileID: 8300000, guid: 9cac0e3bc9262b945add7c7c1783ffeb, type: 3}
   - spellName: Tree Bark
     cost: 4
     sprite: {fileID: 21300000, guid: 051fcadb1cfd7104db4a81008112d33f, type: 3}
+    castAudio: {fileID: 8300000, guid: 9cac0e3bc9262b945add7c7c1783ffeb, type: 3}
   - spellName: Overgrow
     cost: 6
     sprite: {fileID: 21300000, guid: 0fc91a701bc5a5b4b8616ad1e1118739, type: 3}
+    castAudio: {fileID: 8300000, guid: 9cac0e3bc9262b945add7c7c1783ffeb, type: 3}
   animator: {fileID: 0}
   stats: {fileID: 0}
   status: {fileID: 0}
@@ -36158,12 +36164,15 @@ MonoBehaviour:
   - spellName: Light
     cost: 1
     sprite: {fileID: 21300000, guid: 59d21fb437c9db24c9e9ebe2838a386d, type: 3}
+    castAudio: {fileID: 8300000, guid: e1b7e4d30089aac4bb39f5af0c9abcf3, type: 3}
   - spellName: Heal
     cost: 4
     sprite: {fileID: 21300000, guid: 5cd7861c3b4c54b4b9323f5cc6c6e3ed, type: 3}
+    castAudio: {fileID: 8300000, guid: e1b7e4d30089aac4bb39f5af0c9abcf3, type: 3}
   - spellName: Cleanse
     cost: 6
     sprite: {fileID: 21300000, guid: bd969a873597b14448c3e80f9e73f4c8, type: 3}
+    castAudio: {fileID: 8300000, guid: e1b7e4d30089aac4bb39f5af0c9abcf3, type: 3}
   animator: {fileID: 1119496814}
   stats: {fileID: 1215253483}
   status: {fileID: 1215253482}
@@ -47051,6 +47060,8 @@ GameObject:
   - component: {fileID: 1215253486}
   - component: {fileID: 1215253488}
   - component: {fileID: 1215253489}
+  - component: {fileID: 1215253490}
+  - component: {fileID: 1215253491}
   m_Layer: 0
   m_Name: R_Character
   m_TagString: Untagged
@@ -47245,6 +47256,128 @@ MonoBehaviour:
   - {fileID: 4866486284348620774}
   deathPanel: {fileID: 7943069551962130518}
   deathText: {fileID: 7943069551303232881}
+--- !u!82 &1215253490
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215253480}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1215253491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215253480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a6b7db6ed1b4ceaa05f2d572f222304, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterSystem.CharacterAudioController
+  stats: {fileID: 1215253483}
+  statusController: {fileID: 1215253482}
+  transformationManager: {fileID: 1215253481}
+  feedbackSource: {fileID: 1215253490}
+  spellSource: {fileID: 1215253490}
+  potionSource: {fileID: 1215253490}
+  damageClip: {fileID: 8300000, guid: 224b24ff3a3f1564587d287ba40c7cb2, type: 3}
+  healClip: {fileID: 8300000, guid: 49be78d4bbd337749ae8ec1b191c6a32, type: 3}
+  manaUpClip: {fileID: 8300000, guid: 17eae5f5a49105647b97a224c2728d73, type: 3}
+  manaDownClip: {fileID: 0}
+  deathClip: {fileID: 0}
+  immunityClip: {fileID: 8300000, guid: cb66d678d31b4cd4195e31b1be4203d2, type: 3}
+  explosionClip: {fileID: 8300000, guid: a1df6056fe4335e459ec623459723c40, type: 3}
 --- !u!1 &1230238295
 GameObject:
   m_ObjectHideFlags: 0
@@ -54334,12 +54467,15 @@ MonoBehaviour:
   - spellName: Ice Zone
     cost: 2
     sprite: {fileID: 21300000, guid: 5e8e420252e25c645b3111e5a722cdd6, type: 3}
+    castAudio: {fileID: 8300000, guid: 741f8ad35090ae04b992f578345f22f0, type: 3}
   - spellName: Convert
     cost: 4
     sprite: {fileID: 21300000, guid: 0d54c02d80430f4498b0e334031ec7ed, type: 3}
+    castAudio: {fileID: 8300000, guid: 741f8ad35090ae04b992f578345f22f0, type: 3}
   - spellName: Punch
     cost: 0
     sprite: {fileID: 21300000, guid: 133d5512087f4e04ea05c169e70b4f80, type: 3}
+    castAudio: {fileID: 8300000, guid: 741f8ad35090ae04b992f578345f22f0, type: 3}
   animator: {fileID: 0}
   stats: {fileID: 0}
   status: {fileID: 0}
@@ -61585,12 +61721,15 @@ MonoBehaviour:
   - spellName: Water Zone
     cost: 1
     sprite: {fileID: 21300000, guid: 6d5e66595d498d84bb86f9f5e20b4712, type: 3}
+    castAudio: {fileID: 8300000, guid: cfe7a0d49f07b40459112117ebfcd4a8, type: 3}
   - spellName: Eat Algae
     cost: 0
     sprite: {fileID: 21300000, guid: d7a2a8145bd68b845a85d47848717296, type: 3}
+    castAudio: {fileID: 8300000, guid: cfe7a0d49f07b40459112117ebfcd4a8, type: 3}
   - spellName: PufferFish
     cost: 6
     sprite: {fileID: 21300000, guid: 0521791b244e6f94a987517795167fd9, type: 3}
+    castAudio: {fileID: 8300000, guid: cfe7a0d49f07b40459112117ebfcd4a8, type: 3}
   animator: {fileID: 0}
   stats: {fileID: 0}
   status: {fileID: 0}

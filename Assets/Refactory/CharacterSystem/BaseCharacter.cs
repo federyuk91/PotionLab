@@ -1,6 +1,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace CharacterSystem
@@ -18,6 +19,9 @@ namespace CharacterSystem
         [SerializeField] public CharacterStatusController status;
         [SerializeField] protected TransformationManager transformationManager;
         [SerializeField] protected DialogManager dialogManager;
+
+        public event Action<BaseCharacter, PotionScriptable, IReadOnlyCollection<Status>> PotionEffectResolving;
+        public event Action<BaseCharacter, int, Spell, bool> SpellCastSucceeded;
 
 
         private void Awake()
@@ -47,7 +51,10 @@ namespace CharacterSystem
         private IEnumerator DrunkRoutine(PotionScript potion)
         {
             animator.SetTrigger("Drunk");
+            List<Status> previousStatuses = new List<Status>(status.GetCurrentStatuses());
             yield return new WaitForSeconds(1f);
+
+            PotionEffectResolving?.Invoke(this, potion.potion, previousStatuses);
 
             switch (potion.potion.effectType)
             {
@@ -132,6 +139,7 @@ namespace CharacterSystem
 
             if (CastSpell(index, powered))
             {
+                SpellCastSucceeded?.Invoke(this, index, spellList[index], powered);
                 TriggerSpellAnimation(index);
             }
         }

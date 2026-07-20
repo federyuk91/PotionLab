@@ -85,6 +85,7 @@ namespace CharacterSystem
         public string spellName;
         public int cost;
         public Sprite sprite;
+        public AudioClip castAudio;
     }
 
 }
