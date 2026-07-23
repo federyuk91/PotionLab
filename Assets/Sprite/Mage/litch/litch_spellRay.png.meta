@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 754034f521f7a454384cb848280989ff
+guid: e9805493827ac404fa28810d2505b479
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -136,7 +136,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: litch_spell2_0
+      name: litch_spellRay_0
       rect:
         serializedVersion: 2
         x: 0
@@ -151,14 +151,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3ddf53b926c7be749a8f3d84cae683ca
-      internalID: 42781620
+      spriteID: f6f585cac5821824286132328d32fd0a
+      internalID: 795817957
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: litch_spell2_1
+      name: litch_spellRay_1
       rect:
         serializedVersion: 2
         x: 64
@@ -173,14 +173,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c3927e69fed9824408e8b91dd2cdc0d8
-      internalID: -2030295434
+      spriteID: 0d14313ab6328e641a2e7f8d6205d039
+      internalID: -1622578144
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: litch_spell2_2
+      name: litch_spellRay_2
       rect:
         serializedVersion: 2
         x: 128
@@ -195,14 +195,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c00db1b209e43b74c80f1028ba787eb7
-      internalID: -471238277
+      spriteID: ccefd5d4a19774f4fb8374ab1cd4eeeb
+      internalID: 956477244
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: litch_spell2_3
+      name: litch_spellRay_3
       rect:
         serializedVersion: 2
         x: 192
@@ -217,14 +217,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0f61e6c7f29ce764f8e7037d7fffc629
-      internalID: -35122917
+      spriteID: 71eecc7cf8acdaf4db72c914a83879bc
+      internalID: 2052502623
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: litch_spell2_4
+      name: litch_spellRay_4
       rect:
         serializedVersion: 2
         x: 256
@@ -239,14 +239,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f7022ce8fa63b7a429838133331d7d10
-      internalID: -194563819
+      spriteID: e1145b0518056b64ea248a99a6082600
+      internalID: -1615465445
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: litch_spell2_5
+      name: litch_spellRay_5
       rect:
         serializedVersion: 2
         x: 320
@@ -261,14 +261,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 105062869bdade843b38a1fd80d62cbe
-      internalID: 144195235
+      spriteID: 114c7d0a75416e14682fe734aacfe943
+      internalID: 1195901342
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: litch_spell2_6
+      name: litch_spellRay_6
       rect:
         serializedVersion: 2
         x: 384
@@ -283,14 +283,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 33b613041e7056944ad2f0dc9a6a5a86
-      internalID: 791671739
+      spriteID: 08c5d73470bb5524cb3a1032c19346ae
+      internalID: 565116455
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: litch_spell2_7
+      name: litch_spellRay_7
       rect:
         serializedVersion: 2
         x: 448
@@ -305,14 +305,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 30228370ac37bd2458496cda169db41b
-      internalID: -765002115
+      spriteID: 2fbb7be7ad61965449a3cda84241a614
+      internalID: -1302240048
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: litch_spell2_8
+      name: litch_spellRay_8
       rect:
         serializedVersion: 2
         x: 512
@@ -327,14 +327,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1f2bc9c0e2ed1b048ab0806177f3f03f
-      internalID: -1973039836
+      spriteID: bc7a5834814abc147a3b6db269019508
+      internalID: 658346442
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: litch_spell2_9
+      name: litch_spellRay_9
       rect:
         serializedVersion: 2
         x: 576
@@ -349,14 +349,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0303a28cbee181243be60b8f015fe5e3
-      internalID: -509117716
+      spriteID: b3069760c8f817e41bc04a603ac303c3
+      internalID: -294202739
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: litch_spell2_10
+      name: litch_spellRay_10
       rect:
         serializedVersion: 2
         x: 640
@@ -371,14 +371,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c4880c6bba02759449a7f6a87afc26e3
-      internalID: -2104274764
+      spriteID: 1878c0531eace0e4aba2a694c0e1e42d
+      internalID: 38152834
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: litch_spell2_11
+      name: litch_spellRay_11
       rect:
         serializedVersion: 2
         x: 704
@@ -393,8 +393,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 987ea47c3a4def34f8ef9a8b67e17460
-      internalID: -1971675157
+      spriteID: 4f9d97f2abfc3084c978bc1948460385
+      internalID: 632730006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: litch_spellRay_12
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a92a35598e5f5c141a67e4d6bfbd4bba
+      internalID: 1875791692
       vertices: []
       indices: 
       edges: []
@@ -403,7 +425,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: b368ff524f4ce344bb386ad7dff17fad
+    spriteID: 6e3970772ec216b4483957d781e5849a
     internalID: 0
     vertices: []
     indices: 
@@ -415,18 +437,19 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      litch_spell2_0: 42781620
-      litch_spell2_1: -2030295434
-      litch_spell2_10: -2104274764
-      litch_spell2_11: -1971675157
-      litch_spell2_2: -471238277
-      litch_spell2_3: -35122917
-      litch_spell2_4: -194563819
-      litch_spell2_5: 144195235
-      litch_spell2_6: 791671739
-      litch_spell2_7: -765002115
-      litch_spell2_8: -1973039836
-      litch_spell2_9: -509117716
+      litch_spellRay_0: 795817957
+      litch_spellRay_1: -1622578144
+      litch_spellRay_10: 38152834
+      litch_spellRay_11: 632730006
+      litch_spellRay_12: 1875791692
+      litch_spellRay_2: 956477244
+      litch_spellRay_3: 2052502623
+      litch_spellRay_4: -1615465445
+      litch_spellRay_5: 1195901342
+      litch_spellRay_6: 565116455
+      litch_spellRay_7: -1302240048
+      litch_spellRay_8: 658346442
+      litch_spellRay_9: -294202739
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
