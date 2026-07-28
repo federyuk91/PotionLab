@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using CharacterSystem;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +12,7 @@ public class CharacterUIController : MonoBehaviour
     [Header("Sources")]
     [SerializeField] private CharacterStats characterStats;
     [SerializeField] private CharacterSpells characterSpells;
+    [SerializeField] private CharacterStatusController statusController;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private TransformationManager transformationManager;
 
@@ -26,9 +29,28 @@ public class CharacterUIController : MonoBehaviour
     [SerializeField] private Image[] spellImages;
     [SerializeField] private Text[] spellCosts;
 
+    [Header("Status UI")]
+    [SerializeField] private StatusUIEntry[] statusEntries;
+
     [Header("Death UI")]
     [SerializeField] private GameObject deathPanel;
     [SerializeField] private Text deathText;
+
+    [Serializable]
+    private class StatusUIEntry
+    {
+        public Status status;
+        public GameObject root;
+        public TMP_Text levelText;
+    }
+
+    private void Awake()
+    {
+        if (statusController == null)
+        {
+            statusController = GetComponent<CharacterStatusController>();
+        }
+    }
 
     private void OnEnable()
     {
@@ -56,6 +78,13 @@ public class CharacterUIController : MonoBehaviour
             characterSpells.SpellAvailabilityChanged += RefreshSpellAvailability;
         }
 
+        if (statusController != null)
+        {
+            statusController.StatusAdded += RefreshStatus;
+            statusController.StatusRemoved += RefreshStatus;
+            statusController.StatusLevelChanged += RefreshStatus;
+        }
+
         if (gameManager != null)
         {
             gameManager.SpellBarVisibilityChanged += SetSpellBarVisible;
@@ -76,6 +105,13 @@ public class CharacterUIController : MonoBehaviour
         {
             characterSpells.SpellListChanged -= RefreshSpells;
             characterSpells.SpellAvailabilityChanged -= RefreshSpellAvailability;
+        }
+
+        if (statusController != null)
+        {
+            statusController.StatusAdded -= RefreshStatus;
+            statusController.StatusRemoved -= RefreshStatus;
+            statusController.StatusLevelChanged -= RefreshStatus;
         }
 
         if (gameManager != null)
@@ -102,6 +138,8 @@ public class CharacterUIController : MonoBehaviour
         {
             SetSpellBarVisible(spellBar.activeSelf);
         }
+
+        RefreshStatuses();
     }
 
     private void RefreshHP(int currentHP, int maxHP)
@@ -224,6 +262,91 @@ public class CharacterUIController : MonoBehaviour
         {
             spellBar.SetActive(visible);
         }
+    }
+
+    private void RefreshStatuses()
+    {
+        if (statusEntries == null)
+        {
+            return;
+        }
+
+        foreach (StatusUIEntry entry in statusEntries)
+        {
+            RefreshStatusEntry(entry);
+        }
+    }
+
+    private void RefreshStatus(Status status)
+    {
+        if (statusEntries == null)
+        {
+            return;
+        }
+
+        foreach (StatusUIEntry entry in statusEntries)
+        {
+            if (entry != null && entry.status == status)
+            {
+                RefreshStatusEntry(entry);
+            }
+        }
+    }
+
+    private void RefreshStatusEntry(StatusUIEntry entry)
+    {
+        if (entry == null || statusController == null)
+        {
+            return;
+        }
+
+        bool isActive = statusController.Has(entry.status);
+
+        if (entry.root != null)
+        {
+            entry.root.SetActive(isActive);
+        }
+
+        int level = GetStatusLevel(entry.status);
+        bool showLevel = isActive && HasVisibleLevel(entry.status) && level > 0;
+
+        SetLevelText(entry.levelText, showLevel, level);
+    }
+
+    private int GetStatusLevel(Status status)
+    {
+        if (statusController == null)
+        {
+            return 0;
+        }
+
+        return status switch
+        {
+            Status.Burned => statusController.fireLevel,
+            Status.Grounded => statusController.groundLevel,
+            Status.Algae => statusController.algaeLevel,
+            Status.Poisoned => statusController.poisonLevel,
+            _ => 0
+        };
+    }
+
+    private bool HasVisibleLevel(Status status)
+    {
+        return status == Status.Burned
+            || status == Status.Grounded
+            || status == Status.Algae
+            || status == Status.Poisoned;
+    }
+
+    private void SetLevelText(TMP_Text text, bool visible, int level)
+    {
+        if (text == null)
+        {
+            return;
+        }
+
+        text.gameObject.SetActive(visible);
+        text.text = visible ? level.ToString() : string.Empty;
     }
 
     private void ShowDeathPanel(string deathDialog)

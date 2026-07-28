@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CharacterSystem
 {
@@ -8,6 +8,7 @@ namespace CharacterSystem
     {
         [Header("Dialog UI")]
         [SerializeField] private GameObject textDialog;
+        [SerializeField] private TMP_Text dialogText;
         [SerializeField] private GameObject continueButton;
         [SerializeField] private CharacterStats characterStats;
 
@@ -111,7 +112,20 @@ namespace CharacterSystem
             Debug.Log("[DialogManager] PopDialog: " + dialog);
 
             textDialog.SetActive(true);
-            textDialog.GetComponentInChildren<Text>().text = dialog;
+
+            if (dialogText == null)
+            {
+                dialogText = textDialog.GetComponentInChildren<TMP_Text>(true);
+            }
+
+            if (dialogText != null)
+            {
+                dialogText.text = dialog;
+            }
+            else
+            {
+                Debug.LogWarning($"{name} has no TMP dialog text assigned.", this);
+            }
 
             if (duration > 0)
             {
