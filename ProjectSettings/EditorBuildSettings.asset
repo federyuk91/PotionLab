@@ -117,3 +117,4 @@ EditorBuildSettings:
     path: Assets/_Project/Scenes/PotionTEST.unity
     guid: e4e76e1747faeb54c997f16bb7a1a10a
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0
