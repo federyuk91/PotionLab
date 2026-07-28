@@ -6,8 +6,8 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Anim_Balrog_Spell_CauldronBurst
-  serializedVersion: 6
+  m_Name: Calderone_Powered
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -18,21 +18,21 @@ AnimationClip:
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
     - time: 0
-      value: {fileID: -5804939590575161609, guid: 29a8c16f09ae89b41833d4846453ff2b, type: 3}
+      value: {fileID: -1251820769, guid: 97bb49314f8b5e54ab0301cf0be7fc6b, type: 3}
     - time: 0.083333336
-      value: {fileID: -5886602086592908327, guid: 29a8c16f09ae89b41833d4846453ff2b, type: 3}
+      value: {fileID: -533778560, guid: 97bb49314f8b5e54ab0301cf0be7fc6b, type: 3}
     - time: 0.16666667
-      value: {fileID: -872718845115054588, guid: 29a8c16f09ae89b41833d4846453ff2b, type: 3}
+      value: {fileID: -2095130092, guid: 97bb49314f8b5e54ab0301cf0be7fc6b, type: 3}
     - time: 0.25
-      value: {fileID: -1426455882625936343, guid: 29a8c16f09ae89b41833d4846453ff2b, type: 3}
-    - time: 0.33333334
-      value: {fileID: -2392006580054438291, guid: 29a8c16f09ae89b41833d4846453ff2b, type: 3}
+      value: {fileID: -1807944571, guid: 97bb49314f8b5e54ab0301cf0be7fc6b, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
+    flags: 2
   m_SampleRate: 12
   m_WrapMode: 0
   m_Bounds:
@@ -47,18 +47,19 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -5804939590575161609, guid: 29a8c16f09ae89b41833d4846453ff2b, type: 3}
-    - {fileID: -5886602086592908327, guid: 29a8c16f09ae89b41833d4846453ff2b, type: 3}
-    - {fileID: -872718845115054588, guid: 29a8c16f09ae89b41833d4846453ff2b, type: 3}
-    - {fileID: -1426455882625936343, guid: 29a8c16f09ae89b41833d4846453ff2b, type: 3}
-    - {fileID: -2392006580054438291, guid: 29a8c16f09ae89b41833d4846453ff2b, type: 3}
+    - {fileID: -1251820769, guid: 97bb49314f8b5e54ab0301cf0be7fc6b, type: 3}
+    - {fileID: -533778560, guid: 97bb49314f8b5e54ab0301cf0be7fc6b, type: 3}
+    - {fileID: -2095130092, guid: 97bb49314f8b5e54ab0301cf0be7fc6b, type: 3}
+    - {fileID: -1807944571, guid: 97bb49314f8b5e54ab0301cf0be7fc6b, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.4166667
+    m_StopTime: 0.33333334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

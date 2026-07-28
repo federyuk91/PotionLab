@@ -28,11 +28,13 @@ public class GameManager : MonoBehaviour
     [Header("Reference necessarie")]
     public LightController lightController;
     [SerializeField] private DialogManager dialogManager;
+    [SerializeField] private GameObject clickToStartLevel;
     [SerializeField] private bool isPuzzleMode = true;
 
     public int potionDrunked = 0, spawnedPotion = 0;
     public int dieCounter = 0, mutationCounter = 0;
     private bool deathHandled;
+    private bool levelStarted;
 
     private void Awake()
     {
@@ -88,6 +90,17 @@ public class GameManager : MonoBehaviour
 
     public void StartLevel()
     {
+        if (levelStarted)
+        {
+            return;
+        }
+
+        levelStarted = true;
+        if (clickToStartLevel != null)
+        {
+            clickToStartLevel.SetActive(false);
+        }
+
         Time.timeScale = 1;
         LevelStarted?.Invoke();
         StartCoroutine(nameof(StartingLevel));

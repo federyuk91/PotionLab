@@ -5,9 +5,7 @@ namespace CharacterSystem
     {
         [Header("Spell References")]
         [SerializeField] private GameObject calderoneObject;
-
-        private Vector3 calderoneBaseScale;
-        private bool calderoneBaseScaleCaptured;
+        [SerializeField] private GameObject poweredCalderoneObject;
 
         protected override bool CastSpell(int i, bool powered)
         {
@@ -67,15 +65,18 @@ namespace CharacterSystem
                 return false;
             }
 
-            if (calderoneObject == null)
+            GameObject selectedCalderone = powered && poweredCalderoneObject != null ? poweredCalderoneObject : calderoneObject;
+
+            if (selectedCalderone == null)
             {
                 Debug.LogWarning($"{name} has no calderone object assigned.", this);
                 return true;
             }
 
-            calderoneObject.SetActive(true);
-            ApplyCalderoneScale(powered);
-            RestartCalderoneAnimation();
+            SetCalderoneActive(calderoneObject, selectedCalderone == calderoneObject);
+            SetCalderoneActive(poweredCalderoneObject, selectedCalderone == poweredCalderoneObject);
+            RestartCalderoneAnimations(selectedCalderone);
+            RestartCalderoneSpriteAnimations(selectedCalderone);
 
             if (powered)
             {
@@ -85,30 +86,45 @@ namespace CharacterSystem
             return true;
         }
 
-        private void ApplyCalderoneScale(bool powered)
+        private void SetCalderoneActive(GameObject calderone, bool active)
         {
-            if (!calderoneBaseScaleCaptured)
+            if (calderone != null)
             {
-                calderoneBaseScale = calderoneObject.transform.localScale;
-                calderoneBaseScaleCaptured = true;
+                calderone.SetActive(active);
             }
-
-            calderoneObject.transform.localScale = powered ? calderoneBaseScale * 2f : calderoneBaseScale;
         }
 
-        private void RestartCalderoneAnimation()
+        private void RestartCalderoneAnimations(GameObject calderone)
         {
-            Animation calderoneAnimation = calderoneObject.GetComponent<Animation>();
+            Animation[] calderoneAnimations = calderone.GetComponentsInChildren<Animation>(true);
 
-            if (calderoneAnimation == null)
+            if (calderoneAnimations.Length == 0)
             {
-                Debug.LogWarning($"{calderoneObject.name} has no legacy Animation component assigned.", calderoneObject);
+                Debug.LogWarning($"{calderone.name} has no legacy Animation component assigned.", calderone);
                 return;
             }
 
-            calderoneAnimation.Stop();
-            calderoneAnimation.Rewind();
-            calderoneAnimation.Play();
+            foreach (Animation calderoneAnimation in calderoneAnimations)
+            {
+                if (calderoneAnimation.GetComponent<global::PotionDestroyTrigger>() != null)
+                {
+                    continue;
+                }
+
+                calderoneAnimation.enabled = true;
+                calderoneAnimation.Stop();
+                calderoneAnimation.Rewind();
+                calderoneAnimation.Play();
+            }
+        }
+
+        private void RestartCalderoneSpriteAnimations(GameObject calderone)
+        {
+            global::PotionDestroyTrigger[] potionDestroyTriggers = calderone.GetComponentsInChildren<global::PotionDestroyTrigger>(true);
+            foreach (global::PotionDestroyTrigger potionDestroyTrigger in potionDestroyTriggers)
+            {
+                potionDestroyTrigger.RestartSpriteAnimation();
+            }
         }
 
         private bool TrySpendMana(Spell spell, string notEnoughManaDialog)

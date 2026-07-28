@@ -91,7 +91,7 @@ public class LightUIController : MonoBehaviour
     {
         if (lightTimerBar != null)
         {
-            lightTimerBar.fillAmount = progress;
+            lightTimerBar.fillAmount = 1f - progress;
         }
     }
 }
