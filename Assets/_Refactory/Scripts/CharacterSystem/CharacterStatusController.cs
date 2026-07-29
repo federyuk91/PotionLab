@@ -65,31 +65,48 @@ namespace CharacterSystem
 
         public void Decrease(Status status)
         {
+            bool removed = false;
+
             switch (status)
             {
                 case Status.Burned:
                     fireLevel = Mathf.Max(fireLevel - 1, 0);
                     if (fireLevel == 0)
+                    {
                         Remove(Status.Burned);
+                        removed = true;
+                    }
                     break;
                 case Status.Grounded:
                     groundLevel = Mathf.Max(groundLevel - 1, 0);
                     if (groundLevel == 0)
+                    {
                         Remove(Status.Grounded);
+                        removed = true;
+                    }
                     break;
                 case Status.Algae:
                     algaeLevel = Mathf.Max(algaeLevel - 1, 0);
                     if (algaeLevel == 0)
+                    {
                         Remove(Status.Algae);
+                        removed = true;
+                    }
                     break;
                 case Status.Poisoned:
                     poisonLevel = Mathf.Max(poisonLevel - 1, 0);
                     if (poisonLevel == 0)
+                    {
                         Remove(Status.Poisoned);
+                        removed = true;
+                    }
                     break;
             }
 
-            StatusLevelChanged?.Invoke(status);
+            if (!removed)
+            {
+                StatusLevelChanged?.Invoke(status);
+            }
         }
 
         private void ResetLevel(Status status)

@@ -4,6 +4,9 @@ namespace CharacterSystem
     public class BalrogCharacter : BaseCharacter
     {
         [Header("Spell References")]
+        [SerializeField] private CauldronSpellEffect cauldronSpellEffect;
+
+        [Header("Compatibility")]
         [SerializeField] private GameObject calderoneObject;
         [SerializeField] private GameObject poweredCalderoneObject;
 
@@ -65,66 +68,48 @@ namespace CharacterSystem
                 return false;
             }
 
-            GameObject selectedCalderone = powered && poweredCalderoneObject != null ? poweredCalderoneObject : calderoneObject;
-
-            if (selectedCalderone == null)
+            CauldronSpellEffect effect = GetCauldronSpellEffect();
+            if (effect == null)
             {
-                Debug.LogWarning($"{name} has no calderone object assigned.", this);
+                Debug.LogWarning($"{name} has no cauldron spell effect assigned.", this);
                 return true;
             }
 
-            SetCalderoneActive(calderoneObject, selectedCalderone == calderoneObject);
-            SetCalderoneActive(poweredCalderoneObject, selectedCalderone == poweredCalderoneObject);
-            RestartCalderoneAnimations(selectedCalderone);
-            RestartCalderoneSpriteAnimations(selectedCalderone);
+            effect.Play(powered);
 
             if (powered)
             {
-                AchievementManager.instance.Achive("Cooking Mama!");
+                if (AchievementManager.instance != null)
+                {
+                    AchievementManager.instance.Achive("Cooking Mama!");
+                }
             }
 
             return true;
         }
 
-        private void SetCalderoneActive(GameObject calderone, bool active)
+        private CauldronSpellEffect GetCauldronSpellEffect()
         {
-            if (calderone != null)
+            if (cauldronSpellEffect != null)
             {
-                calderone.SetActive(active);
-            }
-        }
-
-        private void RestartCalderoneAnimations(GameObject calderone)
-        {
-            Animation[] calderoneAnimations = calderone.GetComponentsInChildren<Animation>(true);
-
-            if (calderoneAnimations.Length == 0)
-            {
-                Debug.LogWarning($"{calderone.name} has no legacy Animation component assigned.", calderone);
-                return;
+                return cauldronSpellEffect;
             }
 
-            foreach (Animation calderoneAnimation in calderoneAnimations)
+            cauldronSpellEffect = GetComponent<CauldronSpellEffect>();
+            if (cauldronSpellEffect != null)
             {
-                if (calderoneAnimation.GetComponent<global::PotionDestroyTrigger>() != null)
-                {
-                    continue;
-                }
-
-                calderoneAnimation.enabled = true;
-                calderoneAnimation.Stop();
-                calderoneAnimation.Rewind();
-                calderoneAnimation.Play();
+                return cauldronSpellEffect;
             }
-        }
 
-        private void RestartCalderoneSpriteAnimations(GameObject calderone)
-        {
-            global::PotionDestroyTrigger[] potionDestroyTriggers = calderone.GetComponentsInChildren<global::PotionDestroyTrigger>(true);
-            foreach (global::PotionDestroyTrigger potionDestroyTrigger in potionDestroyTriggers)
+            if (calderoneObject == null && poweredCalderoneObject == null)
             {
-                potionDestroyTrigger.RestartSpriteAnimation();
+                return null;
             }
+
+            // Temporary bridge for scenes still serialized with the old Balrog fields.
+            cauldronSpellEffect = gameObject.AddComponent<CauldronSpellEffect>();
+            cauldronSpellEffect.Configure(calderoneObject, poweredCalderoneObject);
+            return cauldronSpellEffect;
         }
 
         private bool TrySpendMana(Spell spell, string notEnoughManaDialog)

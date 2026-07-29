@@ -39,9 +39,13 @@ public class CharacterUIController : MonoBehaviour
     [Serializable]
     private class StatusUIEntry
     {
-        public Status status;
-        public GameObject root;
-        public TMP_Text levelText;
+        [SerializeField] private Status status;
+        [SerializeField] private GameObject root;
+        [SerializeField] private TMP_Text levelText;
+
+        public Status Status => status;
+        public GameObject Root => root;
+        public TMP_Text LevelText => levelText;
     }
 
     private void Awake()
@@ -286,7 +290,7 @@ public class CharacterUIController : MonoBehaviour
 
         foreach (StatusUIEntry entry in statusEntries)
         {
-            if (entry != null && entry.status == status)
+            if (entry != null && entry.Status == status)
             {
                 RefreshStatusEntry(entry);
             }
@@ -300,17 +304,17 @@ public class CharacterUIController : MonoBehaviour
             return;
         }
 
-        bool isActive = statusController.Has(entry.status);
+        bool isActive = statusController.Has(entry.Status);
 
-        if (entry.root != null)
+        if (entry.Root != null)
         {
-            entry.root.SetActive(isActive);
+            entry.Root.SetActive(isActive);
         }
 
-        int level = GetStatusLevel(entry.status);
-        bool showLevel = isActive && HasVisibleLevel(entry.status) && level > 0;
+        int level = GetStatusLevel(entry.Status);
+        bool showLevel = isActive && HasVisibleLevel(entry.Status) && level > 0;
 
-        SetLevelText(entry.levelText, showLevel, level);
+        SetLevelText(entry.LevelText, showLevel, level);
     }
 
     private int GetStatusLevel(Status status)

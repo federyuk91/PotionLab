@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour
     [Header("Reference necessarie")]
     public LightController lightController;
     [SerializeField] private DialogManager dialogManager;
-    [SerializeField] private GameObject clickToStartLevel;
     [SerializeField] private bool isPuzzleMode = true;
 
     public int potionDrunked = 0, spawnedPotion = 0;
@@ -96,10 +95,6 @@ public class GameManager : MonoBehaviour
         }
 
         levelStarted = true;
-        if (clickToStartLevel != null)
-        {
-            clickToStartLevel.SetActive(false);
-        }
 
         Time.timeScale = 1;
         LevelStarted?.Invoke();

@@ -2275,6 +2275,7 @@ GameObject:
   - component: {fileID: 185125520}
   - component: {fileID: 185125519}
   - component: {fileID: 185125518}
+  - component: {fileID: 185125523}
   - component: {fileID: 185125517}
   - component: {fileID: 185125522}
   m_Layer: 0
@@ -2408,6 +2409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e87b3bd2094c879473caf49f40dcbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  feedback: {fileID: 185125523}
   dialogOnPotionDestroyed: BURN!
   audioSource: {fileID: 185125517}
   blinkRenderers: []
@@ -2430,6 +2432,33 @@ MonoBehaviour:
   lightPotionAchievementName: Mana BURN!
   increaseLightAfterNonLightPotions: 1
   nonLightPotionsBeforeLightIncrease: 5
+--- !u!114 &185125523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185125514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a8d7171b10a4ac9954124b5ab93b0dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogManager: {fileID: 1215253487}
+  dialogOnPotionDestroyed: BURN!
+  audioSource: {fileID: 185125517}
+  blinkRenderers: []
+  blinkColor: {r: 1, g: 1, b: 1, a: 1}
+  blinkDuration: 0.08
+  useSolidWhiteBlink: 1
+  animatedRenderer: {fileID: 185125521}
+  animationFrames:
+  - {fileID: -1251820769, guid: 97bb49314f8b5e54ab0301cf0be7fc6b, type: 3}
+  - {fileID: -533778560, guid: 97bb49314f8b5e54ab0301cf0be7fc6b, type: 3}
+  - {fileID: -2095130092, guid: 97bb49314f8b5e54ab0301cf0be7fc6b, type: 3}
+  - {fileID: -1807944571, guid: 97bb49314f8b5e54ab0301cf0be7fc6b, type: 3}
+  animationFramesPerSecond: 12
+  animateOnEnable: 1
 --- !u!61 &185125519
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -49893,6 +49922,7 @@ GameObject:
   - component: {fileID: 1398186242}
   - component: {fileID: 1398186241}
   - component: {fileID: 1398186240}
+  - component: {fileID: 1398186243}
   - component: {fileID: 1398186239}
   - component: {fileID: 1398186238}
   m_Layer: 0
@@ -50063,6 +50093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e87b3bd2094c879473caf49f40dcbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  feedback: {fileID: 1398186243}
   dialogOnPotionDestroyed: BLOOOOB!
   audioSource: {fileID: 1398186238}
   blinkRenderers: []
@@ -50081,6 +50112,29 @@ MonoBehaviour:
   lightPotionAchievementName: Mana BURN!
   increaseLightAfterNonLightPotions: 1
   nonLightPotionsBeforeLightIncrease: 5
+--- !u!114 &1398186243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1398186236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a8d7171b10a4ac9954124b5ab93b0dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogManager: {fileID: 1215253487}
+  dialogOnPotionDestroyed: BLOOOOB!
+  audioSource: {fileID: 1398186238}
+  blinkRenderers: []
+  blinkColor: {r: 1, g: 1, b: 1, a: 1}
+  blinkDuration: 0.08
+  useSolidWhiteBlink: 1
+  animatedRenderer: {fileID: 0}
+  animationFrames: []
+  animationFramesPerSecond: 12
+  animateOnEnable: 1
 --- !u!114 &1398186241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69261,6 +69315,7 @@ GameObject:
   - component: {fileID: 1779480977}
   - component: {fileID: 1779480976}
   - component: {fileID: 1779480975}
+  - component: {fileID: 1779480981}
   - component: {fileID: 1779480974}
   - component: {fileID: 1779480980}
   m_Layer: 0
@@ -69394,6 +69449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e87b3bd2094c879473caf49f40dcbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  feedback: {fileID: 1779480981}
   dialogOnPotionDestroyed: BURN!
   audioSource: {fileID: 1779480974}
   blinkRenderers: []
@@ -69416,6 +69472,33 @@ MonoBehaviour:
   lightPotionAchievementName: Mana BURN!
   increaseLightAfterNonLightPotions: 1
   nonLightPotionsBeforeLightIncrease: 5
+--- !u!114 &1779480981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779480972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a8d7171b10a4ac9954124b5ab93b0dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogManager: {fileID: 1215253487}
+  dialogOnPotionDestroyed: BURN!
+  audioSource: {fileID: 1779480974}
+  blinkRenderers: []
+  blinkColor: {r: 1, g: 1, b: 1, a: 1}
+  blinkDuration: 0.08
+  useSolidWhiteBlink: 1
+  animatedRenderer: {fileID: 1779480979}
+  animationFrames:
+  - {fileID: -1147085699, guid: 2e1520bed3efec94590d21fc1c712d1c, type: 3}
+  - {fileID: -1443380307, guid: 2e1520bed3efec94590d21fc1c712d1c, type: 3}
+  - {fileID: -1768698155, guid: 2e1520bed3efec94590d21fc1c712d1c, type: 3}
+  - {fileID: -1547773438, guid: 2e1520bed3efec94590d21fc1c712d1c, type: 3}
+  animationFramesPerSecond: 12
+  animateOnEnable: 1
 --- !u!61 &1779480976
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -80364,7 +80447,6 @@ MonoBehaviour:
   droppables: []
   lightController: {fileID: 340449490}
   dialogManager: {fileID: 1215253487}
-  clickToStartLevel: {fileID: 0}
   isPuzzleMode: 0
   potionDrunked: 0
   spawnedPotion: 0
