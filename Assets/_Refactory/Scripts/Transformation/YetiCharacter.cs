@@ -172,7 +172,7 @@ namespace CharacterSystem
 
         public override void ApplyPoison(PotionScriptable ps)
         {
-            status.Add(Status.Poisoned);
+            status.Increase(Status.Poisoned);
         }
 
         public override void ApplyWet(PotionScriptable ps)
@@ -224,11 +224,7 @@ namespace CharacterSystem
             else
             {
                 stats.TakeDamage(1);
-                status.poisonLevel--;
-                if (status.poisonLevel <= 0)
-                {
-                    status.Remove(Status.Poisoned);
-                }
+                status.Decrease(Status.Poisoned);
             }
         }
 

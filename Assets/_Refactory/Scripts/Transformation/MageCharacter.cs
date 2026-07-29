@@ -482,11 +482,7 @@ namespace CharacterSystem
             else
             {
                 stats.TakeDamage(status.poisonLevel);
-                status.poisonLevel--;
-                if (status.poisonLevel <= 0)
-                {
-                    status.Remove(Status.Poisoned);
-                }
+                status.Decrease(Status.Poisoned);
             }
         }
 

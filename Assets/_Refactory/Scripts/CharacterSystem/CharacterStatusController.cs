@@ -82,6 +82,11 @@ namespace CharacterSystem
                     if (algaeLevel == 0)
                         Remove(Status.Algae);
                     break;
+                case Status.Poisoned:
+                    poisonLevel = Mathf.Max(poisonLevel - 1, 0);
+                    if (poisonLevel == 0)
+                        Remove(Status.Poisoned);
+                    break;
             }
 
             StatusLevelChanged?.Invoke(status);
@@ -94,6 +99,7 @@ namespace CharacterSystem
                 case Status.Algae: algaeLevel = 0; break;
                 case Status.Grounded: groundLevel = 0; break;
                 case Status.Burned: fireLevel = 0; break;
+                case Status.Poisoned: poisonLevel = 0; break;
             }
             StatusLevelChanged?.Invoke(status);
         }
