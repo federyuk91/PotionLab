@@ -19,6 +19,8 @@ namespace CharacterSystem
             characterStats = GetComponent<CharacterStats>();
             characterStats.OnManaDown += OnManaChange;
             characterStats.OnManaUp += OnManaChange;
+            characterStats.OnHealtDown += OnHealthChange;
+            characterStats.OnHealtUp += OnHealthChange;
             transformationManager.OnTransformation += OnTransformation;
         }
 
@@ -33,6 +35,8 @@ namespace CharacterSystem
             {
                 characterStats.OnManaDown -= OnManaChange;
                 characterStats.OnManaUp -= OnManaChange;
+                characterStats.OnHealtDown -= OnHealthChange;
+                characterStats.OnHealtUp -= OnHealthChange;
             }
 
             if (transformationManager != null)
@@ -42,6 +46,11 @@ namespace CharacterSystem
         }
 
         public void OnManaChange()
+        {
+            RefreshSpellAvailability();
+        }
+
+        public void OnHealthChange()
         {
             RefreshSpellAvailability();
         }
@@ -62,9 +71,19 @@ namespace CharacterSystem
         {
             for (int i = 0; i < 3; i++)
             {
-                bool isActive = characterStats.HasMana(Character.spellList[i].cost);
+                bool isActive = CanPaySpellCost(Character.spellList[i].cost);
                 SpellAvailabilityChanged?.Invoke(i, Character.spellList[i], isActive);
             }
+        }
+
+        private bool CanPaySpellCost(int cost)
+        {
+            if (Character.GetCharacterForm() != CharacterType.Litch)
+            {
+                return characterStats.HasMana(cost);
+            }
+
+            return characterStats.MP + Mathf.Max(characterStats.HP - 1, 0) >= cost;
         }
 
         public void OnSpell(int i)

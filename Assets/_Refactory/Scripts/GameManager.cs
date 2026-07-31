@@ -132,6 +132,29 @@ public class GameManager : MonoBehaviour
         levelPotions.Add(potion);
     }
 
+    public void ReplacePotion(PotionScript sourcePotion, PotionScript replacementPotion)
+    {
+        if (replacementPotion == null)
+        {
+            return;
+        }
+
+        if (levelPotions == null)
+        {
+            levelPotions = new List<PotionScript>();
+        }
+
+        if (!levelPotions.Contains(replacementPotion))
+        {
+            levelPotions.Add(replacementPotion);
+        }
+
+        if (sourcePotion != null)
+        {
+            levelPotions.Remove(sourcePotion);
+        }
+    }
+
     public bool IsCharacterAlive()
     {
         return Character != null && Character.stats != null && Character.stats.HP > 0;

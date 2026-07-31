@@ -3,24 +3,72 @@ namespace CharacterSystem
 {
     public class LitchCharacter : BaseCharacter
     {
+        [Header("Spell References")]
+        [SerializeField] private DarkRaySpellEffect darkRaySpellEffect;
 
         protected override bool CastSpell(int i, bool powered)
         {
             Spell spell = spellList[i];
-            Debug.LogWarning("Not implemented yet: " + spell.spellName);
             switch (i)
             {
                 case 0:
-
+                    Debug.LogWarning("Not implemented yet: " + spell.spellName);
                     return true;
                 case 1:
-                    return true;
+                    return CastDarkRay(spell);
                 case 2:
+                    Debug.LogWarning("Not implemented yet: " + spell.spellName);
                     return true;
                 default:
-                    Debug.LogError($"{name} has no Balrog spell behaviour for index {i}", this);
+                    Debug.LogError($"{name} has no Litch spell behaviour for index {i}", this);
                     return false;
             }
+        }
+
+        private bool CastDarkRay(Spell spell)
+        {
+            if (darkRaySpellEffect == null)
+            {
+                darkRaySpellEffect = GetComponentInChildren<DarkRaySpellEffect>(true);
+            }
+
+            if (darkRaySpellEffect == null)
+            {
+                Debug.LogWarning($"{name} cannot cast Dark-Ray: DarkRaySpellEffect reference is missing.", this);
+                return false;
+            }
+
+            if (!TrySpendMana(spell, "I need more magic for this spell"))
+            {
+                return false;
+            }
+
+            darkRaySpellEffect.Cast();
+            return true;
+        }
+
+        private bool TrySpendMana(Spell spell, string notEnoughManaDialog)
+        {
+            int manaCost = Mathf.Min(stats.MP, spell.cost);
+            int healthCost = spell.cost - manaCost;
+
+            if (healthCost > 0 && stats.HP <= healthCost)
+            {
+                dialogManager.PopDialog(notEnoughManaDialog, 3f);
+                return false;
+            }
+
+            if (manaCost > 0)
+            {
+                stats.LoseMana(manaCost);
+            }
+
+            if (healthCost > 0)
+            {
+                stats.TakeDamage(healthCost);
+            }
+
+            return true;
         }
 
         public override void ApplyDark(PotionScriptable ps)
