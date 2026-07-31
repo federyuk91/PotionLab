@@ -28,7 +28,7 @@ namespace CharacterSystem
         {
             if (gameManager == null)
             {
-                gameManager = GameManager.Instance;
+                Debug.LogError($"{name} requires a GameManager reference.", this);
             }
         }
 
@@ -98,14 +98,11 @@ namespace CharacterSystem
 
             if (gameManager == null)
             {
-                gameManager = GameManager.Instance;
+                Debug.LogError($"{name} cannot destroy potion correctly: GameManager reference is missing.", this);
+                return;
             }
 
-            if (gameManager != null)
-            {
-                gameManager.RemovePotion(potion, false);
-            }
-
+            gameManager.RemovePotion(potion, false);
             Destroy(potion.gameObject);
 
             DeactivateAfterUse();

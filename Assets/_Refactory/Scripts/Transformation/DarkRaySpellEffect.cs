@@ -43,8 +43,7 @@ namespace CharacterSystem
                 gameManager = GameManager.Instance;
             }
 
-            potionFilter = new ContactFilter2D();
-            potionFilter.NoFilter();
+            potionFilter = ContactFilter2D.noFilter;
         }
 
         public void Cast()

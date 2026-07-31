@@ -1,4 +1,3 @@
-using CharacterSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +11,7 @@ public class PotionScript : MonoBehaviour
     public PotionScriptable potion;
     public GameObject whiteSquare;
     public bool isActive = false;
+    public bool isStackable = true;
 
     public List<PotionScript> stock = new List<PotionScript>();
 
@@ -49,16 +49,23 @@ public class PotionScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Potion") && collision.collider.gameObject.GetComponents<LitchSummonPotionDestroyer>() == null)
+        if (!isStackable || !collision.collider.CompareTag("Potion"))
         {
-            PotionScript collisionPotion = collision.collider.GetComponent<PotionScript>();
-            foreach (PotionScript pot in collisionPotion.stock)
-            {
-                if (!stock.Contains(pot))
-                    stock.Add(pot);
-            }
-            _rb.mass = 1f / stock.Count;
+            return;
         }
+
+        PotionScript collisionPotion = collision.collider.GetComponent<PotionScript>();
+        if (collisionPotion == null || !collisionPotion.isStackable)
+        {
+            return;
+        }
+
+        foreach (PotionScript pot in collisionPotion.stock)
+        {
+            if (!stock.Contains(pot))
+                stock.Add(pot);
+        }
+        _rb.mass = 1f / stock.Count;
     }
 
 
