@@ -4,6 +4,7 @@ namespace CharacterSystem
     public class LitchCharacter : BaseCharacter
     {
         [Header("Spell References")]
+        [SerializeField] private LitchSummonGroup summonGroup;
         [SerializeField] private DarkRaySpellEffect darkRaySpellEffect;
 
         protected override bool CastSpell(int i, bool powered)
@@ -12,17 +13,52 @@ namespace CharacterSystem
             switch (i)
             {
                 case 0:
-                    Debug.LogWarning("Not implemented yet: " + spell.spellName);
-                    return true;
+                    return CastSummon(spell);
                 case 1:
                     return CastDarkRay(spell);
                 case 2:
-                    Debug.LogWarning("Not implemented yet: " + spell.spellName);
-                    return true;
+                    return CastSecondChance(spell);
                 default:
                     Debug.LogError($"{name} has no Litch spell behaviour for index {i}", this);
                     return false;
             }
+        }
+
+        private bool CastSummon(Spell spell)
+        {
+            if (summonGroup == null)
+            {
+                summonGroup = GetComponentInChildren<LitchSummonGroup>(true);
+            }
+
+            if (summonGroup == null)
+            {
+                LitchSummonPotionDestroyer summon = GetComponentInChildren<LitchSummonPotionDestroyer>(true);
+                if (summon != null)
+                {
+                    summonGroup = summon.GetComponentInParent<LitchSummonGroup>();
+                }
+            }
+
+            if (summonGroup == null)
+            {
+                Debug.LogWarning($"{name} cannot cast Summon: summon group is missing.", this);
+                return false;
+            }
+
+            if (summonGroup.HasActiveSkeletons())
+            {
+                dialogManager.PopDialog("They are still working", 2f);
+                return false;
+            }
+
+            if (!TrySpendMana(spell, "I need more life or magic for this spell"))
+            {
+                return false;
+            }
+
+            summonGroup.ActivateSkeletons();
+            return true;
         }
 
         private bool CastDarkRay(Spell spell)
@@ -38,12 +74,24 @@ namespace CharacterSystem
                 return false;
             }
 
-            if (!TrySpendMana(spell, "I need more magic for this spell"))
+            if (!TrySpendMana(spell, "I need more life or magic for this spell"))
             {
                 return false;
             }
 
             darkRaySpellEffect.Cast();
+            return true;
+        }
+
+        private bool CastSecondChance(Spell spell)
+        {
+            if (!TrySpendMana(spell, "I need more life or magic for this spell"))
+            {
+                return false;
+            }
+
+            status.Clear();
+            ReturnMage();
             return true;
         }
 
@@ -219,7 +267,7 @@ namespace CharacterSystem
 
         public override void OnEnterTransformation()
         {
-            // Litch has no enter side effects yet.
+            status.Clear();
         }
 
         public override void OnExitTransformation()

@@ -44,53 +44,68 @@ namespace CharacterSystem
 
         public void Drunk(PotionScript potion)
         {
-            dialogManager.OnPotionDrunk(potion.potion, GetCharacterForm(), status);
+            if (potion == null)
+            {
+                return;
+            }
+
+            Drunk(potion.potion);
+        }
+
+        public void Drunk(PotionScriptable potion)
+        {
+            if (potion == null)
+            {
+                return;
+            }
+
+            dialogManager.OnPotionDrunk(potion, GetCharacterForm(), status);
             StartCoroutine(DrunkRoutine(potion));
         }
 
-        private IEnumerator DrunkRoutine(PotionScript potion)
+        private IEnumerator DrunkRoutine(PotionScriptable potion)
         {
             animator.SetTrigger("Drunk");
             List<Status> previousStatuses = new List<Status>(status.GetCurrentStatuses());
             yield return new WaitForSeconds(1f);
 
-            PotionEffectResolving?.Invoke(this, potion.potion, previousStatuses);
+            PotionEffectResolving?.Invoke(this, potion, previousStatuses);
 
-            switch (potion.potion.effectType)
+            switch (potion.effectType)
             {
                 case PotionScriptable.EffectType.healing:
-                    ApplyHeal(potion.potion);
+                    ApplyHeal(potion);
                     break;
                 case PotionScriptable.EffectType.fire:
-                    ApplyFire(potion.potion);
+                    ApplyFire(potion);
                     break;
                 case PotionScriptable.EffectType.lava:
-                    ApplyLava(potion.potion);
+                    ApplyLava(potion);
                     break;
                 case PotionScriptable.EffectType.ice:
-                    ApplyIce(potion.potion);
+                    ApplyIce(potion);
                     break;
                 case PotionScriptable.EffectType.water:
-                    ApplyWet(potion.potion);
+                    ApplyWet(potion);
                     break;
                 case PotionScriptable.EffectType.grass:
-                    ApplyGrass(potion.potion);
+                    ApplyGrass(potion);
                     break;
                 case PotionScriptable.EffectType.light:
-                    ApplyLight(potion.potion);
+                    ApplyLight(potion);
                     break;
                 case PotionScriptable.EffectType.dark:
-                    ApplyDark(potion.potion);
+                    ApplyDark(potion);
                     break;
                 case PotionScriptable.EffectType.poisoned:
-                    ApplyPoison(potion.potion);
+                    ApplyPoison(potion);
                     break;
                 case PotionScriptable.EffectType.grounded:
-                    ApplyGround(potion.potion);
+                    ApplyGround(potion);
                     break;
 
                     default:
-                    Debug.LogWarning("Potion effect not handled in DrunkRoutine: "+ potion.potion.effectType.ToString());
+                    Debug.LogWarning("Potion effect not handled in DrunkRoutine: "+ potion.effectType.ToString());
                     break;
             }
         }

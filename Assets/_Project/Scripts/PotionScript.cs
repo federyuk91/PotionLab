@@ -1,3 +1,4 @@
+using CharacterSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,7 +49,7 @@ public class PotionScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Potion"))
+        if (collision.collider.CompareTag("Potion") && collision.collider.gameObject.GetComponents<LitchSummonPotionDestroyer>() == null)
         {
             PotionScript collisionPotion = collision.collider.GetComponent<PotionScript>();
             foreach (PotionScript pot in collisionPotion.stock)
