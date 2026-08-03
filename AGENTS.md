@@ -1,40 +1,70 @@
 # AGENTS.md
 
-Linee guida per lavorare su TheGoodNightPotion.
+Guidelines for working on TheGoodNightPotion.
 
-## Codice Unity/C#
+## Unity/C# Code
 
-- Usa tipi espliciti; evita `var` salvo casi banali e molto leggibili.
-- Preferisci reference assegnate da Inspector con `[SerializeField]`.
-- Usa `GetComponent` solo per fallback locali, non ripetuti, e mai come scorciatoia per collegare sistemi distanti.
-- Mantieni commenti brevi e utili: logica non ovvia, vincoli Unity, assunzioni di gameplay.
-- Non introdurre dipendenze dal sistema legacy nel refactor.
+- Use explicit types; avoid `var` except for trivial and highly readable cases.
+- Prefer Inspector-assigned references via `[SerializeField]`.
+- Use `GetComponent` only for local, non-repeated fallbacks; never use it to connect distant systems.
+- Do not use `GameManager.Instance`, `TransformationManager.Instance`, `Find`, or runtime searches in refactored gameplay components.
+- If a required reference is missing, log an explicit warning or error telling which Inspector reference must be assigned.
+- Keep comments short and useful: non-obvious logic, Unity constraints, gameplay assumptions, or workarounds.
+- Do not introduce new dependencies from refactored code to legacy code.
 
-## Struttura progetto
+## Project Structure
 
-- Il codice legacy resta in `Assets/_Project`.
-- Il refactor resta in `Assets/_Refactory`.
-- `TestingNew.unity` e gli asset sotto `Assets/_Refactory` sono il riferimento per il nuovo sistema.
-- Non modificare scene/prefab legacy per adattarli al refactor, salvo richiesta esplicita.
-- Quando sposti asset Unity, preserva sempre i `.meta` per non rompere i GUID.
+- Legacy code stays in `Assets/_Project`.
+- Refactored code stays in `Assets/_Refactory`.
+- `TestingNew.unity` and assets under `Assets/_Refactory` are the reference for the new system.
+- Do not modify legacy scenes or prefabs to support the refactor unless explicitly requested.
+- When moving Unity assets, preserve `.meta` files to avoid breaking GUID references.
 
-## Responsabilita'
+## Responsibilities
 
-- `GameManager` gestisce flusso di livello, morte, completamento e registri di gioco essenziali.
-- `GameManager` non deve gestire UI, dialoghi, VFX, audio o dettagli delle trasformazioni.
-- `DialogManager` gestisce tutti i dialoghi.
-- `CharacterUIController` gestisce HP, MP, spell UI, status UI e schermata morte.
-- `LightUIController` gestisce solo UI della luce.
-- `LightController` gestisce luce, timer luce e field di luce.
-- `TransformationManager` gestisce solo il cambio forma e gli eventi di trasformazione.
-- `CharacterStatusController` conserva status e livelli, emette eventi, ma non decide regole di gameplay.
-- Ogni `BaseCharacter` concreto decide le regole della propria forma: pozioni, spell, tick e ritorno al mago.
-- VFX/audio/animazioni complesse devono stare in componenti dedicati quando superano una chiamata semplice sull'animator della forma.
+### Core Gameplay
+
+- `GameManager` handles level flow, start, death, completion, retry/next level, and essential potion/droppable registries.
+- `GameManager` must not manage UI, dialogs, VFX, audio, light behavior, or transformation details.
+- `TransformationManager` handles only the active form, form switching, and `OnTransformation`.
+- `TransformationManager` must not decide potion, spell, status, UI, dialog, audio, or VFX rules.
+- Each concrete `BaseCharacter` owns the rules for its form: potions, spells, ticks, vulnerabilities, immunities, transformations, and return-to-mage behavior.
+- `BaseCharacter` exposes shared form data, including `spellList` and `TransformationLightColor`.
+- `CharacterSpells` coordinates spell input, costs, powered state, and spell UI events; it must not know concrete UI objects.
+
+### Stats, Status, And Ticks
+
+- `CharacterStats` owns HP/MP, death, stat popup events, and stat change events; it must not directly manage UI.
+- `CharacterStats.lightColor` and `hpColor` are stat popup colors, not transformation light colors.
+- `CharacterStatusController` stores statuses and levels, emits status events, and does not decide gameplay meaning for status combinations.
+- `StatusTickRunner` runs active status ticks by calling the current character; it must not contain form-specific rules.
+
+### Light
+
+- `LightController` owns light intensity, light timer, light color, and active light field.
+- `LightController.IsPoweredFor(CharacterType)` decides powered state from light intensity or the active field.
+- Transformation light color comes from `BaseCharacter.TransformationLightColor`, not from a character-color table inside `LightController`.
+- `LightController` must not manage UI; light text and timer UI belong to `LightUIController`.
+
+### UI, Dialogs, VFX, And Audio
+
+- `CharacterUIController` owns HP, MP, stat popups, spell buttons, costs, sprites, status UI, spell bar visibility, retry panel, and death text.
+- `LightUIController` owns only light level text and light timer UI.
+- `DialogManager` owns all dialogs and dialog rules.
+- `VFXStatusController` reacts to status/reaction events and visualizes them; it must not decide gameplay.
+- `CharacterAudioController` reacts to potion/spell/status events and plays audio; it must not decide gameplay.
+- Simple animator triggers for the active form may stay in the character; complex or reusable animation behavior should move to a dedicated component.
+
+### Specific Gameplay Objects
+
+- `PotionDestroyTrigger` consumes/destroys potions in a 2D trigger and reports effects through Inspector references.
+- `Flower` owns the refactored flower behavior and uses `DialogManager`/`GameManager` through Inspector references.
+- Spell effect components such as `DarkRaySpellEffect` must receive dependencies from Inspector and must not recover them through singletons.
 
 ## Refactor
 
-- Prima di refactor ampi, proponi un piano breve e segnala rischi.
-- Mantieni compatibilita' legacy solo nei componenti legacy o con fallback espliciti gia' concordati.
-- Non trasformare componenti helper in nuovi manager generici.
-- Se una modifica aggiunge una responsabilita' a una classe, verifica prima che non appartenga a un controller dedicato.
-- Dopo modifiche C#, esegui `dotnet build TheGoodNightPotion.sln` quando possibile.
+- Before broad refactors, propose a short plan and call out risks.
+- Keep legacy compatibility only inside legacy components or explicitly agreed fallback paths.
+- Do not turn helper components into new generic managers.
+- If a change adds a responsibility to a class, first check whether that responsibility belongs to an existing dedicated controller.
+- After C# changes, run `dotnet build TheGoodNightPotion.sln` when possible.
