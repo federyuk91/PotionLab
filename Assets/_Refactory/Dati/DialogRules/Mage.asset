@@ -23,6 +23,27 @@ MonoBehaviour:
       - Red like me!
       - Love it!
       - ahh! The goodnight potion!
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
   - potion: 2
     cases:
     - requiredStatuses: 
@@ -44,6 +65,15 @@ MonoBehaviour:
     - requiredStatuses: 04000000
       lines:
       - I washed the poison off my clothes
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
   - potion: 3
     cases:
     - requiredStatuses: 
@@ -55,6 +85,24 @@ MonoBehaviour:
       lines:
       - ah shit... here we go again.
       - Where did I put the flame of Anor?
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
   - potion: 4
     cases:
     - requiredStatuses: 
@@ -65,6 +113,24 @@ MonoBehaviour:
       lines:
       - Big foot, big muscle... something else?
       - I like my white hair
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
   - potion: 5
     cases:
     - requiredStatuses: 01000000
@@ -88,6 +154,12 @@ MonoBehaviour:
     - requiredStatuses: 04000000
       lines:
       - oh, this cleanse poison!
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
   - potion: 6
     cases:
     - requiredStatuses: 
@@ -98,6 +170,24 @@ MonoBehaviour:
     - requiredStatuses: 01000000
       lines:
       - Maybe some water can help me
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
   - potion: 7
     cases:
     - requiredStatuses: 
@@ -106,6 +196,27 @@ MonoBehaviour:
       - My magic is going Up!
       - Yohooo! A light potion!
       - 'HM05: Flash!'
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
   - potion: 8
     cases:
     - requiredStatuses: 
@@ -113,6 +224,27 @@ MonoBehaviour:
       - Hello darkness, my old friend
       - Goodbye
       - I stop whenever I want
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
   - potion: 9
     cases:
     - requiredStatuses: 
@@ -125,6 +257,24 @@ MonoBehaviour:
       lines:
       - Blub blub
       - Gulp
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
   - potion: 10
     cases:
     - requiredStatuses: 
@@ -138,3 +288,44 @@ MonoBehaviour:
     - requiredStatuses: 01000000
       lines:
       - This works too I guess
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+  - potion: 1
+    cases:
+    - requiredStatuses: 
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.

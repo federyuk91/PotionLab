@@ -26,11 +26,65 @@ namespace CharacterSystem
 
         private void Awake()
         {
-            animator = GetComponent<Animator>();
-            stats = GetComponentInParent<CharacterStats>();
-            status = GetComponentInParent<CharacterStatusController>();
-            transformationManager = GetComponentInParent<TransformationManager>();
-            dialogManager = GetComponentInParent<DialogManager>();
+            if (animator == null)
+            {
+                Debug.LogWarning($"{name}: Animator reference is missing in Inspector. Using local fallback; assign it explicitly before production.", this);
+                animator = GetComponent<Animator>();
+            }
+
+            if (stats == null)
+            {
+                Debug.LogWarning($"{name}: CharacterStats reference is missing in Inspector. Using parent fallback; assign it explicitly before production.", this);
+                stats = GetComponentInParent<CharacterStats>();
+            }
+
+            if (status == null)
+            {
+                Debug.LogWarning($"{name}: CharacterStatusController reference is missing in Inspector. Using parent fallback; assign it explicitly before production.", this);
+                status = GetComponentInParent<CharacterStatusController>();
+            }
+
+            if (transformationManager == null)
+            {
+                Debug.LogWarning($"{name}: TransformationManager reference is missing in Inspector. Using parent fallback; assign it explicitly before production.", this);
+                transformationManager = GetComponentInParent<TransformationManager>();
+            }
+
+            if (dialogManager == null)
+            {
+                Debug.LogWarning($"{name}: DialogManager reference is missing in Inspector. Using parent fallback; assign it explicitly before production.", this);
+                dialogManager = GetComponentInParent<DialogManager>();
+            }
+
+            ValidateRequiredReferences();
+        }
+
+        private void ValidateRequiredReferences()
+        {
+            if (animator == null)
+            {
+                Debug.LogError($"{name}: Animator reference is required.", this);
+            }
+
+            if (stats == null)
+            {
+                Debug.LogError($"{name}: CharacterStats reference is required.", this);
+            }
+
+            if (status == null)
+            {
+                Debug.LogError($"{name}: CharacterStatusController reference is required.", this);
+            }
+
+            if (transformationManager == null)
+            {
+                Debug.LogError($"{name}: TransformationManager reference is required.", this);
+            }
+
+            if (dialogManager == null)
+            {
+                Debug.LogError($"{name}: DialogManager reference is required.", this);
+            }
         }
 
         public virtual void OnEnable()

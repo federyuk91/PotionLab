@@ -2,7 +2,7 @@
 
 ## Refactor Character System
 
-Questo documento riassume le regole attualmente presenti nel nuovo sistema di trasformazioni in `Assets/Refactory`.
+Questo documento riassume le regole attualmente presenti nel nuovo sistema di trasformazioni in `Assets/_Refactory`.
 
 Le tabelle incrociano:
 
@@ -18,7 +18,7 @@ Status considerati: `Nessuno`, `Burned`, `Wet`, `Freezed`, `Poisoned`, `Grass`, 
 
 ## Mage
 
-Fonte: `Assets/Refactory/Transformation/MageCharacter.cs`.
+Fonte: `Assets/_Refactory/Scripts/Transformation/MageCharacter.cs`.
 
 | Status precedente | Healing | Fire | Lava | Ice | Water | Grass | Light | Dark | Poison | Ground |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -42,7 +42,7 @@ Tick implementati per Mage:
 
 ## Balrog
 
-Fonte: `Assets/Refactory/Transformation/BalrogCharacter.cs`.
+Fonte: `Assets/_Refactory/Scripts/Transformation/BalrogCharacter.cs`.
 
 | Status precedente | Healing | Fire | Lava | Ice | Water | Grass | Light | Dark | Poison | Ground |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -73,7 +73,7 @@ Ingresso/uscita trasformazione:
 
 ## Yeti
 
-Fonte: `Assets/Refactory/Transformation/YetiCharacter.cs`.
+Fonte: `Assets/_Refactory/Scripts/Transformation/YetiCharacter.cs`.
 
 | Status precedente | Healing | Fire | Lava | Ice | Water | Grass | Light | Dark | Poison | Ground |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -103,7 +103,7 @@ Ritorno a Mage:
 
 ## Tree
 
-Fonte: `Assets/Refactory/Transformation/TreeCharacter.cs`.
+Fonte: `Assets/_Refactory/Scripts/Transformation/TreeCharacter.cs`.
 
 | Status precedente | Healing | Fire | Lava | Ice | Water | Grass | Light | Dark | Poison | Ground |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -127,7 +127,7 @@ Tick implementati per Tree:
 
 ## PupperFish
 
-Fonte: `Assets/Refactory/Transformation/PupperfishCharacter.cs`.
+Fonte: `Assets/_Refactory/Scripts/Transformation/PupperfishCharacter.cs`.
 
 | Status precedente | Healing | Fire | Lava | Ice | Water | Grass | Light | Dark | Poison | Ground |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -151,7 +151,7 @@ Tick implementati per PupperFish:
 
 ## Litch
 
-Fonte: `Assets/Refactory/Transformation/LitchCharacter.cs`.
+Fonte: `Assets/_Refactory/Scripts/Transformation/LitchCharacter.cs`.
 
 Nota: per il Litch alcune regole dipendono anche dal livello di `Grounded`, non solo dalla presenza dello status. Quando `Grounded` arriva al livello 3, il Litch torna `Mage`, rimuovendo eventuali `Burned` e `Freezed` ma lasciando `Grounded`.
 
@@ -177,7 +177,7 @@ Tick implementati per Litch:
 
 ## WhiteMage
 
-Fonte: `Assets/Refactory/Transformation/WhiteMageCharacter.cs`.
+Fonte: `Assets/_Refactory/Scripts/Transformation/WhiteMageCharacter.cs`.
 
 `WhiteMageCharacter` implementa solo uno scheletro di `Cast`; le pozioni, i tick e gli hook di trasformazione contengono ancora `NotImplementedException`. Tutte le interazioni sono quindi da definire.
 

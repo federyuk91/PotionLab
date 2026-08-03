@@ -14,3 +14,289 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDialogRule
   character: 3
   potionDialogs: []
+  - potion: 0
+    cases:
+    - requiredStatuses: 
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+  - potion: 1
+    cases:
+    - requiredStatuses: 
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+  - potion: 2
+    cases:
+    - requiredStatuses: 
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+  - potion: 3
+    cases:
+    - requiredStatuses: 
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+  - potion: 4
+    cases:
+    - requiredStatuses: 
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+  - potion: 5
+    cases:
+    - requiredStatuses: 
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+  - potion: 6
+    cases:
+    - requiredStatuses: 
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+  - potion: 7
+    cases:
+    - requiredStatuses: 
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+  - potion: 8
+    cases:
+    - requiredStatuses: 
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+  - potion: 9
+    cases:
+    - requiredStatuses: 
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+  - potion: 10
+    cases:
+    - requiredStatuses: 
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 01000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 02000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 03000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 04000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 05000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 06000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
+    - requiredStatuses: 07000000
+      lines:
+      - Lazy programmers, I don't have a line for this.
