@@ -20,8 +20,13 @@ namespace CharacterSystem
         [SerializeField] protected TransformationManager transformationManager;
         [SerializeField] protected DialogManager dialogManager;
 
+        [Header("Character Light")]
+        [SerializeField] private Color transformationLightColor = Color.white;
+
         public event Action<BaseCharacter, PotionScriptable, IReadOnlyCollection<Status>> PotionEffectResolving;
         public event Action<BaseCharacter, int, Spell, bool> SpellCastSucceeded;
+
+        public Color TransformationLightColor => transformationLightColor;
 
 
         private void Awake()

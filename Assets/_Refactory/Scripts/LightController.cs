@@ -8,7 +8,7 @@ public class LightController : MonoBehaviour
     private const int MinLightIntensity = 0;
     private const int MaxLightIntensity = 3;
 
-    public Color Mage, Balrog, Tree, Yeti, Pupperfish, Litch, WhiteMage;
+    //public Color Mage, Balrog, Tree, Yeti, Pupperfish, Litch, WhiteMage;
     [Header("Light Fields")]
     [SerializeField] private GameObject fireField;
     [SerializeField] private GameObject grassField;
@@ -67,6 +67,7 @@ public class LightController : MonoBehaviour
     {
         light2D.color = c;
     }
+    /* deprecated, now we use light fields to determine if a character is powered or not
     public void ChangeLightColor(CharacterType character)
     {
         switch (character)
@@ -94,7 +95,7 @@ public class LightController : MonoBehaviour
                 break;
         }
     }
-
+    */
 
 
     public void SetLightField(LightFieldType fieldType)

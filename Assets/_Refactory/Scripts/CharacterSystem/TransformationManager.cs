@@ -83,7 +83,7 @@ namespace CharacterSystem
                 lightController.ClearLightField();
             }
 
-            lightController.ChangeLightColor(type);
+            lightController.ChangeLightColor(currentCharacter.TransformationLightColor);
             OnTransformation?.Invoke(previousForm, type);
         }
     }
