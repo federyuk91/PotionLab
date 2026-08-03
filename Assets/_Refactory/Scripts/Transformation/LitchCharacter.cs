@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 namespace CharacterSystem
 {
@@ -6,6 +7,11 @@ namespace CharacterSystem
         [Header("Spell References")]
         [SerializeField] private LitchSummonGroup summonGroup;
         [SerializeField] private DarkRaySpellEffect darkRaySpellEffect;
+
+        [Header("Second Chance")]
+        [SerializeField] private float secondChanceReturnDelay = 1.35f;
+
+        private Coroutine secondChanceCoroutine;
 
         protected override bool CastSpell(int i, bool powered)
         {
@@ -85,14 +91,27 @@ namespace CharacterSystem
 
         private bool CastSecondChance(Spell spell)
         {
+            if (secondChanceCoroutine != null)
+            {
+                return false;
+            }
+
             if (!TrySpendMana(spell, "I need more life or magic for this spell"))
             {
                 return false;
             }
 
             status.Clear();
-            ReturnMage();
+            secondChanceCoroutine = StartCoroutine(ReturnMageAfterSecondChance());
             return true;
+        }
+
+        private IEnumerator ReturnMageAfterSecondChance()
+        {
+            yield return new WaitForSeconds(secondChanceReturnDelay);
+
+            secondChanceCoroutine = null;
+            ReturnMage();
         }
 
         private bool TrySpendMana(Spell spell, string notEnoughManaDialog)
@@ -272,7 +291,7 @@ namespace CharacterSystem
 
         public override void OnExitTransformation()
         {
-            // Litch has no exit side effects yet.
+            secondChanceCoroutine = null;
         }
 
     }
