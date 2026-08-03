@@ -23,6 +23,8 @@ public class PotionDestroyTrigger : MonoBehaviour
 
     private int destroyedLightPotionCount;
     private int destroyedNonLightPotionCount;
+    private bool missingGameManagerWarningShown;
+    private bool missingLightControllerWarningShown;
 
     private void Reset()
     {
@@ -35,14 +37,9 @@ public class PotionDestroyTrigger : MonoBehaviour
 
     private void Awake()
     {
-        // Inspector references are preferred, these fallbacks keep scene setup tolerant.
-        if (gameManager == null)
-        {
-            gameManager = GameManager.Instance;
-        }
-
         if (feedback == null)
         {
+            Debug.LogWarning($"{name}: PotionDestroyFeedback reference is missing in Inspector. Using local fallback; assign it explicitly before production.", this);
             feedback = GetComponent<PotionDestroyFeedback>();
         }
 
@@ -51,9 +48,14 @@ public class PotionDestroyTrigger : MonoBehaviour
             feedback = gameObject.AddComponent<PotionDestroyFeedback>();
         }
 
-        if (lightController == null && TransformationManager.Instance != null)
+        if (gameManager == null)
         {
-            lightController = TransformationManager.Instance.lightController;
+            WarnMissingGameManager();
+        }
+
+        if (lightController == null && increaseLightAfterNonLightPotions)
+        {
+            WarnMissingLightController();
         }
     }
 
@@ -97,6 +99,10 @@ public class PotionDestroyTrigger : MonoBehaviour
         if (gameManager != null)
         {
             gameManager.RemovePotion(potion, true);
+        }
+        else
+        {
+            WarnMissingGameManager();
         }
 
         Destroy(potion.gameObject);
@@ -149,7 +155,10 @@ public class PotionDestroyTrigger : MonoBehaviour
         if (lightController != null)
         {
             lightController.IncreaseLightLevel();
+            return;
         }
+
+        WarnMissingLightController();
     }
 
     private void PlayFeedback()
@@ -166,5 +175,27 @@ public class PotionDestroyTrigger : MonoBehaviour
         {
             feedback.RestartSpriteAnimation();
         }
+    }
+
+    private void WarnMissingGameManager()
+    {
+        if (missingGameManagerWarningShown)
+        {
+            return;
+        }
+
+        missingGameManagerWarningShown = true;
+        Debug.LogWarning($"{name}: GameManager reference is missing. Assign it in Inspector so destroyed potions are removed from level tracking.", this);
+    }
+
+    private void WarnMissingLightController()
+    {
+        if (missingLightControllerWarningShown)
+        {
+            return;
+        }
+
+        missingLightControllerWarningShown = true;
+        Debug.LogWarning($"{name}: LightController reference is missing. Assign it in Inspector so potion destruction can increase light level.", this);
     }
 }

@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public static int currentLevel = 0;
 
-    public BaseCharacter Character => TransformationManager.Instance != null ? TransformationManager.Instance.Current : null;
+    public BaseCharacter Character => transformationManager != null ? transformationManager.Current : null;
     public bool IsPuzzleMode => isPuzzleMode;
 
     [Header("Compiled from code")]
@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public List<DroppableObject> droppables;
 
     [Header("Reference necessarie")]
+    [SerializeField] private TransformationManager transformationManager;
     public LightController lightController;
     [SerializeField] private DialogManager dialogManager;
     [SerializeField] private bool isPuzzleMode = true;
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
     public int dieCounter = 0, mutationCounter = 0;
     private bool deathHandled;
     private bool levelStarted;
+    private bool missingTransformationManagerWarningShown;
 
     private void Awake()
     {
@@ -50,6 +52,11 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+        }
+
+        if (transformationManager == null)
+        {
+            WarnMissingTransformationManager();
         }
     }
 
@@ -169,11 +176,6 @@ public class GameManager : MonoBehaviour
             yield break;
         }
 
-        if (lightController == null && TransformationManager.Instance != null)
-        {
-            lightController = TransformationManager.Instance.lightController;
-        }
-
         if (lightController == null)
         {
             Debug.LogError("GameManager cannot start level: LightController reference is missing.", this);
@@ -184,10 +186,6 @@ public class GameManager : MonoBehaviour
         dialogManager.SetContinueButtonActive(false);
 
         lightController.StartLight();
-
-        //Parametri di animazione legacy? 
-        //TransformationManager.Instance.Current.animator.SetTrigger("cast");
-        //TransformationManager.Instance.Current.animator.SetInteger("castInt", 1);
 
         yield return new WaitForSeconds(6f);
 
@@ -337,7 +335,7 @@ public class GameManager : MonoBehaviour
 
     private void UnsubscribeFromCharacterDeath()
     {
-        if (TransformationManager.Instance == null || Character == null || Character.stats == null)
+        if (Character == null || Character.stats == null)
         {
             return;
         }
@@ -388,5 +386,16 @@ public class GameManager : MonoBehaviour
     private void SetSpellBarVisible(bool visible)
     {
         SpellBarVisibilityChanged?.Invoke(visible);
+    }
+
+    private void WarnMissingTransformationManager()
+    {
+        if (missingTransformationManagerWarningShown)
+        {
+            return;
+        }
+
+        missingTransformationManagerWarningShown = true;
+        Debug.LogWarning($"{name}: TransformationManager reference is missing. Assign it in Inspector so GameManager can read the active character.", this);
     }
 }

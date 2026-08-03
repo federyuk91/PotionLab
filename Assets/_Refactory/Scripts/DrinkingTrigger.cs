@@ -2,7 +2,11 @@ using UnityEngine;
 using CharacterSystem;
 public class DrinkingTrigger : MonoBehaviour
 {
+    [SerializeField] private TransformationManager transformationManager;
     [SerializeField] private PotionScriptable litchSummonPotionEffect;
+
+    private bool missingTransformationManagerWarningShown;
+    private bool missingLitchSummonPotionWarningShown;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -12,7 +16,13 @@ public class DrinkingTrigger : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Potion"))
         {
-            TransformationManager.Instance.Current.Drunk(collision.GetComponent<PotionScript>());
+            BaseCharacter currentCharacter = GetCurrentCharacter();
+            if (currentCharacter == null)
+            {
+                return;
+            }
+
+            currentCharacter.Drunk(collision.GetComponent<PotionScript>());
             Destroy(collision.gameObject, 2f);
             collision.gameObject.SetActive(false);
 
@@ -25,13 +35,64 @@ public class DrinkingTrigger : MonoBehaviour
 
     private void DrinkLitchSummon(LitchSummonPotionDestroyer summon)
     {
-        if (summon == null || litchSummonPotionEffect == null || TransformationManager.Instance == null || TransformationManager.Instance.Current == null)
+        if (summon == null)
         {
             return;
         }
 
-        TransformationManager.Instance.Current.Drunk(litchSummonPotionEffect);
+        if (litchSummonPotionEffect == null)
+        {
+            WarnMissingLitchSummonPotion();
+            return;
+        }
+
+        BaseCharacter currentCharacter = GetCurrentCharacter();
+        if (currentCharacter == null)
+        {
+            return;
+        }
+
+        currentCharacter.Drunk(litchSummonPotionEffect);
         summon.ConsumeByDrinkingTrigger();
+    }
+
+    private BaseCharacter GetCurrentCharacter()
+    {
+        if (transformationManager == null)
+        {
+            WarnMissingTransformationManager();
+            return null;
+        }
+
+        if (transformationManager.Current == null)
+        {
+            Debug.LogWarning($"{name}: TransformationManager has no current character.", this);
+            return null;
+        }
+
+        return transformationManager.Current;
+    }
+
+    private void WarnMissingTransformationManager()
+    {
+        if (missingTransformationManagerWarningShown)
+        {
+            return;
+        }
+
+        missingTransformationManagerWarningShown = true;
+        Debug.LogWarning($"{name}: TransformationManager reference is missing. Assign it in Inspector.", this);
+    }
+
+    private void WarnMissingLitchSummonPotion()
+    {
+        if (missingLitchSummonPotionWarningShown)
+        {
+            return;
+        }
+
+        missingLitchSummonPotionWarningShown = true;
+        Debug.LogWarning($"{name}: Litch summon potion effect is missing. Assign it in Inspector.", this);
     }
 
     private bool TryGetLitchSummon(Collider2D collision, out LitchSummonPotionDestroyer summon)

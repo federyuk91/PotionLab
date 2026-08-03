@@ -3,23 +3,59 @@ using UnityEngine;
 
 public class StatusTickRunner : MonoBehaviour
 {
-    private CharacterStatusController status;
-    private BaseCharacter character => TransformationManager.Instance.Current;
+    [SerializeField] private CharacterStatusController status;
+    [SerializeField] private TransformationManager transformationManager;
 
     private float fireTimer;
     private float poisonTimer;
     private float groundTimer;
     private float iceTimer;
+    private bool missingStatusWarningShown;
+    private bool missingTransformationManagerWarningShown;
+    private bool missingCurrentCharacterWarningShown;
 
 
 
     private void Awake()
     {
-        status = GetComponent<CharacterStatusController>();
+        if (status == null)
+        {
+            Debug.LogWarning($"{name}: CharacterStatusController reference is missing in Inspector. Using local fallback; assign it explicitly before production.", this);
+            status = GetComponent<CharacterStatusController>();
+        }
+
+        if (status == null)
+        {
+            WarnMissingStatus();
+        }
+
+        if (transformationManager == null)
+        {
+            WarnMissingTransformationManager();
+        }
     }
 
     private void Update()
     {
+        if (status == null || transformationManager == null || transformationManager.Current == null)
+        {
+            if (status == null)
+            {
+                WarnMissingStatus();
+            }
+
+            if (transformationManager == null)
+            {
+                WarnMissingTransformationManager();
+            }
+            else
+            {
+                WarnMissingCurrentCharacter();
+            }
+
+            return;
+        }
+
         TickFire();
         TickPoison();
         TickGround();
@@ -35,6 +71,7 @@ public class StatusTickRunner : MonoBehaviour
 
         fireTimer += Time.deltaTime;
 
+        BaseCharacter character = transformationManager.Current;
         float delay = character.GetFireTickDelay();
 
         if (fireTimer >= delay)
@@ -53,6 +90,7 @@ public class StatusTickRunner : MonoBehaviour
 
         poisonTimer += Time.deltaTime;
 
+        BaseCharacter character = transformationManager.Current;
         if (poisonTimer >= character.GetPoisonTickDelay())
         {
             poisonTimer = 0f;
@@ -69,6 +107,7 @@ public class StatusTickRunner : MonoBehaviour
 
         groundTimer += Time.deltaTime;
 
+        BaseCharacter character = transformationManager.Current;
         if (groundTimer >= character.GetGroundTickDelay())
         {
             groundTimer = 0f;
@@ -85,10 +124,44 @@ public class StatusTickRunner : MonoBehaviour
 
         iceTimer += Time.deltaTime;
 
+        BaseCharacter character = transformationManager.Current;
         if (iceTimer >= character.GetIceTickDelay())
         {
             iceTimer = 0f;
             character.IceTick();
         }
+    }
+
+    private void WarnMissingStatus()
+    {
+        if (missingStatusWarningShown)
+        {
+            return;
+        }
+
+        missingStatusWarningShown = true;
+        Debug.LogWarning($"{name}: CharacterStatusController reference is missing. Assign it in Inspector.", this);
+    }
+
+    private void WarnMissingTransformationManager()
+    {
+        if (missingTransformationManagerWarningShown)
+        {
+            return;
+        }
+
+        missingTransformationManagerWarningShown = true;
+        Debug.LogWarning($"{name}: TransformationManager reference is missing. Assign it in Inspector.", this);
+    }
+
+    private void WarnMissingCurrentCharacter()
+    {
+        if (missingCurrentCharacterWarningShown)
+        {
+            return;
+        }
+
+        missingCurrentCharacterWarningShown = true;
+        Debug.LogWarning($"{name}: TransformationManager has no current character.", this);
     }
 }

@@ -19,6 +19,7 @@ namespace CharacterSystem
         private readonly List<Collider2D> overlapResults = new List<Collider2D>();
         private ContactFilter2D potionFilter;
         private Coroutine castCoroutine;
+        private bool missingGameManagerWarningShown;
 
         private void Reset()
         {
@@ -38,12 +39,12 @@ namespace CharacterSystem
                 rayCollider.isTrigger = true;
             }
 
+            potionFilter = ContactFilter2D.noFilter;
+
             if (gameManager == null)
             {
-                gameManager = GameManager.Instance;
+                WarnMissingGameManager();
             }
-
-            potionFilter = ContactFilter2D.noFilter;
         }
 
         public void Cast()
@@ -137,15 +138,13 @@ namespace CharacterSystem
             PotionScript darkPotion = Instantiate(darkPotionPrefab, position, rotation, parent);
             CopyMotion(sourceRigidbody, darkPotion.GetComponent<Rigidbody2D>());
 
-            if (gameManager == null)
-            {
-                gameManager = GameManager.Instance;
-            }
-
             if (gameManager != null)
             {
                 gameManager.ReplacePotion(sourcePotion, darkPotion);
+                return;
             }
+
+            WarnMissingGameManager();
 
             Destroy(sourcePotion.gameObject);
         }
@@ -161,6 +160,17 @@ namespace CharacterSystem
             targetRigidbody.linearVelocity = sourceRigidbody.linearVelocity;
             targetRigidbody.angularVelocity = sourceRigidbody.angularVelocity;
             targetRigidbody.mass = sourceRigidbody.mass;
+        }
+
+        private void WarnMissingGameManager()
+        {
+            if (missingGameManagerWarningShown)
+            {
+                return;
+            }
+
+            missingGameManagerWarningShown = true;
+            Debug.LogWarning($"{name}: GameManager reference is missing. Assign it in Inspector so Dark-Ray can replace potions in level tracking.", this);
         }
     }
 }

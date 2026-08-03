@@ -9688,6 +9688,7 @@ MonoBehaviour:
   grassField: {fileID: 1230238295}
   waterField: {fileID: 1270618255}
   iceField: {fileID: 443968769}
+  gameManager: {fileID: 1930363838}
   lightDecayInterval: 43
   startingLightIntensity: 3
   currentLightField: 0
@@ -48715,6 +48716,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56386fb8ac4579c46b68a7307333f1f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  status: {fileID: 1215253482}
+  transformationManager: {fileID: 1215253481}
 --- !u!114 &1215253487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48751,6 +48754,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba5502c60d62cc440beb81611f26eb2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSystem.CharacterSpells
+  transformationManager: {fileID: 1215253481}
+  characterStats: {fileID: 1215253483}
 --- !u!114 &1215253489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63369,7 +63374,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Flower
   animator: {fileID: 1583843187}
   audioSource: {fileID: 1583843184}
-  dialogManager: {fileID: 0}
+  gameManager: {fileID: 1930363838}
+  dialogManager: {fileID: 1215253487}
 --- !u!1 &1600026971
 GameObject:
   m_ObjectHideFlags: 0
@@ -81324,6 +81330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   levelPotions: []
   droppables: []
+  transformationManager: {fileID: 1215253481}
   lightController: {fileID: 340449490}
   dialogManager: {fileID: 1215253487}
   isPuzzleMode: 0
@@ -103338,6 +103345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fce75ecf7450d1b4ab1acf21fe26212c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  transformationManager: {fileID: 1215253481}
   litchSummonPotionEffect: {fileID: 11400000, guid: 3183458a90755324f9ee7c8a44ea51df, type: 2}
 --- !u!222 &7943069550633620682
 CanvasRenderer:

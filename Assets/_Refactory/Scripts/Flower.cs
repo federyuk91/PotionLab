@@ -6,18 +6,15 @@ public class Flower : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private GameManager gameManager;
     [SerializeField] private DialogManager dialogManager;
 
     private int status;
+    private bool missingGameManagerWarningShown;
+    private bool missingDialogManagerWarningShown;
 
     public event Action<Flower> Destroyed;
 
-
-    private void Awake()
-    {
-
-        dialogManager = GetComponentInParent<DialogManager>();
-    }
     private void OnEnable()
     {
         ResetFlower();
@@ -78,9 +75,13 @@ public class Flower : MonoBehaviour
     {
         potion.gameObject.SetActive(false);
 
-        if (GameManager.Instance != null)
+        if (gameManager != null)
         {
-            GameManager.Instance.RemovePotion(potion, true);
+            gameManager.RemovePotion(potion, true);
+        }
+        else
+        {
+            WarnMissingGameManager();
         }
 
         Destroy(potion.gameObject);
@@ -127,7 +128,7 @@ public class Flower : MonoBehaviour
             return;
         }
 
-        Debug.LogWarning($"{name} has no DialogManager assigned.", this);
+        WarnMissingDialogManager();
     }
 
     private void PlayAudio()
@@ -136,5 +137,27 @@ public class Flower : MonoBehaviour
         {
             audioSource.Play();
         }
+    }
+
+    private void WarnMissingGameManager()
+    {
+        if (missingGameManagerWarningShown)
+        {
+            return;
+        }
+
+        missingGameManagerWarningShown = true;
+        Debug.LogWarning($"{name}: GameManager reference is missing. Assign it in Inspector so consumed potions are removed from level tracking.", this);
+    }
+
+    private void WarnMissingDialogManager()
+    {
+        if (missingDialogManagerWarningShown)
+        {
+            return;
+        }
+
+        missingDialogManagerWarningShown = true;
+        Debug.LogWarning($"{name}: DialogManager reference is missing. Assign it in Inspector to show flower dialogs.", this);
     }
 }

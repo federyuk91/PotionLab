@@ -16,6 +16,7 @@ public class LightController : MonoBehaviour
     [SerializeField] private GameObject iceField;
 
     [Header("Procedural Light Decay")]
+    [SerializeField] private GameManager gameManager;
     [SerializeField] private float lightDecayInterval = 43f;
 
     [Header("Light Level")]
@@ -34,6 +35,8 @@ public class LightController : MonoBehaviour
 
     public event Action<int> LightLevelChanged;
     public event Action<float> LightTimerChanged;
+
+    private bool missingGameManagerWarningShown;
 
     private void Awake()
     {
@@ -211,7 +214,24 @@ public class LightController : MonoBehaviour
 
     private bool ShouldDecayLight()
     {
-        return GameManager.Instance != null && !GameManager.Instance.IsPuzzleMode;
+        if (gameManager == null)
+        {
+            WarnMissingGameManager();
+            return false;
+        }
+
+        return !gameManager.IsPuzzleMode;
+    }
+
+    private void WarnMissingGameManager()
+    {
+        if (missingGameManagerWarningShown)
+        {
+            return;
+        }
+
+        missingGameManagerWarningShown = true;
+        Debug.LogWarning($"{name}: GameManager reference is missing. Assign it in Inspector so LightController can decide if light decay should run.", this);
     }
 
     private void ResetLightDecayTimer()
