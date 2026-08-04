@@ -1,107 +1,185 @@
 using UnityEngine;
-using CharacterSystem;
-public class DrinkingTrigger : MonoBehaviour
+
+namespace CharacterSystem
 {
-    [SerializeField] private TransformationManager transformationManager;
-    [SerializeField] private PotionScriptable litchSummonPotionEffect;
-
-    private bool missingTransformationManagerWarningShown;
-    private bool missingLitchSummonPotionWarningShown;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    [RequireComponent(typeof(Collider2D))]
+    public class DrinkingTrigger : MonoBehaviour
     {
-        if (TryGetLitchSummon(collision, out LitchSummonPotionDestroyer summon))
+        [Header("References")]
+        [SerializeField] private TransformationManager transformationManager;
+        [SerializeField] private GameManager gameManager;
+        [SerializeField] private PotionScriptable litchSummonPotionEffect;
+
+        [Header("Rules")]
+        [SerializeField] private float consumedPotionDestroyDelay = 2f;
+
+        private bool missingTransformationManagerWarningShown;
+        private bool missingGameManagerWarningShown;
+        private bool missingLitchSummonPotionWarningShown;
+
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            DrinkLitchSummon(summon);
+            if (collision == null)
+            {
+                return;
+            }
+
+            if (TryGetLitchSummon(collision, out LitchSummonPotionDestroyer summon))
+            {
+                DrinkLitchSummon(summon);
+                return;
+            }
+
+            if (TryGetPotion(collision, out PotionScript potion))
+            {
+                DrinkPotion(potion);
+                return;
+            }
+
+            if (collision.CompareTag("Drop"))
+            {
+                Destroy(collision.gameObject);
+            }
         }
-        else if (collision.gameObject.CompareTag("Potion"))
+
+        private void DrinkPotion(PotionScript potion)
         {
+            if (potion == null)
+            {
+                return;
+            }
+
             BaseCharacter currentCharacter = GetCurrentCharacter();
             if (currentCharacter == null)
             {
                 return;
             }
 
-            currentCharacter.Drunk(collision.GetComponent<PotionScript>());
-            Destroy(collision.gameObject, 2f);
-            collision.gameObject.SetActive(false);
-
+            currentCharacter.Drunk(potion);
+            ConsumePotion(potion, true);
         }
-        else if (collision.gameObject.CompareTag("Drop"))
+
+        private void DrinkLitchSummon(LitchSummonPotionDestroyer summon)
         {
-            Destroy(collision.gameObject);
-        }
-    }
+            if (summon == null)
+            {
+                return;
+            }
 
-    private void DrinkLitchSummon(LitchSummonPotionDestroyer summon)
-    {
-        if (summon == null)
+            if (litchSummonPotionEffect == null)
+            {
+                WarnMissingLitchSummonPotion();
+                return;
+            }
+
+            BaseCharacter currentCharacter = GetCurrentCharacter();
+            if (currentCharacter == null)
+            {
+                return;
+            }
+
+            currentCharacter.Drunk(litchSummonPotionEffect);
+            summon.ConsumeByDrinkingTrigger();
+        }
+
+        private void ConsumePotion(PotionScript potion, bool drunked)
         {
-            return;
+            if (potion == null)
+            {
+                return;
+            }
+
+            if (gameManager == null)
+            {
+                WarnMissingGameManager();
+            }
+            else
+            {
+                gameManager.RemovePotion(potion, drunked);
+            }
+
+            potion.gameObject.SetActive(false);
+            Destroy(potion.gameObject, consumedPotionDestroyDelay);
         }
 
-        if (litchSummonPotionEffect == null)
+        private BaseCharacter GetCurrentCharacter()
         {
-            WarnMissingLitchSummonPotion();
-            return;
+            if (transformationManager == null)
+            {
+                WarnMissingTransformationManager();
+                return null;
+            }
+
+            if (transformationManager.Current == null)
+            {
+                Debug.LogWarning($"{name}: TransformationManager has no current character.", this);
+                return null;
+            }
+
+            return transformationManager.Current;
         }
 
-        BaseCharacter currentCharacter = GetCurrentCharacter();
-        if (currentCharacter == null)
+        private void WarnMissingTransformationManager()
         {
-            return;
+            if (missingTransformationManagerWarningShown)
+            {
+                return;
+            }
+
+            missingTransformationManagerWarningShown = true;
+            Debug.LogWarning($"{name}: TransformationManager reference is missing. Assign it in Inspector.", this);
         }
 
-        currentCharacter.Drunk(litchSummonPotionEffect);
-        summon.ConsumeByDrinkingTrigger();
-    }
-
-    private BaseCharacter GetCurrentCharacter()
-    {
-        if (transformationManager == null)
+        private void WarnMissingGameManager()
         {
-            WarnMissingTransformationManager();
-            return null;
+            if (missingGameManagerWarningShown)
+            {
+                return;
+            }
+
+            missingGameManagerWarningShown = true;
+            Debug.LogWarning($"{name}: GameManager reference is missing. Assign it in Inspector to keep potion tracking consistent.", this);
         }
 
-        if (transformationManager.Current == null)
+        private void WarnMissingLitchSummonPotion()
         {
-            Debug.LogWarning($"{name}: TransformationManager has no current character.", this);
-            return null;
+            if (missingLitchSummonPotionWarningShown)
+            {
+                return;
+            }
+
+            missingLitchSummonPotionWarningShown = true;
+            Debug.LogWarning($"{name}: Litch summon potion effect is missing. Assign it in Inspector.", this);
         }
 
-        return transformationManager.Current;
-    }
-
-    private void WarnMissingTransformationManager()
-    {
-        if (missingTransformationManagerWarningShown)
+        private bool TryGetPotion(Collider2D collision, out PotionScript potion)
         {
-            return;
+            if (!collision.TryGetComponent(out potion))
+            {
+                potion = collision.GetComponentInParent<PotionScript>();
+            }
+
+            if (potion == null)
+            {
+                if (collision.CompareTag("Potion"))
+                {
+                    Debug.LogWarning($"{name}: object tagged as Potion entered the drinking trigger but has no PotionScript.", collision);
+                }
+
+                return false;
+            }
+
+            return potion.CompareTag("Potion");
         }
 
-        missingTransformationManagerWarningShown = true;
-        Debug.LogWarning($"{name}: TransformationManager reference is missing. Assign it in Inspector.", this);
-    }
-
-    private void WarnMissingLitchSummonPotion()
-    {
-        if (missingLitchSummonPotionWarningShown)
+        private bool TryGetLitchSummon(Collider2D collision, out LitchSummonPotionDestroyer summon)
         {
-            return;
+            if (!collision.TryGetComponent(out summon))
+            {
+                summon = collision.GetComponentInParent<LitchSummonPotionDestroyer>();
+            }
+
+            return summon != null;
         }
-
-        missingLitchSummonPotionWarningShown = true;
-        Debug.LogWarning($"{name}: Litch summon potion effect is missing. Assign it in Inspector.", this);
-    }
-
-    private bool TryGetLitchSummon(Collider2D collision, out LitchSummonPotionDestroyer summon)
-    {
-        if (!collision.TryGetComponent(out summon))
-        {
-            summon = collision.GetComponentInParent<LitchSummonPotionDestroyer>();
-        }
-
-        return summon != null;
     }
 }

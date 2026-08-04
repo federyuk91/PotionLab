@@ -19,8 +19,8 @@ public class CharacterUIController : MonoBehaviour
     [Header("Stats UI")]
     [SerializeField] private Image hpFill;
     [SerializeField] private Image mpFill;
-    [SerializeField] private Text hpText;
-    [SerializeField] private Text mpText;
+    [SerializeField] private TextMeshPro hpText;
+    [SerializeField] private TextMeshPro mpText;
     [SerializeField] private Text statPopupText;
 
     [Header("Spell UI")]
