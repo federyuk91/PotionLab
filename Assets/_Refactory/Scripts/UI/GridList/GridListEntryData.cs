@@ -8,6 +8,7 @@ namespace Refactory.UI.GridList
     {
         [SerializeField] private string id;
         [SerializeField] private string displayName;
+        [SerializeField] private string shortDescription;
         [SerializeField, TextArea(2, 5)] private string description;
         [SerializeField] private Sprite sprite;
         [SerializeField] private bool unlockedByDefault;
@@ -15,6 +16,7 @@ namespace Refactory.UI.GridList
 
         public string Id => id;
         public string DisplayName => displayName;
+        public string ShortDescription => shortDescription;
         public string Description => description;
         public Sprite Sprite => sprite;
         public bool UnlockedByDefault => unlockedByDefault;

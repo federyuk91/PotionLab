@@ -18,7 +18,7 @@ public class GrimoireAnimation : MonoBehaviour
         if (isOpen)
         {
             Time.timeScale = 0;
-            if(GameMan.Instance.cc.cameraShake.shake)
+            if(GameMan.Instance!=null && GameMan.Instance.cc.cameraShake.shake)
             {
                 AchievementManager.instance.Achive("Shaky Shaky");
             }

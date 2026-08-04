@@ -6,7 +6,6 @@ namespace CharacterSystem
     public class CharacterStats : MonoBehaviour
     {
         public Color lightColor, hpColor;
-        public CameraShake cameraShake;
         public int MaxHP;
         public int HP;
 
@@ -17,6 +16,7 @@ namespace CharacterSystem
         public event Action<int, int> HPChanged;
         public event Action<int, int> MPChanged;
         public event Action<string, Color> StatPopupRequested;
+        public event Action<int> DamageTaken;
         public event Action OnDeath;
 
         private bool deathNotified;
@@ -25,7 +25,7 @@ namespace CharacterSystem
         {
             ModifyHP(-value);
             PopUp("-" + value, hpColor);
-            StartCoroutine(cameraShake.Shake(.15f, 1));
+            DamageTaken?.Invoke(value);
             OnHealtDown?.Invoke();
         }
 
