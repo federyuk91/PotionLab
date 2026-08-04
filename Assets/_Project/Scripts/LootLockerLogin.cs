@@ -10,7 +10,7 @@ using UnityEngine.Networking;
 public class LootLockerLogin : MonoBehaviour
 {
     public Leaderboard leaderBoard;
-    public GooglePlayManager googleREF;
+    //public GooglePlayManager googleREF;
     public Text playerNameInputField;
 
     private string filePurpose = "saveFile"; //indica al serve che tipo di file caricare

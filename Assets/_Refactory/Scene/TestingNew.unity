@@ -881,7 +881,7 @@ GameObject:
   - component: {fileID: 69633872}
   - component: {fileID: 69633871}
   m_Layer: 0
-  m_Name: fireFx2_0(Clone) (7)
+  m_Name: FireFieldTile_07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1310,7 +1310,7 @@ GameObject:
   - component: {fileID: 102391094}
   - component: {fileID: 102391093}
   m_Layer: 0
-  m_Name: fireFx2_0(Clone) (9)
+  m_Name: FireFieldTile_09
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1477,7 +1477,7 @@ GameObject:
   - component: {fileID: 108420580}
   - component: {fileID: 108420579}
   m_Layer: 0
-  m_Name: grassFX2_0(Clone) (10)
+  m_Name: GrassFieldTile_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2987,7 +2987,7 @@ GameObject:
   - component: {fileID: 216084506}
   - component: {fileID: 216084505}
   m_Layer: 0
-  m_Name: waterFX2_0(Clone) (7)
+  m_Name: WaterFieldTile_07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3291,7 +3291,7 @@ GameObject:
   - component: {fileID: 229304316}
   - component: {fileID: 229304315}
   m_Layer: 0
-  m_Name: IceFx_2_0(Clone) (3)
+  m_Name: IceFieldTile_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8402,7 +8402,7 @@ GameObject:
   - component: {fileID: 253993434}
   - component: {fileID: 253993433}
   m_Layer: 0
-  m_Name: waterFX2_0(Clone) (8)
+  m_Name: WaterFieldTile_08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8569,7 +8569,7 @@ GameObject:
   - component: {fileID: 258542546}
   - component: {fileID: 258542545}
   m_Layer: 0
-  m_Name: grassFX2_0(Clone) (13)
+  m_Name: GrassFieldTile_13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8916,7 +8916,7 @@ GameObject:
   - component: {fileID: 311600874}
   - component: {fileID: 311600873}
   m_Layer: 0
-  m_Name: IceFx_2_0(Clone) (7)
+  m_Name: IceFieldTile_07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9084,7 +9084,7 @@ GameObject:
   - component: {fileID: 327312930}
   - component: {fileID: 327312929}
   m_Layer: 0
-  m_Name: grassFX2_0(Clone) (7)
+  m_Name: GrassFieldTile_07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9523,7 +9523,7 @@ GameObject:
   - component: {fileID: 339377063}
   - component: {fileID: 339377062}
   m_Layer: 0
-  m_Name: fireFx2_0(Clone) (2)
+  m_Name: FireFieldTile_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11233,7 +11233,7 @@ GameObject:
   - component: {fileID: 464821197}
   - component: {fileID: 464821196}
   m_Layer: 0
-  m_Name: IceFx_2_0(Clone) (4)
+  m_Name: IceFieldTile_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11401,7 +11401,7 @@ GameObject:
   - component: {fileID: 475355461}
   - component: {fileID: 475355460}
   m_Layer: 0
-  m_Name: grassFX2_0(Clone) (1)
+  m_Name: GrassFieldTile_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11570,7 +11570,7 @@ GameObject:
   - component: {fileID: 485846198}
   - component: {fileID: 485846197}
   m_Layer: 0
-  m_Name: fireFx2_0(Clone) (4)
+  m_Name: FireFieldTile_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12228,7 +12228,7 @@ GameObject:
   - component: {fileID: 542366436}
   - component: {fileID: 542366435}
   m_Layer: 0
-  m_Name: waterFX2_0(Clone) (3)
+  m_Name: WaterFieldTile_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12395,7 +12395,7 @@ GameObject:
   - component: {fileID: 544830099}
   - component: {fileID: 544830098}
   m_Layer: 0
-  m_Name: waterFX2_0(Clone) (2)
+  m_Name: WaterFieldTile_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12691,7 +12691,7 @@ GameObject:
   - component: {fileID: 557805674}
   - component: {fileID: 557805673}
   m_Layer: 0
-  m_Name: IceFx_2_0(Clone) (1)
+  m_Name: IceFieldTile_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22783,7 +22783,7 @@ GameObject:
   - component: {fileID: 603493493}
   - component: {fileID: 603493492}
   m_Layer: 0
-  m_Name: waterFX2_0(Clone) (10)
+  m_Name: WaterFieldTile_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22950,7 +22950,7 @@ GameObject:
   - component: {fileID: 605630974}
   - component: {fileID: 605630973}
   m_Layer: 0
-  m_Name: IceFx_2_0(Clone) (13)
+  m_Name: IceFieldTile_13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23296,7 +23296,7 @@ GameObject:
   - component: {fileID: 624375771}
   - component: {fileID: 624375770}
   m_Layer: 0
-  m_Name: waterFX2_0(Clone) (4)
+  m_Name: WaterFieldTile_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23956,7 +23956,7 @@ GameObject:
   - component: {fileID: 657434846}
   - component: {fileID: 657434845}
   m_Layer: 0
-  m_Name: grassFX2_0(Clone) (6)
+  m_Name: GrassFieldTile_06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24125,7 +24125,7 @@ GameObject:
   - component: {fileID: 659808524}
   - component: {fileID: 659808523}
   m_Layer: 0
-  m_Name: fireFx2_0(Clone) (6)
+  m_Name: FireFieldTile_06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25312,7 +25312,7 @@ GameObject:
   - component: {fileID: 709959907}
   - component: {fileID: 709959906}
   m_Layer: 0
-  m_Name: fireFx2_0(Clone) (10)
+  m_Name: FireFieldTile_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25902,7 +25902,7 @@ GameObject:
   - component: {fileID: 744066194}
   - component: {fileID: 744066193}
   m_Layer: 0
-  m_Name: fireFx2_0(Clone) (3)
+  m_Name: FireFieldTile_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31001,7 +31001,7 @@ GameObject:
   - component: {fileID: 817739968}
   - component: {fileID: 817739967}
   m_Layer: 0
-  m_Name: IceFx_2_0(Clone) (6)
+  m_Name: IceFieldTile_06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31650,7 +31650,7 @@ GameObject:
   - component: {fileID: 859762951}
   - component: {fileID: 859762950}
   m_Layer: 0
-  m_Name: grassFX2_0(Clone) (3)
+  m_Name: GrassFieldTile_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31819,7 +31819,7 @@ GameObject:
   - component: {fileID: 864865271}
   - component: {fileID: 864865270}
   m_Layer: 0
-  m_Name: grassFX2_0(Clone) (4)
+  m_Name: GrassFieldTile_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37634,7 +37634,7 @@ GameObject:
   - component: {fileID: 931665386}
   - component: {fileID: 931665385}
   m_Layer: 0
-  m_Name: waterFX2_0(Clone) (5)
+  m_Name: WaterFieldTile_05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39053,7 +39053,7 @@ GameObject:
   - component: {fileID: 1030809074}
   - component: {fileID: 1030809073}
   m_Layer: 0
-  m_Name: grassFX2_0(Clone) (12)
+  m_Name: GrassFieldTile_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39803,7 +39803,7 @@ GameObject:
   - component: {fileID: 1090914710}
   - component: {fileID: 1090914709}
   m_Layer: 0
-  m_Name: grassFX2_0(Clone) (9)
+  m_Name: GrassFieldTile_09
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39972,7 +39972,7 @@ GameObject:
   - component: {fileID: 1099169376}
   - component: {fileID: 1099169375}
   m_Layer: 0
-  m_Name: fireFx2_0(Clone) (1)
+  m_Name: FireFieldTile_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40480,7 +40480,7 @@ GameObject:
   - component: {fileID: 1119605953}
   - component: {fileID: 1119605952}
   m_Layer: 0
-  m_Name: IceFx_2_0(Clone) (12)
+  m_Name: IceFieldTile_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40942,7 +40942,7 @@ GameObject:
   - component: {fileID: 1170726221}
   - component: {fileID: 1170726220}
   m_Layer: 0
-  m_Name: waterFX2_0(Clone) (12)
+  m_Name: WaterFieldTile_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50910,7 +50910,7 @@ GameObject:
   - component: {fileID: 1211359831}
   - component: {fileID: 1211359830}
   m_Layer: 0
-  m_Name: waterFX2_0(Clone)
+  m_Name: WaterFieldTile_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52089,7 +52089,7 @@ GameObject:
   - component: {fileID: 1338593426}
   - component: {fileID: 1338593425}
   m_Layer: 0
-  m_Name: IceFx_2_0(Clone) (11)
+  m_Name: IceFieldTile_11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52511,7 +52511,7 @@ GameObject:
   - component: {fileID: 1349576009}
   - component: {fileID: 1349576008}
   m_Layer: 0
-  m_Name: waterFX2_0(Clone) (13)
+  m_Name: WaterFieldTile_13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58346,7 +58346,7 @@ GameObject:
   - component: {fileID: 1416447793}
   - component: {fileID: 1416447792}
   m_Layer: 0
-  m_Name: IceFx_2_0(Clone) (8)
+  m_Name: IceFieldTile_08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58514,7 +58514,7 @@ GameObject:
   - component: {fileID: 1424272870}
   - component: {fileID: 1424272869}
   m_Layer: 0
-  m_Name: IceFx_2_0(Clone)
+  m_Name: IceFieldTile_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59247,7 +59247,7 @@ GameObject:
   - component: {fileID: 1452570431}
   - component: {fileID: 1452570430}
   m_Layer: 0
-  m_Name: grassFX2_0(Clone) (5)
+  m_Name: GrassFieldTile_05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59628,7 +59628,7 @@ GameObject:
   - component: {fileID: 1470725208}
   - component: {fileID: 1470725207}
   m_Layer: 0
-  m_Name: waterFX2_0(Clone) (1)
+  m_Name: WaterFieldTile_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59795,7 +59795,7 @@ GameObject:
   - component: {fileID: 1477492818}
   - component: {fileID: 1477492817}
   m_Layer: 0
-  m_Name: fireFx2_0(Clone) (12)
+  m_Name: FireFieldTile_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59962,7 +59962,7 @@ GameObject:
   - component: {fileID: 1482090250}
   - component: {fileID: 1482090249}
   m_Layer: 0
-  m_Name: fireFx2_0(Clone) (8)
+  m_Name: FireFieldTile_08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60129,7 +60129,7 @@ GameObject:
   - component: {fileID: 1497745569}
   - component: {fileID: 1497745568}
   m_Layer: 0
-  m_Name: IceFx_2_0(Clone) (9)
+  m_Name: IceFieldTile_09
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67130,7 +67130,7 @@ GameObject:
   - component: {fileID: 1641102100}
   - component: {fileID: 1641102099}
   m_Layer: 0
-  m_Name: grassFX2_0(Clone) (11)
+  m_Name: GrassFieldTile_11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73249,7 +73249,7 @@ GameObject:
   - component: {fileID: 1762524875}
   - component: {fileID: 1762524874}
   m_Layer: 0
-  m_Name: grassFX2_0(Clone) (2)
+  m_Name: GrassFieldTile_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74154,7 +74154,7 @@ GameObject:
   - component: {fileID: 1801285376}
   - component: {fileID: 1801285375}
   m_Layer: 0
-  m_Name: waterFX2_0(Clone) (6)
+  m_Name: WaterFieldTile_06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74464,7 +74464,7 @@ GameObject:
   - component: {fileID: 1867687037}
   - component: {fileID: 1867687036}
   m_Layer: 0
-  m_Name: IceFx_2_0(Clone) (10)
+  m_Name: IceFieldTile_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84379,7 +84379,7 @@ GameObject:
   - component: {fileID: 1906032537}
   - component: {fileID: 1906032536}
   m_Layer: 0
-  m_Name: fireFx2_0(Clone) (13)
+  m_Name: FireFieldTile_13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84601,7 +84601,7 @@ GameObject:
   - component: {fileID: 1932807196}
   - component: {fileID: 1932807195}
   m_Layer: 0
-  m_Name: fireFx2_0(Clone)
+  m_Name: FireFieldTile_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89829,7 +89829,7 @@ GameObject:
   - component: {fileID: 1945420568}
   - component: {fileID: 1945420567}
   m_Layer: 0
-  m_Name: fireFx2_0(Clone) (5)
+  m_Name: FireFieldTile_05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89996,7 +89996,7 @@ GameObject:
   - component: {fileID: 1947134440}
   - component: {fileID: 1947134439}
   m_Layer: 0
-  m_Name: waterFX2_0(Clone) (11)
+  m_Name: WaterFieldTile_11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90163,7 +90163,7 @@ GameObject:
   - component: {fileID: 1953832865}
   - component: {fileID: 1953832864}
   m_Layer: 0
-  m_Name: waterFX2_0(Clone) (9)
+  m_Name: WaterFieldTile_09
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90412,7 +90412,7 @@ GameObject:
   - component: {fileID: 1982139256}
   - component: {fileID: 1982139255}
   m_Layer: 0
-  m_Name: IceFx_2_0(Clone) (5)
+  m_Name: IceFieldTile_05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90974,7 +90974,7 @@ GameObject:
   - component: {fileID: 2046427761}
   - component: {fileID: 2046427760}
   m_Layer: 0
-  m_Name: IceFx_2_0(Clone) (2)
+  m_Name: IceFieldTile_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91600,7 +91600,7 @@ GameObject:
   - component: {fileID: 2069163802}
   - component: {fileID: 2069163801}
   m_Layer: 0
-  m_Name: fireFx2_0(Clone) (11)
+  m_Name: FireFieldTile_11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91799,7 +91799,7 @@ GameObject:
   - component: {fileID: 2078528452}
   - component: {fileID: 2078528451}
   m_Layer: 0
-  m_Name: grassFX2_0(Clone) (8)
+  m_Name: GrassFieldTile_08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97343,7 +97343,7 @@ GameObject:
   - component: {fileID: 2115189363}
   - component: {fileID: 2115189362}
   m_Layer: 0
-  m_Name: grassFX2_0(Clone)
+  m_Name: GrassFieldTile_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
