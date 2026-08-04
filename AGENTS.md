@@ -20,6 +20,18 @@ Guidelines for working on TheGoodNightPotion.
 - Do not modify legacy scenes or prefabs to support the refactor unless explicitly requested.
 - When moving Unity assets, preserve `.meta` files to avoid breaking GUID references.
 
+## Asset Naming And Paths
+
+- Character animation clips: `Assets/_Refactory/Animation/T#_<Character>/Anim_<Character>_<StateOrAction>[_Variant].anim`.
+- Character Animator Controllers: `Assets/_Refactory/Animation/_Controller/<Character>.controller`.
+- Level object animation clips: `Assets/_Refactory/Animation/_LevelObject/<Category>/Anim_<Object>_<StateOrAction>[_Variant].anim`.
+- Level object Animator Controllers: `Assets/_Refactory/Animation/_LevelObject/_Controller/AC_<Object>[_Variant].controller`.
+- FX, potion, familiar, and UI animation assets: `Assets/_Refactory/Animation/<Category>/Anim_<Category>_<Action>.anim` and `AC_<Category>_<Action>.controller`.
+- Refactored audio: `Assets/_Refactory/Audio/<Category>/SFX_<Category>_<ActionOrMeaning>.<ext>`.
+- Refactored sprites/art: `Assets/_Refactory/Arts/<Category>/`, keeping UI art under `Arts/Ui`.
+- Refactored prefabs: `Assets/_Refactory/Prefabs/<Category>/`, keeping potion prefabs under `Prefabs/Potions`.
+- Refactored fonts/materials/data: `Assets/_Refactory/Fonts`, `Assets/_Refactory/Materials`, and `Assets/_Refactory/Dati/<Category>`.
+
 ## Responsibilities
 
 ### Core Gameplay

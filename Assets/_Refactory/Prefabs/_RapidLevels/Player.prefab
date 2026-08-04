@@ -18547,7 +18547,7 @@ MonoBehaviour:
   status: {fileID: 8852153142219413117}
   transformationManager: {fileID: 1225089884597636322}
   dialogManager: {fileID: 7758763451385991435}
-  transformationLightColor: {r: 0.9927057, g: 1, b: 0.9292453, a: 1}
+  transformationLightColor: {r: 0.995283, g: 1, b: 0.9575472, a: 1}
   lightLevel: 0
   darkLevel: 0
 --- !u!212 &1622347085313114051
@@ -19403,7 +19403,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3175400394553905838}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.03, y: -4.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

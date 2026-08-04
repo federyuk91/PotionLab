@@ -48,5 +48,8 @@ TagManager:
   - name: Target
     uniqueID: 3518834853
     locked: 0
+  - name: User Interface
+    uniqueID: 756726043
+    locked: 0
   m_RenderingLayers:
   - Default
