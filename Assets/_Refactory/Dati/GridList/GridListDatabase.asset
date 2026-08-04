@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2648a4cc548d28f4d86b4659cbd1e7bc, type: 3}
+  m_Name: GridListDatabase
+  m_EditorClassIdentifier: 
+  lockedEntry:
+    id: "locked"
+    displayName: "?"
+    description: "Unlock this element to know more"
+    sprite: {fileID: 21300000, guid: c894eac4821c70748acc8189007cf248, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  categories:
+  - {fileID: 11400000, guid: 2752e01430ba43d79fda3360fbf1380e, type: 2}
+  - {fileID: 11400000, guid: b5dee6cc4e2a4e47ae296253c8479199, type: 2}
+  - {fileID: 11400000, guid: 2c1941ea63a84963a1b7d345934ff4a0, type: 2}
+  - {fileID: 11400000, guid: 526d276b6e534c479b7ef5a39dec0b27, type: 2}
+  - {fileID: 11400000, guid: 216025038a10497680f6d8b9eff33960, type: 2}

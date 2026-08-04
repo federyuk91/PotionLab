@@ -1,0 +1,263 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd4fe76cab12a804f95991452b6cc48d, type: 3}
+  m_Name: Achievements
+  m_EditorClassIdentifier: 
+  categoryType: 1
+  title: Achievements
+  entries:
+  - id: "Goodnight"
+    displayName: "Goodnight!"
+    description: "The only true goodnight potion!"
+    sprite: {fileID: -6716467235744403431, guid: 4519fb72ad3086c4197faba476ecdb1d, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "The_Mage"
+    displayName: "The Mage"
+    description: "You are The Mage, you have completed everything"
+    sprite: {fileID: -1919134810339289107, guid: e4a6490334af6724ba53101b13463fe5, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Perfectionist"
+    displayName: "Perfectionist"
+    description: "Complete all level of Classic mode with max score!"
+    sprite: {fileID: 21300000, guid: 758082c0ae3d70242bfaa112cfbcfb2d, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "The_classic"
+    displayName: "The classic"
+    description: "Complete all level of Classic mode"
+    sprite: {fileID: 21300000, guid: a5e16b740d641394f874f098f9911b30, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Time_to_think"
+    displayName: "Time to think"
+    description: "Ents are a race that thinks and speaks very slowly, and acts even more slowly"
+    sprite: {fileID: 1773732111931389266, guid: 531bb2b4bd6d9e5428c80fea1e50f8b9, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Under_the_sea_Under_the_sea"
+    displayName: "Under the sea! Under the sea!"
+    description: "Transform into a pupperfish!"
+    sprite: {fileID: 6762519587811461384, guid: a7dbe47dcf575bb4694625dd90dd9ff2, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Udun_flame"
+    displayName: "Udun flame"
+    description: "The Dwarves dug too greedily and too deep."
+    sprite: {fileID: 2412548871939554092, guid: 2ab09d5d5751a61488632ad2537225ea, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Roar"
+    displayName: "Roar!"
+    description: "Transform into a Yeti!"
+    sprite: {fileID: -55999420773040779, guid: 20fc108f12129674fbd87e3d056641e3, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Wet_wizard_lucky_wizard"
+    displayName: "Wet wizard, lucky wizard"
+    description: "Extinguish the flames that are burning the magician"
+    sprite: {fileID: -5495861832342831202, guid: 64f179e91eb8e6e4f8509b5ab4136a91, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Thank_you_lara"
+    displayName: "Thank you lara"
+    description: "But your butler Winston is in another freezer"
+    sprite: {fileID: 8643757184048541398, guid: 0018984556d04474ea74cbb8f492fd8d, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Advance_knowledge"
+    displayName: "Advance knowledge"
+    description: "Burn alghae at maximum growth!"
+    sprite: {fileID: 868961405481983498, guid: 7bbe159fa1be31748aca5317906d97ba, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Advance_Tatics"
+    displayName: "Advance Tatics!"
+    description: "Drink an ice potion when you're burning as tree"
+    sprite: {fileID: -4610821296591359423, guid: e79dd9cdda6c41f4aac0df98ab79e79b, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Exotic_Interaction"
+    displayName: "Exotic Interaction"
+    description: "Cast Bark Shield while flaming!"
+    sprite: {fileID: 21300000, guid: a6be9dd9eb58dd144873eca7fb2e2d23, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Pizza_Express_3000"
+    displayName: "Pizza Express 3000"
+    description: "My God! It's the future. My parents, my co-workers, my girlfriend. I'll never see any of them again. Yahoo!"
+    sprite: {fileID: 21300000, guid: db2976ced8dfe314aa5e89c96c41fc34, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Sylvanus_Blessing"
+    displayName: "Sylvanus Blessing"
+    description: "Summon a flower with maximum power!"
+    sprite: {fileID: 8712213265624741136, guid: b8778942a0a08ed48918a18a28b63fdd, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Cooking_Mama"
+    displayName: "Cooking Mama!"
+    description: "Summon the cauldron at maximum power."
+    sprite: {fileID: -872718845115054588, guid: 29a8c16f09ae89b41833d4846453ff2b, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "BLOB"
+    displayName: "BLOB!"
+    description: "Inflate to maximum power and destroy!"
+    sprite: {fileID: 1114599881857385755, guid: a2ced4c912a303e46acd5cb340f4fac6, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Falcon_PUNCH"
+    displayName: "Falcon PUNCH!"
+    description: "Punch as Yeti 4 potions!"
+    sprite: {fileID: 21300000, guid: a2d9ee4c1ec982c44afe6e930544a0aa, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Old_Toby"
+    displayName: "Old Toby"
+    description: "Old Toby, The finest weed in the Southfarthing."
+    sprite: {fileID: 1773732111931389266, guid: bfdb12d5b05c3b14aa58fe379216ce6a, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "ICE_TW_ICE"
+    displayName: "ICE TW-ICE"
+    description: "Drink two potion of ice consecutively"
+    sprite: {fileID: 1547809334161273600, guid: df86eb8c0b6abf0499a295c1d9b330b3, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Flounder_is_death"
+    displayName: "Flounder is death"
+    description: "They found your fish body upside down! Bye!"
+    sprite: {fileID: 2301780388802313298, guid: fe1fad6cc4261224aafa1db8c296f6fe, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Mastro_Lindo"
+    displayName: "Mastro Lindo"
+    description: "Use cleanse on poisoned Ice!"
+    sprite: {fileID: 21300000, guid: e9d2678241ac54a47b783c9091a87090, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "The_sacrifice_of_the_gray_wizard"
+    displayName: "The sacrifice of the gray wizard"
+    description: "Sacrifice yourself to kill the demon."
+    sprite: {fileID: -2317178936316941921, guid: ee4a1a338bee81745bac56940f402586, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Casual_Drinker"
+    displayName: "Casual Drinker"
+    description: "Obtain 25 points in Endless Mode!"
+    sprite: {fileID: 8745328279068976687, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Regular_Drinker"
+    displayName: "Regular Drinker"
+    description: "Obtain 75 points in Endless Mode!"
+    sprite: {fileID: 4157264983450105251, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Hardcore_Drinker"
+    displayName: "Hardcore Drinker"
+    description: "Obtain 150 points in Endless Mode!"
+    sprite: {fileID: 71855861439738458, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Master_Drinker"
+    displayName: "Master Drinker"
+    description: "Obtain 300 points in Endless Mode!"
+    sprite: {fileID: 6709105514680536145, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Almost_a_problem_Drinker"
+    displayName: "Almost a problem...Drinker"
+    description: "Obtain 500 points in Endless Mode!"
+    sprite: {fileID: 5068339059601472793, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "God_of_Libations"
+    displayName: "God of Libations!"
+    description: "Obtain 700 points in Endless Mode!"
+    sprite: {fileID: 2914355713501389530, guid: 2fc0ad7e336c4b34080be2916f5c7705, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Burn_Baby_BURN"
+    displayName: "Burn Baby BURN!"
+    description: "Burn with a level 3 flames!"
+    sprite: {fileID: -5417896545150781075, guid: 25474e329b6f63f468c33b477ee7eeda, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Shapeshifter"
+    displayName: "Shapeshifter!"
+    description: "Transform 10 times in a run!"
+    sprite: {fileID: 4495391339491798990, guid: 4331130546b08d74ba2d7cbef2266dc9, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Ditto_s_Follower"
+    displayName: "Ditto's Follower"
+    description: "Transform 20 times in a run!"
+    sprite: {fileID: 21300000, guid: dec810c3c308b6947860c7d0d743067a, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Mana_BURN"
+    displayName: "Mana BURN!"
+    description: "Destroy with calduron 5 light potion!"
+    sprite: {fileID: -872718845115054588, guid: 29a8c16f09ae89b41833d4846453ff2b, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Not_a_waster"
+    displayName: "Not a waster"
+    description: "In Advance mode brings the light to minimum power"
+    sprite: {fileID: 6954784277877991272, guid: 4e598912d44a1fc4487d01aeff638030, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Spammer"
+    displayName: "Spammer!"
+    description: "Click a summon 5 times!"
+    sprite: {fileID: -3699974106684195094, guid: 2edd7a5c974e050488fae92e7117288b, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Fresh_and_Clean"
+    displayName: "Fresh and Clean"
+    description: "Reach max mana with full health in mage form!"
+    sprite: {fileID: -4808516141538984660, guid: c4b16c870c962fa43b07385d1b2a6305, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Necrotic_Death"
+    displayName: "Necrotic Death!"
+    description: "Die with an Antimagic Potion!"
+    sprite: {fileID: 9199872429839816550, guid: 531bc38a7e672414482189974260f0f8, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Shaky_Shaky"
+    displayName: "Shaky Shaky"
+    description: "Open Grimoire while taking damage!"
+    sprite: {fileID: 7394717361452921571, guid: d22192a8ee92ea04aa8805a838f81b8d, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Pile_of_S"
+    displayName: "Pile of S..."
+    description: "Ground on ground on ground!"
+    sprite: {fileID: -8870062075813610288, guid: 978c1b8ea02a26f4faa1213e0b580bdc, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Holy_pile_of_ground"
+    displayName: "Holy pile of ground!"
+    description: "Heal yourself as a tree with ground."
+    sprite: {fileID: 21300000, guid: c8aab11bd7de7e1429e1d1b8b7cc7f31, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1
+  - id: "Smart_but_fart"
+    displayName: "Smart but fart!"
+    description: "Try to heal up as yeti with full life!"
+    sprite: {fileID: -2054490447, guid: 98a132d39923e9041abb209d5e5ca729, type: 3}
+    unlockedByDefault: 0
+    sceneBuildIndex: -1

@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd4fe76cab12a804f95991452b6cc48d, type: 3}
+  m_Name: Familiars
+  m_EditorClassIdentifier: 
+  categoryType: 4
+  title: Familiars
+  entries:
+  - id: "Fenix"
+    displayName: "Fenix"
+    description: "A magical phoenix that, upon touch, releases energy that transforms potions into fiery elixirs."
+    sprite: {fileID: -3699974106684195094, guid: 2edd7a5c974e050488fae92e7117288b, type: 3}
+    unlockedByDefault: 1
+    sceneBuildIndex: -1
+  - id: "Wisp"
+    displayName: "Wisp"
+    description: "A magical wisp that, upon touch, releases energy that transforms potions into sparkly elixirs."
+    sprite: {fileID: -2718667134614080832, guid: 33e1967ebcfebe64388e74f90f64b97c, type: 3}
+    unlockedByDefault: 1
+    sceneBuildIndex: -1
+  - id: "Seal"
+    displayName: "Seal"
+    description: "A magical seal that, upon touch, releases energy that transforms potions into wet elixirs."
+    sprite: {fileID: -57944237556861442, guid: 72d98db99a7785643a9fc66ef1b019a7, type: 3}
+    unlockedByDefault: 1
+    sceneBuildIndex: -1
+  - id: "Bomb"
+    displayName: "Bomb"
+    description: "'A magical bomb that, upon touch, releases energy that destroy all the potions! '"
+    sprite: {fileID: 8803272387264892818, guid: 5753d64e66f89fb47a24058e64e858e2, type: 3}
+    unlockedByDefault: 1
+    sceneBuildIndex: -1
+  - id: "Bug_Ball"
+    displayName: "Bug Ball"
+    description: "A magical bug that, upon touch, releases negative energy that transforms potions into dark juice!"
+    sprite: {fileID: 8983827163784207418, guid: ef83dbd89732d784990fb05093b34cc3, type: 3}
+    unlockedByDefault: 1
+    sceneBuildIndex: -1
+  - id: "Frog"
+    displayName: "Frog"
+    description: "A magical frog that, upon touch, releases green energy that transforms potions into fresh grass!"
+    sprite: {fileID: -2989023784158381685, guid: 81df6a3b81bf38c4a8cb2718b3c63616, type: 3}
+    unlockedByDefault: 1
+    sceneBuildIndex: -1
+  - id: "Wurm"
+    displayName: "Wurm"
+    description: "A magical wurm that, upon touch, releases ground energy that transforms potions into great ground"
+    sprite: {fileID: -985834463, guid: df5bbba29f1626441850394c711dac39, type: 3}
+    unlockedByDefault: 1
+    sceneBuildIndex: -1
