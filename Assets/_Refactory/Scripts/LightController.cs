@@ -15,16 +15,13 @@ public class LightController : MonoBehaviour
     [SerializeField] private GameObject waterField;
     [SerializeField] private GameObject iceField;
 
-    [Header("Procedural Light Decay")]
-    [SerializeField] private GameManager gameManager;
-    [SerializeField] private float lightDecayInterval = 43f;
+    [Header("Level Settings")]
+    [SerializeField] private LevelSettings levelSettings;
 
-    [Header("Light Level")]
-    [SerializeField, Range(MinLightIntensity, MaxLightIntensity)] private int startingLightIntensity = 1;
-
-    private AudioSource audioSource;
-    private Animator animator;
-    private Light2D light2D;
+    [Header("References")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private Animator animator;
+    [SerializeField] private Light2D light2D;
     private float lightDecayTimer = 0f;
     [SerializeField] private LightFieldType currentLightField = LightFieldType.None;
 
@@ -36,14 +33,16 @@ public class LightController : MonoBehaviour
     public event Action<int> LightLevelChanged;
     public event Action<float> LightTimerChanged;
 
-    private bool missingGameManagerWarningShown;
+    private bool missingLevelSettingsWarningShown;
+    private bool missingAnimatorWarningShown;
+    private bool missingLight2DWarningShown;
+    private bool missingAudioSourceWarningShown;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
-        light2D = GetComponent<Light2D>();
-        audioSource = GetComponent<AudioSource>();
-        SetLightLevel(startingLightIntensity, false, false, false);
+        ResolveLevelSettings();
+        ResolveLocalReferences();
+        SetLightLevel(GetStartingLightIntensity(), false, false, false);
         RefreshLightFields();
 
     }
@@ -57,7 +56,7 @@ public class LightController : MonoBehaviour
 
         lightDecayTimer += Time.deltaTime;
 
-        if (lightDecayTimer >= lightDecayInterval)
+        if (lightDecayTimer >= GetLightDecayInterval())
         {
             DecreaseLightLevel();
             ResetLightDecayTimer();
@@ -68,6 +67,12 @@ public class LightController : MonoBehaviour
 
     public void ChangeLightColor(Color c)
     {
+        if (light2D == null)
+        {
+            WarnMissingLight2D();
+            return;
+        }
+
         light2D.color = c;
     }
     /* deprecated, now we use light fields to determine if a character is powered or not
@@ -194,7 +199,11 @@ public class LightController : MonoBehaviour
     {
         lightIntensity = Mathf.Clamp(intensity, MinLightIntensity, MaxLightIntensity);
 
-        if (triggerAnimation && triggerLightOn)
+        if (animator == null)
+        {
+            WarnMissingAnimator();
+        }
+        else if (triggerAnimation && triggerLightOn)
         {
             animator.SetTrigger("lightOn");
         }
@@ -203,7 +212,11 @@ public class LightController : MonoBehaviour
             animator.SetTrigger("lightAdvance");
         }
 
-        animator.SetInteger("lightIntesity", lightIntensity);
+        if (animator != null)
+        {
+            animator.SetInteger("lightIntesity", lightIntensity);
+        }
+
         LightLevelChanged?.Invoke(lightIntensity);
 
         if (playAudio)
@@ -214,24 +227,7 @@ public class LightController : MonoBehaviour
 
     private bool ShouldDecayLight()
     {
-        if (gameManager == null)
-        {
-            WarnMissingGameManager();
-            return false;
-        }
-
-        return !gameManager.IsPuzzleMode;
-    }
-
-    private void WarnMissingGameManager()
-    {
-        if (missingGameManagerWarningShown)
-        {
-            return;
-        }
-
-        missingGameManagerWarningShown = true;
-        Debug.LogWarning($"{name}: GameManager reference is missing. Assign it in Inspector so LightController can decide if light decay should run.", this);
+        return GetDecayLightOverTime();
     }
 
     private void ResetLightDecayTimer()
@@ -247,6 +243,7 @@ public class LightController : MonoBehaviour
 
     private float GetLightDecayProgress()
     {
+        float lightDecayInterval = GetLightDecayInterval();
         if (lightDecayInterval <= 0f)
         {
             return 0f;
@@ -257,15 +254,161 @@ public class LightController : MonoBehaviour
 
     public void PlayAudio()
     {
-        if (audioSource.clip != null) audioSource.Play();
+        if (audioSource == null)
+        {
+            WarnMissingAudioSource();
+            return;
+        }
+
+        if (audioSource.clip == null)
+        {
+            Debug.LogWarning($"AUDIO: {name} cannot play light feedback because the AudioSource clip is missing.", this);
+            return;
+        }
+
+        audioSource.Play();
     }
 
     public void StartLight()
     {
 
         //lancia l'animazione della magia di luce determinando il livello di intensità stabilito per questo livello
-        animator.SetTrigger("lightOn");
-        animator.SetInteger("lightIntesity", lightIntensity);
+        if (animator == null)
+        {
+            WarnMissingAnimator();
+        }
+        else
+        {
+            animator.SetTrigger("lightOn");
+            animator.SetInteger("lightIntesity", lightIntensity);
+        }
+
         PlayAudio();
+    }
+
+    private void ResolveLocalReferences()
+    {
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+
+            if (animator != null)
+            {
+                Debug.LogWarning($"{name}: Animator was recovered with GetComponent. Assign it in Inspector before production.", this);
+            }
+        }
+
+        if (light2D == null)
+        {
+            light2D = GetComponent<Light2D>();
+
+            if (light2D != null)
+            {
+                Debug.LogWarning($"{name}: Light2D was recovered with GetComponent. Assign it in Inspector before production.", this);
+            }
+        }
+
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+
+            if (audioSource != null)
+            {
+                Debug.LogWarning($"{name}: AudioSource was recovered with GetComponent. Assign it in Inspector before production.", this);
+            }
+        }
+    }
+
+    private void WarnMissingAnimator()
+    {
+        if (missingAnimatorWarningShown)
+        {
+            return;
+        }
+
+        missingAnimatorWarningShown = true;
+        Debug.LogWarning($"{name}: Animator reference is missing. Assign it in Inspector to play light animations.", this);
+    }
+
+    private void WarnMissingLight2D()
+    {
+        if (missingLight2DWarningShown)
+        {
+            return;
+        }
+
+        missingLight2DWarningShown = true;
+        Debug.LogError($"{name}: Light2D reference is missing. Assign it in Inspector to allow light color changes.", this);
+    }
+
+    private void WarnMissingAudioSource()
+    {
+        if (missingAudioSourceWarningShown)
+        {
+            return;
+        }
+
+        missingAudioSourceWarningShown = true;
+        Debug.LogWarning($"AUDIO: {name} AudioSource reference is missing. Assign it in Inspector to play light feedback.", this);
+    }
+
+    private int GetStartingLightIntensity()
+    {
+        if (levelSettings == null)
+        {
+            WarnMissingLevelSettings();
+            return 1;
+        }
+
+        return levelSettings.StartingLightIntensity;
+    }
+
+    private bool GetDecayLightOverTime()
+    {
+        if (levelSettings == null)
+        {
+            WarnMissingLevelSettings();
+            return false;
+        }
+
+        return levelSettings.DecayLightOverTime;
+    }
+
+    private float GetLightDecayInterval()
+    {
+        if (levelSettings == null)
+        {
+            WarnMissingLevelSettings();
+            return 43f;
+        }
+
+        return levelSettings.LightDecayInterval;
+    }
+
+    private void WarnMissingLevelSettings()
+    {
+        if (missingLevelSettingsWarningShown)
+        {
+            return;
+        }
+
+        missingLevelSettingsWarningShown = true;
+        Debug.LogWarning($"{name}: LevelSettings reference is missing. Assign it in Inspector to configure starting light and light decay.", this);
+    }
+
+    private void ResolveLevelSettings()
+    {
+        if (levelSettings != null)
+        {
+            return;
+        }
+
+        WarnMissingLevelSettings();
+        levelSettings = FindFirstObjectByType<LevelSettings>();
+
+        if (levelSettings != null)
+        {
+            Debug.LogWarning($"{name}: LevelSettings was found in the scene at runtime. Assign it in Inspector before production.", this);
+        }
     }
 }

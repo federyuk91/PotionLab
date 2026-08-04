@@ -55,8 +55,15 @@ namespace CharacterSystem
                 return;
             }
 
+            currentCharacter.PotionEffectResolved += OnPotionEffectResolved;
             currentCharacter.Drunk(potion);
-            ConsumePotion(potion, true);
+            HideConsumedPotion(potion);
+
+            void OnPotionEffectResolved(BaseCharacter character, PotionScriptable potionEffect)
+            {
+                currentCharacter.PotionEffectResolved -= OnPotionEffectResolved;
+                RegisterConsumedPotion(potion, true);
+            }
         }
 
         private void DrinkLitchSummon(LitchSummonPotionDestroyer summon)
@@ -82,7 +89,7 @@ namespace CharacterSystem
             summon.ConsumeByDrinkingTrigger();
         }
 
-        private void ConsumePotion(PotionScript potion, bool drunked)
+        private void RegisterConsumedPotion(PotionScript potion, bool drunked)
         {
             if (potion == null)
             {
@@ -96,6 +103,14 @@ namespace CharacterSystem
             else
             {
                 gameManager.RemovePotion(potion, drunked);
+            }
+        }
+
+        private void HideConsumedPotion(PotionScript potion)
+        {
+            if (potion == null)
+            {
+                return;
             }
 
             potion.gameObject.SetActive(false);

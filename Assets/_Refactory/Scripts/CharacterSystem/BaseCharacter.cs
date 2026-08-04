@@ -24,6 +24,7 @@ namespace CharacterSystem
         [SerializeField] private Color transformationLightColor = Color.white;
 
         public event Action<BaseCharacter, PotionScriptable, IReadOnlyCollection<Status>> PotionEffectResolving;
+        public event Action<BaseCharacter, PotionScriptable> PotionEffectResolved;
         public event Action<BaseCharacter, int, Spell, bool> SpellCastSucceeded;
 
         public Color TransformationLightColor => transformationLightColor;
@@ -167,6 +168,8 @@ namespace CharacterSystem
                     Debug.LogWarning("Potion effect not handled in DrunkRoutine: "+ potion.effectType.ToString());
                     break;
             }
+
+            PotionEffectResolved?.Invoke(this, potion);
         }
 
         // 🔴 OBBLIGATORI: se mancano, NON COMPILA

@@ -61,7 +61,11 @@ namespace CharacterSystem
             if (status.Has(Status.Burned))
             {
                 dialogManager.PopDialog("Barks can't form any shield with flames", 3f);
-                AchievementManager.instance.Achive("Exotic Interaction");
+                if (AchievementManager.instance != null)
+                {
+                    AchievementManager.instance.Achive("Exotic Interaction");
+                }
+
                 return false;
             }
 
@@ -117,7 +121,10 @@ namespace CharacterSystem
             if (powered)
             {
                 overgrowthFlower.Grow();
-                AchievementManager.instance.Achive("Sylvanus Blessing");
+                if (AchievementManager.instance != null)
+                {
+                    AchievementManager.instance.Achive("Sylvanus Blessing");
+                }
             }
 
             return true;

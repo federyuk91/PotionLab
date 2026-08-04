@@ -49,7 +49,11 @@ namespace CharacterSystem
         {
             if (stats.HP >= stats.MaxHP)
             {
-                AchievementManager.instance.Achive("Smart but fart!");
+                if (AchievementManager.instance != null)
+                {
+                    AchievementManager.instance.Achive("Smart but fart!");
+                }
+
                 dialogManager.PopDialog("FULL", 1f);
                 return false;
             }

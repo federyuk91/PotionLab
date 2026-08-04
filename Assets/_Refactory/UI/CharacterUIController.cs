@@ -36,6 +36,17 @@ public class CharacterUIController : MonoBehaviour
     [SerializeField] private GameObject deathPanel;
     [SerializeField] private Text deathText;
 
+    [Header("Result UI")]
+    [SerializeField] private GameObject classicResultPanel;
+    [SerializeField] private GameObject proceduralResultPanel;
+
+    [Header("Classic Score UI")]
+    [SerializeField] private Text classicScoreText;
+    [SerializeField] private Text classicFinalMessage;
+    [SerializeField] private Image[] classicScoreIcons;
+    [SerializeField] private Color inactiveScoreIconColor = new Color(0.3207547f, 0.3207547f, 0.3207547f, 1f);
+    [SerializeField] private Color activeScoreIconColor = Color.white;
+
     [Serializable]
     private class StatusUIEntry
     {
@@ -93,6 +104,7 @@ public class CharacterUIController : MonoBehaviour
         {
             gameManager.SpellBarVisibilityChanged += SetSpellBarVisible;
             gameManager.CharacterDied += ShowDeathPanel;
+            gameManager.LevelCompleted += ShowResultPanel;
         }
     }
 
@@ -122,6 +134,7 @@ public class CharacterUIController : MonoBehaviour
         {
             gameManager.SpellBarVisibilityChanged -= SetSpellBarVisible;
             gameManager.CharacterDied -= ShowDeathPanel;
+            gameManager.LevelCompleted -= ShowResultPanel;
         }
     }
 
@@ -143,6 +156,7 @@ public class CharacterUIController : MonoBehaviour
             SetSpellBarVisible(spellBar.activeSelf);
         }
 
+        SetResultPanelsVisible(false, false);
         RefreshStatuses();
     }
 
@@ -355,6 +369,8 @@ public class CharacterUIController : MonoBehaviour
 
     private void ShowDeathPanel(string deathDialog)
     {
+        SetResultPanelsVisible(false, false);
+
         if (deathPanel != null)
         {
             deathPanel.SetActive(true);
@@ -363,6 +379,101 @@ public class CharacterUIController : MonoBehaviour
         if (deathText != null)
         {
             deathText.text = deathDialog;
+        }
+    }
+
+    private void ShowResultPanel()
+    {
+        if (gameManager == null)
+        {
+            Debug.LogWarning($"{name}: Cannot show result panel because GameManager reference is missing.", this);
+            return;
+        }
+
+        if (gameManager.IsPuzzleMode)
+        {
+            PopulateClassicScorePanel();
+        }
+
+        SetResultPanelsVisible(gameManager.IsPuzzleMode, !gameManager.IsPuzzleMode);
+    }
+
+    private void PopulateClassicScorePanel()
+    {
+        BaseCharacter character = gameManager.Character;
+        if (character == null)
+        {
+            Debug.LogWarning($"{name}: Cannot populate classic score panel because the active character is missing.", this);
+            return;
+        }
+
+        CharacterStats stats = character.stats;
+        CharacterStatusController status = character.status;
+        int currentHP = stats != null ? stats.HP : 0;
+        int currentStatusCount = status != null ? status.Count() : 0;
+        int totalPotion = gameManager.LevelPotionTarget > 0 ? gameManager.LevelPotionTarget : gameManager.potionDrunked;
+
+        if (classicScoreText != null)
+        {
+            classicScoreText.text = "Drunked: " + gameManager.potionDrunked + "/" + totalPotion + "\n\n"
+                + "Health: " + currentHP + "/" + gameManager.BestHealthScore + "\n\n"
+                + "Malus: " + currentStatusCount;
+        }
+
+        int score = gameManager.CalculateClassicScorePoints();
+        RefreshClassicScoreIcons(score);
+
+        if (classicFinalMessage != null)
+        {
+            classicFinalMessage.text = GetClassicFinalMessage(score);
+        }
+    }
+
+    private void RefreshClassicScoreIcons(int score)
+    {
+        if (classicScoreIcons == null)
+        {
+            return;
+        }
+
+        int activeIcons = Mathf.Clamp(score - 1, 0, classicScoreIcons.Length);
+
+        for (int index = 0; index < classicScoreIcons.Length; index++)
+        {
+            if (classicScoreIcons[index] != null)
+            {
+                classicScoreIcons[index].color = index < activeIcons ? activeScoreIconColor : inactiveScoreIconColor;
+            }
+        }
+    }
+
+    private string GetClassicFinalMessage(int score)
+    {
+        switch (score)
+        {
+            case 1:
+                return "Very bad night...";
+            case 2:
+                return "It's ok...";
+            case 3:
+                return "Nice! Not bad!";
+            case 4:
+                return "PERFECT NIGHT!";
+            default:
+                return "Very bad night...";
+        }
+    }
+
+    private void SetResultPanelsVisible(bool classicVisible, bool proceduralVisible)
+    {
+        if (classicResultPanel != null)
+        {
+            classicResultPanel.SetActive(classicVisible);
+        }
+
+        if (proceduralResultPanel != null)
+        {
+            proceduralResultPanel.SetActive(proceduralVisible);
         }
     }
 }

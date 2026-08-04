@@ -89,7 +89,10 @@ namespace CharacterSystem
             if (powered)
             {
                 stats.AddMana(3);
-                AchievementManager.instance.Achive("BLOB!");
+                if (AchievementManager.instance != null)
+                {
+                    AchievementManager.instance.Achive("BLOB!");
+                }
             }
 
             return true;

@@ -19,6 +19,7 @@ namespace CharacterSystem
 
         private readonly Dictionary<CharacterType, BaseCharacter> characters = new();
         private BaseCharacter currentCharacter;
+        private bool missingLightControllerErrorShown;
 
         public BaseCharacter Current => currentCharacter;
 
@@ -37,6 +38,12 @@ namespace CharacterSystem
             dialogManager = GetComponentInParent<DialogManager>();
             foreach (MonoBehaviour behaviour in characterBehaviours)
             {
+                if (behaviour == null)
+                {
+                    Debug.LogError($"{name}: Character behaviour list contains a null entry. Assign all character forms in Inspector.", this);
+                    continue;
+                }
+
                 if (behaviour is not BaseCharacter character)
                 {
                     Debug.LogError($"{behaviour.name} does not implement ICharacter");
@@ -78,6 +85,13 @@ namespace CharacterSystem
             currentCharacter.gameObject.SetActive(true);
             currentCharacter.OnEnterTransformation();
 
+            if (lightController == null)
+            {
+                WarnMissingLightController();
+                OnTransformation?.Invoke(previousForm, type);
+                return;
+            }
+
             if (type == CharacterType.Mage)
             {
                 lightController.ClearLightField();
@@ -85,6 +99,17 @@ namespace CharacterSystem
 
             lightController.ChangeLightColor(currentCharacter.TransformationLightColor);
             OnTransformation?.Invoke(previousForm, type);
+        }
+
+        private void WarnMissingLightController()
+        {
+            if (missingLightControllerErrorShown)
+            {
+                return;
+            }
+
+            missingLightControllerErrorShown = true;
+            Debug.LogError($"{name}: LightController reference is missing. Assign it in Inspector on the Player TransformationManager.", this);
         }
     }
 }
