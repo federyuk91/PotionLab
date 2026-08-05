@@ -27,7 +27,7 @@ public class CharacterUIController : MonoBehaviour
     [SerializeField] private GameObject spellBar;
     [SerializeField] private Animator[] spellAnimators;
     [SerializeField] private Image[] spellImages;
-    [SerializeField] private Text[] spellCosts;
+    [SerializeField] private TextMeshProUGUI[] spellCosts;
 
     [Header("Status UI")]
     [SerializeField] private StatusUIEntry[] statusEntries;

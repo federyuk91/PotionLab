@@ -201,6 +201,12 @@ namespace CharacterSystem
                 status.Add(Status.Freezed);
                 return;
             }
+            if(status.Has(Status.Grass))
+            {
+                status.Remove(Status.Grass);
+                status.Add(Status.Freezed);
+                return;
+            }
 
             status.Add(Status.Freezed);
 

@@ -6,6 +6,7 @@ namespace Refactory.UI.GridList
         Achievement,
         Night,
         Spell,
-        Familiar
+        Familiar,
+        Transformation
     }
 }
