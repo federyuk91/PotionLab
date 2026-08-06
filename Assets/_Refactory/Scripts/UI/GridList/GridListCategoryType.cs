@@ -7,6 +7,7 @@ namespace Refactory.UI.GridList
         Night,
         Spell,
         Familiar,
-        Transformation
+        Transformation,
+        Options
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AntiMagicPotion
   m_EditorClassIdentifier: 
   _name: Anti-Magic Potion
-  _potColor: {r: 1, g: 0.9260169, b: 0, a: 0.8666667}
+  _potColor: {r: 0.4792453, g: 0.071434624, b: 0.32950622, a: 0.8666667}
   dialogs:
   - Nooooo! My magic!
   - I feel weak!
@@ -28,6 +28,7 @@ MonoBehaviour:
   tree: 
   balrog: 
   poisoned: 
+  pupperFish: 
   none: {fileID: 8300000, guid: d78875c2f4d1dbb40a06f170643a006f, type: 3}
   burned_audio: {fileID: 0}
   freezed_audio: {fileID: 0}
@@ -35,4 +36,5 @@ MonoBehaviour:
   grass_audio: {fileID: 0}
   tree_audio: {fileID: 0}
   balrog_audio: {fileID: 0}
+  pupperFish_audio: {fileID: 0}
   baseValue: 1
