@@ -6,6 +6,7 @@ Guidelines for working on TheGoodNightPotion.
 
 - Use explicit types; avoid `var` except for trivial and highly readable cases.
 - Prefer Inspector-assigned references via `[SerializeField]`.
+- Mark every required Inspector-assigned reference with `[RequiredInspectorReference]` from `InspectorValidation`.
 - Use `GetComponent` only for local, non-repeated fallbacks; never use it to connect distant systems.
 - Do not use `GameManager.Instance`, `TransformationManager.Instance`, `Find`, or runtime searches in refactored gameplay components.
 - If a required reference is missing, log an explicit warning or error telling which Inspector reference must be assigned.

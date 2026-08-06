@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using InspectorValidation;
 using UnityEngine;
 
 namespace EndlessSystem
@@ -13,10 +14,15 @@ namespace EndlessSystem
         public event Action OverflowBombTriggered;
 
         [Header("References")]
+        [RequiredInspectorReference]
         [SerializeField] private GameManager gameManager;
+        [RequiredInspectorReference]
         [SerializeField] private LevelSettings levelSettings;
+        [RequiredInspectorReference]
         [SerializeField] private EndlessEventController eventController;
+        [RequiredInspectorReference]
         [SerializeField] private Transform spawnPoint;
+        [RequiredInspectorReference]
         [SerializeField] private PotionPool potionPool;
 
         [Header("Phases")]
