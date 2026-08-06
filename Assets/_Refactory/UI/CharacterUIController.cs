@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CharacterSystem;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class CharacterUIController : MonoBehaviour
@@ -36,16 +37,19 @@ public class CharacterUIController : MonoBehaviour
     [SerializeField] private GameObject deathPanel;
     [SerializeField] private Text deathText;
 
-    [Header("Result UI")]
-    [SerializeField] private GameObject classicResultPanel;
-    [SerializeField] private GameObject proceduralResultPanel;
-
     [Header("Classic Score UI")]
+    [SerializeField] private GameObject classicResultPanel;
     [SerializeField] private Text classicScoreText;
     [SerializeField] private Text classicFinalMessage;
     [SerializeField] private Image[] classicScoreIcons;
     [SerializeField] private Color inactiveScoreIconColor = new Color(0.3207547f, 0.3207547f, 0.3207547f, 1f);
     [SerializeField] private Color activeScoreIconColor = Color.white;
+    [Header("Endless Score UI")]
+    [FormerlySerializedAs("proceduralResultPanel")]
+    [SerializeField] private GameObject endlessResultPanel;
+    [SerializeField] private Text endlessCurrentScoreText;
+    [FormerlySerializedAs("endlessScoreText")]
+    [SerializeField] private Text endlessBestScoreText;
 
     [Serializable]
     private class StatusUIEntry
@@ -371,6 +375,13 @@ public class CharacterUIController : MonoBehaviour
     {
         SetResultPanelsVisible(false, false);
 
+        if (gameManager != null && !gameManager.IsPuzzleMode)
+        {
+            PopulateEndlessScorePanel();
+            SetResultPanelsVisible(false, true);
+            return;
+        }
+
         if (deathPanel != null)
         {
             deathPanel.SetActive(true);
@@ -381,7 +392,6 @@ public class CharacterUIController : MonoBehaviour
             deathText.text = deathDialog;
         }
     }
-
     private void ShowResultPanel()
     {
         if (gameManager == null)
@@ -393,6 +403,10 @@ public class CharacterUIController : MonoBehaviour
         if (gameManager.IsPuzzleMode)
         {
             PopulateClassicScorePanel();
+        }
+        else
+        {
+            PopulateEndlessScorePanel();
         }
 
         SetResultPanelsVisible(gameManager.IsPuzzleMode, !gameManager.IsPuzzleMode);
@@ -464,16 +478,44 @@ public class CharacterUIController : MonoBehaviour
         }
     }
 
-    private void SetResultPanelsVisible(bool classicVisible, bool proceduralVisible)
+    private void PopulateEndlessScorePanel()
+    {
+        if (gameManager == null)
+        {
+            Debug.LogWarning($"{name}: Cannot populate endless score panel because GameManager reference is missing.", this);
+            return;
+        }
+
+
+        if (endlessCurrentScoreText == null)
+        {
+            Debug.LogWarning($"{name}: Cannot populate endless score panel current score because Endless Current Score Text is missing. Assign it in Inspector.", this);
+        }
+        else
+        {
+            endlessCurrentScoreText.text = gameManager.potionDrunked.ToString();
+        }
+
+        if (endlessBestScoreText == null)
+        {
+            Debug.LogWarning($"{name}: Cannot populate endless score panel best score because Endless Best Score Text is missing. Assign it in Inspector.", this);
+        }
+        else
+        {
+            endlessBestScoreText.text = gameManager.BestProceduralScore.ToString();
+        }
+    }
+
+    private void SetResultPanelsVisible(bool classicVisible, bool endlessVisible)
     {
         if (classicResultPanel != null)
         {
             classicResultPanel.SetActive(classicVisible);
         }
 
-        if (proceduralResultPanel != null)
+        if (endlessResultPanel != null)
         {
-            proceduralResultPanel.SetActive(proceduralVisible);
+            endlessResultPanel.SetActive(endlessVisible);
         }
     }
 }

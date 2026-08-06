@@ -168,13 +168,13 @@ public class GameMan : MonoBehaviour
 
     public void CompileEndlessModifier()
     {
-        endlessModifier = GameObject.FindGameObjectWithTag("music").GetComponent<DataBetweenLevel>();
+        /*endlessModifier = GameObject.FindGameObjectWithTag("music").GetComponent<DataBetweenLevel>();
         if (endlessModifier != null)
         {
             hyperMode = endlessModifier.hyperMode;
             hyperHyperMode = endlessModifier.hyperHyperMode;
             failureMode = endlessModifier.failureMode;
-        }
+        }*/
 
     }
 

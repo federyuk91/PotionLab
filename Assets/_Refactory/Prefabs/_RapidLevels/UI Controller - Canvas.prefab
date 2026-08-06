@@ -1696,7 +1696,9 @@ MonoBehaviour:
   deathPanel: {fileID: 9207741496696967037}
   deathText: {fileID: 2640316247791125268}
   classicResultPanel: {fileID: 6475237384449171231}
-  proceduralResultPanel: {fileID: 7120604341746045258}
+  endlessResultPanel: {fileID: 7120604341746045258}
+  endlessCurrentScoreText: {fileID: 5030873483942277859}
+  endlessBestScoreText: {fileID: 5665937630672602876}
   classicScoreText: {fileID: 5053716905171337055}
   classicFinalMessage: {fileID: 2736873406843796473}
   classicScoreIcons:

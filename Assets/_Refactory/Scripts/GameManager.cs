@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public bool IsPuzzleMode => GetIsPuzzleMode();
     public int LevelPotionTarget => levelPotionTarget;
     public int BestHealthScore => GetBestHealthScore();
+    public int BestProceduralScore => GetBestProceduralScore();
 
     [Header("Compiled from code")]
     public List<PotionScript> levelPotions;
@@ -312,6 +313,11 @@ public class GameManager : MonoBehaviour
 
         SetSpellBarVisible(false);
 
+        if (!IsPuzzleMode)
+        {
+            SaveProceduralScoreIfAvailable();
+        }
+
         UpdateStatsIfAvailable(1, potionDrunked, mutationCounter);
 
         CharacterDied?.Invoke(deathDialog);
@@ -534,6 +540,22 @@ public class GameManager : MonoBehaviour
         }
 
         return levelSettings.BestHealthScore;
+    }
+
+    private int GetBestProceduralScore()
+    {
+        if (progressService == null)
+        {
+            WarnMissingProgressService();
+            return 0;
+        }
+
+        if (progressService.Progress == null)
+        {
+            return 0;
+        }
+
+        return progressService.Progress.bestProceduralScore;
     }
 
     private void WarnMissingLevelSettings()
