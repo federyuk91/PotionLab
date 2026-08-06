@@ -11,7 +11,7 @@ namespace Refactory.UI.GridList
     {
         [Header("Data")]
         [SerializeField] private GridListDatabase database;
-        [SerializeField] private GridListCategoryType startingCategory = GridListCategoryType.Potion;
+        [SerializeField] private GridListCategoryType startingCategory = GridListCategoryType.Options;
 
         [Header("Book Pages")]
         [SerializeField] private RectTransform pageLeft;
@@ -43,6 +43,7 @@ namespace Refactory.UI.GridList
 
         [Header("Scroll View")]
         [SerializeField] private RectTransform scrollViewRoot;
+        [SerializeField] private ScrollRect entriesScrollRect;
         [SerializeField] private RectTransform entriesContainer;
         [SerializeField] private CompendiumEntryView entryPrefab;
 
@@ -182,11 +183,13 @@ namespace Refactory.UI.GridList
                 return;
             }
 
+            startingCategory = GridListCategoryType.Options;
             categoryTransition = StartCoroutine(ShowOptionsRoutine());
         }
 
         private void ShowOptionsImmediately()
         {
+            startingCategory = GridListCategoryType.Options;
             isShowingOptions = true;
             ApplyOptionsBackground();
 
@@ -302,6 +305,7 @@ namespace Refactory.UI.GridList
 
         private void RenderRequestedCategory(GridListCategoryType categoryType)
         {
+            startingCategory = categoryType;
             currentCategory = categoryType;
             queuedCategory = categoryType;
             hasRenderedCategory = true;
@@ -658,10 +662,39 @@ namespace Refactory.UI.GridList
             {
                 GridListEntryData firstEntry = entries[0].UnlockedByDefault ? entries[0] : database.LockedEntry;
                 ShowDetails(firstEntry);
+                ResetEntriesScroll();
                 return;
             }
 
             ClearDetails();
+            ResetEntriesScroll();
+        }
+
+        private void ResetEntriesScroll()
+        {
+            if (entriesScrollRect == null)
+            {
+                Debug.LogWarning($"{name}: Entries Scroll Rect reference is missing. Assign the compendium ScrollRect in Inspector.", this);
+                return;
+            }
+
+            Canvas.ForceUpdateCanvases();
+            if (entriesContainer != null)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(entriesContainer);
+            }
+
+            entriesScrollRect.StopMovement();
+
+            if (entriesScrollRect.horizontal)
+            {
+                entriesScrollRect.horizontalNormalizedPosition = 0f;
+            }
+
+            if (entriesScrollRect.vertical)
+            {
+                entriesScrollRect.verticalNormalizedPosition = 1f;
+            }
         }
 
         private void ShowDetails(GridListEntryData entry)

@@ -8,6 +8,7 @@ public class GrimoireAnimation : MonoBehaviour
     public Animator anim;
     public bool isOpen = false;
     public GameObject menuPanel;
+    [SerializeField] private GameObject grimoireBase;
     [SerializeField] private CompendiumView compendiumView;
 
     private bool missingCompendiumViewWarningShown;
@@ -21,6 +22,15 @@ public class GrimoireAnimation : MonoBehaviour
         isOpen = !isOpen;
         if (isOpen)
         {
+            if (grimoireBase != null)
+            {
+                grimoireBase.SetActive(true);
+            }
+            else
+            {
+                Debug.LogWarning($"{name}: Grimoire Base reference is missing. Assign the new grimoire root in Inspector.", this);
+            }
+
             Time.timeScale = 0;
             if(GameMan.Instance!=null && GameMan.Instance.cc.cameraShake.shake)
             {
@@ -46,6 +56,11 @@ public class GrimoireAnimation : MonoBehaviour
 
     public void ActivatePanel()
     {
+        if (grimoireBase != null)
+        {
+            grimoireBase.SetActive(true);
+        }
+
         menuPanel.SetActive(true);
     }
 
@@ -54,10 +69,16 @@ public class GrimoireAnimation : MonoBehaviour
         if (compendiumView != null)
         {
             compendiumView.CloseWithFade();
-            return;
+        }
+        else
+        {
+            menuPanel.SetActive(false);
         }
 
-        menuPanel.SetActive(false);
+        if (grimoireBase != null)
+        {
+            grimoireBase.SetActive(false);
+        }
     }
 
 }
