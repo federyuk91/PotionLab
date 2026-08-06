@@ -9,13 +9,15 @@ namespace EndlessSystem
     {
         public event Action<int> PhaseChanged;
         public event Action<int> SpawnedPotionCountChanged;
+        public event Action<EndlessPhaseSettings> PhaseEventTriggered;
+        public event Action OverflowBombTriggered;
 
         [Header("References")]
         [SerializeField] private GameManager gameManager;
         [SerializeField] private LevelSettings levelSettings;
         [SerializeField] private EndlessEventController eventController;
         [SerializeField] private Transform spawnPoint;
-        [SerializeField] private AudioSource phaseAudioSource;
+        [SerializeField] private PotionPool potionPool;
 
         [Header("Phases")]
         [SerializeField] private List<EndlessPhaseSettings> phases = new List<EndlessPhaseSettings>();
@@ -25,10 +27,12 @@ namespace EndlessSystem
         private int phaseIndex;
         private int spawnedPotionsInCurrentPhase;
         private Coroutine spawnCoroutine;
+        private readonly HashSet<PotionScript> activeEndlessPotions = new HashSet<PotionScript>();
         private bool missingGameManagerWarningShown;
         private bool missingLevelSettingsWarningShown;
         private bool missingSpawnPointWarningShown;
         private bool missingEventControllerWarningShown;
+        private bool missingPotionPoolWarningShown;
 
         private void OnEnable()
         {
@@ -41,6 +45,8 @@ namespace EndlessSystem
             gameManager.LevelInteractionStarted += HandleLevelInteractionStarted;
             gameManager.LevelCompleted += StopEndless;
             gameManager.CharacterDied += HandleCharacterDied;
+            gameManager.PotionRemoved += HandlePotionRemoved;
+            gameManager.PotionReplaced += HandlePotionReplaced;
         }
 
         private void OnDisable()
@@ -50,6 +56,8 @@ namespace EndlessSystem
                 gameManager.LevelInteractionStarted -= HandleLevelInteractionStarted;
                 gameManager.LevelCompleted -= StopEndless;
                 gameManager.CharacterDied -= HandleCharacterDied;
+                gameManager.PotionRemoved -= HandlePotionRemoved;
+                gameManager.PotionReplaced -= HandlePotionReplaced;
             }
 
             StopEndless();
@@ -76,6 +84,7 @@ namespace EndlessSystem
             }
 
             phaseIndex = Mathf.Clamp(phaseIndex, 0, phases.Count - 1);
+            activeEndlessPotions.Clear();
             PhaseChanged?.Invoke(phaseIndex);
             spawnCoroutine = StartCoroutine(SpawnRoutine());
         }
@@ -119,8 +128,7 @@ namespace EndlessSystem
                 return;
             }
 
-            GameObject potionObject = Instantiate(potionPrefab, spawnPoint.position, Quaternion.identity);
-            PotionScript potion = potionObject.GetComponent<PotionScript>();
+            PotionScript potion = potionPool.Get(potionPrefab, spawnPoint.position, Quaternion.identity);
 
             if (potion == null)
             {
@@ -130,12 +138,13 @@ namespace EndlessSystem
 
             potion.isActive = true;
             potion.DropPotion();
+            activeEndlessPotions.Add(potion);
             gameManager.RegisterSpawnedPotion(potion);
             SpawnedPotionCountChanged?.Invoke(gameManager.spawnedPotion);
 
-            if (gameManager.levelPotions != null && gameManager.levelPotions.Count > levelSettings.MaxActivePotionsBeforeBomb)
+            if (activeEndlessPotions.Count > levelSettings.MaxActivePotionsBeforeBomb)
             {
-                TriggerBombEvent();
+                TriggerOverflowBombEvent();
             }
         }
 
@@ -150,13 +159,10 @@ namespace EndlessSystem
                 eventController.StartEvent(phase.EventType, phase.EventValue);
             }
 
-            if (phaseAudioSource != null)
-            {
-                phaseAudioSource.Play();
-            }
+            PhaseEventTriggered?.Invoke(phase);
         }
 
-        private void TriggerBombEvent()
+        private void TriggerOverflowBombEvent()
         {
             if (eventController == null)
             {
@@ -165,6 +171,7 @@ namespace EndlessSystem
             }
 
             eventController.StartEvent(EndlessEventType.Bomb, 0f);
+            OverflowBombTriggered?.Invoke();
         }
 
         private void AdvancePhase()
@@ -229,6 +236,12 @@ namespace EndlessSystem
                 canStart = false;
             }
 
+            if (potionPool == null)
+            {
+                WarnMissingPotionPool();
+                canStart = false;
+            }
+
             if (phases == null || phases.Count == 0)
             {
                 Debug.LogWarning($"{name}: EndlessManager has no phases assigned in Inspector.", this);
@@ -246,6 +259,29 @@ namespace EndlessSystem
         private void HandleCharacterDied(string deathDialog)
         {
             StopEndless();
+        }
+
+        private void HandlePotionRemoved(PotionScript potion, bool drunked)
+        {
+            if (potion == null)
+            {
+                return;
+            }
+
+            activeEndlessPotions.Remove(potion);
+        }
+
+        private void HandlePotionReplaced(PotionScript sourcePotion, PotionScript replacementPotion)
+        {
+            if (sourcePotion != null)
+            {
+                activeEndlessPotions.Remove(sourcePotion);
+            }
+
+            if (replacementPotion != null)
+            {
+                activeEndlessPotions.Add(replacementPotion);
+            }
         }
 
         private void WarnMissingGameManager()
@@ -290,6 +326,17 @@ namespace EndlessSystem
 
             missingEventControllerWarningShown = true;
             Debug.LogWarning($"{name}: EndlessEventController reference is missing. Assign it in Inspector to run endless phase events.", this);
+        }
+
+        private void WarnMissingPotionPool()
+        {
+            if (missingPotionPoolWarningShown)
+            {
+                return;
+            }
+
+            missingPotionPoolWarningShown = true;
+            Debug.LogWarning($"{name}: PotionPool reference is missing. Assign it in Inspector so endless can reuse potion instances.", this);
         }
     }
 }

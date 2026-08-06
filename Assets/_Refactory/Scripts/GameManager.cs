@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public event Action LevelCompleted;
     public event Action<bool> SpellBarVisibilityChanged;
     public event Action<string> CharacterDied;
+    public event Action<PotionScript, bool> PotionRemoved;
+    public event Action<PotionScript, PotionScript> PotionReplaced;
 
     public static GameManager Instance { get; private set; }
     public static int currentLevel = 0;
@@ -174,6 +176,8 @@ public class GameManager : MonoBehaviour
         {
             levelPotions.Remove(sourcePotion);
         }
+
+        PotionReplaced?.Invoke(sourcePotion, replacementPotion);
     }
 
     public bool IsCharacterAlive()
@@ -222,6 +226,7 @@ public class GameManager : MonoBehaviour
         }
 
         levelPotions.Remove(potion);
+        PotionRemoved?.Invoke(potion, drunked);
 
         // Other game modes should end only through their own failure conditions.
         if (IsPuzzleMode && !deathHandled && IsCharacterAlive() && levelPotions.Count <= 0)

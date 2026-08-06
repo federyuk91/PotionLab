@@ -63,6 +63,7 @@ namespace CharacterSystem
             {
                 currentCharacter.PotionEffectResolved -= OnPotionEffectResolved;
                 RegisterConsumedPotion(potion, true);
+                ReleaseConsumedPotion(potion);
             }
         }
 
@@ -114,6 +115,21 @@ namespace CharacterSystem
             }
 
             potion.gameObject.SetActive(false);
+        }
+
+        private void ReleaseConsumedPotion(PotionScript potion)
+        {
+            if (potion == null)
+            {
+                return;
+            }
+
+            PooledPotion pooledPotion = potion.GetComponent<PooledPotion>();
+            if (pooledPotion != null && pooledPotion.ReleaseToPool())
+            {
+                return;
+            }
+
             Destroy(potion.gameObject, consumedPotionDestroyDelay);
         }
 

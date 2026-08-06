@@ -11,6 +11,7 @@ namespace CharacterSystem
         [SerializeField] private PotionScript darkPotionPrefab;
         [SerializeField] private GameManager gameManager;
         [SerializeField] private Collider2D rayCollider;
+        [SerializeField] private PotionPool potionPool;
 
         [Header("Timing")]
         [SerializeField] private float activeDuration = 1f;
@@ -135,18 +136,54 @@ namespace CharacterSystem
             Transform parent = sourceTransform.parent;
             Rigidbody2D sourceRigidbody = sourcePotion.GetComponent<Rigidbody2D>();
 
-            PotionScript darkPotion = Instantiate(darkPotionPrefab, position, rotation, parent);
+            PotionScript darkPotion = CreateDarkPotion(position, rotation, parent);
+            if (darkPotion == null)
+            {
+                return;
+            }
+
             CopyMotion(sourceRigidbody, darkPotion.GetComponent<Rigidbody2D>());
 
             if (gameManager != null)
             {
                 gameManager.ReplacePotion(sourcePotion, darkPotion);
+                ReleaseOrDestroyPotion(sourcePotion);
                 return;
             }
 
             WarnMissingGameManager();
 
-            Destroy(sourcePotion.gameObject);
+            ReleaseOrDestroyPotion(sourcePotion);
+        }
+
+        private PotionScript CreateDarkPotion(Vector3 position, Quaternion rotation, Transform parent)
+        {
+            if (potionPool != null)
+            {
+                PotionScript pooledPotion = potionPool.Get(darkPotionPrefab.gameObject, position, rotation);
+                if (pooledPotion != null)
+                {
+                    pooledPotion.isActive = true;
+                    pooledPotion.transform.SetParent(parent);
+                }
+
+                return pooledPotion;
+            }
+
+            PotionScript instantiatedPotion = Instantiate(darkPotionPrefab, position, rotation, parent);
+            instantiatedPotion.isActive = true;
+            return instantiatedPotion;
+        }
+
+        private void ReleaseOrDestroyPotion(PotionScript potion)
+        {
+            PooledPotion pooledPotion = potion.GetComponent<PooledPotion>();
+            if (pooledPotion != null && pooledPotion.ReleaseToPool())
+            {
+                return;
+            }
+
+            Destroy(potion.gameObject);
         }
 
         private void CopyMotion(Rigidbody2D sourceRigidbody, Rigidbody2D targetRigidbody)
