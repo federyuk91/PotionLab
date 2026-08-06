@@ -191,7 +191,12 @@ namespace CharacterSystem
 
         public override void ApplyWet(PotionScriptable ps)
         {
-            status.Remove(Status.Burned);
+            if (status.Has(Status.Burned))
+            {
+                status.Remove(Status.Burned);
+                return;
+            }
+            status.TriggerImmunity();
         }
 
         public override CharacterType GetCharacterForm()
