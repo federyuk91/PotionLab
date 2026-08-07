@@ -24,7 +24,6 @@ namespace CharacterSystem
         public void TakeDamage(int value)
         {
             ModifyHP(-value);
-            PopUp("-" + value, hpColor);
             DamageTaken?.Invoke(value);
             OnHealtDown?.Invoke();
         }
@@ -32,21 +31,18 @@ namespace CharacterSystem
         public void Heal(int value)
         {
             ModifyHP(value);
-            PopUp("+" + value, hpColor);
             OnHealtUp?.Invoke();
         }
 
         public void AddMana(int value)
         {
             ModifyMP(value);
-            PopUp("+" + value, lightColor);
             OnManaUp?.Invoke();
         }
 
         public void LoseMana(int value)
         {
             ModifyMP(-value);
-            PopUp("-" + value, lightColor);
             OnManaDown?.Invoke();
         }
 
@@ -64,10 +60,23 @@ namespace CharacterSystem
             StatPopupRequested?.Invoke(text, col);
         }
 
+        private void PopUpDelta(int delta, Color color)
+        {
+            if (delta == 0)
+            {
+                
+                return;
+            }
+
+            string sign = delta > 0 ? "+" : string.Empty;
+            PopUp(sign + delta, color);
+        }
+
         private void ModifyHP(int delta)
         {
             int previousHP = HP;
             HP = Mathf.Clamp(HP + delta, 0, MaxHP);
+            PopUpDelta(HP - previousHP, hpColor);
             HPChanged?.Invoke(HP, MaxHP);
 
             if (HP > 0)
@@ -85,7 +94,9 @@ namespace CharacterSystem
 
         private void ModifyMP(int delta)
         {
+            int previousMP = MP;
             MP = Mathf.Clamp(MP + delta, 0, MaxMP);
+            PopUpDelta(MP - previousMP, lightColor);
             MPChanged?.Invoke(MP, MaxMP);
         }
 

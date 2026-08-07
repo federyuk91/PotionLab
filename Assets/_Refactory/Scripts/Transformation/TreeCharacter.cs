@@ -205,7 +205,7 @@ namespace CharacterSystem
             {
                 status.Remove(Status.Burned);
                 stats.Heal(2);
-                animator.SetTrigger("ReturnMage");
+                TriggerReturnMageAnimation();
                 return;
             }
             stats.TakeDamage(2);
@@ -269,7 +269,7 @@ namespace CharacterSystem
             if (status.Has(Status.Burned))
             {
                 status.Remove(Status.Burned);
-                animator.SetTrigger("ReturnMage");
+                TriggerReturnMageAnimation();
                 return;
             }
             if(status.Has(Status.Grounded))

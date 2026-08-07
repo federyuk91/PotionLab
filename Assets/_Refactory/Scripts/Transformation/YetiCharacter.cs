@@ -120,7 +120,9 @@ namespace CharacterSystem
         public void CheckMutation()
         {
             if (stats.HP == stats.MP)
-                transformationManager.SwitchTo(CharacterType.Mage);
+            {
+                TriggerReturnMageAnimation();
+            }
         }
         public override void ApplyDark(PotionScriptable ps)
         {
@@ -246,6 +248,7 @@ namespace CharacterSystem
         {
             Debug.Log("Exiting Yeti form! Returning to mage form");
         }
+        
 
     }
 }

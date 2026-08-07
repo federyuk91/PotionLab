@@ -111,7 +111,7 @@ namespace CharacterSystem
         }
         public override void ApplyDark(PotionScriptable ps)
         {
-            transformationManager.SwitchTo(CharacterType.Mage);
+            TriggerReturnMageAnimation();
         }
 
         public override void ApplyFire(PotionScriptable ps)

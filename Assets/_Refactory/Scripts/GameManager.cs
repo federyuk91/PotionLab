@@ -185,6 +185,11 @@ public class GameManager : MonoBehaviour
         return Character != null && Character.stats != null && Character.stats.HP > 0;
     }
 
+    public bool CanCharacterContinue()
+    {
+        return !deathHandled && IsCharacterAlive();
+    }
+
     // Initial light and character animation before level interaction starts.
     private IEnumerator StartingLevel()
     {
@@ -227,12 +232,26 @@ public class GameManager : MonoBehaviour
 
         levelPotions.Remove(potion);
         PotionRemoved?.Invoke(potion, drunked);
+    }
 
-        // Other game modes should end only through their own failure conditions.
-        if (IsPuzzleMode && !deathHandled && IsCharacterAlive() && levelPotions.Count <= 0)
+    public void TryCompletePuzzleLevel()
+    {
+        if (!IsPuzzleMode)
         {
-            OnLevelComplete();
+            return;
         }
+
+        if (!CanCharacterContinue())
+        {
+            return;
+        }
+
+        if (levelPotions == null || levelPotions.Count > 0)
+        {
+            return;
+        }
+
+        OnLevelComplete();
     }
 
     public void OnLevelComplete()

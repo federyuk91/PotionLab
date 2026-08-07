@@ -103,6 +103,7 @@ namespace CharacterSystem
             }
 
             gameManager.RemovePotion(potion, false);
+            gameManager.TryCompletePuzzleLevel();
             ReleaseOrDestroyPotion(potion);
 
             DeactivateAfterUse();

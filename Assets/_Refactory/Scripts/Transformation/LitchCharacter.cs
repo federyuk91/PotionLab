@@ -102,17 +102,10 @@ namespace CharacterSystem
             }
 
             status.Clear();
-            secondChanceCoroutine = StartCoroutine(ReturnMageAfterSecondChance());
+            TriggerReturnMageAnimation();
             return true;
         }
 
-        private IEnumerator ReturnMageAfterSecondChance()
-        {
-            yield return new WaitForSeconds(secondChanceReturnDelay);
-
-            secondChanceCoroutine = null;
-            ReturnMage();
-        }
 
         private bool TrySpendMana(Spell spell, string notEnoughManaDialog)
         {
@@ -208,7 +201,7 @@ namespace CharacterSystem
             {
                 status.Remove(Status.Burned);
                 status.Remove(Status.Freezed);
-                transformationManager.SwitchTo(CharacterType.Mage);
+                TriggerReturnMageAnimation();
             }
         }
 

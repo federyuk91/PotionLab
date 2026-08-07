@@ -131,6 +131,7 @@ public class TriggerLeva : MonoBehaviour
         if (gameManager != null)
         {
             gameManager.RemovePotion(potion, false);
+            gameManager.TryCompletePuzzleLevel();
         }
         else
         {

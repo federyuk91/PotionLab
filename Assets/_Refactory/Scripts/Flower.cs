@@ -78,6 +78,7 @@ public class Flower : MonoBehaviour
         if (gameManager != null)
         {
             gameManager.RemovePotion(potion, true);
+            gameManager.TryCompletePuzzleLevel();
         }
         else
         {

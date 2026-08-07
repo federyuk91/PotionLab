@@ -64,6 +64,7 @@ namespace CharacterSystem
                 currentCharacter.PotionEffectResolved -= OnPotionEffectResolved;
                 RegisterConsumedPotion(potion, true);
                 ReleaseConsumedPotion(potion);
+                TryCompletePuzzleLevelAfterPendingTransformation(character);
             }
         }
 
@@ -104,6 +105,41 @@ namespace CharacterSystem
             else
             {
                 gameManager.RemovePotion(potion, drunked);
+            }
+        }
+
+        private void TryCompletePuzzleLevel()
+        {
+            if (gameManager != null)
+            {
+                gameManager.TryCompletePuzzleLevel();
+            }
+        }
+
+        private void TryCompletePuzzleLevelAfterPendingTransformation(BaseCharacter character)
+        {
+            if (character == null || !character.IsReturnMagePending)
+            {
+                TryCompletePuzzleLevel();
+                return;
+            }
+
+            if (transformationManager == null)
+            {
+                TryCompletePuzzleLevel();
+                return;
+            }
+
+            transformationManager.OnTransformation += OnTransformation;
+
+            void OnTransformation(CharacterType previousType, CharacterType currentType)
+            {
+                transformationManager.OnTransformation -= OnTransformation;
+
+                if (currentType == CharacterType.Mage)
+                {
+                    TryCompletePuzzleLevel();
+                }
             }
         }
 

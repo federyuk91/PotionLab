@@ -99,6 +99,7 @@ public class PotionDestroyTrigger : MonoBehaviour
         if (gameManager != null)
         {
             gameManager.RemovePotion(potion, true);
+            gameManager.TryCompletePuzzleLevel();
         }
         else
         {

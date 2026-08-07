@@ -28,6 +28,7 @@ namespace CharacterSystem
         public event Action<BaseCharacter, int, Spell, bool> SpellCastSucceeded;
 
         public Color TransformationLightColor => transformationLightColor;
+        public bool IsReturnMagePending { get; private set; }
 
 
         private void Awake()
@@ -245,7 +246,14 @@ namespace CharacterSystem
 
         public void ReturnMage()
         {
+            IsReturnMagePending = false;
             transformationManager.SwitchTo(CharacterType.Mage);
+        }
+
+        protected void TriggerReturnMageAnimation()
+        {
+            IsReturnMagePending = true;
+            animator.SetTrigger("ReturnMage");
         }
     }
 }
