@@ -153,7 +153,6 @@ namespace CharacterSystem
                 if (status.groundLevel > 0)
                 {
                     status.Decrease(Status.Grounded);
-                    status.TriggerImmunity();
                     status.Remove(Status.Freezed);
                     return;
                 }
@@ -184,7 +183,6 @@ namespace CharacterSystem
                 if(status.groundLevel > 0)
                 {
                     status.Decrease(Status.Grounded);
-                    status.TriggerImmunity();
                     status.Remove(Status.Burned);
                     return;
                 }
@@ -198,7 +196,8 @@ namespace CharacterSystem
 
         public override void ApplyGrass(PotionScriptable ps)
         {
-            stats.TakeDamage(ps.baseValue);
+            int damage = ps.baseValue + status.groundLevel;
+            stats.TakeDamage(damage);
         }
 
         public override void ApplyGround(PotionScriptable ps)
@@ -223,7 +222,6 @@ namespace CharacterSystem
             if (status.groundLevel > 0)
             {
                 status.Decrease(Status.Grounded);
-                status.TriggerImmunity();
                 return;
             }
 
@@ -255,7 +253,6 @@ namespace CharacterSystem
             if(status.groundLevel>0)
             {
                 status.Decrease(Status.Grounded);
-                status.TriggerImmunity();
                 return;
             }
 
