@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CharacterSystem;
+using InspectorValidation;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -11,7 +12,7 @@ public class CharacterUIController : MonoBehaviour
     private static readonly int SpellOpenParameter = Animator.StringToHash("isOpen");
 
     [Header("Sources")]
-    [SerializeField] private CharacterStats characterStats;
+    [SerializeField, RequiredInspectorReference] private CharacterStats characterStats;
     [SerializeField] private CharacterSpells characterSpells;
     [SerializeField] private CharacterStatusController statusController;
     [SerializeField] private GameManager gameManager;

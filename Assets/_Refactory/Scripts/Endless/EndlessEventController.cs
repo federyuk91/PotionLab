@@ -1,3 +1,4 @@
+using System;
 using CharacterSystem;
 using UnityEngine;
 
@@ -5,10 +6,11 @@ namespace EndlessSystem
 {
     public class EndlessEventController : MonoBehaviour
     {
+        public event Action<int> LightLevelSet;
+
         [Header("References")]
         [SerializeField] private LightController lightController;
         [SerializeField] private DialogManager dialogManager;
-        [SerializeField] private AudioSource powerDownAudioSource;
 
         [Header("Platforms")]
         [SerializeField] private SurfaceEffector2D bottomPlatformNear;
@@ -65,11 +67,7 @@ namespace EndlessSystem
 
             int clampedIntensity = Mathf.Max(0, intensity);
             lightController.SetLightLevel(clampedIntensity);
-
-            if (powerDownAudioSource != null)
-            {
-                powerDownAudioSource.Play();
-            }
+            LightLevelSet?.Invoke(clampedIntensity);
 
             if (intensity < 0)
             {
@@ -118,7 +116,7 @@ namespace EndlessSystem
                 currentObstacle.SetActive(false);
             }
 
-            int index = Random.Range(0, obstacles.Length);
+            int index = UnityEngine.Random.Range(0, obstacles.Length);
             currentObstacle = obstacles[index];
 
             if (currentObstacle != null)
@@ -135,7 +133,7 @@ namespace EndlessSystem
                 return;
             }
 
-            int randomIndex = Random.Range(0, familiars.Length);
+            int randomIndex = UnityEngine.Random.Range(0, familiars.Length);
 
             for (int index = 0; index < familiars.Length; index++)
             {

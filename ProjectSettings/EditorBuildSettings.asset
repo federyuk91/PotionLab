@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 1 v2.unity
     guid: 8dd7bb0f06ce1af43b5b8aa458094158
   - enabled: 1
+    path: Assets/_Refactory/Scene/Levels/Level 2_R.unity
+    guid: 1a2cfa60ccff5a043a0d25f1a1235cfa
+  - enabled: 0
     path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 2 v2.unity
     guid: aa4f8b844af69594daa069e2fd28103a
   - enabled: 1

@@ -105,6 +105,17 @@ public class PotionDestroyTrigger : MonoBehaviour
             WarnMissingGameManager();
         }
 
+        ReleaseOrDestroyPotion(potion);
+    }
+
+    private void ReleaseOrDestroyPotion(PotionScript potion)
+    {
+        PooledPotion pooledPotion = potion.GetComponent<PooledPotion>();
+        if (pooledPotion != null && pooledPotion.ReleaseToPool())
+        {
+            return;
+        }
+
         Destroy(potion.gameObject);
     }
 

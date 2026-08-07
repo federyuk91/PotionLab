@@ -17,10 +17,37 @@ public class PotionScript : MonoBehaviour
 
     private void Awake()
     {
+        EnsureRuntimeReferences();
+        stock.Add(this);
+    }
+
+    public void ResetRuntimeStateForPool()
+    {
+        EnsureRuntimeReferences();
+
+        isActive = false;
+        stock.Clear();
+        stock.Add(this);
+
+        if (_rb != null)
+        {
+            _rb.linearVelocity = Vector2.zero;
+            _rb.angularVelocity = 0f;
+            _rb.mass = 1f;
+            _rb.bodyType = RigidbodyType2D.Kinematic;
+        }
+
+        if (whiteSquare != null)
+        {
+            whiteSquare.SetActive(false);
+        }
+    }
+
+    private void EnsureRuntimeReferences()
+    {
         _audio = GetComponent<AudioSource>();
         _rb = GetComponent<Rigidbody2D>();
         _potionSprite = GetComponent<Sprite>();
-        stock.Add(this);
     }
 
     public void ActivateBox()
