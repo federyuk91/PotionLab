@@ -10,9 +10,9 @@ public class TriggerLeva : MonoBehaviour
     private const string GoRightTrigger = "goRight";
 
     [Header("References")]
-    [SerializeField, RequiredInspectorReference] private Animator animator;
-    [SerializeField, RequiredInspectorReference] private GameManager gameManager;
-    [SerializeField, RequiredInspectorReference] private DialogManager dialogManager;
+    [SerializeField, RequiredInspectorReference(ResolveMode.Local)] private Animator animator;
+    [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private GameManager gameManager;
+    [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private DialogManager dialogManager;
 
     [Header("Events")]
     public UnityEvent onLevaTriggered;

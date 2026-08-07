@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,16 +17,20 @@ namespace InspectorValidation.Editor
     public sealed class RequiredInspectorReferenceBuildValidator : IPreprocessBuildWithReport, IPostprocessBuildWithReport
     {
         private static List<MissingInspectorReference> lastBuildMissingReferences = new List<MissingInspectorReference>();
+        private static List<AutoCompiledInspectorReference> lastBuildAutoCompiledReferences = new List<AutoCompiledInspectorReference>();
 
         public int callbackOrder => 0;
 
         public void OnPreprocessBuild(BuildReport report)
         {
-            lastBuildMissingReferences = RequiredInspectorReferenceScanner.ScanEnabledBuildScenes();
+            RequiredInspectorReferenceScanResult result = RequiredInspectorReferenceScanner.CompileAndScanEnabledBuildScenes();
+            lastBuildMissingReferences = result.MissingReferences;
+            lastBuildAutoCompiledReferences = result.AutoCompiledReferences;
         }
 
         public void OnPostprocessBuild(BuildReport report)
         {
+            RequiredInspectorReferenceReporter.LogAutoCompiledSummary(lastBuildAutoCompiledReferences);
             RequiredInspectorReferenceReporter.LogBuildSummary(lastBuildMissingReferences);
         }
     }
@@ -35,8 +40,9 @@ namespace InspectorValidation.Editor
         [MenuItem("Tools/Inspector Validation/Validate Build Scenes")]
         public static void ValidateBuildScenes()
         {
-            List<MissingInspectorReference> missingReferences = RequiredInspectorReferenceScanner.ScanEnabledBuildScenes();
-            RequiredInspectorReferenceReporter.LogManualSummary(missingReferences);
+            RequiredInspectorReferenceScanResult result = RequiredInspectorReferenceScanner.CompileAndScanEnabledBuildScenes();
+            RequiredInspectorReferenceReporter.LogAutoCompiledSummary(result.AutoCompiledReferences);
+            RequiredInspectorReferenceReporter.LogManualSummary(result.MissingReferences);
         }
     }
 
@@ -45,9 +51,20 @@ namespace InspectorValidation.Editor
         private const BindingFlags FieldFlags =
             BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
+        private const BindingFlags MethodFlags =
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+
+        private const string CompileReferenceMethodName = "CompileReference";
+
         public static List<MissingInspectorReference> ScanEnabledBuildScenes()
         {
+            return CompileAndScanEnabledBuildScenes().MissingReferences;
+        }
+
+        public static RequiredInspectorReferenceScanResult CompileAndScanEnabledBuildScenes()
+        {
             List<MissingInspectorReference> missingReferences = new List<MissingInspectorReference>();
+            List<AutoCompiledInspectorReference> autoCompiledReferences = new List<AutoCompiledInspectorReference>();
             SceneSetup[] previousSceneSetup = EditorSceneManager.GetSceneManagerSetup();
 
             try
@@ -60,6 +77,13 @@ namespace InspectorValidation.Editor
                     }
 
                     Scene scene = EditorSceneManager.OpenScene(buildScene.path, OpenSceneMode.Single);
+                    bool sceneChanged = ResolveSceneReferences(scene, autoCompiledReferences);
+                    if (sceneChanged)
+                    {
+                        EditorSceneManager.MarkSceneDirty(scene);
+                        EditorSceneManager.SaveScene(scene);
+                    }
+
                     ScanScene(scene, missingReferences);
                 }
             }
@@ -71,7 +95,232 @@ namespace InspectorValidation.Editor
                 }
             }
 
-            return missingReferences;
+            return new RequiredInspectorReferenceScanResult(missingReferences, autoCompiledReferences);
+        }
+
+        private static bool ResolveSceneReferences(
+            Scene scene,
+            List<AutoCompiledInspectorReference> autoCompiledReferences)
+        {
+            if (!scene.IsValid())
+            {
+                return false;
+            }
+
+            bool changed = false;
+            List<MonoBehaviour> behavioursWithMissingReferences = new List<MonoBehaviour>();
+            GameObject[] roots = scene.GetRootGameObjects();
+
+            foreach (GameObject root in roots)
+            {
+                MonoBehaviour[] behaviours = root.GetComponentsInChildren<MonoBehaviour>(true);
+                foreach (MonoBehaviour behaviour in behaviours)
+                {
+                    if (TryResolveBehaviourReferences(scene, behaviour, autoCompiledReferences))
+                    {
+                        changed = true;
+                    }
+
+                    if (HasMissingRequiredReferences(behaviour))
+                    {
+                        behavioursWithMissingReferences.Add(behaviour);
+                    }
+                }
+            }
+
+            foreach (MonoBehaviour behaviour in behavioursWithMissingReferences)
+            {
+                if (TryCompileReference(scene.path, behaviour, autoCompiledReferences))
+                {
+                    changed = true;
+                }
+            }
+
+            return changed;
+        }
+
+        private static bool TryResolveBehaviourReferences(
+            Scene scene,
+            MonoBehaviour behaviour,
+            List<AutoCompiledInspectorReference> autoCompiledReferences)
+        {
+            if (behaviour == null)
+            {
+                return false;
+            }
+
+            bool changed = false;
+            Type behaviourType = behaviour.GetType();
+            FieldInfo[] fields = behaviourType.GetFields(FieldFlags);
+
+            foreach (FieldInfo field in fields)
+            {
+                RequiredInspectorReferenceAttribute attribute =
+                    field.GetCustomAttribute<RequiredInspectorReferenceAttribute>(true);
+
+                if (attribute == null
+                    || attribute.ResolveMode == ResolveMode.None
+                    || !IsUnityReferenceField(field)
+                    || IsReferenceAssigned(behaviour, field))
+                {
+                    continue;
+                }
+
+                UnityEngine.Object resolvedReference = ResolveReference(scene, behaviour, field, attribute.ResolveMode);
+                if (resolvedReference == null)
+                {
+                    continue;
+                }
+
+                field.SetValue(behaviour, resolvedReference);
+                changed = true;
+                autoCompiledReferences.Add(new AutoCompiledInspectorReference(
+                    scene.path,
+                    GetHierarchyPath(behaviour.transform),
+                    behaviourType.Name,
+                    field.Name,
+                    attribute.ResolveMode.ToString()));
+            }
+
+            return changed;
+        }
+
+        private static UnityEngine.Object ResolveReference(
+            Scene scene,
+            MonoBehaviour behaviour,
+            FieldInfo field,
+            ResolveMode resolveMode)
+        {
+            switch (resolveMode)
+            {
+                case ResolveMode.Local:
+                    return ResolveLocalReference(behaviour, field);
+                case ResolveMode.SceneSingleton:
+                    return ResolveSceneSingletonReference(scene, behaviour, field);
+                default:
+                    return null;
+            }
+        }
+
+        private static UnityEngine.Object ResolveLocalReference(MonoBehaviour behaviour, FieldInfo field)
+        {
+            if (!typeof(Component).IsAssignableFrom(field.FieldType))
+            {
+                return null;
+            }
+
+            return behaviour.GetComponent(field.FieldType);
+        }
+
+        private static UnityEngine.Object ResolveSceneSingletonReference(
+            Scene scene,
+            MonoBehaviour behaviour,
+            FieldInfo field)
+        {
+            if (!typeof(Component).IsAssignableFrom(field.FieldType))
+            {
+                return null;
+            }
+
+            List<UnityEngine.Object> matches = new List<UnityEngine.Object>();
+            GameObject[] roots = scene.GetRootGameObjects();
+
+            foreach (GameObject root in roots)
+            {
+                Component[] components = root.GetComponentsInChildren(field.FieldType, true);
+                foreach (Component component in components)
+                {
+                    matches.Add(component);
+                }
+            }
+
+            if (matches.Count == 1)
+            {
+                return matches[0];
+            }
+
+            if (matches.Count > 1)
+            {
+                Debug.LogWarning(
+                    RequiredInspectorReferenceReporter.BuildTitle(
+                        $"SceneSingleton reference was not assigned because it is ambiguous: {scene.path} / {GetHierarchyPath(behaviour.transform)} / {behaviour.GetType().Name}.{field.Name}. Found {matches.Count} instances of {field.FieldType.Name}.",
+                        RequiredInspectorReferenceReporter.Yellow),
+                    behaviour);
+            }
+
+            return null;
+        }
+
+        private static bool TryCompileReference(
+            string scenePath,
+            MonoBehaviour behaviour,
+            List<AutoCompiledInspectorReference> autoCompiledReferences)
+        {
+            if (behaviour == null)
+            {
+                return false;
+            }
+
+            List<string> missingFieldsBeforeCompile = GetMissingRequiredFieldNames(behaviour);
+            if (missingFieldsBeforeCompile.Count == 0)
+            {
+                return false;
+            }
+
+            if (!InvokeCompileReference(scenePath, behaviour))
+            {
+                return false;
+            }
+
+            bool resolvedAnyReference = false;
+            List<string> missingFieldsAfterCompile = GetMissingRequiredFieldNames(behaviour);
+
+            foreach (string fieldName in missingFieldsBeforeCompile)
+            {
+                if (missingFieldsAfterCompile.Contains(fieldName))
+                {
+                    continue;
+                }
+
+                resolvedAnyReference = true;
+                autoCompiledReferences.Add(new AutoCompiledInspectorReference(
+                    scenePath,
+                    GetHierarchyPath(behaviour.transform),
+                    behaviour.GetType().Name,
+                    fieldName,
+                    CompileReferenceMethodName));
+            }
+
+            return resolvedAnyReference;
+        }
+
+        private static bool InvokeCompileReference(string scenePath, MonoBehaviour behaviour)
+        {
+            MethodInfo method = behaviour.GetType().GetMethod(CompileReferenceMethodName, MethodFlags);
+            if (method == null || method.GetParameters().Length > 0)
+            {
+                return false;
+            }
+
+            try
+            {
+                object result = method.Invoke(behaviour, null);
+                if (method.ReturnType == typeof(bool))
+                {
+                    return result is bool changed && changed;
+                }
+
+                return method.ReturnType == typeof(void);
+            }
+            catch (Exception exception)
+            {
+                Debug.LogWarning(
+                    RequiredInspectorReferenceReporter.BuildTitle(
+                        $"CompileReference failed on {scenePath} / {GetHierarchyPath(behaviour.transform)} / {behaviour.GetType().Name}: {exception.InnerException?.Message ?? exception.Message}",
+                        RequiredInspectorReferenceReporter.Yellow),
+                    behaviour);
+                return false;
+            }
         }
 
         private static void ScanScene(Scene scene, List<MissingInspectorReference> missingReferences)
@@ -110,14 +359,7 @@ namespace InspectorValidation.Editor
                 RequiredInspectorReferenceAttribute attribute =
                     field.GetCustomAttribute<RequiredInspectorReferenceAttribute>(true);
 
-                if (attribute == null || !IsUnityReferenceField(field))
-                {
-                    continue;
-                }
-
-                object value = field.GetValue(behaviour);
-                UnityEngine.Object unityObject = value as UnityEngine.Object;
-                if (unityObject != null)
+                if (attribute == null || !IsUnityReferenceField(field) || IsReferenceAssigned(behaviour, field))
                 {
                     continue;
                 }
@@ -130,6 +372,42 @@ namespace InspectorValidation.Editor
                     attribute.Severity,
                     attribute.Message));
             }
+        }
+
+        private static bool HasMissingRequiredReferences(MonoBehaviour behaviour)
+        {
+            return GetMissingRequiredFieldNames(behaviour).Count > 0;
+        }
+
+        private static List<string> GetMissingRequiredFieldNames(MonoBehaviour behaviour)
+        {
+            List<string> missingFields = new List<string>();
+
+            if (behaviour == null)
+            {
+                return missingFields;
+            }
+
+            FieldInfo[] fields = behaviour.GetType().GetFields(FieldFlags);
+            foreach (FieldInfo field in fields)
+            {
+                RequiredInspectorReferenceAttribute attribute =
+                    field.GetCustomAttribute<RequiredInspectorReferenceAttribute>(true);
+
+                if (attribute != null && IsUnityReferenceField(field) && !IsReferenceAssigned(behaviour, field))
+                {
+                    missingFields.Add(field.Name);
+                }
+            }
+
+            return missingFields;
+        }
+
+        private static bool IsReferenceAssigned(MonoBehaviour behaviour, FieldInfo field)
+        {
+            object value = field.GetValue(behaviour);
+            UnityEngine.Object unityObject = value as UnityEngine.Object;
+            return unityObject != null;
         }
 
         private static bool IsUnityReferenceField(FieldInfo field)
@@ -159,9 +437,21 @@ namespace InspectorValidation.Editor
 
     public static class RequiredInspectorReferenceReporter
     {
-        private const string Red = "#ff5555";
-        private const string Yellow = "#ffd34d";
-        private const string Green = "#6ccf6c";
+        public const string Red = "#ff5555";
+        public const string Yellow = "#ffd34d";
+        public const string Green = "#6ccf6c";
+
+        public static void LogAutoCompiledSummary(List<AutoCompiledInspectorReference> autoCompiledReferences)
+        {
+            if (autoCompiledReferences == null || autoCompiledReferences.Count == 0)
+            {
+                return;
+            }
+
+            Debug.Log(BuildAutoCompiledMessage(
+                BuildTitle("Auto-compiled missing Inspector references. Check these assignments if behavior looks wrong.", Yellow),
+                autoCompiledReferences));
+        }
 
         public static void LogBuildSummary(List<MissingInspectorReference> missingReferences)
         {
@@ -188,9 +478,37 @@ namespace InspectorValidation.Editor
                 missingReferences));
         }
 
-        private static string BuildTitle(string message, string color)
+        public static string BuildTitle(string message, string color)
         {
             return $"{ColorBold("INSPECTOR VALIDATION", color)}: {message}";
+        }
+
+        private static string BuildAutoCompiledMessage(string title, List<AutoCompiledInspectorReference> autoCompiledReferences)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine(title);
+            builder.AppendLine("These references were assigned automatically before validation:");
+
+            string currentScenePath = null;
+            foreach (AutoCompiledInspectorReference autoCompiledReference in autoCompiledReferences)
+            {
+                if (currentScenePath != autoCompiledReference.ScenePath)
+                {
+                    currentScenePath = autoCompiledReference.ScenePath;
+                    builder.AppendLine();
+                    builder.AppendLine(BuildSceneLine(currentScenePath));
+                }
+
+                builder.Append("- ");
+                builder.Append(autoCompiledReference.GameObjectPath);
+                builder.Append(" / ");
+                builder.Append(ColorBold($"{autoCompiledReference.ComponentName}.{autoCompiledReference.FieldName}", Yellow));
+                builder.Append(" [");
+                builder.Append(autoCompiledReference.Strategy);
+                builder.AppendLine("]");
+            }
+
+            return builder.ToString();
         }
 
         private static string BuildMessage(string title, List<MissingInspectorReference> missingReferences)
@@ -253,7 +571,7 @@ namespace InspectorValidation.Editor
         public readonly string GameObjectPath;
         public readonly string ComponentName;
         public readonly string FieldName;
-        public readonly RequiredReferenceSeverity Severity;
+        public readonly Severity Severity;
         public readonly string Message;
 
         public MissingInspectorReference(
@@ -261,7 +579,7 @@ namespace InspectorValidation.Editor
             string gameObjectPath,
             string componentName,
             string fieldName,
-            RequiredReferenceSeverity severity,
+            Severity severity,
             string message)
         {
             ScenePath = scenePath;
@@ -272,4 +590,42 @@ namespace InspectorValidation.Editor
             Message = message;
         }
     }
+
+    public readonly struct AutoCompiledInspectorReference
+    {
+        public readonly string ScenePath;
+        public readonly string GameObjectPath;
+        public readonly string ComponentName;
+        public readonly string FieldName;
+        public readonly string Strategy;
+
+        public AutoCompiledInspectorReference(
+            string scenePath,
+            string gameObjectPath,
+            string componentName,
+            string fieldName,
+            string strategy)
+        {
+            ScenePath = scenePath;
+            GameObjectPath = gameObjectPath;
+            ComponentName = componentName;
+            FieldName = fieldName;
+            Strategy = strategy;
+        }
+    }
+
+    public sealed class RequiredInspectorReferenceScanResult
+    {
+        public readonly List<MissingInspectorReference> MissingReferences;
+        public readonly List<AutoCompiledInspectorReference> AutoCompiledReferences;
+
+        public RequiredInspectorReferenceScanResult(
+            List<MissingInspectorReference> missingReferences,
+            List<AutoCompiledInspectorReference> autoCompiledReferences)
+        {
+            MissingReferences = missingReferences;
+            AutoCompiledReferences = autoCompiledReferences;
+        }
+    }
 }
+#endif

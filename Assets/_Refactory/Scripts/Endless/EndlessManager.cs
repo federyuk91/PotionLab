@@ -14,15 +14,15 @@ namespace EndlessSystem
         public event Action OverflowBombTriggered;
 
         [Header("References")]
-        [RequiredInspectorReference]
+        [RequiredInspectorReference(ResolveMode.SceneSingleton)]
         [SerializeField] private GameManager gameManager;
-        [RequiredInspectorReference]
+        [RequiredInspectorReference(ResolveMode.SceneSingleton)]
         [SerializeField] private LevelSettings levelSettings;
-        [RequiredInspectorReference]
+        [RequiredInspectorReference(ResolveMode.SceneSingleton)]
         [SerializeField] private EndlessEventController eventController;
         [RequiredInspectorReference]
         [SerializeField] private Transform spawnPoint;
-        [RequiredInspectorReference]
+        [RequiredInspectorReference(ResolveMode.SceneSingleton)]
         [SerializeField] private PotionPool potionPool;
 
         [Header("Phases")]
