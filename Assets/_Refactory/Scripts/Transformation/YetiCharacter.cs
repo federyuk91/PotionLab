@@ -131,6 +131,7 @@ namespace CharacterSystem
                 stats.LoseMana(1);
                 return;
             }
+            animator.SetTrigger("isDamaged");
             stats.TakeDamage(2);
         }
 
@@ -166,6 +167,7 @@ namespace CharacterSystem
                 status.Remove(Status.Grounded);
                 return;
             }
+            animator.SetTrigger("isDamaged");
             stats.TakeDamage(ps.baseValue);
         }
 
@@ -209,6 +211,7 @@ namespace CharacterSystem
         {
             if (status.groundLevel == 3)
             {
+                animator.SetTrigger("isDamaged");
                 stats.TakeDamage(2);
             }
         }
