@@ -141,6 +141,8 @@ namespace CharacterSystem
             if (gameManager != null)
             {
                 gameManager.ReplacePotion(sourcePotion, darkPotion);
+                sourcePotion.gameObject.SetActive(false);
+                Destroy(sourcePotion.gameObject);
                 return;
             }
 

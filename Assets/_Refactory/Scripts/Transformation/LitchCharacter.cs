@@ -152,10 +152,13 @@ namespace CharacterSystem
             {
                 if (status.groundLevel > 0)
                 {
+                    status.Decrease(Status.Grounded);
                     status.TriggerImmunity();
+                    status.Remove(Status.Freezed);
                     return;
                 }
                 stats.TakeDamage(ps.baseValue);
+                status.Remove(Status.Freezed);
                 return;
             }
 
@@ -180,10 +183,13 @@ namespace CharacterSystem
             {
                 if(status.groundLevel > 0)
                 {
+                    status.Decrease(Status.Grounded);
                     status.TriggerImmunity();
+                    status.Remove(Status.Burned);
                     return;
                 }
                 stats.TakeDamage(ps.baseValue);
+                status.Remove(Status.Burned);
                 return;
             }
 
@@ -216,7 +222,8 @@ namespace CharacterSystem
         {
             if (status.groundLevel > 0)
             {
-                status.Remove(Status.Grounded);
+                status.Decrease(Status.Grounded);
+                status.TriggerImmunity();
                 return;
             }
 
@@ -248,6 +255,7 @@ namespace CharacterSystem
             if(status.groundLevel>0)
             {
                 status.Decrease(Status.Grounded);
+                status.TriggerImmunity();
                 return;
             }
 

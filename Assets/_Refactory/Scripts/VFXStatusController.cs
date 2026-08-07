@@ -12,6 +12,9 @@ public class VFXStatusController : MonoBehaviour
     [SerializeField] private Animator groundAnimator;
     [SerializeField] private Animator iceAnimator;
 
+    [Header("Litch Status Animator")]
+    [SerializeField] private Animator litchFireAnimator;
+
     [Header("VFX")]
     [SerializeField] private GameObject explosionVFX;
     [SerializeField] private GameObject healVFX;
@@ -25,6 +28,13 @@ public class VFXStatusController : MonoBehaviour
     [SerializeField] private GameObject algaeVFX;
     [SerializeField] private GameObject immuneFx;
 
+    [Header("Litch Status VFX")]
+    [SerializeField] private GameObject litchBurnVFX;
+    [SerializeField] private GameObject litchFreezeVFX;
+
+    [Header("References")]
+    [SerializeField] private TransformationManager transformationManager;
+
     private SpriteRenderer freezeRenderer;
     private SpriteRenderer groundRenderer;
 
@@ -35,6 +45,11 @@ public class VFXStatusController : MonoBehaviour
         statusController = GetComponent<CharacterStatusController>();
         stats = GetComponent<CharacterStats>();
 
+        if (transformationManager == null)
+        {
+            transformationManager = GetComponent<TransformationManager>();
+        }
+
         freezeRenderer = freezeVFX.GetComponent<SpriteRenderer>();
         groundRenderer = groundedVFX.GetComponent<SpriteRenderer>();
 
@@ -43,6 +58,25 @@ public class VFXStatusController : MonoBehaviour
         statusController.StatusLevelChanged += OnStatusLevelChange;
         statusController.OnImmunity += OnStatusImmunity;
         statusController.OnExplosion += OnExplosion;
+
+        if (transformationManager != null)
+        {
+            transformationManager.OnTransformation += OnTransformation;
+        }
+        else
+        {
+            Debug.LogError($"{name}: TransformationManager reference is missing. Assign it in the VFXStatusController Inspector.", this);
+        }
+
+        if (litchBurnVFX == null)
+        {
+            Debug.LogWarning($"{name}: Litch Burn VFX is missing. Assign the dedicated Litch fire status GameObject in the VFXStatusController Inspector.", this);
+        }
+
+        if (litchFreezeVFX == null)
+        {
+            Debug.LogWarning($"{name}: Litch Freeze VFX is missing. Assign the dedicated Litch ice status GameObject in the VFXStatusController Inspector.", this);
+        }
 
         stats.OnHealtUp += OnHeal;
         stats.OnManaUp += OnMana;
@@ -64,7 +98,7 @@ public class VFXStatusController : MonoBehaviour
                 groundAnimator.SetTrigger("lava");
                 break;
             case Status.Freezed:
-                iceAnimator.SetTrigger("melt");
+                RemoveFreezeVFX();
                 break;
         }
         RefreshVFX();
@@ -75,7 +109,14 @@ public class VFXStatusController : MonoBehaviour
         switch (status)
         {
             case Status.Burned:
-                fireAnimator.SetInteger("fireLevel", statusController.fireLevel);
+                Animator activeFireAnimator = IsCurrentLitch() && litchFireAnimator != null
+                    ? litchFireAnimator
+                    : fireAnimator;
+
+                if (activeFireAnimator != null)
+                {
+                    activeFireAnimator.SetInteger("fireLevel", statusController.fireLevel);
+                }
                 break;
             case Status.Grounded:
                 groundAnimator.SetInteger("groundLevel", statusController.groundLevel);
@@ -100,8 +141,17 @@ public class VFXStatusController : MonoBehaviour
 
         bool poisonDormant = poisoned && (freezed || grounded);
 
+        bool currentIsLitch = IsCurrentLitch();
+        bool showLitchBurn = burned && currentIsLitch && litchBurnVFX != null;
+        bool showLitchFreeze = freezed && currentIsLitch && litchFreezeVFX != null;
+
         // FX base
-        burnVFX.SetActive(burned);
+        burnVFX.SetActive(burned && !showLitchBurn);
+        if (litchBurnVFX != null)
+        {
+            litchBurnVFX.SetActive(showLitchBurn);
+        }
+
         wetVFX.SetActive(wet);
         grassVFX.SetActive(grass);
         algaeVFX.SetActive(algae);
@@ -109,7 +159,13 @@ public class VFXStatusController : MonoBehaviour
         if (grounded)
             groundedVFX.SetActive(grounded);
         if (freezed)
-            freezeVFX.SetActive(freezed);
+        {
+            freezeVFX.SetActive(!showLitchFreeze);
+            if (litchFreezeVFX != null)
+            {
+                litchFreezeVFX.SetActive(showLitchFreeze);
+            }
+        }
 
         // Veleno (attivo solo se non dormiente)
         poisonVFX.SetActive(poisoned && !poisonDormant);
@@ -148,6 +204,40 @@ public class VFXStatusController : MonoBehaviour
         immuneFx.SetActive(true);
     }
 
+    private void OnTransformation(CharacterType _, CharacterType __)
+    {
+        RefreshVFX();
+    }
+
+    private bool IsCurrentLitch()
+    {
+        return transformationManager != null
+            && transformationManager.Current != null
+            && transformationManager.Current.GetCharacterForm() == CharacterType.Litch;
+    }
+
+    private void RemoveFreezeVFX()
+    {
+        if (litchFreezeVFX != null && litchFreezeVFX.activeSelf)
+        {
+            litchFreezeVFX.SetActive(false);
+        }
+
+        if (!freezeVFX.activeSelf)
+        {
+            return;
+        }
+
+        if (iceAnimator != null)
+        {
+            iceAnimator.SetTrigger("melt");
+        }
+        else
+        {
+            freezeVFX.SetActive(false);
+        }
+    }
+
     private void OnExplosion()
     {
         if (explosionVFX != null)
@@ -173,6 +263,11 @@ public class VFXStatusController : MonoBehaviour
         statusController.StatusLevelChanged -= OnStatusLevelChange;
         statusController.OnImmunity -= OnStatusImmunity;
         statusController.OnExplosion -= OnExplosion;
+
+        if (transformationManager != null)
+        {
+            transformationManager.OnTransformation -= OnTransformation;
+        }
 
         stats.OnHealtUp -= OnHeal;
         stats.OnManaUp -= OnMana;
