@@ -280,19 +280,19 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: lightIntesity
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: lightAdvance
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -427,16 +427,16 @@ AnimatorStateMachine:
     m_Position: {x: 540, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -908837354761243557}
-    m_Position: {x: 540, y: -90, z: 0}
+    m_Position: {x: 840, y: -170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3274377631902115675}
-    m_Position: {x: 540, y: -40, z: 0}
+    m_Position: {x: 830, y: 40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3312949712930643672}
-    m_Position: {x: 540, y: 10, z: 0}
+    m_Position: {x: 630, y: 300, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4179611147525349746}
-    m_Position: {x: 540, y: -140, z: 0}
+    m_Position: {x: 600, y: -240, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -5709167145197811149}

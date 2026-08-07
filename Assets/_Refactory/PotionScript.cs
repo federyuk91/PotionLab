@@ -65,6 +65,7 @@ public class PotionScript : MonoBehaviour
     {
         if (isActive)
         {
+            ClickLightEvents.RaiseTargetClicked(transform);
             //Debug.Log("Drop Potion: " + this.name);
             //Debug.Log(_audio);
             _audio.Play();

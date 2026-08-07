@@ -28,6 +28,7 @@ public class DroppableObject : MonoBehaviour
         if (isActive)
         {
             Debug.Log("Drop Potion: " + this.name);
+            ClickLightEvents.RaiseTargetClicked(transform);
 
             _rb.bodyType = RigidbodyType2D.Dynamic;
             whiteSquare.SetActive(false);

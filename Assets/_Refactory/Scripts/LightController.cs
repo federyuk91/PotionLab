@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using CharacterSystem;
+using InspectorValidation;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -7,6 +9,9 @@ public class LightController : MonoBehaviour
 {
     private const int MinLightIntensity = 0;
     private const int MaxLightIntensity = 3;
+    private const float ClickFeedbackRadiusDrop = 1f;
+    private const float ClickFeedbackFadeOutSeconds = 0.5f;
+    private const float ClickFeedbackFadeInSeconds = 0.5f;
 
     //public Color Mage, Balrog, Tree, Yeti, Pupperfish, Litch, WhiteMage;
     [Header("Light Fields")]
@@ -19,6 +24,7 @@ public class LightController : MonoBehaviour
     [SerializeField] private LevelSettings levelSettings;
 
     [Header("References")]
+    [SerializeField, RequiredInspectorReference] private ClickLight clickLight;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private Animator animator;
     [SerializeField] private Light2D light2D;
@@ -37,6 +43,12 @@ public class LightController : MonoBehaviour
     private bool missingAnimatorWarningShown;
     private bool missingLight2DWarningShown;
     private bool missingAudioSourceWarningShown;
+    private bool missingClickLightWarningShown;
+    private Coroutine clickFeedbackRoutine;
+    private bool clickFeedbackPulseActive;
+    private bool clickFeedbackAnimatorWasEnabled;
+    private float clickFeedbackBaseInnerRadius;
+    private float clickFeedbackBaseOuterRadius;
 
     private void Awake()
     {
@@ -45,6 +57,17 @@ public class LightController : MonoBehaviour
         SetLightLevel(GetStartingLightIntensity(), false, false, false);
         RefreshLightFields();
 
+    }
+
+    private void OnEnable()
+    {
+        ClickLightEvents.TargetClicked += OnClickLightTargetClicked;
+    }
+
+    private void OnDisable()
+    {
+        ClickLightEvents.TargetClicked -= OnClickLightTargetClicked;
+        StopClickFeedbackPulse();
     }
 
     private void Update()
@@ -63,6 +86,19 @@ public class LightController : MonoBehaviour
         }
 
         NotifyLightTimerChanged();
+    }
+
+    private void OnClickLightTargetClicked(Transform target)
+    {
+        if (clickLight == null)
+        {
+            WarnMissingClickLight();
+            return;
+        }
+
+        clickLight.Enable();
+        clickLight.SetTarget(target);
+        PlayClickFeedbackPulse();
     }
 
     public void ChangeLightColor(Color c)
@@ -252,6 +288,146 @@ public class LightController : MonoBehaviour
         return Mathf.Clamp01(lightDecayTimer / lightDecayInterval);
     }
 
+    private void PlayClickFeedbackPulse()
+    {
+        if (light2D == null)
+        {
+            WarnMissingLight2D();
+            return;
+        }
+
+        if (!clickFeedbackPulseActive)
+        {
+            clickFeedbackBaseInnerRadius = light2D.pointLightInnerRadius;
+            clickFeedbackBaseOuterRadius = light2D.pointLightOuterRadius;
+            DisableAnimatorForClickFeedback();
+        }
+
+        if (clickFeedbackRoutine != null)
+        {
+            StopCoroutine(clickFeedbackRoutine);
+        }
+
+        clickFeedbackRoutine = StartCoroutine(ClickFeedbackPulseRoutine());
+    }
+
+    private void StopClickFeedbackPulse()
+    {
+        bool wasPulseActive = clickFeedbackPulseActive;
+
+        if (clickFeedbackRoutine != null)
+        {
+            StopCoroutine(clickFeedbackRoutine);
+            clickFeedbackRoutine = null;
+        }
+
+        if (clickFeedbackPulseActive && light2D != null)
+        {
+            light2D.pointLightInnerRadius = clickFeedbackBaseInnerRadius;
+            light2D.pointLightOuterRadius = clickFeedbackBaseOuterRadius;
+        }
+
+        if (wasPulseActive)
+        {
+            RestoreAnimatorAfterClickFeedback();
+        }
+
+        clickFeedbackPulseActive = false;
+    }
+
+    private IEnumerator ClickFeedbackPulseRoutine()
+    {
+        clickFeedbackPulseActive = true;
+
+        float lowerInnerRadius = Mathf.Max(0f, clickFeedbackBaseInnerRadius - ClickFeedbackRadiusDrop);
+        float lowerOuterRadius = Mathf.Max(0f, clickFeedbackBaseOuterRadius - ClickFeedbackRadiusDrop);
+
+        yield return FadeMainLightRadius(
+            light2D.pointLightInnerRadius,
+            light2D.pointLightOuterRadius,
+            lowerInnerRadius,
+            lowerOuterRadius,
+            ClickFeedbackFadeOutSeconds);
+        yield return FadeMainLightRadius(
+            lowerInnerRadius,
+            lowerOuterRadius,
+            clickFeedbackBaseInnerRadius,
+            clickFeedbackBaseOuterRadius,
+            ClickFeedbackFadeInSeconds);
+
+        if (light2D != null)
+        {
+            light2D.pointLightInnerRadius = clickFeedbackBaseInnerRadius;
+            light2D.pointLightOuterRadius = clickFeedbackBaseOuterRadius;
+        }
+
+        RestoreAnimatorAfterClickFeedback();
+        clickFeedbackPulseActive = false;
+        clickFeedbackRoutine = null;
+    }
+
+    private void DisableAnimatorForClickFeedback()
+    {
+        if (animator == null)
+        {
+            return;
+        }
+
+        clickFeedbackAnimatorWasEnabled = animator.enabled;
+        animator.enabled = false;
+    }
+
+    private void RestoreAnimatorAfterClickFeedback()
+    {
+        if (animator == null)
+        {
+            return;
+        }
+
+        animator.enabled = clickFeedbackAnimatorWasEnabled;
+    }
+
+    private IEnumerator FadeMainLightRadius(
+        float fromInnerRadius,
+        float fromOuterRadius,
+        float toInnerRadius,
+        float toOuterRadius,
+        float duration)
+    {
+        if (duration <= 0f)
+        {
+            if (light2D != null)
+            {
+                light2D.pointLightInnerRadius = toInnerRadius;
+                light2D.pointLightOuterRadius = toOuterRadius;
+            }
+
+            yield break;
+        }
+
+        float elapsedSeconds = 0f;
+
+        while (elapsedSeconds < duration)
+        {
+            if (light2D == null)
+            {
+                yield break;
+            }
+
+            elapsedSeconds += Time.deltaTime;
+            float progress = Mathf.Clamp01(elapsedSeconds / duration);
+            light2D.pointLightInnerRadius = Mathf.Lerp(fromInnerRadius, toInnerRadius, progress);
+            light2D.pointLightOuterRadius = Mathf.Lerp(fromOuterRadius, toOuterRadius, progress);
+            yield return null;
+        }
+
+        if (light2D != null)
+        {
+            light2D.pointLightInnerRadius = toInnerRadius;
+            light2D.pointLightOuterRadius = toOuterRadius;
+        }
+    }
+
     public void PlayAudio()
     {
         if (audioSource == null)
@@ -352,6 +528,17 @@ public class LightController : MonoBehaviour
         Debug.LogWarning($"AUDIO: {name} AudioSource reference is missing. Assign it in Inspector to play light feedback.", this);
     }
 
+    private void WarnMissingClickLight()
+    {
+        if (missingClickLightWarningShown)
+        {
+            return;
+        }
+
+        missingClickLightWarningShown = true;
+        Debug.LogWarning($"{name}: ClickLight reference is missing. Assign it in Inspector to show click feedback on dropped objects.", this);
+    }
+
     private int GetStartingLightIntensity()
     {
         if (levelSettings == null)
@@ -410,5 +597,21 @@ public class LightController : MonoBehaviour
         {
             Debug.LogWarning($"{name}: LevelSettings was found in the scene at runtime. Assign it in Inspector before production.", this);
         }
+    }
+}
+
+public static class ClickLightEvents
+{
+    public static event Action<Transform> TargetClicked;
+
+    public static void RaiseTargetClicked(Transform target)
+    {
+        if (target == null)
+        {
+            Debug.LogWarning("ClickLightEvents: target is missing, click light was not updated.");
+            return;
+        }
+
+        TargetClicked?.Invoke(target);
     }
 }
