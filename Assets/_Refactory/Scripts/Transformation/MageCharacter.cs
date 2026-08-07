@@ -5,7 +5,7 @@ namespace CharacterSystem
     public class MageCharacter : BaseCharacter
     {
 
-        public int lightLevel = 0, darkLevel = 0;
+        public int blessLevel = 0, curseLevel = 0;
         protected override bool CastSpell(int index, bool powered)
         {
             Spell spell = spellList[index];
@@ -316,15 +316,16 @@ namespace CharacterSystem
 
         public override void ApplyLight(PotionScriptable ps)
         {
+            curseLevel = 0;
             stats.AddMana(ps.baseValue);
             if (stats.MP == stats.MaxMP)
             {
-                lightLevel++;
+                blessLevel++;
                 //Se lightLevel raggiunge 3, il mago si trasforma in WhiteMage
             }
             else
             {
-                lightLevel = 0;
+                blessLevel = 0;
             }
         }
 
@@ -420,24 +421,26 @@ namespace CharacterSystem
 
         public override void ApplyDark(PotionScriptable ps)
         {
+            blessLevel = 0;
             Debug.Log("Dark potion?");
 
             if (stats.MP == 0)
             {
                 stats.TakeDamage(2);
                 Debug.Log("Mage darkLevel up");
-                darkLevel++;
+                curseLevel++;
                 //Rimuovere gli stati di luce se presenti?
                 //Se darkLevel raggiunge 3, il mago si trasforma in Lictch
-                if (darkLevel > 2)
+                if (curseLevel > 2)
                 {
                     transformationManager.SwitchTo(CharacterType.Litch);
+                    curseLevel = 0;
                 }
             }
             else
             {
                 Debug.Log("Mage darkLevel reset");
-                darkLevel = 0;
+                curseLevel = 0;
             }
             stats.LoseMana(ps.baseValue);
 

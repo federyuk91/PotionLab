@@ -221,7 +221,7 @@ namespace CharacterSystem
         {
             if (status.groundLevel > 0)
             {
-                status.Decrease(Status.Grounded);
+                status.Remove(Status.Grounded);
                 return;
             }
 
