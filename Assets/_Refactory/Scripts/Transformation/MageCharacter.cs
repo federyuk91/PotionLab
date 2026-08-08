@@ -1,11 +1,18 @@
 
+using System;
 using UnityEngine;
 namespace CharacterSystem
 {
     public class MageCharacter : BaseCharacter
     {
 
-        public int blessLevel = 0, curseLevel = 0;
+        [SerializeField] private int blessLevel = 0;
+        [SerializeField] private int curseLevel = 0;
+
+        public event Action<int, int> BlessCurseLevelsChanged;
+
+        public int BlessLevel => blessLevel;
+        public int CurseLevel => curseLevel;
         protected override bool CastSpell(int index, bool powered)
         {
             Spell spell = spellList[index];
@@ -316,16 +323,16 @@ namespace CharacterSystem
 
         public override void ApplyLight(PotionScriptable ps)
         {
-            curseLevel = 0;
+            SetCurseLevel(0);
             stats.AddMana(ps.baseValue);
             if (stats.MP == stats.MaxMP)
             {
-                blessLevel++;
+                SetBlessLevel(blessLevel + 1);
                 //Se lightLevel raggiunge 3, il mago si trasforma in WhiteMage
             }
             else
             {
-                blessLevel = 0;
+                SetBlessLevel(0);
             }
         }
 
@@ -421,29 +428,51 @@ namespace CharacterSystem
 
         public override void ApplyDark(PotionScriptable ps)
         {
-            blessLevel = 0;
+            SetBlessLevel(0);
             Debug.Log("Dark potion?");
 
             if (stats.MP == 0)
             {
                 stats.TakeDamage(2);
                 Debug.Log("Mage darkLevel up");
-                curseLevel++;
+                SetCurseLevel(curseLevel + 1);
                 //Rimuovere gli stati di luce se presenti?
                 //Se darkLevel raggiunge 3, il mago si trasforma in Lictch
                 if (curseLevel > 2)
                 {
                     transformationManager.SwitchTo(CharacterType.Litch);
-                    curseLevel = 0;
+                    SetCurseLevel(0);
                 }
             }
             else
             {
                 Debug.Log("Mage darkLevel reset");
-                curseLevel = 0;
+                SetCurseLevel(0);
             }
             stats.LoseMana(ps.baseValue);
 
+        }
+
+        private void SetBlessLevel(int level)
+        {
+            if (blessLevel == level)
+            {
+                return;
+            }
+
+            blessLevel = level;
+            BlessCurseLevelsChanged?.Invoke(blessLevel, curseLevel);
+        }
+
+        private void SetCurseLevel(int level)
+        {
+            if (curseLevel == level)
+            {
+                return;
+            }
+
+            curseLevel = level;
+            BlessCurseLevelsChanged?.Invoke(blessLevel, curseLevel);
         }
 
         public override CharacterType GetCharacterForm()

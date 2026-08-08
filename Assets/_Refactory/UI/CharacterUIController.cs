@@ -34,6 +34,10 @@ public class CharacterUIController : MonoBehaviour
     [Header("Status UI")]
     [SerializeField] private StatusUIEntry[] statusEntries;
 
+    [Header("Mage Blessed/Cursed Status UI")]
+    [SerializeField] private LevelStatusUIEntry blessedStatusEntry;
+    [SerializeField] private LevelStatusUIEntry cursedStatusEntry;
+
     [Header("Death UI")]
     [SerializeField] private GameObject deathPanel;
     [SerializeField] private Text deathText;
@@ -63,6 +67,18 @@ public class CharacterUIController : MonoBehaviour
         public GameObject Root => root;
         public TMP_Text LevelText => levelText;
     }
+
+    [Serializable]
+    private class LevelStatusUIEntry
+    {
+        [SerializeField] private GameObject root;
+        [SerializeField] private TMP_Text levelText;
+
+        public GameObject Root => root;
+        public TMP_Text LevelText => levelText;
+    }
+
+    private MageCharacter subscribedMage;
 
     private void Awake()
     {
@@ -111,6 +127,13 @@ public class CharacterUIController : MonoBehaviour
             gameManager.CharacterDied += ShowDeathPanel;
             gameManager.LevelCompleted += ShowResultPanel;
         }
+
+        if (transformationManager != null)
+        {
+            transformationManager.OnTransformation += OnTransformation;
+        }
+
+        SubscribeCurrentMage();
     }
 
     private void Unsubscribe()
@@ -141,6 +164,13 @@ public class CharacterUIController : MonoBehaviour
             gameManager.CharacterDied -= ShowDeathPanel;
             gameManager.LevelCompleted -= ShowResultPanel;
         }
+
+        if (transformationManager != null)
+        {
+            transformationManager.OnTransformation -= OnTransformation;
+        }
+
+        UnsubscribeCurrentMage();
     }
 
     private void RefreshInitialState()
@@ -163,6 +193,7 @@ public class CharacterUIController : MonoBehaviour
 
         SetResultPanelsVisible(false, false);
         RefreshStatuses();
+        RefreshMageStatusLevels();
     }
 
     private void RefreshHP(int currentHP, int maxHP)
@@ -370,6 +401,65 @@ public class CharacterUIController : MonoBehaviour
 
         text.gameObject.SetActive(visible);
         text.text = visible ? level.ToString() : string.Empty;
+    }
+
+    private void OnTransformation(CharacterType _, CharacterType __)
+    {
+        UnsubscribeCurrentMage();
+        SubscribeCurrentMage();
+        RefreshMageStatusLevels();
+    }
+
+    private void SubscribeCurrentMage()
+    {
+        if (transformationManager == null || transformationManager.Current is not MageCharacter mage)
+        {
+            return;
+        }
+
+        subscribedMage = mage;
+        subscribedMage.BlessCurseLevelsChanged += RefreshMageStatusLevels;
+    }
+
+    private void UnsubscribeCurrentMage()
+    {
+        if (subscribedMage == null)
+        {
+            return;
+        }
+
+        subscribedMage.BlessCurseLevelsChanged -= RefreshMageStatusLevels;
+        subscribedMage = null;
+    }
+
+    private void RefreshMageStatusLevels(int _, int __)
+    {
+        RefreshMageStatusLevels();
+    }
+
+    private void RefreshMageStatusLevels()
+    {
+        int blessLevel = subscribedMage != null ? subscribedMage.BlessLevel : 0;
+        int curseLevel = subscribedMage != null ? subscribedMage.CurseLevel : 0;
+
+        RefreshLevelStatusEntry(blessedStatusEntry, blessLevel);
+        RefreshLevelStatusEntry(cursedStatusEntry, curseLevel);
+    }
+
+    private void RefreshLevelStatusEntry(LevelStatusUIEntry entry, int level)
+    {
+        if (entry == null)
+        {
+            return;
+        }
+
+        bool isActive = level > 0;
+        if (entry.Root != null)
+        {
+            entry.Root.SetActive(isActive);
+        }
+
+        SetLevelText(entry.LevelText, isActive, level);
     }
 
     private void ShowDeathPanel(string deathDialog)
