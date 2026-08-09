@@ -61,11 +61,12 @@ public class PotionScript : MonoBehaviour
         }
     }
 
-    public void DropPotion()
+    public void DropPotion(bool clickEvent = true)
     {
         if (isActive)
         {
-            ClickLightEvents.RaiseTargetClicked(transform);
+            if(clickEvent)
+                ClickLightEvents.RaiseTargetClicked(transform);
             //Debug.Log("Drop Potion: " + this.name);
             //Debug.Log(_audio);
             _audio.Play();

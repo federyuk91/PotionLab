@@ -104,7 +104,7 @@ public class Spawner : MonoBehaviour
         blockCollider.enabled = true;
         currentPotion.isActive = true;
         gameManager.RegisterSpawnedPotion(currentPotion);
-        currentPotion.DropPotion();
+        currentPotion.DropPotion(false);
     }
 
     public void ActivateButton()
@@ -128,6 +128,8 @@ public class Spawner : MonoBehaviour
 
         blockCollider.enabled = false;
         SetSpawnerButtonActive(false);
+
+        ClickLightEvents.RaiseTargetClicked(currentPotion.transform);
         ScheduleSpawn(dropTime);
     }
 
