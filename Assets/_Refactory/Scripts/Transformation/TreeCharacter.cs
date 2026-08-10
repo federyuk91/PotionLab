@@ -1,15 +1,23 @@
+using System.Collections;
+using InspectorValidation;
 using UnityEngine;
 namespace CharacterSystem
 {
     public class TreeCharacter : BaseCharacter
     {
+        private static readonly int BurnTreeShieldTrigger = Animator.StringToHash("Burn");
+        private static readonly int FreezeTreeShieldTrigger = Animator.StringToHash("Freeze");
+
         [Header("Spell References")]
-        [SerializeField] private GameObject treeShieldObject;
-        [SerializeField] private GameObject overgrowthObject;
+        [SerializeField, RequiredInspectorReference] private GameObject treeShieldObject;
+        [SerializeField, RequiredInspectorReference] private Animator treeShieldAnimator;
+        [SerializeField, Min(0f)] private float treeShieldBreakDuration = 0.75f;
+        [SerializeField, RequiredInspectorReference] private GameObject overgrowthObject;
 
         private bool hasTreeShield;
         private bool hasOvergrowth;
         private Flower overgrowthFlower;
+        private Coroutine treeShieldBreakCoroutine;
 
         protected override bool CastSpell(int i, bool powered)
         {
@@ -75,7 +83,7 @@ namespace CharacterSystem
             }
 
             hasTreeShield = true;
-            SetTreeShieldActive(true);
+            ActivateTreeShield();
 
             if (powered)
             {
@@ -154,11 +162,61 @@ namespace CharacterSystem
             return true;
         }
 
-        private void BreakTreeShield(string dialog)
+        private void BreakTreeShield(string dialog, int animationTrigger)
         {
             hasTreeShield = false;
-            SetTreeShieldActive(false);
+
+            if (treeShieldAnimator == null)
+            {
+                Debug.LogError($"{name} cannot play the Bark break animation: assign Tree Shield Animator in the Inspector.", this);
+                SetTreeShieldActive(false);
+            }
+            else
+            {
+                treeShieldAnimator.ResetTrigger(BurnTreeShieldTrigger);
+                treeShieldAnimator.ResetTrigger(FreezeTreeShieldTrigger);
+                treeShieldAnimator.SetTrigger(animationTrigger);
+
+                StopTreeShieldBreakCoroutine();
+                treeShieldBreakCoroutine = StartCoroutine(DisableTreeShieldAfterBreak());
+            }
+
             dialogManager.PopDialog(dialog, 3f);
+        }
+
+        private void ActivateTreeShield()
+        {
+            StopTreeShieldBreakCoroutine();
+            SetTreeShieldActive(true);
+
+            if (treeShieldAnimator == null)
+            {
+                Debug.LogError($"{name} cannot reset the Bark animation: assign Tree Shield Animator in the Inspector.", this);
+                return;
+            }
+
+            treeShieldAnimator.ResetTrigger(BurnTreeShieldTrigger);
+            treeShieldAnimator.ResetTrigger(FreezeTreeShieldTrigger);
+            treeShieldAnimator.Rebind();
+            treeShieldAnimator.Update(0f);
+        }
+
+        private IEnumerator DisableTreeShieldAfterBreak()
+        {
+            yield return new WaitForSeconds(treeShieldBreakDuration);
+            SetTreeShieldActive(false);
+            treeShieldBreakCoroutine = null;
+        }
+
+        private void StopTreeShieldBreakCoroutine()
+        {
+            if (treeShieldBreakCoroutine == null)
+            {
+                return;
+            }
+
+            StopCoroutine(treeShieldBreakCoroutine);
+            treeShieldBreakCoroutine = null;
         }
 
         private void SetTreeShieldActive(bool active)
@@ -181,7 +239,7 @@ namespace CharacterSystem
         {
             if (hasTreeShield)
             {
-                BreakTreeShield("Tree's bark burn away");
+                BreakTreeShield("Tree's bark burn away", BurnTreeShieldTrigger);
                 return;
             }
 
@@ -197,7 +255,7 @@ namespace CharacterSystem
         {
             if (hasTreeShield)
             {
-                BreakTreeShield("Tree's bark freeze away");
+                BreakTreeShield("Tree's bark freeze away", FreezeTreeShieldTrigger);
                 return;
             }
 
@@ -236,7 +294,7 @@ namespace CharacterSystem
         {
             if (hasTreeShield)
             {
-                BreakTreeShield("Tree's bark fade away");
+                BreakTreeShield("Tree's bark fade away", BurnTreeShieldTrigger);
                 return;
             }
 
@@ -334,6 +392,8 @@ namespace CharacterSystem
 
         private void OnDestroy()
         {
+            StopTreeShieldBreakCoroutine();
+
             if (overgrowthFlower != null)
             {
                 overgrowthFlower.Destroyed -= OnOvergrowthDestroyed;

@@ -15,7 +15,7 @@ public class CharacterUIController : MonoBehaviour
     [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private CharacterStats characterStats;
     [SerializeField] private CharacterSpells characterSpells;
     [SerializeField] private CharacterStatusController statusController;
-    [SerializeField] private GameManager gameManager;
+    [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private GameManager gameManager;
     [SerializeField] private TransformationManager transformationManager;
 
     [Header("Stats UI")]
@@ -608,5 +608,46 @@ public class CharacterUIController : MonoBehaviour
         {
             endlessResultPanel.SetActive(endlessVisible);
         }
+    }
+
+    public void OpenMainMenu()
+    {
+        if (!CanUseGameManager("open the main menu"))
+        {
+            return;
+        }
+
+        gameManager.MainMenu();
+    }
+
+    public void ReplayLevel()
+    {
+        if (!CanUseGameManager("replay the level"))
+        {
+            return;
+        }
+
+        gameManager.TryAgain();
+    }
+
+    public void ExitGame()
+    {
+        if (!CanUseGameManager("exit the game"))
+        {
+            return;
+        }
+
+        gameManager.ExitGame();
+    }
+
+    private bool CanUseGameManager(string action)
+    {
+        if (gameManager != null)
+        {
+            return true;
+        }
+
+        Debug.LogError($"{name}: Cannot {action} because the GameManager Inspector reference is missing.", this);
+        return false;
     }
 }

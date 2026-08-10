@@ -6946,6 +6946,8 @@ MonoBehaviour:
   dialogManager: {fileID: 7758763451385991435}
   transformationLightColor: {r: 0.5372549, g: 1, b: 0.37254903, a: 1}
   treeShieldObject: {fileID: 4105535548121239296}
+  treeShieldAnimator: {fileID: 4348108167458963219}
+  treeShieldBreakDuration: 0.75
   overgrowthObject: {fileID: 587973220234341172}
 --- !u!212 &5631418439296754664
 SpriteRenderer:

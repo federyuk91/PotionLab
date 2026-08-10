@@ -61,7 +61,12 @@ public class PotionScript : MonoBehaviour
         }
     }
 
-    public void DropPotion(bool clickEvent = true)
+    public void DropPotion()
+    {
+        DropPotion(true);
+    }
+
+    public void DropPotion(bool clickEvent)
     {
         if (isActive)
         {

@@ -382,6 +382,15 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(currentLevel);
     }
 
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
     private void SubscribeToCharacterDeath()
     {
         if (Character == null || Character.stats == null)
