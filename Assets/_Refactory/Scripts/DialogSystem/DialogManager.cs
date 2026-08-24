@@ -96,6 +96,16 @@ namespace CharacterSystem
             PopDialog(dialogs[index], duration);
         }
 
+        public void ShowLevelStartCatchphrase(string line, float duration)
+        {
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                return;
+            }
+
+            PopDialog(line, duration);
+        }
+
         public void PopDialog(string dialog, float duration = -1f)
         {
             if (textDialog == null)

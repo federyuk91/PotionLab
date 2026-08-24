@@ -23841,6 +23841,8 @@ MonoBehaviour:
   isPuzzleMode: 1
   bestHealthScore: 2
   startingLightIntensity: 1
+  startingCatchphrase: Can i win?
+  startingCatchphraseDuration: 3
   decayLightOverTime: 0
   lightDecayInterval: 43
   defaultSpawnSeconds: 5

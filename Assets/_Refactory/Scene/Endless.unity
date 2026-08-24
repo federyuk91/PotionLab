@@ -10911,6 +10911,8 @@ MonoBehaviour:
   isPuzzleMode: 0
   bestHealthScore: 3
   startingLightIntensity: 3
+  startingCatchphrase: ULTIMATE NIGHT!
+  startingCatchphraseDuration: 3
   decayLightOverTime: 1
   lightDecayInterval: 43
   defaultSpawnSeconds: 5

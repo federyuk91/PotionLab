@@ -661,7 +661,7 @@ namespace Refactory.UI.GridList
             if (entries.Count > 0)
             {
                 GridListEntryData firstEntry = entries[0].UnlockedByDefault ? entries[0] : database.LockedEntry;
-                ShowDetails(firstEntry);
+                ShowDetails(spawnedEntries[0], firstEntry);
                 ResetEntriesScroll();
                 return;
             }
@@ -697,8 +697,16 @@ namespace Refactory.UI.GridList
             }
         }
 
-        private void ShowDetails(GridListEntryData entry)
+        private void ShowDetails(CompendiumEntryView selectedEntryView, GridListEntryData entry)
         {
+            foreach (CompendiumEntryView entryView in spawnedEntries)
+            {
+                if (entryView != null)
+                {
+                    entryView.SetSelected(entryView == selectedEntryView);
+                }
+            }
+
             if (entry == null)
             {
                 ClearDetails();

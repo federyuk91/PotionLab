@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using CharacterSystem;
 using InspectorValidation;
+using Refactory.UI.GridList;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -24,6 +26,10 @@ public class CharacterUIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private TextMeshProUGUI mpText;
     [SerializeField] private Text statPopupText;
+
+    [Header("Level UI")]
+    [SerializeField, RequiredInspectorReference] private Text currentNightText;
+    [SerializeField, RequiredInspectorReference] private GridListCategoryData nightsData;
 
     [Header("Spell UI")]
     [SerializeField] private GameObject spellBar;
@@ -192,8 +198,98 @@ public class CharacterUIController : MonoBehaviour
         }
 
         SetResultPanelsVisible(false, false);
+        RefreshCurrentNight();
         RefreshStatuses();
         RefreshMageStatusLevels();
+    }
+
+    private void RefreshCurrentNight()
+    {
+        if (currentNightText == null)
+        {
+            Debug.LogError($"{name}: Cannot display the current night because Current Night Text is missing.", this);
+            return;
+        }
+
+        Scene activeScene = SceneManager.GetActiveScene();
+        int nightIndex = GetNightIndex(activeScene);
+        if (nightsData == null)
+        {
+            Debug.LogError($"{name}: Cannot display the night subtitle because Nights Data is missing.", this);
+            currentNightText.text = FormatNightLabel(nightIndex, null);
+            return;
+        }
+
+        foreach (GridListEntryData nightEntry in nightsData.Entries)
+        {
+            if (nightEntry != null && nightEntry.SceneBuildIndex == nightIndex)
+            {
+                currentNightText.text = FormatNightLabel(nightIndex, nightEntry.DisplayName);
+                return;
+            }
+        }
+
+        Debug.LogWarning($"{name}: Nights Data has no entry for scene '{activeScene.name}' (night index {nightIndex}).", this);
+        currentNightText.text = FormatNightLabel(nightIndex, null);
+    }
+
+    private static string FormatNightLabel(int nightIndex, string displayName)
+    {
+        if (string.IsNullOrWhiteSpace(displayName))
+        {
+            return $"Night {nightIndex}";
+        }
+
+        const string separator = " - ";
+        int separatorIndex = displayName.IndexOf(separator, StringComparison.Ordinal);
+        string subtitle = separatorIndex >= 0
+            ? displayName.Substring(separatorIndex + separator.Length).Trim()
+            : displayName.Trim();
+
+        return string.IsNullOrWhiteSpace(subtitle)
+            ? $"Night {nightIndex}"
+            : $"Night {nightIndex}\n\n<size=12>\"{subtitle}\"</size>";
+    }
+
+    private int GetNightIndex(Scene scene)
+    {
+        if (TryGetNightNumberFromSceneName(scene.name, out int nightNumber))
+        {
+            return nightNumber;
+        }
+
+        return scene.buildIndex;
+    }
+
+    private bool TryGetNightNumberFromSceneName(string sceneName, out int nightNumber)
+    {
+        nightNumber = -1;
+        if (string.IsNullOrWhiteSpace(sceneName))
+        {
+            return false;
+        }
+
+        const string levelMarker = "Level ";
+        int markerIndex = sceneName.IndexOf(levelMarker, StringComparison.OrdinalIgnoreCase);
+        if (markerIndex < 0)
+        {
+            return false;
+        }
+
+        int numberStart = markerIndex + levelMarker.Length;
+        int numberEnd = numberStart;
+        while (numberEnd < sceneName.Length && char.IsDigit(sceneName[numberEnd]))
+        {
+            numberEnd++;
+        }
+
+        if (numberEnd == numberStart)
+        {
+            return false;
+        }
+
+        string numberText = sceneName.Substring(numberStart, numberEnd - numberStart);
+        return int.TryParse(numberText, out nightNumber);
     }
 
     private void RefreshHP(int currentHP, int maxHP)

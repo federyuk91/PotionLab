@@ -1,4 +1,5 @@
 using System.Collections;
+using InspectorValidation;
 using Refactory.UI.GridList;
 using UnityEngine;
 
@@ -12,12 +13,24 @@ public class GrimoireAnimation : MonoBehaviour
     [SerializeField, Min(0f)] private float grimoireBaseFadeDuration = 0.25f;
     [SerializeField] private CompendiumView compendiumView;
 
+    [Header("Grimoire Cursor Light")]
+    [SerializeField, RequiredInspectorReference] private Texture2D grimoireCursorTexture;
+    [SerializeField] private Vector2 grimoireCursorHotspot = new Vector2(16f, 16f);
+    [SerializeField] private CursorMode grimoireCursorMode = CursorMode.ForceSoftware;
+
     private bool missingCompendiumViewWarningShown;
+    private bool missingGrimoireCursorWarningShown;
+    private bool isUsingGrimoireCursor;
     private Coroutine grimoireBaseFade;
 
     public void Awake()
     {
         anim = GetComponent<Animator>();
+    }
+
+    private void OnDisable()
+    {
+        RestoreDefaultCursor();
     }
 
     public void Open_Close()
@@ -26,6 +39,7 @@ public class GrimoireAnimation : MonoBehaviour
         if (isOpen)
         {
             Time.timeScale = 0;
+            SetGrimoireCursor();
             if(GameMan.Instance!=null && GameMan.Instance.cc.cameraShake.shake)
             {
                 AchievementManager.instance.Achive("Shaky Shaky");
@@ -35,6 +49,7 @@ public class GrimoireAnimation : MonoBehaviour
         }
         else
         {
+            RestoreDefaultCursor();
             StopBaseFade();
 
             if (compendiumView != null)
@@ -176,6 +191,34 @@ public class GrimoireAnimation : MonoBehaviour
 
         grimoireBaseCanvasGroup.interactable = enabled;
         grimoireBaseCanvasGroup.blocksRaycasts = enabled;
+    }
+
+    private void SetGrimoireCursor()
+    {
+        if (grimoireCursorTexture == null)
+        {
+            if (!missingGrimoireCursorWarningShown)
+            {
+                missingGrimoireCursorWarningShown = true;
+                Debug.LogWarning($"{name}: Grimoire Cursor Texture is missing. Assign the light cursor texture in Inspector.", this);
+            }
+
+            return;
+        }
+
+        Cursor.SetCursor(grimoireCursorTexture, grimoireCursorHotspot, grimoireCursorMode);
+        isUsingGrimoireCursor = true;
+    }
+
+    private void RestoreDefaultCursor()
+    {
+        if (!isUsingGrimoireCursor)
+        {
+            return;
+        }
+
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+        isUsingGrimoireCursor = false;
     }
 
 }

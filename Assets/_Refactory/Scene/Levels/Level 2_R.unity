@@ -5199,6 +5199,8 @@ MonoBehaviour:
   isPuzzleMode: 1
   bestHealthScore: 1
   startingLightIntensity: 3
+  startingCatchphrase: I sniff lava!
+  startingCatchphraseDuration: 3
   decayLightOverTime: 0
   lightDecayInterval: 43
   defaultSpawnSeconds: 5

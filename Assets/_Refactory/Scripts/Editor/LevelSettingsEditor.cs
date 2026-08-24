@@ -6,6 +6,8 @@ public class LevelSettingsEditor : Editor
     private SerializedProperty isPuzzleMode;
     private SerializedProperty bestHealthScore;
     private SerializedProperty startingLightIntensity;
+    private SerializedProperty startingCatchphrase;
+    private SerializedProperty startingCatchphraseDuration;
     private SerializedProperty decayLightOverTime;
     private SerializedProperty lightDecayInterval;
     private SerializedProperty defaultSpawnSeconds;
@@ -19,6 +21,8 @@ public class LevelSettingsEditor : Editor
         isPuzzleMode = serializedObject.FindProperty("isPuzzleMode");
         bestHealthScore = serializedObject.FindProperty("bestHealthScore");
         startingLightIntensity = serializedObject.FindProperty("startingLightIntensity");
+        startingCatchphrase = serializedObject.FindProperty("startingCatchphrase");
+        startingCatchphraseDuration = serializedObject.FindProperty("startingCatchphraseDuration");
         decayLightOverTime = serializedObject.FindProperty("decayLightOverTime");
         lightDecayInterval = serializedObject.FindProperty("lightDecayInterval");
         defaultSpawnSeconds = serializedObject.FindProperty("defaultSpawnSeconds");
@@ -41,6 +45,8 @@ public class LevelSettingsEditor : Editor
 
         EditorGUILayout.LabelField("Light", EditorStyles.boldLabel);
         EditorGUILayout.PropertyField(startingLightIntensity);
+        EditorGUILayout.PropertyField(startingCatchphrase);
+        EditorGUILayout.PropertyField(startingCatchphraseDuration);
         EditorGUILayout.PropertyField(decayLightOverTime);
         EditorGUILayout.PropertyField(lightDecayInterval);
 

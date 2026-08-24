@@ -7995,6 +7995,8 @@ MonoBehaviour:
   isPuzzleMode: 1
   bestHealthScore: 10
   startingLightIntensity: 0
+  startingCatchphrase: Poison potion? Potion of poison?
+  startingCatchphraseDuration: 3
   decayLightOverTime: 0
   lightDecayInterval: 43
   defaultSpawnSeconds: 5

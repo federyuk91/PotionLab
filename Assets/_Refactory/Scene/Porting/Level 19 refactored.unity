@@ -21609,6 +21609,8 @@ MonoBehaviour:
   isPuzzleMode: 1
   bestHealthScore: 2
   startingLightIntensity: 2
+  startingCatchphrase: Well, that's risky!
+  startingCatchphraseDuration: 3
   decayLightOverTime: 0
   lightDecayInterval: 43
   defaultSpawnSeconds: 5

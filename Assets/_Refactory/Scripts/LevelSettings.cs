@@ -16,6 +16,8 @@ public class LevelSettings : MonoBehaviour
 
     [Header("Light")]
     [SerializeField, Range(MinLightIntensity, MaxLightIntensity)] private int startingLightIntensity = 1;
+    [SerializeField] private string startingCatchphrase;
+    [SerializeField, Min(0f)] private float startingCatchphraseDuration = 3f;
     [SerializeField] private bool decayLightOverTime = false;
     [SerializeField] private float lightDecayInterval = 43f;
 
@@ -31,6 +33,8 @@ public class LevelSettings : MonoBehaviour
     public bool IsPuzzleMode => isPuzzleMode;
     public int BestHealthScore => bestHealthScore;
     public int StartingLightIntensity => startingLightIntensity;
+    public string StartingCatchphrase => startingCatchphrase;
+    public float StartingCatchphraseDuration => startingCatchphraseDuration;
     public bool DecayLightOverTime => decayLightOverTime;
     public float LightDecayInterval => lightDecayInterval;
     public float DefaultSpawnSeconds => defaultSpawnSeconds;

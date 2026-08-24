@@ -38,6 +38,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private DialogManager dialogManager;
     [SerializeField] private ProgressService progressService;
 
+    [Header("Level Start Presentation")]
+    [SerializeField, Min(0f)] private float potionActivationDelayMin = 0.035f;
+    [SerializeField, Min(0f)] private float potionActivationDelayMax = 0.075f;
+    [SerializeField, Min(0f)] private float potionActivationMaxSequenceDuration = 0.4f;
+
     public int potionDrunked = 0, spawnedPotion = 0;
     public int dieCounter = 0, mutationCounter = 0;
     private int levelPotionTarget;
@@ -123,19 +128,95 @@ public class GameManager : MonoBehaviour
         StartCoroutine(nameof(StartingLevel));
     }
 
-    private void LoadPotion()
+    private IEnumerator ActivateLevelItems()
     {
         potionDrunked = 0;
         levelPotionTarget = levelPotions != null ? levelPotions.Count : 0;
 
-        foreach (PotionScript potion in levelPotions)
+        List<PotionScript> randomizedPotions = new List<PotionScript>();
+        if (levelPotions != null)
         {
-            potion.ActivateBox();
+            foreach (PotionScript potion in levelPotions)
+            {
+                if (potion != null)
+                {
+                    randomizedPotions.Add(potion);
+                }
+            }
         }
 
-        foreach (DroppableObject droppable in droppables)
+        System.Random activationRandom = new System.Random();
+        Shuffle(randomizedPotions, activationRandom);
+
+        float minimumDelay = Mathf.Min(potionActivationDelayMin, potionActivationDelayMax);
+        float maximumDelay = Mathf.Max(potionActivationDelayMin, potionActivationDelayMax);
+        List<float> activationDelays = BuildActivationDelays(
+            randomizedPotions.Count - 1,
+            minimumDelay,
+            maximumDelay,
+            activationRandom);
+
+        for (int potionIndex = 0; potionIndex < randomizedPotions.Count; potionIndex++)
         {
-            droppable.ActivateBox();
+            randomizedPotions[potionIndex].ActivateBox();
+
+            if (potionIndex < activationDelays.Count && activationDelays[potionIndex] > 0f)
+            {
+                yield return new WaitForSeconds(activationDelays[potionIndex]);
+            }
+        }
+
+        if (droppables != null)
+        {
+            foreach (DroppableObject droppable in droppables)
+            {
+                if (droppable != null)
+                {
+                    droppable.ActivateBox();
+                }
+            }
+        }
+    }
+
+    private List<float> BuildActivationDelays(
+        int delayCount,
+        float minimumDelay,
+        float maximumDelay,
+        System.Random random)
+    {
+        List<float> delays = new List<float>();
+        float totalDuration = 0f;
+
+        for (int delayIndex = 0; delayIndex < delayCount; delayIndex++)
+        {
+            float randomFactor = (float)random.NextDouble();
+            float delay = Mathf.Lerp(minimumDelay, maximumDelay, randomFactor);
+            delays.Add(delay);
+            totalDuration += delay;
+        }
+
+        if (totalDuration <= potionActivationMaxSequenceDuration || totalDuration <= 0f)
+        {
+            return delays;
+        }
+
+        float durationScale = potionActivationMaxSequenceDuration / totalDuration;
+        for (int delayIndex = 0; delayIndex < delays.Count; delayIndex++)
+        {
+            delays[delayIndex] *= durationScale;
+        }
+
+        return delays;
+    }
+
+    private static void Shuffle<T>(IList<T> items, System.Random random)
+    {
+        for (int itemIndex = items.Count - 1; itemIndex > 0; itemIndex--)
+        {
+            int randomIndex = random.Next(itemIndex + 1);
+            T temporaryItem = items[itemIndex];
+            items[itemIndex] = items[randomIndex];
+            items[randomIndex] = temporaryItem;
         }
     }
 
@@ -209,10 +290,16 @@ public class GameManager : MonoBehaviour
         dialogManager.SetContinueButtonActive(false);
 
         lightController.StartLight();
+        if (levelSettings != null)
+        {
+            dialogManager.ShowLevelStartCatchphrase(
+                levelSettings.StartingCatchphrase,
+                levelSettings.StartingCatchphraseDuration);
+        }
 
         yield return new WaitForSeconds(6f);
 
-        LoadPotion();
+        yield return StartCoroutine(ActivateLevelItems());
         yield return new WaitForSeconds(.3f);
 
         SetSpellBarVisible(true);

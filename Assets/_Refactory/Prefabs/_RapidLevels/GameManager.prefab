@@ -210,6 +210,9 @@ MonoBehaviour:
   lightController: {fileID: 0}
   dialogManager: {fileID: 0}
   progressService: {fileID: 619804325845619802}
+  potionActivationDelayMin: 0.035
+  potionActivationDelayMax: 0.075
+  potionActivationMaxSequenceDuration: 0.4
   potionDrunked: 0
   spawnedPotion: 0
   dieCounter: 0
