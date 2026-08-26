@@ -6,86 +6,83 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/MainMenu.unity
-    guid: 2bd8b2e5bb6a1d84398d33c509fe5f15
+    path: Assets/_Refactory/Scene/Main Menu Refa.unity
+    guid: f997fb724291d1145b5a3a9a448b09d3
   - enabled: 1
     path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 1 v2.unity
     guid: 8dd7bb0f06ce1af43b5b8aa458094158
-  - enabled: 0
-    path: Assets/_Refactory/Scene/Levels/Level 2_R.unity
-    guid: 1a2cfa60ccff5a043a0d25f1a1235cfa
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 2 v2.unity
-    guid: aa4f8b844af69594daa069e2fd28103a
+    path: Assets/_Refactory/Scene/Porting/Level 2 refactored.unity
+    guid: 721b18d0a7982d043a6f5864acf7c8df
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 3 v2.unity
-    guid: 41d95299d2a79df42bb3164520266b92
+    path: Assets/_Refactory/Scene/Porting/Level 3 refactored.unity
+    guid: a2e3411689e37ca4a879aa093ecf0d70
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 4 v2.unity
-    guid: cdd8118bcb0e085448de919adb48cb6d
+    path: Assets/_Refactory/Scene/Porting/Level 4 refactored.unity
+    guid: 9731e91b659f0074cb45ec1af51a9bd9
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 5 v2.unity
-    guid: 5474bad6a27c5024488abe76f85dcf21
+    path: Assets/_Refactory/Scene/Porting/Level 5 refactored.unity
+    guid: 43ff98edbccb2334892704bbdd80b8c1
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 6 v2.unity
-    guid: d5ce8e07f7da44441aa9c3f5f8868b69
+    path: Assets/_Refactory/Scene/Porting/Level 6 refactored.unity
+    guid: 1c6e0faf07af3f648bd7814a0db5430e
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 7 v2.unity
-    guid: 09c6642cef9c49c48b03adf150a3eec9
+    path: Assets/_Refactory/Scene/Porting/Level 7 refactored.unity
+    guid: 6d915a5eb64677242966c405c66202d9
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 8 v3.unity
-    guid: 5b288ad823b6f604eb51484efdda6741
+    path: Assets/_Refactory/Scene/Porting/Level 8 refactored.unity
+    guid: 177a3bf5e4c42e541aa2e5f6cc951084
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 9 v2.unity
-    guid: 2b57e755ec014e445be70103af56c6f4
+    path: Assets/_Refactory/Scene/Porting/Level 9 refactored.unity
+    guid: 33e6a52eadca9f84e8728ec43baf41b9
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 10 v2.unity
-    guid: ddd6400adade9814b97e951afe5406c2
+    path: Assets/_Refactory/Scene/Porting/Level 10 refactored.unity
+    guid: 90e7d6a1243faea4c9153807b02b4f8b
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 11 v2.unity
-    guid: 0b5a174fe4453844e99fd7f79fb78b8a
+    path: Assets/_Refactory/Scene/Porting/Level 11 refactored.unity
+    guid: 4a158b7303cb8a943af5246c503da41f
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 12 v2.unity
-    guid: cf8e880024117eb4994630601986fe4d
+    path: Assets/_Refactory/Scene/Porting/Level 12 refactored.unity
+    guid: efa2630666ff2dd47bbe1d4a2a5b832b
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 13 v2.unity
-    guid: 3ec6ddd89ba457440ae2ec7c6d4f3fb5
+    path: Assets/_Refactory/Scene/Porting/Level 13 refactored.unity
+    guid: 02a4c2666df87f34887b2ba12774bda0
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 14 v2.unity
-    guid: 0c25ba04cee218742a37e891e052d991
+    path: Assets/_Refactory/Scene/Porting/Level 14 refactored.unity
+    guid: 018f431fe3ca434459370c0531106e90
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 15 v1.unity
-    guid: c879f2e6f2393d541a44b69beed35a85
+    path: Assets/_Refactory/Scene/Porting/Level 15 refactored.unity
+    guid: 050320ad49259d541a340c178497c0b3
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 16 v2.unity
-    guid: 03c28613e8974894780206482286c3f7
+    path: Assets/_Refactory/Scene/Porting/Level 16 refactored.unity
+    guid: 434632d2aca340f4583fbe8026c21c79
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 17 v1.unity
-    guid: 79395b706a1af5843a4bd0bc48dec116
+    path: Assets/_Refactory/Scene/Porting/Level 17 refactored.unity
+    guid: 6bacb4f723be3364abec2077a85f4fce
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 18 v1.unity
-    guid: a626c8cc490f6f242a264726437bd918
+    path: Assets/_Refactory/Scene/Porting/Level 18 refactored.unity
+    guid: f34820c439c344246891aaf4a067c375
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 19 v2.unity
-    guid: a12cc942101ed5340a76148a5bde469e
+    path: Assets/_Refactory/Scene/Porting/Level 19 refactored.unity
+    guid: 00e3d436b0002494d959fd7769064163
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 20 v1.unity
-    guid: 7ae6b8ba41702a94fbc06e12b08b470d
+    path: Assets/_Refactory/Scene/Porting/Level 20 refactored.unity
+    guid: 0a4466924d6d3c248901101a9ba88092
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 21 v1.unity
-    guid: f07f17e7fcea303459cbbf3fd65fe44b
+    path: Assets/_Refactory/Scene/Porting/Level 21 refactored.unity
+    guid: 6cac450f140154e41a0eaba4d86dc15b
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 22 v1.unity
-    guid: 998b5052f59dbfa4ba3e9d59a1be116f
+    path: Assets/_Refactory/Scene/Porting/Level 22 refactored.unity
+    guid: 6af601acafc979a489abcc703111cfe9
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 23 v1.unity
-    guid: 0cd661a30349b8b4f814c0d90889e621
+    path: Assets/_Refactory/Scene/Porting/Level 23 refactored.unity
+    guid: 2277a1fccad52384587c2edd5bb8a18f
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 24 v1.unity
-    guid: 9b2eb32769dee91499b49e24681bf343
+    path: Assets/_Refactory/Scene/Porting/Level 24 refactored.unity
+    guid: 92e9adcbdd7ed4f4e89188b846620893
   - enabled: 1
-    path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 25 v1.unity
-    guid: ddd98d109f1c3b34f8ce94290563ba43
+    path: Assets/_Refactory/Scene/Porting/Level 25 refactored.unity
+    guid: f2f1a08f53a2eda419b17b46f06f68e6
   - enabled: 1
     path: Assets/_Project/Scenes/All Level/Marco Level v2/Level 26 v1.unity
     guid: c11d2d90e8a239d4081c852609b68ff3
