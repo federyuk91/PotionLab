@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using CharacterSystem;
 using InspectorValidation;
@@ -46,15 +47,25 @@ public class CharacterUIController : MonoBehaviour
 
     [Header("Death UI")]
     [SerializeField] private GameObject deathPanel;
-    [SerializeField] private Text deathText;
+    [SerializeField, RequiredInspectorReference] private TMP_Text deathText;
 
     [Header("Classic Score UI")]
-    [SerializeField] private GameObject classicResultPanel;
-    [SerializeField] private Text classicScoreText;
-    [SerializeField] private Text classicFinalMessage;
+    [SerializeField, RequiredInspectorReference] private GameObject classicResultPanel;
+    [SerializeField, RequiredInspectorReference] private TMP_Text classicScoreText;
+    [SerializeField, RequiredInspectorReference] private TMP_Text classicFinalMessage;
     [SerializeField] private Image[] classicScoreIcons;
     [SerializeField] private Color inactiveScoreIconColor = new Color(0.3207547f, 0.3207547f, 0.3207547f, 1f);
     [SerializeField] private Color activeScoreIconColor = Color.white;
+
+    [Header("Classic Result Animation")]
+    [SerializeField, Min(0.1f)] private float classicNumberCountDuration = 1.05f;
+    [SerializeField, Min(0.05f)] private float classicIconRevealDuration = 0.24f;
+    [SerializeField, Min(1f)] private float classicIconZoomScale = 1.35f;
+    [SerializeField, Min(0.1f)] private float classicMessageRevealDuration = 0.35f;
+    [SerializeField] private Color classicCompletedSectionColor = new Color(1f, 0.82f, 0.24f, 1f);
+
+    private Coroutine classicResultAnimation;
+    private Vector3[] classicIconBaseScales;
     [Header("Endless Score UI")]
     [FormerlySerializedAs("proceduralResultPanel")]
     [SerializeField] private GameObject endlessResultPanel;
@@ -560,6 +571,7 @@ public class CharacterUIController : MonoBehaviour
 
     private void ShowDeathPanel(string deathDialog)
     {
+        StopClassicResultAnimation();
         SetResultPanelsVisible(false, false);
 
         if (gameManager != null && !gameManager.IsPuzzleMode)
@@ -597,6 +609,11 @@ public class CharacterUIController : MonoBehaviour
         }
 
         SetResultPanelsVisible(gameManager.IsPuzzleMode, !gameManager.IsPuzzleMode);
+
+        if (gameManager.IsPuzzleMode)
+        {
+            PlayClassicResultAnimation();
+        }
     }
 
     private void PopulateClassicScorePanel()
@@ -616,9 +633,13 @@ public class CharacterUIController : MonoBehaviour
 
         if (classicScoreText != null)
         {
-            classicScoreText.text = "Drunked: " + gameManager.potionDrunked + "/" + totalPotion + "\n\n"
-                + "Health: " + currentHP + "/" + gameManager.BestHealthScore + "\n\n"
-                + "Malus: " + currentStatusCount;
+            int malusGoalProgress = currentStatusCount == 0 ? 1 : 0;
+            classicScoreText.text = FormatClassicScore(
+                gameManager.potionDrunked,
+                totalPotion,
+                currentHP,
+                gameManager.BestHealthScore,
+                malusGoalProgress);
         }
 
         int score = gameManager.CalculateClassicScorePoints();
@@ -704,6 +725,229 @@ public class CharacterUIController : MonoBehaviour
         {
             endlessResultPanel.SetActive(endlessVisible);
         }
+    }
+
+    private void PlayClassicResultAnimation()
+    {
+        StopClassicResultAnimation();
+        classicResultAnimation = StartCoroutine(AnimateClassicResult());
+    }
+
+    private IEnumerator AnimateClassicResult()
+    {
+        BaseCharacter character = gameManager != null ? gameManager.Character : null;
+        if (character == null)
+        {
+            classicResultAnimation = null;
+            yield break;
+        }
+
+        CharacterStats stats = character.stats;
+        CharacterStatusController status = character.status;
+        int potionCount = gameManager.potionDrunked;
+        int totalPotion = gameManager.LevelPotionTarget > 0 ? gameManager.LevelPotionTarget : potionCount;
+        int currentHP = stats != null ? stats.HP : 0;
+        int bestHealth = gameManager.BestHealthScore;
+        int currentStatusCount = status != null ? status.Count() : 0;
+        int malusGoalProgress = currentStatusCount == 0 ? 1 : 0;
+        int score = gameManager.CalculateClassicScorePoints();
+
+        Color scoreTextColor = classicScoreText != null ? classicScoreText.color : Color.white;
+        Color messageColor = classicFinalMessage != null ? classicFinalMessage.color : Color.white;
+        Vector3 messageBaseScale = classicFinalMessage != null ? classicFinalMessage.rectTransform.localScale : Vector3.one;
+
+        PrepareClassicIcons(score);
+
+        if (classicFinalMessage != null)
+        {
+            classicFinalMessage.color = WithAlpha(messageColor, 0f);
+            classicFinalMessage.rectTransform.localScale = messageBaseScale * 0.8f;
+        }
+
+        float elapsed = 0f;
+        while (elapsed < classicNumberCountDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float normalizedTime = Mathf.Clamp01(elapsed / classicNumberCountDuration);
+            float easedTime = EaseOutCubic(normalizedTime);
+
+            if (classicScoreText != null)
+            {
+                int displayedPotions = Mathf.RoundToInt(Mathf.Lerp(0f, potionCount, easedTime));
+                int displayedHealth = Mathf.RoundToInt(Mathf.Lerp(0f, currentHP, easedTime));
+                int displayedMalusProgress = Mathf.RoundToInt(Mathf.Lerp(0f, malusGoalProgress, easedTime));
+                classicScoreText.text = FormatClassicScore(displayedPotions, totalPotion, displayedHealth, bestHealth, displayedMalusProgress);
+                classicScoreText.color = WithAlpha(scoreTextColor, easedTime * scoreTextColor.a);
+            }
+
+            yield return null;
+        }
+
+        if (classicScoreText != null)
+        {
+            classicScoreText.text = FormatClassicScore(potionCount, totalPotion, currentHP, bestHealth, malusGoalProgress);
+            classicScoreText.color = scoreTextColor;
+        }
+
+        if (classicScoreIcons != null)
+        {
+            int activeIcons = Mathf.Clamp(score - 1, 0, classicScoreIcons.Length);
+            for (int index = 0; index < classicScoreIcons.Length; index++)
+            {
+                Image icon = classicScoreIcons[index];
+                if (icon == null)
+                {
+                    continue;
+                }
+
+                Color targetColor = index < activeIcons ? activeScoreIconColor : inactiveScoreIconColor;
+                Vector3 baseScale = GetClassicIconBaseScale(index);
+                yield return AnimateClassicIcon(icon, baseScale, targetColor);
+            }
+        }
+
+        if (classicFinalMessage != null)
+        {
+            elapsed = 0f;
+            while (elapsed < classicMessageRevealDuration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float normalizedTime = Mathf.Clamp01(elapsed / classicMessageRevealDuration);
+                float scaleProgress = EaseOutBack(normalizedTime);
+                classicFinalMessage.color = WithAlpha(messageColor, normalizedTime * messageColor.a);
+                classicFinalMessage.rectTransform.localScale = Vector3.LerpUnclamped(messageBaseScale * 0.8f, messageBaseScale, scaleProgress);
+                yield return null;
+            }
+
+            classicFinalMessage.color = messageColor;
+            classicFinalMessage.rectTransform.localScale = messageBaseScale;
+        }
+
+        classicResultAnimation = null;
+    }
+
+    private void PrepareClassicIcons(int score)
+    {
+        if (classicScoreIcons == null)
+        {
+            return;
+        }
+
+        if (classicIconBaseScales == null || classicIconBaseScales.Length != classicScoreIcons.Length)
+        {
+            classicIconBaseScales = new Vector3[classicScoreIcons.Length];
+            for (int index = 0; index < classicScoreIcons.Length; index++)
+            {
+                Image icon = classicScoreIcons[index];
+                classicIconBaseScales[index] = icon != null ? icon.rectTransform.localScale : Vector3.one;
+            }
+        }
+
+        int activeIcons = Mathf.Clamp(score - 1, 0, classicScoreIcons.Length);
+        for (int index = 0; index < classicScoreIcons.Length; index++)
+        {
+            Image icon = classicScoreIcons[index];
+            if (icon == null)
+            {
+                continue;
+            }
+
+            Color targetColor = index < activeIcons ? activeScoreIconColor : inactiveScoreIconColor;
+            icon.gameObject.SetActive(true);
+            icon.color = WithAlpha(targetColor, 0f);
+            icon.rectTransform.localScale = GetClassicIconBaseScale(index) * 0.65f;
+        }
+    }
+
+    private IEnumerator AnimateClassicIcon(Image icon, Vector3 baseScale, Color targetColor)
+    {
+        float elapsed = 0f;
+        while (elapsed < classicIconRevealDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float normalizedTime = Mathf.Clamp01(elapsed / classicIconRevealDuration);
+            float scaleMultiplier;
+
+            if (normalizedTime < 0.65f)
+            {
+                float zoomTime = EaseOutCubic(normalizedTime / 0.65f);
+                scaleMultiplier = Mathf.LerpUnclamped(0.65f, classicIconZoomScale, zoomTime);
+            }
+            else
+            {
+                float settleTime = (normalizedTime - 0.65f) / 0.35f;
+                scaleMultiplier = Mathf.LerpUnclamped(classicIconZoomScale, 1f, EaseOutCubic(settleTime));
+            }
+
+            icon.color = WithAlpha(targetColor, normalizedTime * targetColor.a);
+            icon.rectTransform.localScale = baseScale * scaleMultiplier;
+            yield return null;
+        }
+
+        icon.color = targetColor;
+        icon.rectTransform.localScale = baseScale;
+    }
+
+    private Vector3 GetClassicIconBaseScale(int index)
+    {
+        if (classicIconBaseScales == null || index < 0 || index >= classicIconBaseScales.Length)
+        {
+            return Vector3.one;
+        }
+
+        return classicIconBaseScales[index];
+    }
+
+    private void StopClassicResultAnimation()
+    {
+        if (classicResultAnimation == null)
+        {
+            return;
+        }
+
+        StopCoroutine(classicResultAnimation);
+        classicResultAnimation = null;
+    }
+
+    private string FormatClassicScore(int potionCount, int totalPotion, int currentHP, int bestHealth, int malusGoalProgress)
+    {
+        string potionLine = "Drunked: " + potionCount + "/" + totalPotion;
+        string healthLine = "Health: " + currentHP + "/" + bestHealth;
+        string malusLine = "Malus: " + malusGoalProgress + "/1";
+
+        return HighlightCompletedSection(potionLine, totalPotion > 0 && potionCount >= totalPotion) + "\n\n"
+            + HighlightCompletedSection(healthLine, bestHealth > 0 && currentHP >= bestHealth) + "\n\n"
+            + HighlightCompletedSection(malusLine, malusGoalProgress >= 1);
+    }
+
+    private string HighlightCompletedSection(string text, bool isCompleted)
+    {
+        if (!isCompleted)
+        {
+            return text;
+        }
+
+        string htmlColor = ColorUtility.ToHtmlStringRGB(classicCompletedSectionColor);
+        return "<color=#" + htmlColor + ">" + text + "</color>";
+    }
+
+    private static Color WithAlpha(Color color, float alpha)
+    {
+        color.a = alpha;
+        return color;
+    }
+
+    private static float EaseOutCubic(float value)
+    {
+        float inverse = 1f - Mathf.Clamp01(value);
+        return 1f - inverse * inverse * inverse;
+    }
+
+    private static float EaseOutBack(float value)
+    {
+        const float overshoot = 1.70158f;
+        float shifted = Mathf.Clamp01(value) - 1f;
+        return 1f + (overshoot + 1f) * shifted * shifted * shifted + overshoot * shifted * shifted;
     }
 
     public void OpenMainMenu()
