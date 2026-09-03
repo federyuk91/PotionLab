@@ -13,6 +13,7 @@ public class LevelSettings : MonoBehaviour
 
     [Header("Score")]
     [SerializeField] private int bestHealthScore = 10;
+    [SerializeField, Min(0)] private int maxMalusScore = 0;
 
     [Header("Light")]
     [SerializeField, Range(MinLightIntensity, MaxLightIntensity)] private int startingLightIntensity = 1;
@@ -32,6 +33,7 @@ public class LevelSettings : MonoBehaviour
 
     public bool IsPuzzleMode => isPuzzleMode;
     public int BestHealthScore => bestHealthScore;
+    public int MaxMalusScore => maxMalusScore;
     public int StartingLightIntensity => startingLightIntensity;
     public string StartingCatchphrase => startingCatchphrase;
     public float StartingCatchphraseDuration => startingCatchphraseDuration;

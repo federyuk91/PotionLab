@@ -628,18 +628,19 @@ public class CharacterUIController : MonoBehaviour
         CharacterStats stats = character.stats;
         CharacterStatusController status = character.status;
         int currentHP = stats != null ? stats.HP : 0;
-        int currentStatusCount = status != null ? status.Count() : 0;
+        int malusCount = status != null ? status.Count() : 0;
+        int maxMalus = gameManager.MaxMalusScore;
         int totalPotion = gameManager.LevelPotionTarget > 0 ? gameManager.LevelPotionTarget : gameManager.potionDrunked;
 
         if (classicScoreText != null)
         {
-            int malusGoalProgress = currentStatusCount == 0 ? 1 : 0;
             classicScoreText.text = FormatClassicScore(
                 gameManager.potionDrunked,
                 totalPotion,
                 currentHP,
                 gameManager.BestHealthScore,
-                malusGoalProgress);
+                malusCount,
+                maxMalus);
         }
 
         int score = gameManager.CalculateClassicScorePoints();
@@ -748,8 +749,8 @@ public class CharacterUIController : MonoBehaviour
         int totalPotion = gameManager.LevelPotionTarget > 0 ? gameManager.LevelPotionTarget : potionCount;
         int currentHP = stats != null ? stats.HP : 0;
         int bestHealth = gameManager.BestHealthScore;
-        int currentStatusCount = status != null ? status.Count() : 0;
-        int malusGoalProgress = currentStatusCount == 0 ? 1 : 0;
+        int malusCount = status != null ? status.Count() : 0;
+        int maxMalus = gameManager.MaxMalusScore;
         int score = gameManager.CalculateClassicScorePoints();
 
         Color scoreTextColor = classicScoreText != null ? classicScoreText.color : Color.white;
@@ -775,8 +776,8 @@ public class CharacterUIController : MonoBehaviour
             {
                 int displayedPotions = Mathf.RoundToInt(Mathf.Lerp(0f, potionCount, easedTime));
                 int displayedHealth = Mathf.RoundToInt(Mathf.Lerp(0f, currentHP, easedTime));
-                int displayedMalusProgress = Mathf.RoundToInt(Mathf.Lerp(0f, malusGoalProgress, easedTime));
-                classicScoreText.text = FormatClassicScore(displayedPotions, totalPotion, displayedHealth, bestHealth, displayedMalusProgress);
+                int displayedMalus = Mathf.RoundToInt(Mathf.Lerp(0f, malusCount, easedTime));
+                classicScoreText.text = FormatClassicScore(displayedPotions, totalPotion, displayedHealth, bestHealth, displayedMalus, maxMalus);
                 classicScoreText.color = WithAlpha(scoreTextColor, easedTime * scoreTextColor.a);
             }
 
@@ -785,7 +786,7 @@ public class CharacterUIController : MonoBehaviour
 
         if (classicScoreText != null)
         {
-            classicScoreText.text = FormatClassicScore(potionCount, totalPotion, currentHP, bestHealth, malusGoalProgress);
+            classicScoreText.text = FormatClassicScore(potionCount, totalPotion, currentHP, bestHealth, malusCount, maxMalus);
             classicScoreText.color = scoreTextColor;
         }
 
@@ -909,15 +910,15 @@ public class CharacterUIController : MonoBehaviour
         classicResultAnimation = null;
     }
 
-    private string FormatClassicScore(int potionCount, int totalPotion, int currentHP, int bestHealth, int malusGoalProgress)
+    private string FormatClassicScore(int potionCount, int totalPotion, int currentHP, int bestHealth, int malusCount, int maxMalus)
     {
         string potionLine = "Drunked: " + potionCount + "/" + totalPotion;
         string healthLine = "Health: " + currentHP + "/" + bestHealth;
-        string malusLine = "Malus: " + malusGoalProgress + "/1";
+        string malusLine = "Malus: " + malusCount + "/" + maxMalus;
 
         return HighlightCompletedSection(potionLine, totalPotion > 0 && potionCount >= totalPotion) + "\n\n"
             + HighlightCompletedSection(healthLine, bestHealth > 0 && currentHP >= bestHealth) + "\n\n"
-            + HighlightCompletedSection(malusLine, malusGoalProgress >= 1);
+            + HighlightCompletedSection(malusLine, malusCount <= maxMalus);
     }
 
     private string HighlightCompletedSection(string text, bool isCompleted)

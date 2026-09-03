@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public bool IsPuzzleMode => GetIsPuzzleMode();
     public int LevelPotionTarget => levelPotionTarget;
     public int BestHealthScore => GetBestHealthScore();
+    public int MaxMalusScore => GetMaxMalusScore();
     public int BestProceduralScore => GetBestProceduralScore();
 
     [Header("Compiled from code")]
@@ -587,7 +588,7 @@ public class GameManager : MonoBehaviour
             points++;
         }
 
-        if (character.status.Count() == 0)
+        if (character.status.Count() <= MaxMalusScore)
         {
             points++;
         }
@@ -660,6 +661,17 @@ public class GameManager : MonoBehaviour
         }
 
         return levelSettings.BestHealthScore;
+    }
+
+    private int GetMaxMalusScore()
+    {
+        if (levelSettings == null)
+        {
+            WarnMissingLevelSettings();
+            return 0;
+        }
+
+        return levelSettings.MaxMalusScore;
     }
 
     private int GetBestProceduralScore()
