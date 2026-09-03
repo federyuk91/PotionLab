@@ -120,16 +120,39 @@ namespace CharacterSystem
                 return;
             }
 
-            dialogManager.OnPotionDrunk(potion, GetCharacterForm(), status);
-            StartCoroutine(DrunkRoutine(potion));
+            StartCoroutine(ResolveDrink(potion));
         }
 
-        private IEnumerator DrunkRoutine(PotionScriptable potion)
+        // The drinking trigger hosts this routine so changing form cannot cancel a pending drink.
+        public IEnumerator ResolveDrink(PotionScriptable potion)
         {
+            if (potion == null)
+            {
+                yield break;
+            }
+
+            dialogManager.OnPotionDrunk(potion, GetCharacterForm(), status);
             animator.SetTrigger("Drunk");
-            List<Status> previousStatuses = new List<Status>(status.GetCurrentStatuses());
             yield return new WaitForSeconds(1f);
 
+            BaseCharacter recipient = transformationManager.Current;
+            while (recipient != null && recipient.IsReturnMagePending && recipient.stats.HP > 0)
+            {
+                yield return null;
+                recipient = transformationManager.Current;
+            }
+
+            if (recipient == null || recipient.stats.HP <= 0)
+            {
+                yield break;
+            }
+
+            recipient.ResolvePotionEffect(potion);
+        }
+
+        private void ResolvePotionEffect(PotionScriptable potion)
+        {
+            List<Status> previousStatuses = new List<Status>(status.GetCurrentStatuses());
             PotionEffectResolving?.Invoke(this, potion, previousStatuses);
 
             switch (potion.effectType)

@@ -4083,9 +4083,10 @@ GameObject:
   - component: {fileID: 491430402}
   - component: {fileID: 491430401}
   - component: {fileID: 491430400}
+  - component: {fileID: 760000000000001901}
   m_Layer: 0
   m_Name: TorchWall
-  m_TagString: Untagged
+  m_TagString: Torch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10587,9 +10588,10 @@ GameObject:
   - component: {fileID: 1317053964}
   - component: {fileID: 1317053963}
   - component: {fileID: 1317053962}
+  - component: {fileID: 760000000000001902}
   m_Layer: 0
   m_Name: TorchWall (1)
-  m_TagString: Untagged
+  m_TagString: Torch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15285,9 +15287,10 @@ GameObject:
   - component: {fileID: 1994430083}
   - component: {fileID: 1994430082}
   - component: {fileID: 1994430081}
+  - component: {fileID: 760000000000001903}
   m_Layer: 0
   m_Name: TorchWall (2)
-  m_TagString: Untagged
+  m_TagString: Torch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21663,6 +21666,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ac9341495b6a99448ccb799e24aeaf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &760000000000001901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491430398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71bf4a315e14d49a7aa64fd32333431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TorchAnimationVariation
+  animatorTracks:
+  - {fileID: 491430401}
+  legacyAnimationTracks: []
+  animatorSpeedRange: {x: 0.85, y: 1.15}
+  legacyAnimationSpeedRange: {x: 0.85, y: 1.15}
+--- !u!114 &760000000000001902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317053960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71bf4a315e14d49a7aa64fd32333431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TorchAnimationVariation
+  animatorTracks:
+  - {fileID: 1317053963}
+  legacyAnimationTracks: []
+  animatorSpeedRange: {x: 0.85, y: 1.15}
+  legacyAnimationSpeedRange: {x: 0.85, y: 1.15}
+--- !u!114 &760000000000001903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994430079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71bf4a315e14d49a7aa64fd32333431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TorchAnimationVariation
+  animatorTracks:
+  - {fileID: 1994430082}
+  legacyAnimationTracks: []
+  animatorSpeedRange: {x: 0.85, y: 1.15}
+  legacyAnimationSpeedRange: {x: 0.85, y: 1.15}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

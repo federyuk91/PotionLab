@@ -7692,9 +7692,10 @@ GameObject:
   - component: {fileID: 771332048}
   - component: {fileID: 771332047}
   - component: {fileID: 771332046}
+  - component: {fileID: 760000000000000404}
   m_Layer: 0
   m_Name: TorchWall (6)
-  m_TagString: Untagged
+  m_TagString: Torch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31259,22 +31260,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2284741049388088496, guid: 457b834e16d03b445830e001b732b8a2, type: 3}
-      propertyPath: iceField
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2284741049388088496, guid: 457b834e16d03b445830e001b732b8a2, type: 3}
-      propertyPath: fireField
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2284741049388088496, guid: 457b834e16d03b445830e001b732b8a2, type: 3}
-      propertyPath: grassField
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2284741049388088496, guid: 457b834e16d03b445830e001b732b8a2, type: 3}
-      propertyPath: waterField
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2284741049388088496, guid: 457b834e16d03b445830e001b732b8a2, type: 3}
       propertyPath: levelSettings
       value: 
       objectReference: {fileID: 910203040506070801}
@@ -31397,6 +31382,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ac9341495b6a99448ccb799e24aeaf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &760000000000000404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771332044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71bf4a315e14d49a7aa64fd32333431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TorchAnimationVariation
+  animatorTracks:
+  - {fileID: 771332047}
+  legacyAnimationTracks: []
+  animatorSpeedRange: {x: 0.85, y: 1.15}
+  legacyAnimationSpeedRange: {x: 0.85, y: 1.15}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -8,6 +8,8 @@ TagManager:
   - Drop
   - Seed
   - Light
+  - music
+  - Torch
   layers:
   - Default
   - TransparentFX

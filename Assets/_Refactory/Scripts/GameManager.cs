@@ -375,19 +375,19 @@ public class GameManager : MonoBehaviour
                 UnlockAchievementIfAvailable("Old Toby");
             }
 
-            OnCharacterDie("trees never sleeps");
+            OnCharacterDie("Trees never sleeps");
             return;
         }
 
         if (characterForm.Equals(CharacterType.Balrog))
         {
-            OnCharacterDie("evil doens't sleep");
+            OnCharacterDie("Evil doens't sleep");
             return;
         }
 
         if (characterForm.Equals(CharacterType.PupperFish))
         {
-            OnCharacterDie("you drowned in your nightmare");
+            OnCharacterDie("You drowned in your nightmare");
             return;
         }
 

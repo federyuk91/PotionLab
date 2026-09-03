@@ -1,3 +1,5 @@
+using System.Collections;
+using InspectorValidation;
 using UnityEngine;
 
 namespace CharacterSystem
@@ -6,8 +8,8 @@ namespace CharacterSystem
     public class DrinkingTrigger : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private TransformationManager transformationManager;
-        [SerializeField] private GameManager gameManager;
+        [SerializeField, RequiredInspectorReference] private TransformationManager transformationManager;
+        [SerializeField, RequiredInspectorReference] private GameManager gameManager;
         [SerializeField] private PotionScriptable litchSummonPotionEffect;
 
         [Header("Rules")]
@@ -44,8 +46,14 @@ namespace CharacterSystem
 
         private void DrinkPotion(PotionScript potion)
         {
-            if (potion == null)
+            if (potion == null || !potion.gameObject.activeSelf)
             {
+                return;
+            }
+
+            if (potion.potion == null)
+            {
+                Debug.LogError($"{potion.name}: assign PotionScript.potion before this potion can be consumed.", potion);
                 return;
             }
 
@@ -55,17 +63,19 @@ namespace CharacterSystem
                 return;
             }
 
-            currentCharacter.PotionEffectResolved += OnPotionEffectResolved;
-            currentCharacter.Drunk(potion);
             HideConsumedPotion(potion);
+            StartCoroutine(ConsumePotionRoutine(potion, currentCharacter));
+        }
 
-            void OnPotionEffectResolved(BaseCharacter character, PotionScriptable potionEffect)
-            {
-                currentCharacter.PotionEffectResolved -= OnPotionEffectResolved;
-                RegisterConsumedPotion(potion, true);
-                ReleaseConsumedPotion(potion);
-                TryCompletePuzzleLevelAfterPendingTransformation(character);
-            }
+        private IEnumerator ConsumePotionRoutine(PotionScript potion, BaseCharacter character)
+        {
+            // Await this exact drink, not the shared event emitted by every concurrent potion.
+            yield return character.ResolveDrink(potion.potion);
+            yield return WaitForPendingTransformation();
+
+            RegisterConsumedPotion(potion, true);
+            ReleaseConsumedPotion(potion);
+            TryCompletePuzzleLevel();
         }
 
         private void DrinkLitchSummon(LitchSummonPotionDestroyer summon)
@@ -87,7 +97,7 @@ namespace CharacterSystem
                 return;
             }
 
-            currentCharacter.Drunk(litchSummonPotionEffect);
+            StartCoroutine(currentCharacter.ResolveDrink(litchSummonPotionEffect));
             summon.ConsumeByDrinkingTrigger();
         }
 
@@ -116,30 +126,15 @@ namespace CharacterSystem
             }
         }
 
-        private void TryCompletePuzzleLevelAfterPendingTransformation(BaseCharacter character)
+        private IEnumerator WaitForPendingTransformation()
         {
-            if (character == null || !character.IsReturnMagePending)
+            while (transformationManager != null
+                && transformationManager.Current != null
+                && transformationManager.Current.IsReturnMagePending
+                && gameManager != null
+                && gameManager.CanCharacterContinue())
             {
-                TryCompletePuzzleLevel();
-                return;
-            }
-
-            if (transformationManager == null)
-            {
-                TryCompletePuzzleLevel();
-                return;
-            }
-
-            transformationManager.OnTransformation += OnTransformation;
-
-            void OnTransformation(CharacterType previousType, CharacterType currentType)
-            {
-                transformationManager.OnTransformation -= OnTransformation;
-
-                if (currentType == CharacterType.Mage)
-                {
-                    TryCompletePuzzleLevel();
-                }
+                yield return null;
             }
         }
 

@@ -15141,22 +15141,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2284741049388088496, guid: 457b834e16d03b445830e001b732b8a2, type: 3}
-      propertyPath: iceField
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2284741049388088496, guid: 457b834e16d03b445830e001b732b8a2, type: 3}
-      propertyPath: fireField
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2284741049388088496, guid: 457b834e16d03b445830e001b732b8a2, type: 3}
-      propertyPath: grassField
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2284741049388088496, guid: 457b834e16d03b445830e001b732b8a2, type: 3}
-      propertyPath: waterField
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2284741049388088496, guid: 457b834e16d03b445830e001b732b8a2, type: 3}
       propertyPath: levelSettings
       value: 
       objectReference: {fileID: 910203040506070801}

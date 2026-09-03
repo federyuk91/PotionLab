@@ -13292,9 +13292,10 @@ GameObject:
   - component: {fileID: 1516621327}
   - component: {fileID: 1516621326}
   - component: {fileID: 1516621325}
+  - component: {fileID: 760000000000002001}
   m_Layer: 0
   m_Name: TorchWall
-  m_TagString: Untagged
+  m_TagString: Torch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18722,6 +18723,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ac9341495b6a99448ccb799e24aeaf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &760000000000002001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516621323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71bf4a315e14d49a7aa64fd32333431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TorchAnimationVariation
+  animatorTracks:
+  - {fileID: 1516621326}
+  legacyAnimationTracks: []
+  animatorSpeedRange: {x: 0.85, y: 1.15}
+  legacyAnimationSpeedRange: {x: 0.85, y: 1.15}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
