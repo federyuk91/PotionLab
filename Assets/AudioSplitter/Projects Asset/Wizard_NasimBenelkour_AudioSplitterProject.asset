@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e0d2f4f77d54744a82a5e65f3c0e2b9, type: 3}
+  m_Name: Wizard_NasimBenelkour_AudioSplitterProject
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::AudioSplitterProject
+  sourceClip: {fileID: 8300000, guid: 4e76d299242284948b4647bd538e144a, type: 3}
+  cutSamples: e8170200006e0500881b08000dde0a00d4eb0f001ff414005b531a004fb51f00914324008b7c28002ff32c000dee3100b62c36005b153b0061f03f00e7544500c657480021b34b008f0450006e1b540061f257002d085c00d33f6100f58766006dd76a0012db6e005da5730014be7800fba57c00044a8000f7dc8300db718800f48b8e00a1dc950039f19a008c98a000f120a600cbb8ab00a7feae000971b200a985b7000542bd00c177c300
+  segmentNames:
+  - Title_The goodnight potion_0
+  - Title_The goodnight potion_1
+  - Title_The goodnight potion_2
+  - Title_The goodnight potion_3
+  - Night_0_before bed time_0
+  - Night_0_before bed time_1
+  - Night 1 - drink both_1
+  - Night 1 - drink both_1
+  - Night 2 - faster potion_0
+  - Night 2 - faster potion_1
+  - Night 3 - getting dark_0
+  - Night 3 - getting dark_1
+  - Night 4 - too much lava_0
+  - Night 4 - too much lava_1
+  - Night 5 - a mage job_0
+  - Night 5 - a mage job_0
+  - Night 6 - something in the darkness_0
+  - Night 6 - something in the darkness_1
+  - Night 7-don't want_0
+  - Night 7-don't want_1
+  - Night 8 - some lights_0
+  - Night 8 - some lights_1
+  - Night 9 - Pairs everywhere_0
+  - Night 9 - Pairs everywhere_1
+  - Night 10 - weed could help_0
+  - Night 10 - weed could help_1
+  - Night 11 - Seaweed_0
+  - Night 11 - Seaweed_1
+  - Night 12 a few glasses_0
+  - Night 12 a few glasses_1
+  - Night 13 - Liquid fire_0
+  - Night 13 - Liquid fire_1
+  - Night 14 too bit time_0
+  - Night 14 too bit time_1
+  - Night 15 a devil inside_0
+  - Night 15 a devil inside_1
+  - Night 16 - the moons_0
+  - Night 16 - the moons_1
+  - Night 17 - no time to shower_0
+  - Night 17 - no time to shower_1
+  - Night 18 - memory problems_0
+  - Night 18 - memory problems_1
+  - Night 19 - Darker and darker_0
+  - Night 19 - Darker and darker_1
+  selectedSegmentIndex: 43
+  horizontalZoom: 10
+  autoCutMinimumSilenceSeconds: 1
+  silenceTolerancePercent: 0.8

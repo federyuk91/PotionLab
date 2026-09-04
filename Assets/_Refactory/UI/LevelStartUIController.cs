@@ -1,10 +1,19 @@
 using System.Collections;
 using InspectorValidation;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelStartUIController : MonoBehaviour
 {
+    [Header("Sources")]
+    [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private LevelSettings levelSettings;
+
+    [Header("Intro Presentation")]
+    [SerializeField, RequiredInspectorReference] private TMP_Text introPresentationText;
+    [SerializeField] private AudioSource introPresentationAudioSource;
+
+    [Header("Start Transition")]
     [SerializeField, RequiredInspectorReference] private CanvasGroup gameplayUI;
     [SerializeField, RequiredInspectorReference] private Button startLevelButton;
     [SerializeField, RequiredInspectorReference] private RectTransform currentNight;
@@ -14,6 +23,7 @@ public class LevelStartUIController : MonoBehaviour
 
     private bool levelStartHandled;
     private bool nightIntroReady;
+    private Coroutine introPresentationRoutine;
     private Vector2 nightTargetPosition;
     private Vector3 nightTargetScale;
     private Vector2 nightIntroPosition;
@@ -27,6 +37,7 @@ public class LevelStartUIController : MonoBehaviour
     private void Start()
     {
         PrepareNightIntro();
+        PlayIntroPresentation();
     }
 
     private void OnEnable()
@@ -46,6 +57,8 @@ public class LevelStartUIController : MonoBehaviour
         {
             startLevelButton.onClick.RemoveListener(HandleLevelStartClicked);
         }
+
+        StopIntroPresentation(false);
     }
 
     private void HandleLevelStartClicked()
@@ -56,6 +69,7 @@ public class LevelStartUIController : MonoBehaviour
         }
 
         levelStartHandled = true;
+        StopIntroPresentation(true);
         StartCoroutine(FadeGameplayUIIn());
 
         if (nightIntroReady)
@@ -64,6 +78,120 @@ public class LevelStartUIController : MonoBehaviour
         }
 
         startLevelButton.gameObject.SetActive(false);
+    }
+
+    private void PlayIntroPresentation()
+    {
+        if (introPresentationRoutine != null)
+        {
+            StopCoroutine(introPresentationRoutine);
+        }
+
+        introPresentationRoutine = StartCoroutine(PlayIntroPresentationRoutine());
+    }
+
+    private IEnumerator PlayIntroPresentationRoutine()
+    {
+        if (introPresentationText == null)
+        {
+            Debug.LogError("LevelStartUIController requires the Intro Presentation Text Inspector reference.", this);
+            introPresentationRoutine = null;
+            yield break;
+        }
+
+        introPresentationText.text = string.Empty;
+        if (levelSettings == null)
+        {
+            Debug.LogError("LevelStartUIController requires the Level Settings Inspector reference.", this);
+            introPresentationRoutine = null;
+            yield break;
+        }
+
+        string introLine = levelSettings.IntroPresentationLine;
+        if (string.IsNullOrWhiteSpace(introLine))
+        {
+            introPresentationRoutine = null;
+            yield break;
+        }
+
+        float startDelay = levelSettings.IntroPresentationStartDelay;
+        if (startDelay > 0f)
+        {
+            yield return new WaitForSecondsRealtime(startDelay);
+        }
+
+        PlayIntroPresentationAudio(levelSettings.IntroPresentationVoiceClip);
+        yield return TypeIntroPresentationLine(introLine, levelSettings.IntroPresentationCharactersPerSecond);
+        introPresentationRoutine = null;
+    }
+
+    private IEnumerator TypeIntroPresentationLine(string introLine, float charactersPerSecond)
+    {
+        float safeCharactersPerSecond = Mathf.Max(1f, charactersPerSecond);
+        float secondsPerCharacter = 1f / safeCharactersPerSecond;
+        float elapsed = 0f;
+        int visibleCharacters = 0;
+
+        introPresentationText.text = string.Empty;
+        while (visibleCharacters < introLine.Length)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            int targetVisibleCharacters = Mathf.Clamp(
+                Mathf.FloorToInt(elapsed / secondsPerCharacter),
+                0,
+                introLine.Length);
+
+            if (targetVisibleCharacters > visibleCharacters)
+            {
+                visibleCharacters = targetVisibleCharacters;
+                introPresentationText.text = introLine.Substring(0, visibleCharacters);
+            }
+
+            yield return null;
+        }
+
+        introPresentationText.text = introLine;
+    }
+
+    private void PlayIntroPresentationAudio(AudioClip voiceClip)
+    {
+        if (voiceClip == null)
+        {
+            return;
+        }
+
+        if (introPresentationAudioSource == null)
+        {
+            Debug.LogWarning("LevelStartUIController cannot play the intro presentation voice because Intro Presentation Audio Source is missing.", this);
+            return;
+        }
+
+        introPresentationAudioSource.Stop();
+        introPresentationAudioSource.PlayOneShot(voiceClip);
+    }
+
+    private void StopIntroPresentation(bool clearText)
+    {
+        if (introPresentationRoutine != null)
+        {
+            StopCoroutine(introPresentationRoutine);
+            introPresentationRoutine = null;
+        }
+
+        StopIntroPresentationAudio();
+
+        if (clearText && introPresentationText != null)
+        {
+            introPresentationText.text = string.Empty;
+        }
+    }
+
+    private void StopIntroPresentationAudio()
+    {
+        if (introPresentationAudioSource != null && introPresentationAudioSource.isPlaying)
+        {
+            introPresentationAudioSource.Stop();
+        }
     }
 
     private void PrepareNightIntro()

@@ -5,6 +5,11 @@ public class LevelSettingsEditor : Editor
 {
     private SerializedProperty isPuzzleMode;
     private SerializedProperty bestHealthScore;
+    private SerializedProperty maxMalusScore;
+    private SerializedProperty introPresentationLine;
+    private SerializedProperty introPresentationVoiceClip;
+    private SerializedProperty introPresentationCharactersPerSecond;
+    private SerializedProperty introPresentationStartDelay;
     private SerializedProperty startingLightIntensity;
     private SerializedProperty startingCatchphrase;
     private SerializedProperty startingCatchphraseDuration;
@@ -20,6 +25,11 @@ public class LevelSettingsEditor : Editor
     {
         isPuzzleMode = serializedObject.FindProperty("isPuzzleMode");
         bestHealthScore = serializedObject.FindProperty("bestHealthScore");
+        maxMalusScore = serializedObject.FindProperty("maxMalusScore");
+        introPresentationLine = serializedObject.FindProperty("introPresentationLine");
+        introPresentationVoiceClip = serializedObject.FindProperty("introPresentationVoiceClip");
+        introPresentationCharactersPerSecond = serializedObject.FindProperty("introPresentationCharactersPerSecond");
+        introPresentationStartDelay = serializedObject.FindProperty("introPresentationStartDelay");
         startingLightIntensity = serializedObject.FindProperty("startingLightIntensity");
         startingCatchphrase = serializedObject.FindProperty("startingCatchphrase");
         startingCatchphraseDuration = serializedObject.FindProperty("startingCatchphraseDuration");
@@ -41,6 +51,14 @@ public class LevelSettingsEditor : Editor
 
         EditorGUILayout.LabelField("Score", EditorStyles.boldLabel);
         EditorGUILayout.PropertyField(bestHealthScore);
+        EditorGUILayout.PropertyField(maxMalusScore);
+        EditorGUILayout.Space();
+
+        EditorGUILayout.LabelField("Intro Presentation", EditorStyles.boldLabel);
+        EditorGUILayout.PropertyField(introPresentationLine);
+        EditorGUILayout.PropertyField(introPresentationVoiceClip);
+        EditorGUILayout.PropertyField(introPresentationCharactersPerSecond);
+        EditorGUILayout.PropertyField(introPresentationStartDelay);
         EditorGUILayout.Space();
 
         EditorGUILayout.LabelField("Light", EditorStyles.boldLabel);

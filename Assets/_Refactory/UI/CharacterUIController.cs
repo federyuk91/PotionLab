@@ -29,7 +29,7 @@ public class CharacterUIController : MonoBehaviour
     [SerializeField] private Text statPopupText;
 
     [Header("Level UI")]
-    [SerializeField, RequiredInspectorReference] private Text currentNightText;
+    [SerializeField, RequiredInspectorReference] private TMP_Text currentNightText;
     [SerializeField, RequiredInspectorReference] private GridListCategoryData nightsData;
 
     [Header("Spell UI")]

@@ -15,6 +15,12 @@ public class LevelSettings : MonoBehaviour
     [SerializeField] private int bestHealthScore = 10;
     [SerializeField, Min(0)] private int maxMalusScore = 0;
 
+    [Header("Intro Presentation")]
+    [SerializeField, TextArea] private string introPresentationLine;
+    [SerializeField] private AudioClip introPresentationVoiceClip;
+    [SerializeField, Min(1f)] private float introPresentationCharactersPerSecond = 35f;
+    [SerializeField, Min(0f)] private float introPresentationStartDelay = 0f;
+
     [Header("Light")]
     [SerializeField, Range(MinLightIntensity, MaxLightIntensity)] private int startingLightIntensity = 1;
     [SerializeField] private string startingCatchphrase;
@@ -34,6 +40,10 @@ public class LevelSettings : MonoBehaviour
     public bool IsPuzzleMode => isPuzzleMode;
     public int BestHealthScore => bestHealthScore;
     public int MaxMalusScore => maxMalusScore;
+    public string IntroPresentationLine => introPresentationLine;
+    public AudioClip IntroPresentationVoiceClip => introPresentationVoiceClip;
+    public float IntroPresentationCharactersPerSecond => introPresentationCharactersPerSecond;
+    public float IntroPresentationStartDelay => introPresentationStartDelay;
     public int StartingLightIntensity => startingLightIntensity;
     public string StartingCatchphrase => startingCatchphrase;
     public float StartingCatchphraseDuration => startingCatchphraseDuration;

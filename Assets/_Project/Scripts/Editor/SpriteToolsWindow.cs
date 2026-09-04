@@ -65,7 +65,6 @@ public class SpriteToolsWindow : EditorWindow
         //EditorGUI.BeginChangeCheck();
         //SerializedObject obj = new SerializedObject(this);
 
-        GUILayout.BeginHorizontal();
         Texture prevToRecolor = toRecolor;
         toRecolor = TextureField("To Recolor", toRecolor);//(Texture2D)EditorGUI.ObjectField(new Rect(55, 10, 70, 70), toRecolor, typeof(Texture2D), false);//
 
@@ -111,7 +110,6 @@ public class SpriteToolsWindow : EditorWindow
             {
                 preview = null;
                 EditorGUILayout.HelpBox("Please enable read/write flag to edit", MessageType.Info);
-                GUILayout.EndHorizontal();
             }
 
         }
