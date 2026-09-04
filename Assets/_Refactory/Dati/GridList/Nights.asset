@@ -30,14 +30,14 @@ MonoBehaviour:
     unlockedByDefault: 1
     sceneBuildIndex: 1
   - id: Night_2_Two_lava
-    displayName: 2 - Two lava
+    displayName: 2 - Two for one
     shortDescription: 
     description: Two lava potions for the price of one
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
     unlockedByDefault: 1
     sceneBuildIndex: 2
   - id: Night_3_The_Faster_conveyor_belt
-    displayName: 3 - The Faster conveyor belt
+    displayName: 3 - The Faster shift
     shortDescription: 
     description: A faster conveyor belt equals more potions to drink
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
@@ -73,7 +73,7 @@ MonoBehaviour:
     unlockedByDefault: 1
     sceneBuildIndex: 7
   - id: Night_8_I_stop_whenever_I_want
-    displayName: 8 - I stop whenever I want
+    displayName: 8 - I can stop whenever I want...
     shortDescription: 
     description: ...
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
@@ -94,14 +94,14 @@ MonoBehaviour:
     unlockedByDefault: 1
     sceneBuildIndex: 10
   - id: Night_11_Nail_crushes_nail
-    displayName: 11 - Nail crushes nail
+    displayName: 11 - One nail drives out another
     shortDescription: 
     description: I'll stop now, a little weed will help
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
     unlockedByDefault: 1
     sceneBuildIndex: 11
   - id: Night_12_Chinese_medicine
-    displayName: 12 - Alternative medicine
+    displayName: 12 - Something Fishy
     shortDescription: 
     description: Alternative medicine, perhaps with seaweed
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
