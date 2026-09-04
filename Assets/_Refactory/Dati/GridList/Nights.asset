@@ -66,7 +66,7 @@ MonoBehaviour:
     unlockedByDefault: 1
     sceneBuildIndex: 6
   - id: Night_7_Moria_Gift
-    displayName: 7 - Moria Gift
+    displayName: 7 - The Bald Rogue
     shortDescription: 
     description: Gandalf should have finished the job
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
@@ -101,9 +101,9 @@ MonoBehaviour:
     unlockedByDefault: 1
     sceneBuildIndex: 11
   - id: Night_12_Chinese_medicine
-    displayName: 12 - Chinese medicine
+    displayName: 12 - Alternative medicine
     shortDescription: 
-    description: Chinese medicine, perhaps with seaweed
+    description: Alternative medicine, perhaps with seaweed
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
     unlockedByDefault: 1
     sceneBuildIndex: 12
