@@ -8,6 +8,7 @@ public class LevelStartUIController : MonoBehaviour
 {
     [Header("Sources")]
     [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private LevelSettings levelSettings;
+    [SerializeField, RequiredInspectorReference(ResolveMode.Local)] private CharacterUIController characterUIController;
 
     [Header("Intro Presentation")]
     [SerializeField, RequiredInspectorReference] private TMP_Text introPresentationText;
@@ -23,7 +24,7 @@ public class LevelStartUIController : MonoBehaviour
 
     private bool levelStartHandled;
     private bool nightIntroReady;
-    private Coroutine introPresentationRoutine;
+    private GameManager subscribedGameManager;
     private Vector2 nightTargetPosition;
     private Vector3 nightTargetScale;
     private Vector2 nightIntroPosition;
@@ -37,7 +38,7 @@ public class LevelStartUIController : MonoBehaviour
     private void Start()
     {
         PrepareNightIntro();
-        PlayIntroPresentation();
+        HideLegacyIntroPresentationText();
     }
 
     private void OnEnable()
@@ -49,6 +50,7 @@ public class LevelStartUIController : MonoBehaviour
         }
 
         startLevelButton.onClick.AddListener(HandleLevelStartClicked);
+        SubscribeToLevelIntroPresentation();
     }
 
     private void OnDisable()
@@ -58,7 +60,8 @@ public class LevelStartUIController : MonoBehaviour
             startLevelButton.onClick.RemoveListener(HandleLevelStartClicked);
         }
 
-        StopIntroPresentation(false);
+        UnsubscribeFromLevelIntroPresentation();
+        StopIntroPresentationAudio();
     }
 
     private void HandleLevelStartClicked()
@@ -69,7 +72,7 @@ public class LevelStartUIController : MonoBehaviour
         }
 
         levelStartHandled = true;
-        StopIntroPresentation(true);
+        HideLegacyIntroPresentationText();
         StartCoroutine(FadeGameplayUIIn());
 
         if (nightIntroReady)
@@ -80,77 +83,44 @@ public class LevelStartUIController : MonoBehaviour
         startLevelButton.gameObject.SetActive(false);
     }
 
-    private void PlayIntroPresentation()
+    private void SubscribeToLevelIntroPresentation()
     {
-        if (introPresentationRoutine != null)
+        if (characterUIController == null)
         {
-            StopCoroutine(introPresentationRoutine);
+            Debug.LogError("LevelStartUIController requires the Character UI Controller Inspector reference.", this);
+            return;
         }
 
-        introPresentationRoutine = StartCoroutine(PlayIntroPresentationRoutine());
+        subscribedGameManager = characterUIController.GameManager;
+        if (subscribedGameManager == null)
+        {
+            Debug.LogError("LevelStartUIController cannot subscribe to the level intro because Character UI Controller has no GameManager reference.", this);
+            return;
+        }
+
+        subscribedGameManager.LevelIntroPresentationStarted += HandleLevelIntroPresentationStarted;
     }
 
-    private IEnumerator PlayIntroPresentationRoutine()
+    private void UnsubscribeFromLevelIntroPresentation()
     {
-        if (introPresentationText == null)
+        if (subscribedGameManager == null)
         {
-            Debug.LogError("LevelStartUIController requires the Intro Presentation Text Inspector reference.", this);
-            introPresentationRoutine = null;
-            yield break;
+            return;
         }
 
-        introPresentationText.text = string.Empty;
+        subscribedGameManager.LevelIntroPresentationStarted -= HandleLevelIntroPresentationStarted;
+        subscribedGameManager = null;
+    }
+
+    private void HandleLevelIntroPresentationStarted()
+    {
         if (levelSettings == null)
         {
             Debug.LogError("LevelStartUIController requires the Level Settings Inspector reference.", this);
-            introPresentationRoutine = null;
-            yield break;
-        }
-
-        string introLine = levelSettings.IntroPresentationLine;
-        if (string.IsNullOrWhiteSpace(introLine))
-        {
-            introPresentationRoutine = null;
-            yield break;
-        }
-
-        float startDelay = levelSettings.IntroPresentationStartDelay;
-        if (startDelay > 0f)
-        {
-            yield return new WaitForSecondsRealtime(startDelay);
+            return;
         }
 
         PlayIntroPresentationAudio(levelSettings.IntroPresentationVoiceClip);
-        yield return TypeIntroPresentationLine(introLine, levelSettings.IntroPresentationCharactersPerSecond);
-        introPresentationRoutine = null;
-    }
-
-    private IEnumerator TypeIntroPresentationLine(string introLine, float charactersPerSecond)
-    {
-        float safeCharactersPerSecond = Mathf.Max(1f, charactersPerSecond);
-        float secondsPerCharacter = 1f / safeCharactersPerSecond;
-        float elapsed = 0f;
-        int visibleCharacters = 0;
-
-        introPresentationText.text = string.Empty;
-        while (visibleCharacters < introLine.Length)
-        {
-            elapsed += Time.unscaledDeltaTime;
-            int targetVisibleCharacters = Mathf.Clamp(
-                Mathf.FloorToInt(elapsed / secondsPerCharacter),
-                0,
-                introLine.Length);
-
-            if (targetVisibleCharacters > visibleCharacters)
-            {
-                visibleCharacters = targetVisibleCharacters;
-                introPresentationText.text = introLine.Substring(0, visibleCharacters);
-            }
-
-            yield return null;
-        }
-
-        introPresentationText.text = introLine;
     }
 
     private void PlayIntroPresentationAudio(AudioClip voiceClip)
@@ -170,19 +140,12 @@ public class LevelStartUIController : MonoBehaviour
         introPresentationAudioSource.PlayOneShot(voiceClip);
     }
 
-    private void StopIntroPresentation(bool clearText)
+    private void HideLegacyIntroPresentationText()
     {
-        if (introPresentationRoutine != null)
-        {
-            StopCoroutine(introPresentationRoutine);
-            introPresentationRoutine = null;
-        }
-
-        StopIntroPresentationAudio();
-
-        if (clearText && introPresentationText != null)
+        if (introPresentationText != null)
         {
             introPresentationText.text = string.Empty;
+            introPresentationText.gameObject.SetActive(false);
         }
     }
 

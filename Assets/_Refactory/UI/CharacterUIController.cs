@@ -14,6 +14,8 @@ public class CharacterUIController : MonoBehaviour
 {
     private static readonly int SpellOpenParameter = Animator.StringToHash("isOpen");
 
+    public GameManager GameManager => gameManager;
+
     [Header("Sources")]
     [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private CharacterStats characterStats;
     [SerializeField] private CharacterSpells characterSpells;

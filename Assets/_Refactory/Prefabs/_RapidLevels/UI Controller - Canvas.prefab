@@ -2308,6 +2308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelStartUIController
   levelSettings: {fileID: 0}
+  characterUIController: {fileID: 5732265028691518524}
   introPresentationText: {fileID: 7440401461023725982}
   introPresentationAudioSource: {fileID: 1415158063222932419}
   gameplayUI: {fileID: 9100000000000000002}

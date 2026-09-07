@@ -65899,11 +65899,12 @@ MonoBehaviour:
   audioSource: {fileID: 1884258222}
   titleScreenAnimation: {fileID: 391920472}
   lightAnimator: {fileID: 383733342}
-  menuMovement: {fileID: 680950539}
+  legacyMenuMovementAnimator: {fileID: 680950539}
   buttonAnimators:
   - {fileID: 1114767545}
   - {fileID: 1349507865}
   - {fileID: 1231237578}
+  menuCamera: {fileID: 1353916166}
   arcadePanel: {fileID: 388273895}
   advancedPanel: {fileID: 279461531}
   recordsPanel: {fileID: 2064175591}
@@ -65912,10 +65913,11 @@ MonoBehaviour:
   coffeeMage: {fileID: 1876062992}
   buttonAnimationDelay: 1
   buttonAnimationStagger: 0.2
-  sectionLightDelay: 0.8
-  sectionOpenDelay: 2
-  sectionCloseLightDelay: 0.5
-  sectionCloseDelay: 2
+  choiceFallDuration: 0.9
+  choiceReturnDuration: 0.75
+  choiceFallStagger: 0.1
+  offscreenViewportMargin: 0.15
+  choiceRotationDegrees: 100
   discordUrl: https://discord.gg/M9CJxvkeFr
   itchUrl: https://creative-lizards.itch.io/goodnight-potion
   buyMeACoffeeUrl: https://www.buymeacoffee.com/creativelizards

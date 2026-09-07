@@ -12,6 +12,8 @@ public class LightController : MonoBehaviour
     private const float ClickFeedbackRadiusDrop = 1f;
     private const float ClickFeedbackFadeOutSeconds = 0.5f;
     private const float ClickFeedbackFadeInSeconds = 0.5f;
+    private const float StartLightAnimationTimeout = 15f;
+    private static readonly int StartLightState = Animator.StringToHash("Anim_MagicLight_Start");
 
     //public Color Mage, Balrog, Tree, Yeti, Pupperfish, Litch, WhiteMage;
     [Header("Light Fields")]
@@ -460,6 +462,72 @@ public class LightController : MonoBehaviour
         }
 
         PlayAudio();
+    }
+
+    public IEnumerator StartLightAndWaitForCompletion(Action midpointReached = null)
+    {
+        StartLight();
+
+        if (animator == null)
+        {
+            midpointReached?.Invoke();
+            yield break;
+        }
+
+        bool startStateEntered = false;
+        bool midpointInvoked = false;
+        float elapsedSeconds = 0f;
+
+        while (elapsedSeconds < StartLightAnimationTimeout)
+        {
+            AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+            bool currentIsStart = currentState.shortNameHash == StartLightState;
+            bool nextIsStart = false;
+            float startStateProgress = currentIsStart ? currentState.normalizedTime : 0f;
+
+            if (animator.IsInTransition(0))
+            {
+                AnimatorStateInfo nextState = animator.GetNextAnimatorStateInfo(0);
+                nextIsStart = nextState.shortNameHash == StartLightState;
+
+                if (nextIsStart)
+                {
+                    startStateProgress = nextState.normalizedTime;
+                }
+            }
+
+            if (currentIsStart || nextIsStart)
+            {
+                startStateEntered = true;
+
+                if (!midpointInvoked && startStateProgress >= 0.5f)
+                {
+                    midpointInvoked = true;
+                    midpointReached?.Invoke();
+                }
+            }
+            else if (startStateEntered)
+            {
+                if (!midpointInvoked)
+                {
+                    midpointReached?.Invoke();
+                }
+
+                yield break;
+            }
+
+            elapsedSeconds += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        if (!midpointInvoked)
+        {
+            midpointReached?.Invoke();
+        }
+
+        Debug.LogWarning(
+            $"{name}: timed out while waiting for Anim_MagicLight_Start to complete. Check the Light Animator Controller transitions.",
+            this);
     }
 
     private void ResolveLocalReferences()

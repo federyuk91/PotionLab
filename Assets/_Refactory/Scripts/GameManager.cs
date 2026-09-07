@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     private static readonly int DieParameter = Animator.StringToHash("Die");
 
     public event Action LevelStarted;
+    public event Action LevelIntroPresentationStarted;
     public event Action LevelInteractionStarted;
     public event Action LevelCompleted;
     public event Action<bool> SpellBarVisibilityChanged;
@@ -290,25 +291,34 @@ public class GameManager : MonoBehaviour
         dialogManager.CloseDialog();
         dialogManager.SetContinueButtonActive(false);
 
-        lightController.StartLight();
-        if (levelSettings != null)
+        Coroutine levelItemsActivation = null;
+        yield return StartCoroutine(lightController.StartLightAndWaitForCompletion(() =>
         {
-            dialogManager.ShowLevelStartCatchphrase(
-                levelSettings.StartingCatchphrase,
-                levelSettings.StartingCatchphraseDuration);
+            levelItemsActivation = StartCoroutine(ActivateLevelItems());
+        }));
+
+        if (levelItemsActivation != null)
+        {
+            yield return levelItemsActivation;
         }
 
-        yield return new WaitForSeconds(6f);
+        if (levelSettings != null)
+        {
+            AudioClip voiceClip = levelSettings.IntroPresentationVoiceClip;
+            float voiceDuration = voiceClip != null ? voiceClip.length : 0f;
+            dialogManager.ShowLevelIntroPresentation(
+                levelSettings.IntroPresentationLine,
+                levelSettings.IntroPresentationCharactersPerSecond,
+                voiceDuration);
+        }
 
-        yield return StartCoroutine(ActivateLevelItems());
+        LevelIntroPresentationStarted?.Invoke();
+
         yield return new WaitForSeconds(.3f);
 
         SetSpellBarVisible(true);
         LevelInteractionStarted?.Invoke();
 
-        yield return new WaitForSeconds(3.2f);
-
-        dialogManager.CloseDialog();
     }
 
     public void RemovePotion(PotionScript potion, bool drunked = true)

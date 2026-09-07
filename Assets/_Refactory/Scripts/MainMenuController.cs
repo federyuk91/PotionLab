@@ -19,9 +19,11 @@ public sealed class MainMenuController : MonoBehaviour
     [SerializeField, RequiredInspectorReference] private AudioSource audioSource;
     [SerializeField, RequiredInspectorReference] private Animation titleScreenAnimation;
     [SerializeField, RequiredInspectorReference] private Animator lightAnimator;
-    [SerializeField, RequiredInspectorReference] private Animator menuMovement;
+    [FormerlySerializedAs("menuMovement")]
+    [SerializeField, RequiredInspectorReference] private Animator legacyMenuMovementAnimator;
     [FormerlySerializedAs("buttonAnimator")]
     [SerializeField, RequiredInspectorReference] private Animator[] buttonAnimators;
+    [SerializeField, RequiredInspectorReference] private Camera menuCamera;
 
     [Header("Sections")]
     [FormerlySerializedAs("arcadeLevelCanvas")]
@@ -38,10 +40,13 @@ public sealed class MainMenuController : MonoBehaviour
     [Header("Transition Timing")]
     [SerializeField, Min(0f)] private float buttonAnimationDelay = 1f;
     [SerializeField, Min(0f)] private float buttonAnimationStagger = 0.2f;
-    [SerializeField, Min(0f)] private float sectionLightDelay = 0.8f;
-    [SerializeField, Min(0f)] private float sectionOpenDelay = 2f;
-    [SerializeField, Min(0f)] private float sectionCloseLightDelay = 0.5f;
-    [SerializeField, Min(0f)] private float sectionCloseDelay = 2f;
+
+    [Header("Choice Potion Fall")]
+    [SerializeField, Min(0.01f)] private float choiceFallDuration = 0.9f;
+    [SerializeField, Min(0.01f)] private float choiceReturnDuration = 0.75f;
+    [SerializeField, Min(0f)] private float choiceFallStagger = 0.1f;
+    [SerializeField, Range(0f, 1f)] private float offscreenViewportMargin = 0.15f;
+    [SerializeField] private float choiceRotationDegrees = 100f;
 
     [Header("External Links")]
     [SerializeField] private string discordUrl = "https://discord.gg/M9CJxvkeFr";
@@ -62,6 +67,10 @@ public sealed class MainMenuController : MonoBehaviour
     private Coroutine sectionTransitionCoroutine;
     private Coroutine buttonAnimationCoroutine;
     private MenuSection activeSection;
+    private Vector3[] choiceHomeLocalPositions;
+    private Quaternion[] choiceHomeLocalRotations;
+    private Vector3[] choiceHomeLocalScales;
+    private bool choiceHomePoseCaptured;
 
     private void Awake()
     {
@@ -199,21 +208,14 @@ public sealed class MainMenuController : MonoBehaviour
         }
 
         transitionLocked = true;
-        menuMovement.SetTrigger(GetMovementTrigger(section));
-        PlayButtonAnimation();
-
-        yield return WaitUnscaled(sectionLightDelay);
+        PrepareChoiceButtonsForFalling();
 
         if (section != MenuSection.Advanced)
         {
             lightAnimator.SetInteger(LightMenuParameter, 1);
-            yield return WaitUnscaled(sectionOpenDelay);
         }
-        else
-        {
-            float remainingDelay = Mathf.Max(0f, sectionOpenDelay - sectionLightDelay);
-            yield return WaitUnscaled(remainingDelay);
-        }
+
+        yield return AnimateChoiceButtons(false);
 
         if (section == MenuSection.Records && coffeeMage != null)
         {
@@ -241,13 +243,9 @@ public sealed class MainMenuController : MonoBehaviour
             coffeeMage.SetActive(false);
         }
 
-        PlayButtonAnimation();
-        yield return WaitUnscaled(sectionCloseLightDelay);
-
         lightAnimator.SetInteger(LightMenuParameter, 0);
-        menuMovement.SetTrigger(GetMovementTrigger(section));
-
-        yield return WaitUnscaled(sectionCloseDelay);
+        PrepareChoiceButtonsForFalling();
+        yield return AnimateChoiceButtons(true);
 
         activeSection = MenuSection.None;
         transitionLocked = false;
@@ -287,6 +285,149 @@ public sealed class MainMenuController : MonoBehaviour
         }
 
         buttonAnimationCoroutine = null;
+    }
+
+    private void PrepareChoiceButtonsForFalling()
+    {
+        if (buttonAnimationCoroutine != null)
+        {
+            StopCoroutine(buttonAnimationCoroutine);
+            buttonAnimationCoroutine = null;
+        }
+
+        CaptureChoiceHomePose();
+
+        if (legacyMenuMovementAnimator.enabled)
+        {
+            legacyMenuMovementAnimator.enabled = false;
+        }
+
+        foreach (Animator buttonAnimator in buttonAnimators)
+        {
+            if (buttonAnimator != null && buttonAnimator.enabled)
+            {
+                buttonAnimator.enabled = false;
+            }
+        }
+    }
+
+    private void CaptureChoiceHomePose()
+    {
+        if (choiceHomePoseCaptured)
+        {
+            return;
+        }
+
+        int buttonCount = buttonAnimators.Length;
+        choiceHomeLocalPositions = new Vector3[buttonCount];
+        choiceHomeLocalRotations = new Quaternion[buttonCount];
+        choiceHomeLocalScales = new Vector3[buttonCount];
+
+        for (int index = 0; index < buttonCount; index++)
+        {
+            Transform buttonTransform = buttonAnimators[index].transform;
+            choiceHomeLocalPositions[index] = buttonTransform.localPosition;
+            choiceHomeLocalRotations[index] = buttonTransform.localRotation;
+
+            // The intro animation's authored resting scale is one, even if a click
+            // arrives on the final frame before the Animator writes that value.
+            choiceHomeLocalScales[index] = Vector3.one;
+        }
+
+        choiceHomePoseCaptured = true;
+    }
+
+    private IEnumerator AnimateChoiceButtons(bool fallingIntoMenu)
+    {
+        int buttonCount = buttonAnimators.Length;
+        float animationDuration = fallingIntoMenu ? choiceReturnDuration : choiceFallDuration;
+        float totalDuration = animationDuration + choiceFallStagger * Mathf.Max(0, buttonCount - 1);
+        float elapsed = 0f;
+
+        if (fallingIntoMenu)
+        {
+            for (int index = 0; index < buttonCount; index++)
+            {
+                Transform buttonTransform = buttonAnimators[index].transform;
+                buttonTransform.gameObject.SetActive(true);
+                SetChoiceButtonPose(index, GetOffscreenLocalY(buttonTransform, true), 0f, true);
+            }
+        }
+
+        while (elapsed < totalDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+
+            for (int index = 0; index < buttonCount; index++)
+            {
+                float delay = choiceFallStagger * index;
+                float progress = Mathf.Clamp01((elapsed - delay) / animationDuration);
+                if (progress <= 0f)
+                {
+                    continue;
+                }
+
+                Transform buttonTransform = buttonAnimators[index].transform;
+                float offscreenLocalY = GetOffscreenLocalY(buttonTransform, fallingIntoMenu);
+                float gravityProgress = progress * progress;
+                float localY = fallingIntoMenu
+                    ? Mathf.LerpUnclamped(offscreenLocalY, choiceHomeLocalPositions[index].y, gravityProgress)
+                    : Mathf.LerpUnclamped(choiceHomeLocalPositions[index].y, offscreenLocalY, gravityProgress);
+
+                SetChoiceButtonPose(index, localY, progress, fallingIntoMenu);
+            }
+
+            yield return null;
+        }
+
+        for (int index = 0; index < buttonCount; index++)
+        {
+            Transform buttonTransform = buttonAnimators[index].transform;
+            if (fallingIntoMenu)
+            {
+                RestoreChoiceButtonPose(index);
+            }
+            else
+            {
+                buttonTransform.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void SetChoiceButtonPose(int index, float localY, float progress, bool fallingIntoMenu)
+    {
+        Transform buttonTransform = buttonAnimators[index].transform;
+        Vector3 localPosition = choiceHomeLocalPositions[index];
+        localPosition.y = localY;
+        buttonTransform.localPosition = localPosition;
+        buttonTransform.localScale = choiceHomeLocalScales[index];
+
+        float direction = index % 2 == 0 ? -1f : 1f;
+        float rotationOffset = choiceRotationDegrees * direction;
+        float angle = fallingIntoMenu
+            ? Mathf.Lerp(rotationOffset, 0f, progress)
+            : Mathf.Lerp(0f, rotationOffset, progress);
+        buttonTransform.localRotation = choiceHomeLocalRotations[index] * Quaternion.Euler(0f, 0f, angle);
+    }
+
+    private void RestoreChoiceButtonPose(int index)
+    {
+        Transform buttonTransform = buttonAnimators[index].transform;
+        buttonTransform.localPosition = choiceHomeLocalPositions[index];
+        buttonTransform.localRotation = choiceHomeLocalRotations[index];
+        buttonTransform.localScale = choiceHomeLocalScales[index];
+    }
+
+    private float GetOffscreenLocalY(Transform buttonTransform, bool aboveScreen)
+    {
+        float viewportY = aboveScreen ? 1f + offscreenViewportMargin : -offscreenViewportMargin;
+        float cameraDistance = Mathf.Abs(menuCamera.transform.position.z - buttonTransform.position.z);
+        Vector3 viewportPosition = new Vector3(0.5f, viewportY, cameraDistance);
+        Vector3 offscreenWorldPosition = menuCamera.ViewportToWorldPoint(viewportPosition);
+        Transform parentTransform = buttonTransform.parent;
+        return parentTransform != null
+            ? parentTransform.InverseTransformPoint(offscreenWorldPosition).y
+            : offscreenWorldPosition.y;
     }
 
     private IEnumerator WaitUnscaled(float duration)
@@ -334,21 +475,6 @@ public sealed class MainMenuController : MonoBehaviour
         }
     }
 
-    private string GetMovementTrigger(MenuSection section)
-    {
-        switch (section)
-        {
-            case MenuSection.Arcade:
-                return "right";
-            case MenuSection.Advanced:
-                return "down";
-            case MenuSection.Records:
-                return "left";
-            default:
-                return string.Empty;
-        }
-    }
-
     private void ShowUpdateLogForNewVersion()
     {
         if (updateLogPanel == null)
@@ -387,10 +513,31 @@ public sealed class MainMenuController : MonoBehaviour
 
     private bool ValidateTransitionReferences()
     {
-        if (menuMovement == null)
+        if (legacyMenuMovementAnimator == null)
         {
             Debug.LogError("MainMenuController requires the Menu Movement Animator Inspector reference.", this);
             return false;
+        }
+
+        if (menuCamera == null)
+        {
+            Debug.LogError("MainMenuController requires the Menu Camera Inspector reference.", this);
+            return false;
+        }
+
+        if (buttonAnimators == null || buttonAnimators.Length == 0)
+        {
+            Debug.LogError("MainMenuController requires the Button Animators Inspector references.", this);
+            return false;
+        }
+
+        foreach (Animator buttonAnimator in buttonAnimators)
+        {
+            if (buttonAnimator == null)
+            {
+                Debug.LogError("MainMenuController has a missing Button Animator Inspector reference.", this);
+                return false;
+            }
         }
 
         if (lightAnimator == null)

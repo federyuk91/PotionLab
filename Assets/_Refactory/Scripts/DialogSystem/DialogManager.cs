@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -14,6 +15,8 @@ namespace CharacterSystem
 
         [Header("Dialog Rules")]
         [SerializeField] private List<CharacterDialogRule> characterRules;
+
+        private Coroutine typedDialogRoutine;
 
         private void Awake()
         {
@@ -106,8 +109,23 @@ namespace CharacterSystem
             PopDialog(line, duration);
         }
 
+        public void ShowLevelIntroPresentation(string line, float charactersPerSecond, float voiceDuration)
+        {
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                return;
+            }
+
+            StopTypedDialog();
+            CancelInvoke(nameof(CloseDialog));
+            typedDialogRoutine = StartCoroutine(TypeLevelIntroPresentation(line, charactersPerSecond, voiceDuration));
+        }
+
         public void PopDialog(string dialog, float duration = -1f)
         {
+            StopTypedDialog();
+            CancelInvoke(nameof(CloseDialog));
+
             if (textDialog == null)
             {
                 Debug.LogWarning($"{name} has no dialog UI assigned.", this);
@@ -139,17 +157,104 @@ namespace CharacterSystem
 
             if (duration > 0)
             {
-                CancelInvoke(nameof(CloseDialog));
                 Invoke(nameof(CloseDialog), duration);
             }
         }
 
         public void CloseDialog()
         {
+            StopTypedDialog();
+            CancelInvoke(nameof(CloseDialog));
+
             if (textDialog != null)
             {
                 textDialog.SetActive(false);
             }
+        }
+
+        private IEnumerator TypeLevelIntroPresentation(string line, float charactersPerSecond, float voiceDuration)
+        {
+            if (!TryOpenDialog())
+            {
+                typedDialogRoutine = null;
+                yield break;
+            }
+
+            float safeCharactersPerSecond = Mathf.Max(1f, charactersPerSecond);
+            float secondsPerCharacter = 1f / safeCharactersPerSecond;
+            float typingElapsedSeconds = 0f;
+            int visibleCharacters = 0;
+
+            dialogText.text = string.Empty;
+            while (visibleCharacters < line.Length)
+            {
+                typingElapsedSeconds += Time.unscaledDeltaTime;
+                int targetVisibleCharacters = Mathf.Clamp(
+                    Mathf.FloorToInt(typingElapsedSeconds / secondsPerCharacter),
+                    0,
+                    line.Length);
+
+                if (targetVisibleCharacters > visibleCharacters)
+                {
+                    visibleCharacters = targetVisibleCharacters;
+                    dialogText.text = line.Substring(0, visibleCharacters);
+                }
+
+                yield return null;
+            }
+
+            dialogText.text = line;
+
+            float remainingVoiceTime = Mathf.Max(0f, voiceDuration - typingElapsedSeconds);
+            float holdDuration = Mathf.Max(0.75f, remainingVoiceTime);
+            yield return new WaitForSecondsRealtime(holdDuration);
+
+            typedDialogRoutine = null;
+            if (textDialog != null)
+            {
+                textDialog.SetActive(false);
+            }
+        }
+
+        private bool TryOpenDialog()
+        {
+            if (textDialog == null)
+            {
+                Debug.LogWarning($"{name} has no dialog UI assigned.", this);
+                return false;
+            }
+
+            if (IsCharacterDead())
+            {
+                return false;
+            }
+
+            textDialog.SetActive(true);
+
+            if (dialogText == null)
+            {
+                dialogText = textDialog.GetComponentInChildren<TMP_Text>(true);
+            }
+
+            if (dialogText != null)
+            {
+                return true;
+            }
+
+            Debug.LogWarning($"{name} has no TMP dialog text assigned.", this);
+            textDialog.SetActive(false);
+            return false;
+        }
+
+        private void StopTypedDialog()
+        {
+            if (typedDialogRoutine == null)
+            {
+                return;
+            }
+
+            StopCoroutine(typedDialogRoutine);
+            typedDialogRoutine = null;
         }
 
         public void SetContinueButtonActive(bool active)
