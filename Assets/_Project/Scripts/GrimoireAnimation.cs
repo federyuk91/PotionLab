@@ -1,6 +1,8 @@
 using System.Collections;
 using InspectorValidation;
 using Refactory.UI.GridList;
+using Refactory.CameraSystem;
+using ProgressSystem;
 using UnityEngine;
 
 public class GrimoireAnimation : MonoBehaviour
@@ -40,9 +42,14 @@ public class GrimoireAnimation : MonoBehaviour
         {
             Time.timeScale = 0;
             SetGrimoireCursor();
-            if(GameMan.Instance!=null && GameMan.Instance.cc.cameraShake.shake)
+            if (GameMan.Instance != null && GameMan.Instance.cc.cameraShake.shake)
             {
                 AchievementManager.instance.Achive("Shaky Shaky");
+            }
+
+            if (CameraShakeController.IsAnyCameraShaking)
+            {
+                AchievementRequestHub.Request(AchievementId.ShakyShaky);
             }
 
             StartBaseFadeIn();

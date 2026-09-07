@@ -2204,7 +2204,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightUIController
   lightController: {fileID: 0}
-  lightLevelText: {fileID: 0}
   lightTimerBar: {fileID: 5026668824851009250}
 --- !u!223 &929415381526126300
 Canvas:

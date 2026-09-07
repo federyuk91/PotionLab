@@ -1,5 +1,6 @@
 
 using System;
+using ProgressSystem;
 using UnityEngine;
 namespace CharacterSystem
 {
@@ -94,6 +95,11 @@ namespace CharacterSystem
 
             stats.LoseMana(spell.cost);
 
+            if (status.Has(Status.Freezed) && status.Has(Status.Poisoned))
+            {
+                RequestAchievement(AchievementId.MastroLindo);
+            }
+
             status.Remove(Status.Burned);
             status.Remove(Status.Grass);
             status.Remove(Status.Wet);
@@ -136,6 +142,11 @@ namespace CharacterSystem
             }
             if (status.Has(Status.Algae))
             {
+                if (status.algaeLevel >= 3)
+                {
+                    RequestAchievement(AchievementId.AdvanceKnowledge);
+                }
+
                 stats.AddMana(status.algaeLevel * 2);
                 status.Remove(Status.Algae);
                 return;
@@ -167,6 +178,11 @@ namespace CharacterSystem
             if (status.Has(Status.Burned))
             {
                 status.Increase(Status.Burned); //Aumento il livello di bruciatura
+                if (status.fireLevel >= 3)
+                {
+                    RequestAchievement(AchievementId.BurnBabyBurn);
+                }
+
                 stats.TakeDamage(1);
                 return;
             }
@@ -189,6 +205,11 @@ namespace CharacterSystem
             //Se sono bagnato o congelato, prendo danno e divento congelato
             if (status.Has(Status.Wet) || status.Has(Status.Freezed))
             {
+                if (status.Has(Status.Freezed))
+                {
+                    RequestAchievement(AchievementId.IceTwice);
+                }
+
                 status.Remove(Status.Wet);
                 stats.TakeDamage(3);
                 status.Add(Status.Freezed);
@@ -199,6 +220,7 @@ namespace CharacterSystem
             if (status.Has(Status.Grounded))
             {
                 status.Remove(Status.Grounded);
+                RequestAchievement(AchievementId.Roar);
                 transformationManager.SwitchTo(CharacterType.Yeti);
                 return;
             }
@@ -282,11 +304,17 @@ namespace CharacterSystem
                 return;
             }
             status.Increase(Status.Grounded);
+            if (status.groundLevel >= 3)
+            {
+                RequestAchievement(AchievementId.PileOfGround);
+            }
         }
 
         public override void ApplyHeal(PotionScriptable ps)
         {
+            RequestAchievement(AchievementId.TheGoodnightPotion);
             stats.Heal(ps.baseValue);
+            TryUnlockFreshAndClean();
         }
 
         /***** TRASFORMAZIONE ***** Il fuoco transforma in Balrog se si è burned */
@@ -296,6 +324,7 @@ namespace CharacterSystem
             // Se sto bruciando, mi trasformo in Balrog
             if (status.Has(Status.Burned))
             {
+                RequestAchievement(AchievementId.UdunFlame);
                 transformationManager.SwitchTo(CharacterType.Balrog);
                 return;
             }
@@ -325,6 +354,7 @@ namespace CharacterSystem
         {
             SetCurseLevel(0);
             stats.AddMana(ps.baseValue);
+            TryUnlockFreshAndClean();
             if (stats.MP == stats.MaxMP)
             {
                 SetBlessLevel(blessLevel + 1);
@@ -361,6 +391,7 @@ namespace CharacterSystem
             if (status.Has(Status.Wet))
             {
                 status.Remove(Status.Wet);
+                RequestAchievement(AchievementId.UnderTheSea);
                 transformationManager.SwitchTo(CharacterType.PupperFish);
                 return;
             }
@@ -406,6 +437,7 @@ namespace CharacterSystem
             if (status.Has(Status.Burned))
             {
                 status.Remove(Status.Burned);
+                RequestAchievement(AchievementId.WetWizardLuckyWizard);
                 animator.SetTrigger("smoking");
                 return;
             }
@@ -418,6 +450,7 @@ namespace CharacterSystem
             if (status.Has(Status.Grass))
             {
                 status.Remove(Status.Grass);
+                RequestAchievement(AchievementId.TimeToThink);
                 transformationManager.SwitchTo(CharacterType.Tree);
                 return;
             }
@@ -434,6 +467,11 @@ namespace CharacterSystem
             if (stats.MP == 0)
             {
                 stats.TakeDamage(2);
+                if (stats.HP <= 0)
+                {
+                    RequestAchievement(AchievementId.NecroticDeath);
+                }
+
                 Debug.Log("Mage darkLevel up");
                 SetCurseLevel(curseLevel + 1);
                 //Rimuovere gli stati di luce se presenti?
@@ -451,6 +489,14 @@ namespace CharacterSystem
             }
             stats.LoseMana(ps.baseValue);
 
+        }
+
+        private void TryUnlockFreshAndClean()
+        {
+            if (stats.HP >= stats.MaxHP && stats.MP >= stats.MaxMP)
+            {
+                RequestAchievement(AchievementId.FreshAndClean);
+            }
         }
 
         private void SetBlessLevel(int level)

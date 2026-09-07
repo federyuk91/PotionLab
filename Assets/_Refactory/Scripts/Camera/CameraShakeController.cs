@@ -6,6 +6,7 @@ namespace Refactory.CameraSystem
 {
     public class CameraShakeController : MonoBehaviour
     {
+        public static bool IsAnyCameraShaking { get; private set; }
         [Header("References")]
         [SerializeField] private Transform shakeTarget;
         [SerializeField] private CharacterStats characterStats;
@@ -102,6 +103,7 @@ namespace Refactory.CameraSystem
 
         private IEnumerator ShakeRoutine(float duration, float magnitude)
         {
+            IsAnyCameraShaking = true;
             float elapsed = 0f;
 
             while (elapsed < duration)
@@ -116,6 +118,7 @@ namespace Refactory.CameraSystem
 
             shakeTarget.localPosition = restLocalPosition;
             shakeRoutine = null;
+            IsAnyCameraShaking = false;
         }
 
         private void StopShake()
@@ -125,6 +128,8 @@ namespace Refactory.CameraSystem
                 StopCoroutine(shakeRoutine);
                 shakeRoutine = null;
             }
+
+            IsAnyCameraShaking = false;
 
             if (shakeTarget != null)
             {

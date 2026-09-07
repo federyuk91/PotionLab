@@ -1,5 +1,7 @@
 using System;
 using CharacterSystem;
+using InspectorValidation;
+using ProgressSystem;
 using UnityEngine;
 
 namespace EndlessSystem
@@ -11,6 +13,7 @@ namespace EndlessSystem
         [Header("References")]
         [SerializeField] private LightController lightController;
         [SerializeField] private DialogManager dialogManager;
+        [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private GameManager gameManager;
 
         [Header("Platforms")]
         [SerializeField] private SurfaceEffector2D bottomPlatformNear;
@@ -68,6 +71,11 @@ namespace EndlessSystem
             int clampedIntensity = Mathf.Max(0, intensity);
             lightController.SetLightLevel(clampedIntensity);
             LightLevelSet?.Invoke(clampedIntensity);
+
+            if (clampedIntensity == 0 && gameManager != null)
+            {
+                gameManager.UnlockAchievementIfAvailable(AchievementId.NotAWaster);
+            }
 
             if (intensity < 0)
             {

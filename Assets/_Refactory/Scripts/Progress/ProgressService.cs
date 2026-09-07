@@ -7,7 +7,7 @@ namespace ProgressSystem
     {
         public event Action<PlayerProgress> ProgressChanged;
         public event Action<int> BestProceduralScoreChanged;
-        public event Action<string> AchievementUnlocked;
+        public event Action<AchievementId> AchievementUnlocked;
 
         [Header("Persistence")]
         [SerializeField] private MonoBehaviour repositoryBehaviour;
@@ -37,11 +37,13 @@ namespace ProgressSystem
         private void OnEnable()
         {
             SteamManager.SteamInitialized += OnSteamInitialized;
+            AchievementRequestHub.AchievementRequested += UnlockAchievement;
         }
 
         private void OnDisable()
         {
             SteamManager.SteamInitialized -= OnSteamInitialized;
+            AchievementRequestHub.AchievementRequested -= UnlockAchievement;
         }
 
         private void Start()
@@ -95,9 +97,15 @@ namespace ProgressSystem
             if (sceneBuildIndex >= finalClassicLevelBuildIndex)
             {
                 progress.endlessUnlocked = true;
+                UnlockAchievement(AchievementId.TheClassic);
             }
 
             SaveProgress();
+
+            if (AreAllClassicLevelsPerfect())
+            {
+                UnlockAchievement(AchievementId.Perfectionist);
+            }
         }
 
         public void SaveProceduralScore(int score)
@@ -133,11 +141,11 @@ namespace ProgressSystem
             SaveProgress();
         }
 
-        public void UnlockAchievement(string achievementId)
+        public void UnlockAchievement(AchievementId achievementId)
         {
-            if (string.IsNullOrWhiteSpace(achievementId))
+            if (achievementId == AchievementId.None)
             {
-                Debug.LogWarning($"{name}: SAVE: Cannot unlock an empty achievement id.", this);
+                Debug.LogWarning($"{name}: SAVE: Cannot unlock AchievementId.None.", this);
                 return;
             }
 
@@ -151,12 +159,14 @@ namespace ProgressSystem
 
             progress.unlockedAchievementIds.Add(achievementId);
             SaveProgress();
+            Debug.Log($"{name}: ACHIEVEMENT UNLOCKED: {achievementId}.", this);
             AchievementUnlocked?.Invoke(achievementId);
+            TryUnlockCompletionAchievement(achievementId);
         }
 
-        public bool IsAchievementUnlocked(string achievementId)
+        public bool IsAchievementUnlocked(AchievementId achievementId)
         {
-            if (string.IsNullOrWhiteSpace(achievementId))
+            if (achievementId == AchievementId.None)
             {
                 return false;
             }
@@ -325,8 +335,52 @@ namespace ProgressSystem
 
             if (progress.unlockedAchievementIds == null)
             {
-                progress.unlockedAchievementIds = new System.Collections.Generic.List<string>();
+                progress.unlockedAchievementIds = new System.Collections.Generic.List<AchievementId>();
             }
+        }
+
+        private bool AreAllClassicLevelsPerfect()
+        {
+            if (progress.classicLevelScores == null || progress.classicLevelScores.Count < classicLevelCount)
+            {
+                return false;
+            }
+
+            for (int levelIndex = 0; levelIndex < classicLevelCount; levelIndex++)
+            {
+                if (progress.classicLevelScores[levelIndex] < 4)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void TryUnlockCompletionAchievement(AchievementId unlockedAchievementId)
+        {
+            if (unlockedAchievementId == AchievementId.TheMage
+                || progress.unlockedAchievementIds.Contains(AchievementId.TheMage))
+            {
+                return;
+            }
+
+            Array achievementIds = Enum.GetValues(typeof(AchievementId));
+            foreach (object value in achievementIds)
+            {
+                AchievementId achievementId = (AchievementId)value;
+                if (achievementId == AchievementId.None || achievementId == AchievementId.TheMage)
+                {
+                    continue;
+                }
+
+                if (!progress.unlockedAchievementIds.Contains(achievementId))
+                {
+                    return;
+                }
+            }
+
+            UnlockAchievement(AchievementId.TheMage);
         }
 
         private void LogPlayerNameFlow(string message)

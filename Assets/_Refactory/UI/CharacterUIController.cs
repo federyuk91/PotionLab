@@ -704,7 +704,7 @@ public class CharacterUIController : MonoBehaviour
         }
         else
         {
-            endlessCurrentScoreText.text = gameManager.potionDrunked.ToString();
+            endlessCurrentScoreText.text = gameManager.EndlessScore.ToString();
         }
 
         if (endlessBestScoreText == null)

@@ -6,6 +6,7 @@ namespace CharacterSystem
     {
         [Header("Spell References")]
         [SerializeField] private GameObject punchObject;
+        private int punchPotionHitCount;
 
         protected override bool CastSpell(int i, bool powered)
         {
@@ -50,7 +51,7 @@ namespace CharacterSystem
         {
             if (stats.HP >= stats.MaxHP)
             {
-                RequestAchievement(AchievementIds.SmartButFart);
+                RequestAchievement(AchievementId.SmartButFart);
 
                 dialogManager.PopDialog("FULL", 1f);
                 return false;
@@ -73,6 +74,7 @@ namespace CharacterSystem
             }
 
             stats.TakeDamage(powered ? 1 : 2);
+            punchPotionHitCount = 0;
 
             if (punchObject == null)
             {
@@ -83,6 +85,15 @@ namespace CharacterSystem
             punchObject.SetActive(false);
             punchObject.SetActive(true);
             return true;
+        }
+
+        public void RegisterPunchPotionHit()
+        {
+            punchPotionHitCount++;
+            if (punchPotionHitCount >= 4)
+            {
+                RequestAchievement(AchievementId.FalconPunch);
+            }
         }
 
         private bool TrySpendMana(Spell spell, string notEnoughManaDialog)

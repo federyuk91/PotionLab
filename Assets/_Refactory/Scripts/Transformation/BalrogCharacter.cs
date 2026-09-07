@@ -80,7 +80,7 @@ namespace CharacterSystem
 
             if (powered)
             {
-                RequestAchievement(AchievementIds.CookingMama);
+                RequestAchievement(AchievementId.CookingMama);
             }
 
             return true;

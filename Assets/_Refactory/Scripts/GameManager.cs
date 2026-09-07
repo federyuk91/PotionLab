@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public int BestHealthScore => GetBestHealthScore();
     public int MaxMalusScore => GetMaxMalusScore();
     public int BestProceduralScore => GetBestProceduralScore();
+    public int EndlessScore => endlessScore;
 
     [Header("Compiled from code")]
     public List<PotionScript> levelPotions;
@@ -47,12 +48,14 @@ public class GameManager : MonoBehaviour
 
     public int potionDrunked = 0, spawnedPotion = 0;
     public int dieCounter = 0, mutationCounter = 0;
+    private int endlessScore;
     private int levelPotionTarget;
     private bool deathHandled;
     private bool levelStarted;
     private bool missingLevelSettingsWarningShown;
     private bool missingTransformationManagerWarningShown;
     private bool missingProgressServiceWarningShown;
+    private BaseCharacter subscribedPotionCharacter;
 
     private void Awake()
     {
@@ -61,6 +64,7 @@ public class GameManager : MonoBehaviour
 
         dieCounter = 0;
         potionDrunked = 0;
+        endlessScore = 0;
         mutationCounter = 0;
         currentLevel = SceneManager.GetActiveScene().buildIndex;
 
@@ -85,12 +89,16 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         SubscribeToCharacterDeath();
         SubscribeToCharacterAchievements();
+        SubscribeToTransformationAchievements();
+        SubscribeToPotionAchievementContext();
     }
 
     private void OnDestroy()
     {
         UnsubscribeFromCharacterDeath();
         UnsubscribeFromCharacterAchievements();
+        UnsubscribeFromTransformationAchievements();
+        UnsubscribeFromPotionAchievementContext();
     }
 
     // Puzzle mode uses the potions and droppables already placed in the level.
@@ -135,6 +143,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator ActivateLevelItems()
     {
         potionDrunked = 0;
+        endlessScore = 0;
         levelPotionTarget = levelPotions != null ? levelPotions.Count : 0;
 
         List<PotionScript> randomizedPotions = new List<PotionScript>();
@@ -329,9 +338,10 @@ public class GameManager : MonoBehaviour
         {
             potionDrunked++;
 
-            if (potionDrunked == 1)
+            if (!IsPuzzleMode)
             {
-                UnlockAchievementIfAvailable(AchievementIds.TheGoodnightPotion);
+                endlessScore++;
+                TryUnlockEndlessAchievements();
             }
         }
 
@@ -390,7 +400,7 @@ public class GameManager : MonoBehaviour
             if (character.status.Has(Status.Burned))
             {
                 character.animator.SetTrigger("treeBurned");
-                UnlockAchievementIfAvailable(AchievementIds.OldToby);
+                UnlockAchievementIfAvailable(AchievementId.OldToby);
             }
 
             OnCharacterDie("Trees never sleeps");
@@ -432,6 +442,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Char DIE");
 
         BaseCharacter character = Character;
+        UnlockFormDeathAchievement(character);
         if (character != null && character.stats != null && character.stats.HP > 0)
         {
             character.stats.SetHP(0);
@@ -537,6 +548,129 @@ public class GameManager : MonoBehaviour
         }
 
         transformationManager.CharacterAchievementRequested -= UnlockAchievementIfAvailable;
+    }
+
+    private void SubscribeToTransformationAchievements()
+    {
+        if (transformationManager == null)
+        {
+            return;
+        }
+
+        transformationManager.OnTransformation -= HandleTransformationForAchievements;
+        transformationManager.OnTransformation += HandleTransformationForAchievements;
+    }
+
+    private void UnsubscribeFromTransformationAchievements()
+    {
+        if (transformationManager != null)
+        {
+            transformationManager.OnTransformation -= HandleTransformationForAchievements;
+        }
+    }
+
+    private void SubscribeToPotionAchievementContext()
+    {
+        BaseCharacter character = Character;
+        if (subscribedPotionCharacter == character)
+        {
+            return;
+        }
+
+        UnsubscribeFromPotionAchievementContext();
+        subscribedPotionCharacter = character;
+        if (subscribedPotionCharacter != null)
+        {
+            subscribedPotionCharacter.PotionEffectResolving += HandlePotionEffectResolvingForAchievements;
+        }
+    }
+
+    private void UnsubscribeFromPotionAchievementContext()
+    {
+        if (subscribedPotionCharacter != null)
+        {
+            subscribedPotionCharacter.PotionEffectResolving -= HandlePotionEffectResolvingForAchievements;
+            subscribedPotionCharacter = null;
+        }
+    }
+
+    private void HandleTransformationForAchievements(CharacterType previousType, CharacterType currentType)
+    {
+        if (previousType == currentType)
+        {
+            return;
+        }
+
+        mutationCounter++;
+        if (mutationCounter >= 10)
+        {
+            UnlockAchievementIfAvailable(AchievementId.Shapeshifter);
+        }
+
+        if (mutationCounter >= 20)
+        {
+            UnlockAchievementIfAvailable(AchievementId.DittosFollower);
+        }
+
+        SubscribeToPotionAchievementContext();
+    }
+
+    private void HandlePotionEffectResolvingForAchievements(
+        BaseCharacter character,
+        PotionScriptable potion,
+        IReadOnlyCollection<Status> previousStatuses)
+    {
+        if (character is not MageCharacter
+            || potion == null
+            || potion.effectType != PotionScriptable.EffectType.fire
+            || !ContainsStatus(previousStatuses, Status.Freezed))
+        {
+            return;
+        }
+
+        AchievementId achievementId = levelPotions != null && levelPotions.Count == 1
+            ? AchievementId.PizzaExpress3000
+            : AchievementId.ThankYouLara;
+        UnlockAchievementIfAvailable(achievementId);
+    }
+
+    private static bool ContainsStatus(IReadOnlyCollection<Status> statuses, Status expectedStatus)
+    {
+        if (statuses == null)
+        {
+            return false;
+        }
+
+        foreach (Status status in statuses)
+        {
+            if (status == expectedStatus)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void UnlockFormDeathAchievement(BaseCharacter character)
+    {
+        if (character == null)
+        {
+            return;
+        }
+
+        switch (character.GetCharacterForm())
+        {
+            case CharacterType.Tree:
+                UnlockAchievementIfAvailable(AchievementId.OldToby);
+                break;
+            case CharacterType.PupperFish:
+                UnlockAchievementIfAvailable(AchievementId.FlounderIsDeath);
+                break;
+            case CharacterType.Balrog:
+                UnlockAchievementIfAvailable(AchievementId.GrayWizardSacrifice);
+                break;
+        }
     }
 
     private void HandleCharacterDeath()
@@ -666,10 +800,43 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        progressService.SaveProceduralScore(potionDrunked);
+        progressService.SaveProceduralScore(endlessScore);
     }
 
-    public void UnlockAchievementIfAvailable(string achievementId)
+    private void TryUnlockEndlessAchievements()
+    {
+        if (potionDrunked >= 25)
+        {
+            UnlockAchievementIfAvailable(AchievementId.CasualDrinker);
+        }
+
+        if (potionDrunked >= 75)
+        {
+            UnlockAchievementIfAvailable(AchievementId.RegularDrinker);
+        }
+
+        if (potionDrunked >= 150)
+        {
+            UnlockAchievementIfAvailable(AchievementId.HardcoreDrinker);
+        }
+
+        if (endlessScore >= 250)
+        {
+            UnlockAchievementIfAvailable(AchievementId.MasterDrinker);
+        }
+
+        if (endlessScore >= 500)
+        {
+            UnlockAchievementIfAvailable(AchievementId.AlmostAProblemDrinker);
+        }
+
+        if (endlessScore >= 1000)
+        {
+            UnlockAchievementIfAvailable(AchievementId.GodOfLibations);
+        }
+    }
+
+    public void UnlockAchievementIfAvailable(AchievementId achievementId)
     {
         if (progressService == null)
         {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ProgressSystem;
 
 namespace CharacterSystem
 {
@@ -11,7 +12,7 @@ namespace CharacterSystem
         public static TransformationManager Instance;
         private CharacterType startCharacter = CharacterType.Mage;
         public event Action<CharacterType, CharacterType> OnTransformation;
-        public event Action<string> CharacterAchievementRequested;
+        public event Action<AchievementId> CharacterAchievementRequested;
         [Header("Characters")]
         public CharacterType previousForm = CharacterType.Mage;
 
@@ -117,7 +118,7 @@ namespace CharacterSystem
             }
         }
 
-        private void HandleCharacterAchievementRequested(string achievementId)
+        private void HandleCharacterAchievementRequested(AchievementId achievementId)
         {
             CharacterAchievementRequested?.Invoke(achievementId);
         }

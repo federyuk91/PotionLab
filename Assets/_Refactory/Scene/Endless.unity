@@ -2678,6 +2678,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EndlessSystem.EndlessEventController
   lightController: {fileID: 906704301}
   dialogManager: {fileID: 766137415}
+  gameManager: {fileID: 879398627}
   bottomPlatformNear: {fileID: 355583221}
   bottomPlatformFar: {fileID: 1499533855}
   upperPlatform: {fileID: 103139120}

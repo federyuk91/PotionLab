@@ -90,7 +90,7 @@ namespace CharacterSystem
             if (powered)
             {
                 stats.AddMana(3);
-                RequestAchievement(AchievementIds.Blob);
+                RequestAchievement(AchievementId.Blob);
             }
 
             return true;

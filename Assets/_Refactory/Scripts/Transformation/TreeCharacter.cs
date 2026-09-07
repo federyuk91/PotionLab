@@ -70,7 +70,7 @@ namespace CharacterSystem
             if (status.Has(Status.Burned))
             {
                 dialogManager.PopDialog("Barks can't form any shield with flames", 3f);
-                RequestAchievement(AchievementIds.ExoticInteraction);
+                RequestAchievement(AchievementId.ExoticInteraction);
 
                 return false;
             }
@@ -127,7 +127,7 @@ namespace CharacterSystem
             if (powered)
             {
                 overgrowthFlower.Grow();
-                RequestAchievement(AchievementIds.SylvanusBlessing);
+                RequestAchievement(AchievementId.SylvanusBlessing);
             }
 
             return true;
@@ -258,6 +258,7 @@ namespace CharacterSystem
             {
                 status.Remove(Status.Burned);
                 stats.Heal(2);
+                RequestAchievement(AchievementId.AdvanceTactics);
                 TriggerReturnMageAnimation();
                 return;
             }
@@ -363,6 +364,7 @@ namespace CharacterSystem
             if(status.groundLevel == 3)
             {
                 stats.Heal(1);
+                RequestAchievement(AchievementId.HolyPileOfGround);
             }
         }
 

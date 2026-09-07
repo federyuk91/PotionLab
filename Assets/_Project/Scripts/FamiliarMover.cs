@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ProgressSystem;
 
 public class FamiliarMover : MonoBehaviour
 {
@@ -118,7 +119,12 @@ public class FamiliarMover : MonoBehaviour
                 click++;
                 if(click >= 5)
                 {
-                    AchievementManager.instance.Achive("Spammer!");
+                    if (AchievementManager.instance != null)
+                    {
+                        AchievementManager.instance.Achive("Spammer!");
+                    }
+
+                    AchievementRequestHub.Request(AchievementId.Spammer);
                 }
 
                 switch (type)

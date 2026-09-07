@@ -500,7 +500,7 @@ MonoBehaviour:
   lightController: {fileID: 0}
   countLightPotionsForAchievement: 1
   lightPotionsForAchievement: 5
-  lightPotionAchievementName: Mana BURN!
+  lightPotionAchievement: 33
   increaseLightAfterNonLightPotions: 1
   nonLightPotionsBeforeLightIncrease: 5
 --- !u!114 &8305332181286969948
@@ -2466,7 +2466,7 @@ MonoBehaviour:
   lightController: {fileID: 0}
   countLightPotionsForAchievement: 1
   lightPotionsForAchievement: 5
-  lightPotionAchievementName: Mana BURN!
+  lightPotionAchievement: 33
   increaseLightAfterNonLightPotions: 1
   nonLightPotionsBeforeLightIncrease: 5
 --- !u!114 &5179760529710894296
@@ -3829,7 +3829,7 @@ MonoBehaviour:
   lightController: {fileID: 0}
   countLightPotionsForAchievement: 1
   lightPotionsForAchievement: 5
-  lightPotionAchievementName: Mana BURN!
+  lightPotionAchievement: 33
   increaseLightAfterNonLightPotions: 1
   nonLightPotionsBeforeLightIncrease: 5
 --- !u!114 &855069011108395782
@@ -4339,12 +4339,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4291487428669950775}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 020aa1fa477a6af4ba6d90a64405b6ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e10c6839d244ebdb45a424301219572, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterSystem.YetiPunchAchievementTrigger
+  yetiCharacter: {fileID: 5498118413747246837}
   punchDirection: {x: -0.7, y: 0.5}
   punchForce: 12
-  count: 0
 --- !u!61 &421538571444878225
 BoxCollider2D:
   m_ObjectHideFlags: 0

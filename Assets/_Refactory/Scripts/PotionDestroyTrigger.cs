@@ -18,7 +18,7 @@ public class PotionDestroyTrigger : MonoBehaviour
     [Header("Optional Rewards")]
     [SerializeField] private bool countLightPotionsForAchievement = true;
     [SerializeField] private int lightPotionsForAchievement = 5;
-    [SerializeField] private string lightPotionAchievementName = AchievementIds.ManaBurn;
+    [SerializeField] private AchievementId lightPotionAchievement = AchievementId.ManaBurn;
     [SerializeField] private bool increaseLightAfterNonLightPotions = true;
     [SerializeField] private int nonLightPotionsBeforeLightIncrease = 5;
 
@@ -149,7 +149,7 @@ public class PotionDestroyTrigger : MonoBehaviour
 
         if (gameManager != null)
         {
-            gameManager.UnlockAchievementIfAvailable(lightPotionAchievementName);
+            gameManager.UnlockAchievementIfAvailable(lightPotionAchievement);
             return;
         }
 

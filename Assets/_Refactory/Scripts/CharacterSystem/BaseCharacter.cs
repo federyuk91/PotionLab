@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using ProgressSystem;
 
 namespace CharacterSystem
 {
@@ -26,7 +27,7 @@ namespace CharacterSystem
         public event Action<BaseCharacter, PotionScriptable, IReadOnlyCollection<Status>> PotionEffectResolving;
         public event Action<BaseCharacter, PotionScriptable> PotionEffectResolved;
         public event Action<BaseCharacter, int, Spell, bool> SpellCastSucceeded;
-        public event Action<string> AchievementRequested;
+        public event Action<AchievementId> AchievementRequested;
 
         public Color TransformationLightColor => transformationLightColor;
         public bool IsReturnMagePending { get; private set; }
@@ -264,9 +265,9 @@ namespace CharacterSystem
 
         protected abstract bool CastSpell(int index, bool powered);
 
-        protected void RequestAchievement(string achievementId)
+        protected void RequestAchievement(AchievementId achievementId)
         {
-            if (string.IsNullOrWhiteSpace(achievementId))
+            if (achievementId == AchievementId.None)
             {
                 return;
             }

@@ -6,7 +6,7 @@ namespace ProgressSystem
     [Serializable]
     public class PlayerProgress
     {
-        public int schemaVersion = 1;
+        public int schemaVersion = 2;
 
         public string playerName = "Player";
 
@@ -20,7 +20,7 @@ namespace ProgressSystem
         public int maxClassicLevelReached = 1;
         public bool endlessUnlocked;
         public List<int> classicLevelScores = new List<int>();
-        public List<string> unlockedAchievementIds = new List<string>();
+        public List<AchievementId> unlockedAchievementIds = new List<AchievementId>();
 
         public void EnsureClassicLevelCount(int levelCount)
         {

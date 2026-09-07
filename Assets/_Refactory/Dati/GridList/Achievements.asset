@@ -181,28 +181,28 @@ MonoBehaviour:
   - id: Casual_Drinker
     displayName: Casual Drinker
     shortDescription: 
-    description: Obtain 25 points in Endless Mode!
+    description: Drink 25 potions in Endless Mode!
     sprite: {fileID: 8745328279068976687, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
     unlockedByDefault: 0
     sceneBuildIndex: -1
   - id: Regular_Drinker
     displayName: Regular Drinker
     shortDescription: 
-    description: Obtain 75 points in Endless Mode!
+    description: Drink 75 potions in Endless Mode!
     sprite: {fileID: 4157264983450105251, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
     unlockedByDefault: 0
     sceneBuildIndex: -1
   - id: Hardcore_Drinker
     displayName: Hardcore Drinker
     shortDescription: 
-    description: Obtain 150 points in Endless Mode!
+    description: Drink 150 potions in Endless Mode!
     sprite: {fileID: 71855861439738458, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
     unlockedByDefault: 0
     sceneBuildIndex: -1
   - id: Master_Drinker
     displayName: Master Drinker
     shortDescription: 
-    description: Obtain 300 points in Endless Mode!
+    description: Obtain 250 points in Endless Mode!
     sprite: {fileID: 6709105514680536145, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
     unlockedByDefault: 0
     sceneBuildIndex: -1
@@ -216,7 +216,7 @@ MonoBehaviour:
   - id: God_of_Libations
     displayName: God of Libations!
     shortDescription: 
-    description: Obtain 700 points in Endless Mode!
+    description: Obtain 1000 points in Endless Mode!
     sprite: {fileID: 2914355713501389530, guid: 2fc0ad7e336c4b34080be2916f5c7705, type: 3}
     unlockedByDefault: 0
     sceneBuildIndex: -1
