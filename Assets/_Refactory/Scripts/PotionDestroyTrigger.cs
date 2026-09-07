@@ -1,4 +1,5 @@
 using CharacterSystem;
+using ProgressSystem;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
@@ -17,7 +18,7 @@ public class PotionDestroyTrigger : MonoBehaviour
     [Header("Optional Rewards")]
     [SerializeField] private bool countLightPotionsForAchievement = true;
     [SerializeField] private int lightPotionsForAchievement = 5;
-    [SerializeField] private string lightPotionAchievementName = "Mana BURN!";
+    [SerializeField] private string lightPotionAchievementName = AchievementIds.ManaBurn;
     [SerializeField] private bool increaseLightAfterNonLightPotions = true;
     [SerializeField] private int nonLightPotionsBeforeLightIncrease = 5;
 
@@ -140,17 +141,19 @@ public class PotionDestroyTrigger : MonoBehaviour
     {
         destroyedLightPotionCount++;
 
-        // Legacy behavior: after enough light potions destroyed by the cauldron,
-        // unlock the old "Mana BURN!" achievement.
+        // Keeps the cauldron reward rule without depending on the legacy achievement manager.
         if (!countLightPotionsForAchievement || destroyedLightPotionCount != lightPotionsForAchievement)
         {
             return;
         }
 
-        if (AchievementManager.instance != null)
+        if (gameManager != null)
         {
-            AchievementManager.instance.Achive(lightPotionAchievementName);
+            gameManager.UnlockAchievementIfAvailable(lightPotionAchievementName);
+            return;
         }
+
+        WarnMissingGameManager();
     }
 
     private void RegisterDestroyedNonLightPotion()

@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e0d2f4f77d54744a82a5e65f3c0e2b9, type: 3}
+  m_Name: Wizard_Retake_NasimBenelkour_AudioSplitterProject
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::AudioSplitterProject
+  sourceClip: {fileID: 8300000, guid: c23457b2510a3bd47af244fbe2d10064, type: 3}
+  cutSamples: b87d0000898f0300273c060071540900080a0c00d07e0e0095f61100e4501700c4711b002f711e00e35620001f622200cfea23008b622600dd552b0055ad2f0089e8330090b03a00f50b400069ab4200da8c4400f9fc4600f8ef480070ae4b0087144e00
+  segmentNames:
+  - Wizard_Retake_NasimBenelkour_clip_0
+  - Wizard_Retake_NasimBenelkour_clip_1
+  - Wizard_Retake_NasimBenelkour_clip_2
+  - Wizard_Retake_NasimBenelkour_clip_3
+  - Wizard_Retake_NasimBenelkour_clip_4
+  - Wizard_Retake_NasimBenelkour_clip_5
+  - Wizard_Retake_NasimBenelkour_clip_6
+  - Wizard_Retake_NasimBenelkour_clip_7
+  - OneLessPotionBeforeSleep
+  - Wizard_Retake_NasimBenelkour_clip_11
+  - Wizard_Retake_NasimBenelkour_clip_12
+  - Wizard_Retake_NasimBenelkour_clip_13
+  - Wizard_Retake_NasimBenelkour_clip_14
+  - Wizard_Retake_NasimBenelkour_clip_15
+  - Wizard_Retake_NasimBenelkour_clip_16
+  - Wizard_Retake_NasimBenelkour_clip_17
+  - Wizard_Retake_NasimBenelkour_clip_18
+  - Wizard_Retake_NasimBenelkour_clip_19
+  - Wizard_Retake_NasimBenelkour_clip_20
+  - Wizard_Retake_NasimBenelkour_clip_21
+  - Wizard_Retake_NasimBenelkour_clip_22
+  - Wizard_Retake_NasimBenelkour_clip_23
+  - Wizard_Retake_NasimBenelkour_clip_24
+  - Wizard_Retake_NasimBenelkour_clip_25
+  - Wizard_Retake_NasimBenelkour_clip_26
+  - Wizard_Retake_NasimBenelkour_clip_27
+  selectedSegmentIndex: 18
+  horizontalZoom: 1
+  autoCutMinimumSilenceSeconds: 0.5
+  silenceTolerancePercent: 0.2

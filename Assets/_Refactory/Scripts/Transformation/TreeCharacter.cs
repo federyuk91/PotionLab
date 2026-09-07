@@ -1,5 +1,6 @@
 using System.Collections;
 using InspectorValidation;
+using ProgressSystem;
 using UnityEngine;
 namespace CharacterSystem
 {
@@ -69,10 +70,7 @@ namespace CharacterSystem
             if (status.Has(Status.Burned))
             {
                 dialogManager.PopDialog("Barks can't form any shield with flames", 3f);
-                if (AchievementManager.instance != null)
-                {
-                    AchievementManager.instance.Achive("Exotic Interaction");
-                }
+                RequestAchievement(AchievementIds.ExoticInteraction);
 
                 return false;
             }
@@ -129,10 +127,7 @@ namespace CharacterSystem
             if (powered)
             {
                 overgrowthFlower.Grow();
-                if (AchievementManager.instance != null)
-                {
-                    AchievementManager.instance.Achive("Sylvanus Blessing");
-                }
+                RequestAchievement(AchievementIds.SylvanusBlessing);
             }
 
             return true;

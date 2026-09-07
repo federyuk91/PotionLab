@@ -1,4 +1,5 @@
 using UnityEngine;
+using ProgressSystem;
 namespace CharacterSystem
 {
     public class BalrogCharacter : BaseCharacter
@@ -79,10 +80,7 @@ namespace CharacterSystem
 
             if (powered)
             {
-                if (AchievementManager.instance != null)
-                {
-                    AchievementManager.instance.Achive("Cooking Mama!");
-                }
+                RequestAchievement(AchievementIds.CookingMama);
             }
 
             return true;

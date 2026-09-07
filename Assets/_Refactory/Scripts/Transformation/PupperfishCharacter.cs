@@ -1,4 +1,5 @@
 using UnityEngine;
+using ProgressSystem;
 namespace CharacterSystem
 {
     public class PupperFishCharacter : BaseCharacter
@@ -89,10 +90,7 @@ namespace CharacterSystem
             if (powered)
             {
                 stats.AddMana(3);
-                if (AchievementManager.instance != null)
-                {
-                    AchievementManager.instance.Achive("BLOB!");
-                }
+                RequestAchievement(AchievementIds.Blob);
             }
 
             return true;

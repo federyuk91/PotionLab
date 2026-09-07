@@ -11,6 +11,7 @@ namespace CharacterSystem
         public static TransformationManager Instance;
         private CharacterType startCharacter = CharacterType.Mage;
         public event Action<CharacterType, CharacterType> OnTransformation;
+        public event Action<string> CharacterAchievementRequested;
         [Header("Characters")]
         public CharacterType previousForm = CharacterType.Mage;
 
@@ -52,6 +53,8 @@ namespace CharacterSystem
 
                 CharacterType type = character.GetCharacterForm();
                 characters[type] = character;
+                character.AchievementRequested -= HandleCharacterAchievementRequested;
+                character.AchievementRequested += HandleCharacterAchievementRequested;
 
                 // Disattiva tutto all'avvio
                 behaviour.gameObject.SetActive(false);
@@ -99,6 +102,24 @@ namespace CharacterSystem
 
             lightController.ChangeLightColor(currentCharacter.TransformationLightColor);
             OnTransformation?.Invoke(previousForm, type);
+        }
+
+        private void OnDestroy()
+        {
+            foreach (BaseCharacter character in characters.Values)
+            {
+                if (character == null)
+                {
+                    continue;
+                }
+
+                character.AchievementRequested -= HandleCharacterAchievementRequested;
+            }
+        }
+
+        private void HandleCharacterAchievementRequested(string achievementId)
+        {
+            CharacterAchievementRequested?.Invoke(achievementId);
         }
 
         private void WarnMissingLightController()

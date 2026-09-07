@@ -26,6 +26,7 @@ namespace CharacterSystem
         public event Action<BaseCharacter, PotionScriptable, IReadOnlyCollection<Status>> PotionEffectResolving;
         public event Action<BaseCharacter, PotionScriptable> PotionEffectResolved;
         public event Action<BaseCharacter, int, Spell, bool> SpellCastSucceeded;
+        public event Action<string> AchievementRequested;
 
         public Color TransformationLightColor => transformationLightColor;
         public bool IsReturnMagePending { get; private set; }
@@ -263,6 +264,15 @@ namespace CharacterSystem
 
         protected abstract bool CastSpell(int index, bool powered);
 
+        protected void RequestAchievement(string achievementId)
+        {
+            if (string.IsNullOrWhiteSpace(achievementId))
+            {
+                return;
+            }
+
+            AchievementRequested?.Invoke(achievementId);
+        }
 
         public abstract void OnEnterTransformation();
         public abstract void OnExitTransformation();

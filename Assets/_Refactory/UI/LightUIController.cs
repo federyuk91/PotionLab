@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,7 @@ public class LightUIController : MonoBehaviour
     [SerializeField] private LightController lightController;
 
     [Header("Light UI")]
-    [SerializeField] private Text lightLevelText;
+    [SerializeField] private TMP_Text lightLevelText;
     [SerializeField] private Image lightTimerBar;
 
     private void OnEnable()

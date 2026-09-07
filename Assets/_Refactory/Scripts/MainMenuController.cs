@@ -1,5 +1,7 @@
 using System.Collections;
 using InspectorValidation;
+using ProgressSystem;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -17,6 +19,9 @@ public sealed class MainMenuController : MonoBehaviour
 
     [Header("Core")]
     [SerializeField, RequiredInspectorReference] private AudioSource audioSource;
+    [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private ProgressService progressService;
+    [FormerlySerializedAs("playerNameTmpDisplayText")]
+    [SerializeField, RequiredInspectorReference] private TMP_Text playerNameDisplayText;
     [SerializeField, RequiredInspectorReference] private Animation titleScreenAnimation;
     [SerializeField, RequiredInspectorReference] private Animator lightAnimator;
     [FormerlySerializedAs("menuMovement")]
@@ -53,6 +58,9 @@ public sealed class MainMenuController : MonoBehaviour
     [SerializeField] private string itchUrl = "https://creative-lizards.itch.io/goodnight-potion";
     [SerializeField] private string buyMeACoffeeUrl = "https://www.buymeacoffee.com/creativelizards";
 
+    [Header("Progression")]
+    [SerializeField] private int endlessSceneBuildIndex = 35;
+
     [Header("Events")]
     [SerializeField] private UnityEvent resetProgressRequested = new UnityEvent();
 
@@ -72,11 +80,33 @@ public sealed class MainMenuController : MonoBehaviour
     private Vector3[] choiceHomeLocalScales;
     private bool choiceHomePoseCaptured;
 
+    private void OnEnable()
+    {
+        if (progressService != null)
+        {
+            progressService.ProgressChanged += OnProgressChanged;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (progressService != null)
+        {
+            progressService.ProgressChanged -= OnProgressChanged;
+        }
+    }
+
     private void Awake()
     {
         Time.timeScale = 1f;
         activeSection = ResolveInitiallyActiveSection();
+        RefreshPlayerNameInput();
         ShowUpdateLogForNewVersion();
+    }
+
+    private void OnProgressChanged(PlayerProgress progress)
+    {
+        RefreshPlayerNameInput();
     }
 
     public void StartScene()
@@ -127,7 +157,24 @@ public sealed class MainMenuController : MonoBehaviour
             return;
         }
 
+        if (progressService != null && !CanLoadSceneWithProgress(sceneBuildIndex))
+        {
+            Debug.LogWarning($"MainMenuController blocked locked scene build index {sceneBuildIndex}. Complete the previous level first.", this);
+            return;
+        }
+
         SceneManager.LoadScene(sceneBuildIndex);
+    }
+
+    public void UnlockAllLevelsForDevelopment()
+    {
+        if (progressService == null)
+        {
+            Debug.LogWarning("MainMenuController cannot unlock all levels because ProgressService is missing.", this);
+            return;
+        }
+
+        progressService.UnlockAll();
     }
 
     public void OpenDiscord()
@@ -460,6 +507,21 @@ public sealed class MainMenuController : MonoBehaviour
         return MenuSection.None;
     }
 
+    private void RefreshPlayerNameInput()
+    {
+        if (progressService == null || progressService.Progress == null)
+        {
+            return;
+        }
+
+        string playerName = progressService.Progress.playerName;
+
+        if (playerNameDisplayText != null)
+        {
+            playerNameDisplayText.text = playerName;
+        }
+    }
+
     private GameObject GetSectionPanel(MenuSection section)
     {
         switch (section)
@@ -473,6 +535,21 @@ public sealed class MainMenuController : MonoBehaviour
             default:
                 return null;
         }
+    }
+
+    private bool CanLoadSceneWithProgress(int sceneBuildIndex)
+    {
+        if (sceneBuildIndex <= 0)
+        {
+            return true;
+        }
+
+        if (sceneBuildIndex <= progressService.FinalClassicLevelBuildIndex)
+        {
+            return progressService.IsClassicLevelUnlocked(sceneBuildIndex);
+        }
+
+        return sceneBuildIndex == endlessSceneBuildIndex && progressService.IsEndlessUnlocked();
     }
 
     private void ShowUpdateLogForNewVersion()

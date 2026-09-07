@@ -167,6 +167,8 @@ GameObject:
   - component: {fileID: 8568798848074084787}
   - component: {fileID: 619804325845619801}
   - component: {fileID: 619804325845619802}
+  - component: {fileID: 619804325845619803}
+  - component: {fileID: 619804325845619804}
   - component: {fileID: 8641056418368551660}
   m_Layer: 0
   m_Name: GameManager
@@ -245,6 +247,38 @@ MonoBehaviour:
   repositoryBehaviour: {fileID: 619804325845619801}
   classicLevelCount: 25
   finalClassicLevelBuildIndex: 25
+--- !u!114 &619804325845619803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7203259774743543503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b99467b58e4afdb47532e286aa0e37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SteamIntegration.SteamProceduralLeaderboardUploader
+  progressService: {fileID: 619804325845619802}
+  leaderboardName: endless_best_score
+  createLeaderboardIfMissing: 1
+  submitExistingBestOnStart: 1
+--- !u!114 &619804325845619804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7203259774743543503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e5e579dcc274b28bc40e56ec3c67ec0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SteamIntegration.SteamAchievementUploader
+  progressService: {fileID: 619804325845619802}
+  submitExistingUnlockedOnStart: 1
+  useProgressIdWhenMappingMissing: 1
+  achievementMappings: []
 --- !u!114 &8641056418368551660
 MonoBehaviour:
   m_ObjectHideFlags: 0

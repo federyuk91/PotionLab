@@ -1,4 +1,5 @@
 using UnityEngine;
+using ProgressSystem;
 namespace CharacterSystem
 {
     public class YetiCharacter : BaseCharacter
@@ -49,10 +50,7 @@ namespace CharacterSystem
         {
             if (stats.HP >= stats.MaxHP)
             {
-                if (AchievementManager.instance != null)
-                {
-                    AchievementManager.instance.Achive("Smart but fart!");
-                }
+                RequestAchievement(AchievementIds.SmartButFart);
 
                 dialogManager.PopDialog("FULL", 1f);
                 return false;

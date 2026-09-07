@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using InspectorValidation;
+using ProgressSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -36,6 +37,7 @@ public sealed class ClassicMenuController : MonoBehaviour
     [SerializeField, RequiredInspectorReference] private RectTransform levelGrid;
     [SerializeField, RequiredInspectorReference] private CanvasGroup sectionCanvasGroup;
     [SerializeField, RequiredInspectorReference] private CanvasGroup[] levelButtons;
+    [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private ProgressService progressService;
 
     [Header("Transition Audio")]
     [SerializeField, RequiredInspectorReference] private AudioSource buttonAppearAudioSource;
@@ -56,6 +58,9 @@ public sealed class ClassicMenuController : MonoBehaviour
 
     [Header("Sections")]
     [SerializeField] private ClassicSection[] sections;
+
+    [Header("Locked Levels")]
+    [SerializeField, Range(0f, 1f)] private float lockedButtonAlpha = 0.35f;
 
     private readonly Dictionary<SpriteRenderer, Color> environmentTargetColors = new Dictionary<SpriteRenderer, Color>();
     private readonly Dictionary<ClassicSection, SpriteRenderer[]> sectionEnvironmentSprites = new Dictionary<ClassicSection, SpriteRenderer[]>();
@@ -269,7 +274,7 @@ public sealed class ClassicMenuController : MonoBehaviour
                 }
 
                 float progress = GetProgress(localElapsed, buttonFadeDuration);
-                levelButton.alpha = Smooth(progress);
+                levelButton.alpha = GetButtonTargetAlpha(buttonIndex) * Smooth(progress);
                 SetButtonScale(buttonIndex, GetButtonScale(progress));
             }
 
@@ -279,9 +284,10 @@ public sealed class ClassicMenuController : MonoBehaviour
         foreach (int buttonIndex in visibleButtonIndexes)
         {
             CanvasGroup levelButton = levelButtons[buttonIndex];
-            levelButton.alpha = 1f;
-            levelButton.interactable = true;
-            levelButton.blocksRaycasts = true;
+            bool unlocked = IsLevelButtonUnlocked(buttonIndex);
+            levelButton.alpha = GetButtonTargetAlpha(buttonIndex);
+            levelButton.interactable = unlocked;
+            levelButton.blocksRaycasts = unlocked;
             SetButtonScale(buttonIndex, 1f);
         }
     }
@@ -299,6 +305,17 @@ public sealed class ClassicMenuController : MonoBehaviour
         }
 
         return visibleButtonIndexes;
+    }
+
+    private float GetButtonTargetAlpha(int buttonIndex)
+    {
+        return IsLevelButtonUnlocked(buttonIndex) ? 1f : lockedButtonAlpha;
+    }
+
+    private bool IsLevelButtonUnlocked(int buttonIndex)
+    {
+        int sceneBuildIndex = buttonIndex + 1;
+        return progressService == null || progressService.IsClassicLevelUnlocked(sceneBuildIndex);
     }
 
     private List<float> BuildActivationStartTimes(int buttonCount)
@@ -576,6 +593,7 @@ public sealed class ClassicMenuController : MonoBehaviour
         referencesValid &= ValidateReference(sectionDescription, "Section Description");
         referencesValid &= ValidateReference(levelGrid, "Level Grid");
         referencesValid &= ValidateReference(sectionCanvasGroup, "Section Canvas Group");
+        referencesValid &= ValidateReference(progressService, "Progress Service");
         referencesValid &= ValidateReference(buttonAppearAudioSource, "Button Appear Audio Source");
         referencesValid &= ValidateReference(buttonAppearClip, "Button Appear Clip");
 

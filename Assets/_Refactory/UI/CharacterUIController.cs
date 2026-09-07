@@ -28,7 +28,7 @@ public class CharacterUIController : MonoBehaviour
     [SerializeField] private Image mpFill;
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private TextMeshProUGUI mpText;
-    [SerializeField] private Text statPopupText;
+    [SerializeField] private TMP_Text statPopupText;
 
     [Header("Level UI")]
     [SerializeField, RequiredInspectorReference] private TMP_Text currentNightText;
@@ -71,9 +71,9 @@ public class CharacterUIController : MonoBehaviour
     [Header("Endless Score UI")]
     [FormerlySerializedAs("proceduralResultPanel")]
     [SerializeField] private GameObject endlessResultPanel;
-    [SerializeField] private Text endlessCurrentScoreText;
+    [SerializeField] private TMP_Text endlessCurrentScoreText;
     [FormerlySerializedAs("endlessScoreText")]
-    [SerializeField] private Text endlessBestScoreText;
+    [SerializeField] private TMP_Text endlessBestScoreText;
 
     [Serializable]
     private class StatusUIEntry

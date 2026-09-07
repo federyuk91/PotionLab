@@ -84,11 +84,13 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         SubscribeToCharacterDeath();
+        SubscribeToCharacterAchievements();
     }
 
     private void OnDestroy()
     {
         UnsubscribeFromCharacterDeath();
+        UnsubscribeFromCharacterAchievements();
     }
 
     // Puzzle mode uses the potions and droppables already placed in the level.
@@ -326,6 +328,11 @@ public class GameManager : MonoBehaviour
         if (drunked)
         {
             potionDrunked++;
+
+            if (potionDrunked == 1)
+            {
+                UnlockAchievementIfAvailable(AchievementIds.TheGoodnightPotion);
+            }
         }
 
         levelPotions.Remove(potion);
@@ -383,7 +390,7 @@ public class GameManager : MonoBehaviour
             if (character.status.Has(Status.Burned))
             {
                 character.animator.SetTrigger("treeBurned");
-                UnlockAchievementIfAvailable("Old Toby");
+                UnlockAchievementIfAvailable(AchievementIds.OldToby);
             }
 
             OnCharacterDie("Trees never sleeps");
@@ -508,6 +515,28 @@ public class GameManager : MonoBehaviour
         }
 
         Character.stats.OnDeath -= HandleCharacterDeath;
+    }
+
+    private void SubscribeToCharacterAchievements()
+    {
+        if (transformationManager == null)
+        {
+            WarnMissingTransformationManager();
+            return;
+        }
+
+        transformationManager.CharacterAchievementRequested -= UnlockAchievementIfAvailable;
+        transformationManager.CharacterAchievementRequested += UnlockAchievementIfAvailable;
+    }
+
+    private void UnsubscribeFromCharacterAchievements()
+    {
+        if (transformationManager == null)
+        {
+            return;
+        }
+
+        transformationManager.CharacterAchievementRequested -= UnlockAchievementIfAvailable;
     }
 
     private void HandleCharacterDeath()
@@ -640,15 +669,15 @@ public class GameManager : MonoBehaviour
         progressService.SaveProceduralScore(potionDrunked);
     }
 
-    private void UnlockAchievementIfAvailable(string achievementName)
+    public void UnlockAchievementIfAvailable(string achievementId)
     {
-        if (AchievementManager.instance == null)
+        if (progressService == null)
         {
-            Debug.LogWarning($"{name}: AchievementManager instance is missing. Achievement '{achievementName}' will not be unlocked in this scene.", this);
+            WarnMissingProgressService();
             return;
         }
 
-        AchievementManager.instance.Achive(achievementName);
+        progressService.UnlockAchievement(achievementId);
     }
 
     private bool GetIsPuzzleMode()
