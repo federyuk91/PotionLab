@@ -54,6 +54,7 @@ namespace CharacterSystem
         Yeti, //Ghiaccio su stato grounded
         Litch, //3 pozioni oscure consecutive senza luce o morte da oscurità
         WhiteMage, //3 pozioni di luce consecutive con luce al massimo
+        Witch, //Erba su stato veleno
         Any
     }
 }

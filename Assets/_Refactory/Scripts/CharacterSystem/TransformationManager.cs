@@ -10,7 +10,7 @@ namespace CharacterSystem
         public LightController lightController;
         private DialogManager dialogManager;
         public static TransformationManager Instance;
-        private CharacterType startCharacter = CharacterType.Mage;
+        public CharacterType startCharacter = CharacterType.Mage;
         public event Action<CharacterType, CharacterType> OnTransformation;
         public event Action<AchievementId> CharacterAchievementRequested;
         [Header("Characters")]
