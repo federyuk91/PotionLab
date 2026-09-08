@@ -65,6 +65,7 @@ public sealed class ClassicMenuController : MonoBehaviour
     private readonly Dictionary<SpriteRenderer, Color> environmentTargetColors = new Dictionary<SpriteRenderer, Color>();
     private readonly Dictionary<ClassicSection, SpriteRenderer[]> sectionEnvironmentSprites = new Dictionary<ClassicSection, SpriteRenderer[]>();
     private Vector3[] buttonTargetScales = Array.Empty<Vector3>();
+    private ClassicLevelButtonProgressView[] buttonProgressViews = Array.Empty<ClassicLevelButtonProgressView>();
     private Coroutine sectionTransition;
     private int currentSectionIndex;
     private float buttonAudioBasePitch = 1f;
@@ -73,6 +74,7 @@ public sealed class ClassicMenuController : MonoBehaviour
     private void Awake()
     {
         CacheButtonScales();
+        CacheButtonProgressViews();
         CacheEnvironmentColors();
 
         if (buttonAppearAudioSource != null)
@@ -83,6 +85,11 @@ public sealed class ClassicMenuController : MonoBehaviour
 
     private void OnEnable()
     {
+        if (progressService != null)
+        {
+            progressService.ProgressChanged += OnProgressChanged;
+        }
+
         currentSectionIndex = 0;
         transitionLocked = false;
 
@@ -101,6 +108,11 @@ public sealed class ClassicMenuController : MonoBehaviour
 
     private void OnDisable()
     {
+        if (progressService != null)
+        {
+            progressService.ProgressChanged -= OnProgressChanged;
+        }
+
         if (sectionTransition != null)
         {
             StopCoroutine(sectionTransition);
@@ -198,6 +210,7 @@ public sealed class ClassicMenuController : MonoBehaviour
 
             int levelNumber = buttonIndex + 1;
             bool belongsToSection = levelNumber >= section.FirstLevel && levelNumber <= section.LastLevel;
+            RefreshButtonProgress(buttonIndex);
             levelButton.gameObject.SetActive(belongsToSection);
             levelButton.alpha = 0f;
             levelButton.interactable = false;
@@ -318,6 +331,37 @@ public sealed class ClassicMenuController : MonoBehaviour
         return progressService == null || progressService.IsClassicLevelUnlocked(sceneBuildIndex);
     }
 
+    private void OnProgressChanged(PlayerProgress playerProgress)
+    {
+        RefreshAllButtonProgress();
+    }
+
+    private void RefreshAllButtonProgress()
+    {
+        for (int buttonIndex = 0; buttonIndex < buttonProgressViews.Length; buttonIndex++)
+        {
+            RefreshButtonProgress(buttonIndex);
+        }
+    }
+
+    private void RefreshButtonProgress(int buttonIndex)
+    {
+        if (buttonIndex < 0 || buttonIndex >= buttonProgressViews.Length)
+        {
+            return;
+        }
+
+        ClassicLevelButtonProgressView progressView = buttonProgressViews[buttonIndex];
+        if (progressView == null)
+        {
+            return;
+        }
+
+        int sceneBuildIndex = buttonIndex + 1;
+        int score = progressService != null ? progressService.GetClassicLevelScore(sceneBuildIndex) : 0;
+        progressView.Refresh(IsLevelButtonUnlocked(buttonIndex), score);
+    }
+
     private List<float> BuildActivationStartTimes(int buttonCount)
     {
         List<float> delays = new List<float>();
@@ -371,6 +415,32 @@ public sealed class ClassicMenuController : MonoBehaviour
         {
             CanvasGroup levelButton = levelButtons[buttonIndex];
             buttonTargetScales[buttonIndex] = levelButton != null ? levelButton.transform.localScale : Vector3.one;
+        }
+    }
+
+    private void CacheButtonProgressViews()
+    {
+        if (levelButtons == null)
+        {
+            buttonProgressViews = Array.Empty<ClassicLevelButtonProgressView>();
+            return;
+        }
+
+        buttonProgressViews = new ClassicLevelButtonProgressView[levelButtons.Length];
+        for (int buttonIndex = 0; buttonIndex < levelButtons.Length; buttonIndex++)
+        {
+            CanvasGroup levelButton = levelButtons[buttonIndex];
+            if (levelButton == null)
+            {
+                continue;
+            }
+
+            ClassicLevelButtonProgressView progressView = levelButton.GetComponent<ClassicLevelButtonProgressView>();
+            buttonProgressViews[buttonIndex] = progressView;
+            if (progressView == null)
+            {
+                Debug.LogError($"ClassicMenuController level button {buttonIndex + 1} requires a ClassicLevelButtonProgressView component.", levelButton);
+            }
         }
     }
 

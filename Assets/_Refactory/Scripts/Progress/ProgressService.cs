@@ -108,6 +108,22 @@ namespace ProgressSystem
             }
         }
 
+        public int GetClassicLevelScore(int sceneBuildIndex)
+        {
+            if (sceneBuildIndex <= 0)
+            {
+                return 0;
+            }
+
+            EnsureProgressLoaded();
+            EnsureProgressDefaults();
+
+            int levelIndex = sceneBuildIndex - 1;
+            return levelIndex < progress.classicLevelScores.Count
+                ? progress.classicLevelScores[levelIndex]
+                : 0;
+        }
+
         public void SaveProceduralScore(int score)
         {
             EnsureProgressLoaded();
