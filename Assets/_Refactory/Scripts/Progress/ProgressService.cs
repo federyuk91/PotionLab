@@ -128,6 +128,29 @@ namespace ProgressSystem
             }
         }
 
+        public void MergeSteamStats(
+            int totalDeaths,
+            int totalDrunkedPotions,
+            int totalTransformations,
+            int bestProceduralScore,
+            int maxClassicLevelReached)
+        {
+            EnsureProgressLoaded();
+            EnsureProgressDefaults();
+
+            bool progressChanged = false;
+            progressChanged |= SetIfGreater(ref progress.totalDeaths, totalDeaths);
+            progressChanged |= SetIfGreater(ref progress.totalDrunkedPotions, totalDrunkedPotions);
+            progressChanged |= SetIfGreater(ref progress.totalTransformations, totalTransformations);
+            progressChanged |= SetIfGreater(ref progress.bestProceduralScore, bestProceduralScore);
+            progressChanged |= SetIfGreater(ref progress.maxClassicLevelReached, maxClassicLevelReached);
+
+            if (progressChanged)
+            {
+                SaveProgress();
+            }
+        }
+
         public void ResetProgress()
         {
             if (repository == null)
@@ -337,6 +360,17 @@ namespace ProgressSystem
             {
                 progress.unlockedAchievementIds = new System.Collections.Generic.List<AchievementId>();
             }
+        }
+
+        private static bool SetIfGreater(ref int currentValue, int candidateValue)
+        {
+            if (candidateValue <= currentValue)
+            {
+                return false;
+            }
+
+            currentValue = candidateValue;
+            return true;
         }
 
         private bool AreAllClassicLevelsPerfect()

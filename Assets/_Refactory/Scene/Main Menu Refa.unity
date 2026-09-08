@@ -16294,7 +16294,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -20.6684, y: -10.5}
-  m_SizeDelta: {x: 184.1127, y: 66.9565}
+  m_SizeDelta: {x: 184.1127, y: 125}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &542316838
 MonoBehaviour:
@@ -16316,14 +16316,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Potion Drunked
+  m_text: 'POTIONS DRUNK
 
-    Player Death
+    DEATHS
 
-    Player Transformation
+    TRANSFORMATIONS
 
+    BEST ENDLESS
 
-'
+    LAST ENDLESS
+
+    CLASSIC LEVEL'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db2eade4f2b86614c844e0f305548be7, type: 2}
   m_sharedMaterial: {fileID: 5314772676336678545, guid: db2eade4f2b86614c844e0f305548be7, type: 2}
@@ -21627,6 +21630,7 @@ GameObject:
   - component: {fileID: 693790705}
   - component: {fileID: 693790707}
   - component: {fileID: 693790706}
+  - component: {fileID: 693790708}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -21694,6 +21698,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 693790704}
   m_CullTransparentMesh: 1
+--- !u!114 &693790708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 693790704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67478ce6a68c46dbad8ae7bd03170b2c, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::SteamIntegration.SteamStatsController
+  progressService: {fileID: 1248624582}
+  labelsText: {fileID: 542316838}
+  primaryValuesText: {fileID: 1532838610}
+  secondaryValuesText: {fileID: 2017347206}
+  tertiaryValuesText: {fileID: 1003760266}
 --- !u!1 &696791161
 GameObject:
   m_ObjectHideFlags: 0
@@ -32184,8 +32205,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 23.350296, y: -50.899223}
-  m_SizeDelta: {x: 46.9474, y: 9.3755}
+  m_AnchoredPosition: {x: 23.350296, y: -103.5}
+  m_SizeDelta: {x: 46.9474, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1003760266
 MonoBehaviour:
@@ -55526,8 +55547,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 23.350296, y: -4.68775}
-  m_SizeDelta: {x: 46.9474, y: 9.3755}
+  m_AnchoredPosition: {x: 23.350296, y: -11.5}
+  m_SizeDelta: {x: 46.9474, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1532838610
 MonoBehaviour:
@@ -64896,7 +64917,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0.0000076293945, y: -10.5}
-  m_SizeDelta: {x: 46.700592, y: 57.3172}
+  m_SizeDelta: {x: 46.700592, y: 125}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1829939293
 MonoBehaviour:
@@ -72573,8 +72594,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 23.350296, y: -27.793486}
-  m_SizeDelta: {x: 46.9474, y: 9.3755}
+  m_AnchoredPosition: {x: 23.350296, y: -57.5}
+  m_SizeDelta: {x: 46.9474, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2017347206
 MonoBehaviour:
