@@ -113,36 +113,6 @@ public class LightController : MonoBehaviour
 
         light2D.color = c;
     }
-    /* deprecated, now we use light fields to determine if a character is powered or not
-    public void ChangeLightColor(CharacterType character)
-    {
-        switch (character)
-        {
-            case CharacterType.Mage:
-                light2D.color = Mage;
-                break;
-            case CharacterType.Balrog:
-                light2D.color = Balrog;
-                break;
-            case CharacterType.Tree:
-                light2D.color = Tree;
-                break;
-            case CharacterType.Yeti:
-                light2D.color = Yeti;
-                break;
-            case CharacterType.PupperFish:
-                light2D.color = Pupperfish;
-                break;
-            case CharacterType.Litch:
-                light2D.color = Litch;
-                break;
-            case CharacterType.WhiteMage:
-                light2D.color = WhiteMage;
-                break;
-        }
-    }
-    */
-
 
     public void SetLightField(LightFieldType fieldType)
     {
@@ -461,7 +431,7 @@ public class LightController : MonoBehaviour
             animator.SetInteger("lightIntesity", lightIntensity);
         }
 
-        PlayAudio();
+        //PlayAudio();
     }
 
     public IEnumerator StartLightAndWaitForCompletion(Action midpointReached = null)
