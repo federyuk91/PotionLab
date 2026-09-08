@@ -24,10 +24,11 @@ namespace SteamIntegration
 
         [Header("References")]
         [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private ProgressService progressService;
-        [SerializeField, RequiredInspectorReference] private TMP_Text labelsText;
-        [SerializeField, RequiredInspectorReference] private TMP_Text primaryValuesText;
-        [SerializeField, RequiredInspectorReference] private TMP_Text secondaryValuesText;
-        [SerializeField, RequiredInspectorReference] private TMP_Text tertiaryValuesText;
+        [Header("Optional Records UI")]
+        [SerializeField] private TMP_Text labelsText;
+        [SerializeField] private TMP_Text primaryValuesText;
+        [SerializeField] private TMP_Text secondaryValuesText;
+        [SerializeField] private TMP_Text tertiaryValuesText;
 
 #if !DISABLESTEAMWORKS
         private CallResult<UserStatsReceived_t> userStatsReceivedResult;
@@ -76,10 +77,21 @@ namespace SteamIntegration
 #endif
         }
 
+        private void OnApplicationQuit()
+        {
+#if !DISABLESTEAMWORKS
+            if (statsReady && CanUseSteam())
+            {
+                Debug.Log($"{name}: Application quit requested; flushing Steam stats.", this);
+                UploadCurrentStats();
+            }
+#endif
+        }
+
         [ContextMenu("Refresh Steam Stats")]
         public void RequestSteamStats()
         {
-            if (!ValidateReferences() || requestInProgress || !CanUseSteam())
+            if (!ValidateProgressService() || requestInProgress || !CanUseSteam())
             {
                 return;
             }
@@ -113,7 +125,7 @@ namespace SteamIntegration
 
         private void RefreshDisplay()
         {
-            if (!ValidateReferences() || progressService.Progress == null)
+            if (!HasCompleteUi() || progressService == null || progressService.Progress == null)
             {
                 return;
             }
@@ -125,16 +137,23 @@ namespace SteamIntegration
             tertiaryValuesText.text = $"{progress.lastProceduralScore}\n{progress.maxClassicLevelReached}";
         }
 
-        private bool ValidateReferences()
+        private bool ValidateProgressService()
         {
-            if (progressService == null || labelsText == null || primaryValuesText == null
-                || secondaryValuesText == null || tertiaryValuesText == null)
+            if (progressService == null)
             {
-                Debug.LogError($"{name}: Assign Progress Service and all Records TMP text references in Inspector.", this);
+                Debug.LogError($"{name}: Assign the Progress Service Inspector reference.", this);
                 return false;
             }
 
             return true;
+        }
+
+        private bool HasCompleteUi()
+        {
+            return labelsText != null
+                && primaryValuesText != null
+                && secondaryValuesText != null
+                && tertiaryValuesText != null;
         }
 
         private bool CanUseSteam()
@@ -200,6 +219,11 @@ namespace SteamIntegration
 
         private void UploadCurrentStats()
         {
+            if (!statsReady || progressService == null || progressService.Progress == null || !CanUseSteam())
+            {
+                return;
+            }
+
             PlayerProgress progress = progressService.Progress;
             bool allStatsSet = true;
             allStatsSet &= TrySetIntStat(TotalDeathsApiName, progress.totalDeaths);

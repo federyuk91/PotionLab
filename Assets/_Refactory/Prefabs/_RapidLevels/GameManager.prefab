@@ -170,6 +170,7 @@ GameObject:
   - component: {fileID: 619804325845619803}
   - component: {fileID: 619804325845619804}
   - component: {fileID: 8641056418368551660}
+  - component: {fileID: 619804325845619805}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -279,6 +280,23 @@ MonoBehaviour:
   achievementDatabase: {fileID: 11400000, guid: 201de1488cd74036aa246f04fafb8984, type: 2}
   submitExistingUnlockedOnStart: 1
   logKnownAchievementNamesOnFailure: 1
+--- !u!114 &619804325845619805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7203259774743543503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67478ce6a68c46dbad8ae7bd03170b2c, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::SteamIntegration.SteamStatsController
+  progressService: {fileID: 619804325845619802}
+  labelsText: {fileID: 0}
+  primaryValuesText: {fileID: 0}
+  secondaryValuesText: {fileID: 0}
+  tertiaryValuesText: {fileID: 0}
 --- !u!114 &8641056418368551660
 MonoBehaviour:
   m_ObjectHideFlags: 0
