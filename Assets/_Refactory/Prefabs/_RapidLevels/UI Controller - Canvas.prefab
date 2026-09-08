@@ -2286,6 +2286,7 @@ MonoBehaviour:
   statusController: {fileID: 0}
   gameManager: {fileID: 0}
   transformationManager: {fileID: 0}
+  compendiumView: {fileID: 0}
   hpFill: {fileID: 7935659068227452987}
   mpFill: {fileID: 5753476295819178427}
   hpText: {fileID: 6248907227943739444}
@@ -6903,7 +6904,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294111986
+    rgba: 4294177779
   m_fontColor: {r: 0.9528302, g: 0.9528302, b: 0.9528302, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -12959,8 +12960,8 @@ GameObject:
   - component: {fileID: 8027896613053007343}
   - component: {fileID: 5520555510944461346}
   - component: {fileID: 6440471762738280783}
-  - component: {fileID: 6366673560186627221}
   - component: {fileID: 2543762702293139220}
+  - component: {fileID: 6141806182693604795}
   m_Layer: 0
   m_Name: PopUp-LifeAndMagic
   m_TagString: Untagged
@@ -12977,14 +12978,14 @@ RectTransform:
   m_GameObject: {fileID: 7572795593162060622}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1532170798505797636}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -350, y: 300}
+  m_AnchoredPosition: {x: -180, y: 300}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &5520555510944461346
@@ -13042,15 +13043,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
+  m_fontSize: 40
   m_fontSizeBase: 14
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 7
   m_fontSizeMax: 40
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -13087,18 +13088,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &6366673560186627221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7572795593162060622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86fa637e20a0cc44ea7a9e31a215c556, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &2543762702293139220
 Animator:
   serializedVersion: 7
@@ -13121,6 +13110,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6141806182693604795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7572795593162060622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86fa637e20a0cc44ea7a9e31a215c556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Deactivate
 --- !u!1 &7599687149377742812
 GameObject:
   m_ObjectHideFlags: 0
