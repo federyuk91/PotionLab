@@ -50,129 +50,74 @@ namespace CharacterSystem
 
         public override void ApplyDark(PotionScriptable ps)
         {
-            if(stats.HP < stats.MaxHP)
-                stats.Heal(ps.baseValue);
-            else
-                stats.AddMana(ps.baseValue);
+            stats.AddMana(ps.baseValue);
+            Debug.Log("Una vecchia strega sa apprezzare oscurità in bottiglia");
         }
 
         public override void ApplyFire(PotionScriptable ps)
         {
-            if (status.Has(Status.Freezed))
-            {
-                if (status.groundLevel > 0)
-                {
-                    status.Decrease(Status.Grounded);
-                    status.Remove(Status.Freezed);
-                    return;
-                }
-                stats.TakeDamage(ps.baseValue);
-                status.Remove(Status.Freezed);
-                return;
-            }
-
-            if (status.Has(Status.Burned))
-            {
-                status.TriggerImmunity();
-                return;
-            }
-
-            status.Increase(Status.Burned);
+            Debug.Log("Noi streghe non andiamo d'accordo con le fiamme");
+            status.TriggerImmunity();
+            return;
         }
 
         public override void ApplyIce(PotionScriptable ps)
         {
-            if (status.Has(Status.Freezed))
-            {
-                status.TriggerImmunity();
-                return;
-            }
-
-            if (status.Has(Status.Burned))
-            {
-                if(status.groundLevel > 0)
-                {
-                    status.Decrease(Status.Grounded);
-                    status.Remove(Status.Burned);
-                    return;
-                }
-                stats.TakeDamage(ps.baseValue);
-                status.Remove(Status.Burned);
-                return;
-            }
-
-            status.Add(Status.Freezed);
+            Debug.Log($"Un po' di ghiaccio è l'ideale per un succo sulla spiaggia");
+            stats.Heal(ps.baseValue);
+            return;
         }
 
         public override void ApplyGrass(PotionScriptable ps)
         {
-            int damage = ps.baseValue + status.groundLevel;
-            stats.TakeDamage(damage);
+            Debug.Log($"Eh eh, ingrediente segreto");
+            status.TriggerImmunity();
+            return;
         }
 
         public override void ApplyGround(PotionScriptable ps)
         {
-            status.Increase(Status.Grounded);
-
-            if (status.groundLevel >= 3)
-            {
-                status.Remove(Status.Burned);
-                status.Remove(Status.Freezed);
-                TriggerReturnMageAnimation();
-            }
+            Debug.Log($"Questo rovinerà il mio intruglio D:");
+            status.TriggerImmunity();
+            return;
         }
 
         public override void ApplyHeal(PotionScriptable ps)
         {
-            stats.TakeDamage(ps.baseValue);
+            Debug.Log("Non mi fa' impazzire questa roba");
+            status.TriggerImmunity();
+            return;
         }
 
         public override void ApplyLava(PotionScriptable ps)
         {
-            if (status.groundLevel > 0)
-            {
-                status.Remove(Status.Grounded);
-                return;
-            }
 
-            if (status.Has(Status.Burned))
-            {
-                status.TriggerImmunity();
-                return;
-            }
-
-            stats.TakeDamage(ps.baseValue);
-            if(status.Has(Status.Freezed))
-            {
-                stats.TakeDamage(1);
-            }
+            Debug.Log($"Solo quel vecchio idiota può bere una cosa del genere");
+            status.TriggerImmunity();
+            return;
         }
 
         public override void ApplyLight(PotionScriptable ps)
         {
-            stats.TakeDamage(ps.baseValue);
+
+            Debug.Log($"Dovrei tenerne un po' per quel pelato");
+            status.TriggerImmunity();
+            return;
         }
 
         public override void ApplyPoison(PotionScriptable ps)
         {
+            Debug.Log($"La mia favorità");
             status.TriggerImmunity();
+            return;
         }
 
         public override void ApplyWet(PotionScriptable ps)
         {
-            if(status.groundLevel>0)
-            {
-                status.Decrease(Status.Grounded);
-                return;
-            }
 
-            if (status.Has(Status.Burned))
-            {
-                stats.TakeDamage(ps.baseValue);
-                return;
-            }
-
+            Debug.Log($"mmm Annacquato");
             status.TriggerImmunity();
+            return;
         }
 
 
