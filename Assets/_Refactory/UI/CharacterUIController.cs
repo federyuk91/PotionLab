@@ -22,6 +22,7 @@ public class CharacterUIController : MonoBehaviour
     [SerializeField] private CharacterStatusController statusController;
     [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private GameManager gameManager;
     [SerializeField] private TransformationManager transformationManager;
+    [SerializeField] private CompendiumView compendiumView;
 
     [Header("Stats UI")]
     [SerializeField] private Image hpFill;
@@ -104,6 +105,11 @@ public class CharacterUIController : MonoBehaviour
         if (statusController == null)
         {
             statusController = GetComponent<CharacterStatusController>();
+        }
+
+        if (compendiumView == null)
+        {
+            compendiumView = GetComponentInChildren<CompendiumView>(true);
         }
     }
 
@@ -194,6 +200,8 @@ public class CharacterUIController : MonoBehaviour
 
     private void RefreshInitialState()
     {
+        ConfigureCompendium();
+
         if (characterStats != null)
         {
             RefreshHP(characterStats.HP, characterStats.MaxHP);
@@ -214,6 +222,23 @@ public class CharacterUIController : MonoBehaviour
         RefreshCurrentNight();
         RefreshStatuses();
         RefreshMageStatusLevels();
+    }
+
+    private void ConfigureCompendium()
+    {
+        if (compendiumView == null)
+        {
+            Debug.LogWarning($"{name}: Compendium View reference is missing. Assign it in Inspector to bind progression data.", this);
+            return;
+        }
+
+        if (gameManager == null || gameManager.ProgressService == null)
+        {
+            Debug.LogWarning($"{name}: GameManager or ProgressService reference is missing. The compendium cannot resolve locked entries.", this);
+            return;
+        }
+
+        compendiumView.Configure(gameManager.ProgressService);
     }
 
     private void RefreshCurrentNight()

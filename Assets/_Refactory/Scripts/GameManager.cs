@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     public int MaxMalusScore => GetMaxMalusScore();
     public int BestProceduralScore => GetBestProceduralScore();
     public int EndlessScore => endlessScore;
+    public ProgressService ProgressService => progressService;
 
     [Header("Compiled from code")]
     public List<PotionScript> levelPotions;

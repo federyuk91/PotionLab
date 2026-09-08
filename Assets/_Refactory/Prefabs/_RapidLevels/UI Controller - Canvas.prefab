@@ -394,6 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Refactory.UI.GridList.CompendiumView
   database: {fileID: 11400000, guid: 28d6b87333b146cd89e1e2f983f27041, type: 2}
+  achievementDatabase: {fileID: 11400000, guid: 201de1488cd74036aa246f04fafb8984, type: 2}
   startingCategory: 6
   pageLeft: {fileID: 5604852844689376781}
   pageRight: {fileID: 6786978044230737216}

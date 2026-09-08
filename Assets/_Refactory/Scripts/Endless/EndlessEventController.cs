@@ -2,6 +2,7 @@ using System;
 using CharacterSystem;
 using InspectorValidation;
 using ProgressSystem;
+using Refactory.CameraSystem;
 using UnityEngine;
 
 namespace EndlessSystem
@@ -14,6 +15,7 @@ namespace EndlessSystem
         [SerializeField] private LightController lightController;
         [SerializeField] private DialogManager dialogManager;
         [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private GameManager gameManager;
+        [SerializeField] private CameraShakeController cameraShakeController;
 
         [Header("Platforms")]
         [SerializeField] private SurfaceEffector2D bottomPlatformNear;
@@ -147,6 +149,12 @@ namespace EndlessSystem
             {
                 if (familiars[index] != null)
                 {
+                    FamiliarMover familiarMover = familiars[index].GetComponent<FamiliarMover>();
+                    if (familiarMover != null)
+                    {
+                        familiarMover.Configure(gameManager, cameraShakeController);
+                    }
+
                     familiars[index].gameObject.SetActive(index == randomIndex);
                 }
             }
@@ -160,6 +168,12 @@ namespace EndlessSystem
             {
                 Debug.LogWarning($"{name}: Endless bomb event requested, but familiar index 1 is not assigned in Inspector.", this);
                 return;
+            }
+
+            FamiliarMover familiarMover = familiars[LegacyBombIndex].GetComponent<FamiliarMover>();
+            if (familiarMover != null)
+            {
+                familiarMover.Configure(gameManager, cameraShakeController);
             }
 
             familiars[LegacyBombIndex].gameObject.SetActive(true);

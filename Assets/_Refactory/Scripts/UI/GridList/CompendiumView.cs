@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using InspectorValidation;
+using ProgressSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -11,6 +13,7 @@ namespace Refactory.UI.GridList
     {
         [Header("Data")]
         [SerializeField] private GridListDatabase database;
+        [SerializeField, RequiredInspectorReference] private AchievementDatabase achievementDatabase;
         [SerializeField] private GridListCategoryType startingCategory = GridListCategoryType.Options;
 
         [Header("Book Pages")]
@@ -62,6 +65,17 @@ namespace Refactory.UI.GridList
         private bool hasRenderedCategory;
         private bool isShowingOptions;
         private Sprite defaultGrimoireSprite;
+        private ProgressService progressService;
+
+        public void Configure(ProgressService assignedProgressService)
+        {
+            progressService = assignedProgressService;
+
+            if (isActiveAndEnabled && hasRenderedCategory)
+            {
+                RenderRequestedCategory(currentCategory);
+            }
+        }
 
         private void Awake()
         {
@@ -654,13 +668,15 @@ namespace Refactory.UI.GridList
             for (int index = 0; index < entries.Count; index++)
             {
                 CompendiumEntryView entryView = Instantiate(entryPrefab, entriesContainer);
-                entryView.Bind(entries[index], database.LockedEntry, ShowDetails);
+                bool isUnlocked = IsEntryUnlocked(category.CategoryType, entries[index]);
+                entryView.Bind(entries[index], database.LockedEntry, isUnlocked, ShowDetails);
                 spawnedEntries.Add(entryView);
             }
 
             if (entries.Count > 0)
             {
-                GridListEntryData firstEntry = entries[0].UnlockedByDefault ? entries[0] : database.LockedEntry;
+                bool firstEntryUnlocked = IsEntryUnlocked(category.CategoryType, entries[0]);
+                GridListEntryData firstEntry = firstEntryUnlocked ? entries[0] : database.LockedEntry;
                 ShowDetails(spawnedEntries[0], firstEntry);
                 ResetEntriesScroll();
                 return;
@@ -668,6 +684,56 @@ namespace Refactory.UI.GridList
 
             ClearDetails();
             ResetEntriesScroll();
+        }
+
+        private bool IsEntryUnlocked(GridListCategoryType categoryType, GridListEntryData entry)
+        {
+            if (entry == null)
+            {
+                return false;
+            }
+
+            switch (categoryType)
+            {
+                case GridListCategoryType.Achievement:
+                    return IsAchievementUnlocked(entry);
+                case GridListCategoryType.Night:
+                    return IsNightUnlocked(entry);
+                default:
+                    return entry.UnlockedByDefault;
+            }
+        }
+
+        private bool IsAchievementUnlocked(GridListEntryData entry)
+        {
+            if (progressService == null || achievementDatabase == null)
+            {
+                return false;
+            }
+
+            if (!achievementDatabase.TryGetByDisplayName(entry.DisplayName, out AchievementDatabase.AchievementDefinition definition))
+            {
+                Debug.LogWarning($"{name}: achievement entry '{entry.DisplayName}' is not mapped in AchievementDatabase.", this);
+                return false;
+            }
+
+            return progressService.IsAchievementUnlocked(definition.id);
+        }
+
+        private bool IsNightUnlocked(GridListEntryData entry)
+        {
+            if (entry.SceneBuildIndex <= 0)
+            {
+                return entry.UnlockedByDefault;
+            }
+
+            if (progressService == null)
+            {
+                return false;
+            }
+
+            return progressService.IsClassicLevelUnlocked(entry.SceneBuildIndex)
+                || entry.SceneBuildIndex > progressService.FinalClassicLevelBuildIndex && progressService.IsEndlessUnlocked();
         }
 
         private void ResetEntriesScroll()

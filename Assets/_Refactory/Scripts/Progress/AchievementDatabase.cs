@@ -37,6 +37,21 @@ namespace ProgressSystem
             return false;
         }
 
+        public bool TryGetByDisplayName(string displayName, out AchievementDefinition definition)
+        {
+            foreach (AchievementDefinition candidate in achievements)
+            {
+                if (candidate != null && string.Equals(candidate.displayName, displayName, StringComparison.Ordinal))
+                {
+                    definition = candidate;
+                    return true;
+                }
+            }
+
+            definition = null;
+            return false;
+        }
+
         private void OnValidate()
         {
             HashSet<AchievementId> knownIds = new HashSet<AchievementId>();

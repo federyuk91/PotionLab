@@ -2679,6 +2679,7 @@ MonoBehaviour:
   lightController: {fileID: 906704301}
   dialogManager: {fileID: 766137415}
   gameManager: {fileID: 879398627}
+  cameraShakeController: {fileID: 2088839427}
   bottomPlatformNear: {fileID: 355583221}
   bottomPlatformFar: {fileID: 1499533855}
   upperPlatform: {fileID: 103139120}

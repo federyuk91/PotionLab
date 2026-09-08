@@ -67,9 +67,10 @@ namespace Refactory.UI.GridList
         public void Bind(
             GridListEntryData newEntry,
             GridListEntryData lockedEntry,
+            bool isUnlocked,
             Action<CompendiumEntryView, GridListEntryData> selectedCallback)
         {
-            entry = newEntry != null && newEntry.UnlockedByDefault ? newEntry : lockedEntry;
+            entry = newEntry != null && isUnlocked ? newEntry : lockedEntry;
             selected = selectedCallback;
             isHovered = false;
             isSelected = false;
