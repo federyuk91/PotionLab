@@ -119,7 +119,7 @@ namespace CharacterSystem
 
         public override void ApplyIce(PotionScriptable ps)
         {
-            stats.TakeDamage(ps.baseValue);
+            stats.TakeDamage(2);
         }
 
         public override void ApplyGrass(PotionScriptable ps)

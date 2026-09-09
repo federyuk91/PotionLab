@@ -24,11 +24,13 @@ namespace SteamIntegration
 
         [Header("References")]
         [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private ProgressService progressService;
-        [Header("Optional Records UI")]
-        [SerializeField] private TMP_Text labelsText;
-        [SerializeField] private TMP_Text primaryValuesText;
-        [SerializeField] private TMP_Text secondaryValuesText;
-        [SerializeField] private TMP_Text tertiaryValuesText;
+        [Header("Records UI")]
+        [SerializeField, RequiredInspectorReference] private TMP_Text potionsDrunkValueText;
+        [SerializeField, RequiredInspectorReference] private TMP_Text deathsValueText;
+        [SerializeField, RequiredInspectorReference] private TMP_Text transformationsValueText;
+        [SerializeField, RequiredInspectorReference] private TMP_Text bestEndlessValueText;
+        [SerializeField, RequiredInspectorReference] private TMP_Text lastEndlessValueText;
+        [SerializeField, RequiredInspectorReference] private TMP_Text maxClassicLevelValueText;
 
 #if !DISABLESTEAMWORKS
         private CallResult<UserStatsReceived_t> userStatsReceivedResult;
@@ -131,10 +133,12 @@ namespace SteamIntegration
             }
 
             PlayerProgress progress = progressService.Progress;
-            labelsText.text = "POTIONS DRUNK\nDEATHS\nTRANSFORMATIONS\nBEST ENDLESS\nLAST ENDLESS\nCLASSIC LEVEL";
-            primaryValuesText.text = $"{progress.totalDrunkedPotions}\n{progress.totalDeaths}";
-            secondaryValuesText.text = $"{progress.totalTransformations}\n{progress.bestProceduralScore}";
-            tertiaryValuesText.text = $"{progress.lastProceduralScore}\n{progress.maxClassicLevelReached}";
+            potionsDrunkValueText.text = progress.totalDrunkedPotions.ToString();
+            deathsValueText.text = progress.totalDeaths.ToString();
+            transformationsValueText.text = progress.totalTransformations.ToString();
+            bestEndlessValueText.text = progress.bestProceduralScore.ToString();
+            lastEndlessValueText.text = progress.lastProceduralScore.ToString();
+            maxClassicLevelValueText.text = progress.maxClassicLevelReached.ToString();
         }
 
         private bool ValidateProgressService()
@@ -150,10 +154,12 @@ namespace SteamIntegration
 
         private bool HasCompleteUi()
         {
-            return labelsText != null
-                && primaryValuesText != null
-                && secondaryValuesText != null
-                && tertiaryValuesText != null;
+            return potionsDrunkValueText != null
+                && deathsValueText != null
+                && transformationsValueText != null
+                && bestEndlessValueText != null
+                && lastEndlessValueText != null
+                && maxClassicLevelValueText != null;
         }
 
         private bool CanUseSteam()
