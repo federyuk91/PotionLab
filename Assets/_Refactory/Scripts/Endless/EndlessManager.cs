@@ -143,7 +143,7 @@ namespace EndlessSystem
             }
 
             potion.isActive = true;
-            potion.DropPotion();
+            potion.DropPotion(false);
             activeEndlessPotions.Add(potion);
             gameManager.RegisterSpawnedPotion(potion);
             SpawnedPotionCountChanged?.Invoke(gameManager.spawnedPotion);
