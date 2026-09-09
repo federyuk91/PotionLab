@@ -124,6 +124,7 @@ public class PotionScript : MonoBehaviour
         _activationAudio.Play();
     }
 
+    //Chiamato dalla UI quando si clicca sul bottone per droppare la pozione
     public void DropPotion()
     {
         DropPotion(true);
