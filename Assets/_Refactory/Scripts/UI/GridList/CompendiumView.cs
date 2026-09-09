@@ -17,6 +17,7 @@ namespace Refactory.UI.GridList
         [SerializeField] private GridListCategoryType startingCategory = GridListCategoryType.Options;
 
         [Header("Book Pages")]
+        [SerializeField, RequiredInspectorReference] private Refactory.UI.GrimoireTextIllumination textIllumination;
         [SerializeField] private RectTransform pageLeft;
         [SerializeField] private RectTransform pageRight;
         [SerializeField] private CompendiumPageSide detailsPage = CompendiumPageSide.Right;
@@ -50,6 +51,10 @@ namespace Refactory.UI.GridList
         [SerializeField] private RectTransform entriesContainer;
         [SerializeField] private CompendiumEntryView entryPrefab;
 
+        [Header("Potion Grid")]
+        [SerializeField, RequiredInspectorReference] private GridLayoutGroup potionGrid;
+        [SerializeField, Min(1)] private int potionColumns = 4;
+
         [Header("Details")]
         [SerializeField] private RectTransform detailsRoot;
         [SerializeField] private TMP_Text categoryTitleText;
@@ -66,6 +71,38 @@ namespace Refactory.UI.GridList
         private bool isShowingOptions;
         private Sprite defaultGrimoireSprite;
         private ProgressService progressService;
+        private GridListEntryData animatedDetail;
+        private float detailAnimationTime;
+        private int potionCount;
+        private Vector2 lastGridSize;
+
+        private void Update()
+        {
+            if (animatedDetail != null && detailImage != null && detailImage.isActiveAndEnabled)
+            {
+                detailAnimationTime += Time.unscaledDeltaTime;
+                detailImage.sprite = animatedDetail.GetAnimatedSprite(detailAnimationTime);
+            }
+            if (potionGrid != null && potionGrid.isActiveAndEnabled)
+                FitPotionGrid();
+        }
+
+        private void FitPotionGrid()
+        {
+            RectTransform gridRect = (RectTransform)potionGrid.transform;
+            Vector2 size = gridRect.rect.size;
+            if (size == lastGridSize)
+                return;
+            lastGridSize = size;
+            int columns = Mathf.Max(1, potionColumns);
+            int rows = Mathf.Max(1, Mathf.CeilToInt((float)potionCount / columns));
+            float width = (size.x - potionGrid.padding.horizontal - potionGrid.spacing.x * (columns - 1)) / columns;
+            float height = (size.y - potionGrid.padding.vertical - potionGrid.spacing.y * (rows - 1)) / rows;
+            float side = Mathf.Max(0.1f, Mathf.Min(width, height));
+            potionGrid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            potionGrid.constraintCount = columns;
+            potionGrid.cellSize = new Vector2(side, side);
+        }
 
         public void Configure(ProgressService assignedProgressService)
         {
@@ -653,6 +690,25 @@ namespace Refactory.UI.GridList
         {
             ClearEntries();
 
+            bool showPotionGrid = category.CategoryType == GridListCategoryType.Potion;
+            if (showPotionGrid && potionGrid == null)
+            {
+                Debug.LogWarning($"{name}: assign Potion Grid in CompendiumView to display potion buttons.", this);
+                ClearDetails();
+                return;
+            }
+            if (scrollViewRoot != null)
+                scrollViewRoot.gameObject.SetActive(!showPotionGrid);
+            if (potionGrid != null)
+                potionGrid.gameObject.SetActive(showPotionGrid);
+            if (showPotionGrid)
+            {
+                SetParentIfAvailable(detailsRoot, pageRight);
+                SetParentIfAvailable((RectTransform)potionGrid.transform, pageLeft);
+            }
+            else
+                RefreshLayout();
+
             if (!HasRequiredViewReferences())
             {
                 ClearDetails();
@@ -665,13 +721,21 @@ namespace Refactory.UI.GridList
             }
 
             IReadOnlyList<GridListEntryData> entries = category.Entries;
+            Transform container = showPotionGrid ? potionGrid.transform : entriesContainer;
+            potionCount = showPotionGrid ? entries.Count : 0;
+            lastGridSize = new Vector2(-1f, -1f);
             for (int index = 0; index < entries.Count; index++)
             {
-                CompendiumEntryView entryView = Instantiate(entryPrefab, entriesContainer);
+                CompendiumEntryView entryView = Instantiate(entryPrefab, container);
                 bool isUnlocked = IsEntryUnlocked(category.CategoryType, entries[index]);
                 entryView.Bind(entries[index], database.LockedEntry, isUnlocked, ShowDetails);
+                if (showPotionGrid)
+                    entryView.UsePotionPresentation();
                 spawnedEntries.Add(entryView);
             }
+
+            if (textIllumination != null)
+                textIllumination.RefreshTexts();
 
             if (entries.Count > 0)
             {
@@ -738,6 +802,12 @@ namespace Refactory.UI.GridList
 
         private void ResetEntriesScroll()
         {
+            if (currentCategory == GridListCategoryType.Potion && potionGrid != null)
+            {
+                FitPotionGrid();
+                LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)potionGrid.transform);
+                return;
+            }
             if (entriesScrollRect == null)
             {
                 Debug.LogWarning($"{name}: Entries Scroll Rect reference is missing. Assign the compendium ScrollRect in Inspector.", this);
@@ -765,6 +835,8 @@ namespace Refactory.UI.GridList
 
         private void ShowDetails(CompendiumEntryView selectedEntryView, GridListEntryData entry)
         {
+            animatedDetail = currentCategory == GridListCategoryType.Potion ? entry : null;
+            detailAnimationTime = 0f;
             foreach (CompendiumEntryView entryView in spawnedEntries)
             {
                 if (entryView != null)
@@ -792,14 +864,16 @@ namespace Refactory.UI.GridList
             if (detailImage != null)
             {
                 detailImage.sprite = entry.Sprite;
+                detailImage.preserveAspect = true;
                 detailImage.enabled = entry.Sprite != null;
             }
         }
 
         private void RefreshLayout()
         {
-            RectTransform targetDetailsPage = detailsPage == CompendiumPageSide.Left ? pageLeft : pageRight;
-            RectTransform targetScrollPage = detailsPage == CompendiumPageSide.Left ? pageRight : pageLeft;
+            bool detailsOnLeft = currentCategory != GridListCategoryType.Potion && detailsPage == CompendiumPageSide.Left;
+            RectTransform targetDetailsPage = detailsOnLeft ? pageLeft : pageRight;
+            RectTransform targetScrollPage = detailsOnLeft ? pageRight : pageLeft;
 
             SetParentIfAvailable(detailsRoot, targetDetailsPage);
             SetParentIfAvailable(scrollViewRoot, targetScrollPage);
@@ -822,6 +896,7 @@ namespace Refactory.UI.GridList
                 if (entryView != null)
                 {
                     Destroy(entryView.gameObject);
+                    entryView.gameObject.SetActive(false);
                 }
             }
 
@@ -830,6 +905,7 @@ namespace Refactory.UI.GridList
 
         private void ClearDetails()
         {
+            animatedDetail = null;
             if (detailTitleText != null)
             {
                 detailTitleText.text = string.Empty;

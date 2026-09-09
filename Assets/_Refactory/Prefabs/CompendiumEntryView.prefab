@@ -488,6 +488,11 @@ MonoBehaviour:
   titleText: {fileID: 533983931136797842}
   shortDescription: {fileID: 4986950957200200632}
   iconImage: {fileID: 8008849635418241934}
+  rowBackground: {fileID: 6968059180245404686}
+  hoverTextColor: {r: 1, g: 1, b: 1, a: 1}
+  selectedTextColor: {r: 0.48, g: 0.24, b: 0.62, a: 1}
+  colorTransitionDuration: 0.18
+  letterColorDelay: 0.018
 --- !u!1 &6033726833097431524
 GameObject:
   m_ObjectHideFlags: 0
