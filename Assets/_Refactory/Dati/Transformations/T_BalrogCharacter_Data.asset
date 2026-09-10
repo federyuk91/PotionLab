@@ -14,10 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   transformationName: "Balrog"
-  image: {fileID: -3268116876886179480, guid: 2ab09d5d5751a61488632ad2537225ea, type: 3}
-  description: "Creatura infernale resistente al fuoco, pensata per dominare calore e lava."
-  transformationMethod: "Il Mage beve Lava mentre e in stato Burned."
-  cureMethod: "Bere Light avvia il ritorno alla forma Mage."
+  image: {fileID: 271299488224507718, guid: 843d96e8998e79c4fbfcb02ccb0e5e48, type: 3}
+  idleFrames:
+  - {fileID: 271299488224507718, guid: 843d96e8998e79c4fbfcb02ccb0e5e48, type: 3}
+  - {fileID: 2391088702093025914, guid: 843d96e8998e79c4fbfcb02ccb0e5e48, type: 3}
+  - {fileID: 16314119332827868, guid: 843d96e8998e79c4fbfcb02ccb0e5e48, type: 3}
+  - {fileID: -101500765378513847, guid: 843d96e8998e79c4fbfcb02ccb0e5e48, type: 3}
+  - {fileID: -4485328429183378693, guid: 843d96e8998e79c4fbfcb02ccb0e5e48, type: 3}
+  - {fileID: -5500164405501248820, guid: 843d96e8998e79c4fbfcb02ccb0e5e48, type: 3}
+  - {fileID: 1689608108579311508, guid: 843d96e8998e79c4fbfcb02ccb0e5e48, type: 3}
+  - {fileID: 5096432162094522019, guid: 843d96e8998e79c4fbfcb02ccb0e5e48, type: 3}
+  idleFrameRate: 12
+  description: "An infernal creature at home among flames, wielding heat and lava to its advantage."
+  transformationMethod: "As the Mage, drink Lava while burning."
+  transformationPotionSprites:
+  - {fileID: -2172864323747464720, guid: edab2cf6e83ce054aa717b7051e46c14, type: 3}
+  - {fileID: -8366473302825249247, guid: 0c2a77bcd3e4413429911e488f313155, type: 3}
+  transformationHint: "As the Mage, drink in this order."
+  cureMethod: "Drink a Light potion to return to the Mage."
   immunePotionSprites:
   - {fileID: 1853813971063210717, guid: ac82f27c79c5dee40a3125721fae32e4, type: 3}
   - {fileID: -1834088911562275152, guid: 3bcbfe3450d294a45a466ee92b5a7219, type: 3}
@@ -27,18 +41,21 @@ MonoBehaviour:
     costo: 2
     icona: {fileID: 21300000, guid: 4e37fdc8cf5486a488c7ee7fa3bcffab, type: 3}
     audio: {fileID: 8300000, guid: e05fae91473184b478941338d90f1f26, type: 3}
-    descrizioneNormale: "Attiva o disattiva il campo di fuoco."
-    descrizionePotenziata: "Il campo di fuoco potenzia le regole del Balrog."
+    descrizioneNormale: "Toggles the Fire field. Activating it replaces any other elemental field and empowers Balrog. Each toggle costs mana."
+    descrizionePotenziata: "Same toggle and cost. Casting while Fire is active switches the field off."
+    descrizioneBreve: "Toggle the Fire field to empower Balrog."
   - nome: Balance
     costo: 0
     icona: {fileID: 21300000, guid: 5e12bad24caf60d489a377595771f903, type: 3}
     audio: {fileID: 8300000, guid: e05fae91473184b478941338d90f1f26, type: 3}
-    descrizioneNormale: "Converte risorse del Balrog bilanciando danno e magia."
-    descrizionePotenziata: "Versione potenziata legata al campo di fuoco."
+    descrizioneNormale: "Takes 3 HP and restores 1 MP. The HP loss can be fatal."
+    descrizionePotenziata: "With the Fire field active: takes 3 HP and restores 2 MP."
+    descrizioneBreve: "Trade 3 HP for 1 MP; 2 MP in Fire."
   - nome: Calderone
     costo: 8
     icona: {fileID: 21300000, guid: a6dfd8a67c41b1543bdc42e767163a6b, type: 3}
     audio: {fileID: 8300000, guid: e05fae91473184b478941338d90f1f26, type: 3}
-    descrizioneNormale: "Evoca il calderone che distrugge le pozioni nel trigger."
-    descrizionePotenziata: "Usa la versione powered del calderone."
+    descrizioneNormale: "Summons a cauldron that destroys potions dropped into it. The fifth non-Light potion raises light intensity by 1, once per activation."
+    descrizionePotenziata: "With the Fire field active: summons the powered cauldron. It retains the same five-potion light reward; no extra HP or MP is granted."
+    descrizioneBreve: "Summon a potion-destroying cauldron."
 

@@ -14,10 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 4
   transformationName: "Yeti"
-  image: {fileID: -3268116876886179480, guid: 2ab09d5d5751a61488632ad2537225ea, type: 3}
-  description: "Forma glaciale resistente al freddo, capace di sfruttare neve e terreno congelato."
-  transformationMethod: "Il Mage beve Ice mentre e in stato Grounded."
-  cureMethod: "Alcune reazioni con Fire o ritorno dedicato avviano il ritorno alla forma Mage."
+  image: {fileID: -55999420773040779, guid: 20fc108f12129674fbd87e3d056641e3, type: 3}
+  idleFrames:
+  - {fileID: -55999420773040779, guid: 20fc108f12129674fbd87e3d056641e3, type: 3}
+  - {fileID: 4639616798875391999, guid: 20fc108f12129674fbd87e3d056641e3, type: 3}
+  - {fileID: 5496785873485665669, guid: 20fc108f12129674fbd87e3d056641e3, type: 3}
+  - {fileID: -1835130053828200870, guid: 20fc108f12129674fbd87e3d056641e3, type: 3}
+  - {fileID: 604391031519201928, guid: 20fc108f12129674fbd87e3d056641e3, type: 3}
+  idleFrameRate: 12
+  description: "A frost-hardened creature that draws strength from snow and frozen ground."
+  transformationMethod: "As the Mage, drink Ice while Grounded."
+  transformationPotionSprites:
+  - {fileID: 909782368918440197, guid: 1a103b75ec8e47743b5cab6823f048c3, type: 3}
+  - {fileID: -6273755256659582499, guid: df86eb8c0b6abf0499a295c1d9b330b3, type: 3}
+  transformationHint: "As the Mage, drink in this order."
+  cureMethod: "Certain reactions with Fire can trigger a return to the Mage."
   immunePotionSprites:
   - {fileID: -2172864323747464720, guid: edab2cf6e83ce054aa717b7051e46c14, type: 3}
   - {fileID: 1853813971063210717, guid: ac82f27c79c5dee40a3125721fae32e4, type: 3}
@@ -27,18 +38,21 @@ MonoBehaviour:
     costo: 2
     icona: {fileID: 21300000, guid: 5e8e420252e25c645b3111e5a722cdd6, type: 3}
     audio: {fileID: 8300000, guid: 741f8ad35090ae04b992f578345f22f0, type: 3}
-    descrizioneNormale: "Attiva o disattiva il campo di ghiaccio."
-    descrizionePotenziata: "Il campo di ghiaccio potenzia lo Yeti."
+    descrizioneNormale: "Toggles the Ice field. Activating it replaces any other elemental field and empowers Yeti. Each toggle costs mana."
+    descrizionePotenziata: "Same toggle and cost. Casting while Ice is active switches the field off."
+    descrizioneBreve: "Toggle the Ice field to empower Yeti."
   - nome: Convert
     costo: 4
     icona: {fileID: 21300000, guid: 0d54c02d80430f4498b0e334031ec7ed, type: 3}
     audio: {fileID: 8300000, guid: 741f8ad35090ae04b992f578345f22f0, type: 3}
-    descrizioneNormale: "Converte condizioni e risorse secondo la forma Yeti."
-    descrizionePotenziata: "Conversione migliorata dal campo di ghiaccio."
+    descrizioneNormale: "Restores 3 HP. Cannot be cast at full health. If HP and MP become equal, Yeti begins returning to Mage."
+    descrizionePotenziata: "With the Ice field active: restores 4 HP instead of 3. The HP-equals-MP return rule still applies."
+    descrizioneBreve: "Heal 3 HP; 4 in Ice."
   - nome: Punch
     costo: 0
     icona: {fileID: 21300000, guid: 133d5512087f4e04ea05c169e70b4f80, type: 3}
     audio: {fileID: 8300000, guid: 741f8ad35090ae04b992f578345f22f0, type: 3}
-    descrizioneNormale: "Attacco fisico dello Yeti."
-    descrizionePotenziata: "Colpo potenziato se lo Yeti e powered."
+    descrizioneNormale: "Takes 2 HP and punches nearby potions away. The punch pushes them; it does not directly destroy them. The HP loss can be fatal."
+    descrizionePotenziata: "With the Ice field active: takes only 1 HP. The knockback is unchanged."
+    descrizioneBreve: "Push potions away. Costs 2 HP; 1 in Ice."
 

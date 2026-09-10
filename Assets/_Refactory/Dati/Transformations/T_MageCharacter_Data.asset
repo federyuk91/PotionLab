@@ -15,27 +15,41 @@ MonoBehaviour:
   id: 0
   transformationName: "Mage"
   image: {fileID: -3268116876886179480, guid: 31af895d41f33f84b818c462efcae245, type: 3}
-  description: "Forma base del protagonista, fragile ma versatile. Usa luce, cura e purificazione per controllare la notte."
-  transformationMethod: "Forma iniziale del personaggio e punto di ritorno delle trasformazioni."
-  cureMethod: "Non richiede cura: e la forma stabile del personaggio."
+  idleFrames:
+  - {fileID: -3268116876886179480, guid: 31af895d41f33f84b818c462efcae245, type: 3}
+  - {fileID: -5495861832342831202, guid: 31af895d41f33f84b818c462efcae245, type: 3}
+  - {fileID: 3193941420723979432, guid: 31af895d41f33f84b818c462efcae245, type: 3}
+  - {fileID: 8089392500444833290, guid: 31af895d41f33f84b818c462efcae245, type: 3}
+  - {fileID: -7760650516033981637, guid: 31af895d41f33f84b818c462efcae245, type: 3}
+  - {fileID: 1773732111931389266, guid: 31af895d41f33f84b818c462efcae245, type: 3}
+  - {fileID: 2412548871939554092, guid: 31af895d41f33f84b818c462efcae245, type: 3}
+  idleFrameRate: 12
+  description: "Fragile but versatile, the Mage uses light, healing and cleansing to keep the night under control."
+  transformationMethod: "The starting form."
+  transformationPotionSprites: []
+  transformationHint: ""
+  cureMethod: "Your natural form. There is no transformation to reverse."
   immunePotionSprites: []
   spells:
   - nome: Light
     costo: 1
     icona: {fileID: 21300000, guid: 59d21fb437c9db24c9e9ebe2838a386d, type: 3}
     audio: {fileID: 8300000, guid: e1b7e4d30089aac4bb39f5af0c9abcf3, type: 3}
-    descrizioneNormale: "Aumenta il livello di luce se non e gia al massimo."
-    descrizionePotenziata: "Non ha effetto quando la luce e gia al massimo."
+    descrizioneNormale: "Raises light intensity by 1 level (maximum: 3)."
+    descrizionePotenziata: "At light level 3, casting is blocked and no mana is spent."
+    descrizioneBreve: "Raise light by 1 level."
   - nome: Heal
     costo: 4
     icona: {fileID: 21300000, guid: 5cd7861c3b4c54b4b9323f5cc6c6e3ed, type: 3}
     audio: {fileID: 8300000, guid: e1b7e4d30089aac4bb39f5af0c9abcf3, type: 3}
-    descrizioneNormale: "Cura il Mage spendendo luce."
-    descrizionePotenziata: "Cura piu HP quando il Mage e powered."
+    descrizioneNormale: "Restores 3 HP. Cannot be cast at full health."
+    descrizionePotenziata: "At light level 3: restores 4 HP instead of 3."
+    descrizioneBreve: "Heal 3 HP; 4 at full light."
   - nome: Cleanse
     costo: 6
     icona: {fileID: 21300000, guid: bd969a873597b14448c3e80f9e73f4c8, type: 3}
     audio: {fileID: 8300000, guid: e1b7e4d30089aac4bb39f5af0c9abcf3, type: 3}
-    descrizioneNormale: "Rimuove stati negativi e terreno dal Mage."
-    descrizionePotenziata: "Rimuove gli stati e restituisce anche 1 HP."
+    descrizioneNormale: "Removes Burn, Grass, Wet, Ice, Poison and Grounded. Does not remove Algae, Bless or Curse. Requires at least one removable status."
+    descrizionePotenziata: "At light level 3: removes the same statuses and restores 1 HP."
+    descrizioneBreve: "Remove basic ailments; +1 HP at full light."
 

@@ -14,10 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 5
   transformationName: "Litch"
-  image: {fileID: 156238873, guid: 1f490e12e373ca3479739656e68f5130, type: 3}
-  description: "Forma oscura estrema, usa la propria vitalita come risorsa e manipola magie proibite."
-  transformationMethod: "Il Mage accumula oscurita fino al terzo livello di maledizione."
-  cureMethod: "Ground al terzo livello avvia il ritorno alla forma Mage, rimuovendo eventuali Ice e Fire."
+  image: {fileID: 1431248125, guid: c25792c69f4c45944bd4a8d5a52319c5, type: 3}
+  idleFrames:
+  - {fileID: 1431248125, guid: c25792c69f4c45944bd4a8d5a52319c5, type: 3}
+  - {fileID: 2002127569, guid: 60e8b0f89fb59d54f9d68490dc3f11a7, type: 3}
+  - {fileID: 3929848, guid: 60e8b0f89fb59d54f9d68490dc3f11a7, type: 3}
+  - {fileID: -986582170, guid: 60e8b0f89fb59d54f9d68490dc3f11a7, type: 3}
+  - {fileID: 208859236, guid: 60e8b0f89fb59d54f9d68490dc3f11a7, type: 3}
+  - {fileID: -1558910274, guid: 60e8b0f89fb59d54f9d68490dc3f11a7, type: 3}
+  - {fileID: 235043709, guid: 60e8b0f89fb59d54f9d68490dc3f11a7, type: 3}
+  - {fileID: 131713791, guid: 60e8b0f89fb59d54f9d68490dc3f11a7, type: 3}
+  idleFrameRate: 12
+  description: "A master of forbidden magic who draws on its own vitality to fuel dark powers."
+  transformationMethod: "As the Mage, reach Curse level three by drinking Dark with no mana."
+  transformationPotionSprites:
+  - {fileID: -5469023944784030602, guid: 531bc38a7e672414482189974260f0f8, type: 3}
+  - {fileID: -5469023944784030602, guid: 531bc38a7e672414482189974260f0f8, type: 3}
+  - {fileID: -5469023944784030602, guid: 531bc38a7e672414482189974260f0f8, type: 3}
+  transformationHint: "As the Mage, start with no mana."
+  cureMethod: "Reach Grounded level three to return to the Mage, clearing Fire and Ice."
   immunePotionSprites:
   - {fileID: 9167658607632584497, guid: 88bee5b2da11771489473878b514bbfb, type: 3}
   - {fileID: 3833926529033503733, guid: 1a1694ee82ded3342bde68515610b0d6, type: 3}
@@ -26,18 +41,21 @@ MonoBehaviour:
     costo: 4
     icona: {fileID: 21300000, guid: fb9f5fecebd2eed4cb276bea9340834c, type: 3}
     audio: {fileID: 0}
-    descrizioneNormale: "Evoca un aiuto o un effetto oscuro."
-    descrizionePotenziata: "Evocazione potenziata dalla condizione corretta."
+    descrizioneNormale: "Summons 3 skeletons in the standard setup. Each intercepts 1 Health, Seed, Lava or Light potion, then disappears. Cannot be recast while any skeleton is active. Missing MP is paid with HP, leaving at least 1 HP."
+    descrizionePotenziata: "No powered variant is implemented. The effect and payment rules are unchanged."
+    descrizioneBreve: "Summon skeletons to intercept harmful potions."
   - nome: Dark-Ray
     costo: 3
     icona: {fileID: 21300000, guid: c0f26f7325a16ca469bdfe69d8c8940f, type: 3}
     audio: {fileID: 8300000, guid: be6e004ca13cb0e43b0c12546ede7549, type: 3}
-    descrizioneNormale: "Lancia un raggio oscuro."
-    descrizionePotenziata: "Raggio oscuro potenziato."
+    descrizioneNormale: "Replaces each non-Dark potion touched by the ray with 1 Dark potion, preserving its motion. The standard ray lasts 0.5 seconds. Missing MP is paid with HP, leaving at least 1 HP."
+    descrizionePotenziata: "No powered variant is implemented. The ray and payment rules are unchanged."
+    descrizioneBreve: "Turn potions hit by the ray into Dark potions."
   - nome: Second Chance
     costo: 15
     icona: {fileID: 21300000, guid: 170e08f83c0e5904395a9009e57b7ef5, type: 3}
     audio: {fileID: 0}
-    descrizioneNormale: "Tenta un ritorno o una salvezza estrema."
-    descrizionePotenziata: "Effetto migliorato quando la forma e powered."
+    descrizioneNormale: "Clears all statuses and starts the return-to-Mage animation. Missing MP is paid with HP, leaving at least 1 HP. Does not directly restore HP or MP."
+    descrizionePotenziata: "No powered variant is implemented. The effect and payment rules are unchanged."
+    descrizioneBreve: "Clear all statuses and return to Mage."
 

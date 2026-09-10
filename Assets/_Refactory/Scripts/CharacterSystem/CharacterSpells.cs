@@ -259,6 +259,7 @@ namespace CharacterSystem
         [FormerlySerializedAs("castAudio")] public AudioClip audio;
         [FormerlySerializedAs("description"), TextArea(2, 5)] public string descrizioneNormale;
         [FormerlySerializedAs("poweredDescription"), TextArea(2, 5)] public string descrizionePotenziata;
+        [TextArea(1, 3)] public string descrizioneBreve;
     }
 
 }

@@ -56,6 +56,7 @@ namespace Refactory.UI.GridList
         [SerializeField, Min(1)] private int potionColumns = 4;
 
         [Header("Details")]
+        [SerializeField, RequiredInspectorReference] private TransformationCompendiumPanel transformationPanel;
         [SerializeField] private RectTransform detailsRoot;
         [SerializeField] private TMP_Text categoryTitleText;
         [SerializeField] private TMP_Text detailTitleText;
@@ -240,6 +241,7 @@ namespace Refactory.UI.GridList
 
         private void ShowOptionsImmediately()
         {
+            if (transformationPanel != null) transformationPanel.SetVisible(false);
             startingCategory = GridListCategoryType.Options;
             isShowingOptions = true;
             ApplyOptionsBackground();
@@ -290,6 +292,7 @@ namespace Refactory.UI.GridList
 
         private IEnumerator ShowOptionsRoutine()
         {
+            if (transformationPanel != null) transformationPanel.SetVisible(false);
             isShowingOptions = true;
             SetPageInputEnabled(false);
             ApplyOptionsBackground();
@@ -360,6 +363,22 @@ namespace Refactory.UI.GridList
             currentCategory = categoryType;
             queuedCategory = categoryType;
             hasRenderedCategory = true;
+
+            bool showTransformations = categoryType == GridListCategoryType.Transformation || categoryType == GridListCategoryType.Spell;
+            if (transformationPanel != null) transformationPanel.SetVisible(showTransformations);
+            if (showTransformations)
+            {
+                ClearEntries();
+                ClearDetails();
+                if (scrollViewRoot != null) scrollViewRoot.gameObject.SetActive(false);
+                if (potionGrid != null) potionGrid.gameObject.SetActive(false);
+                if (detailsRoot != null) detailsRoot.gameObject.SetActive(false);
+                if (categoryTitleText != null) categoryTitleText.text = "Transformations";
+                if (transformationPanel != null) transformationPanel.Show();
+                else Debug.LogError($"{name}: assign Transformation Panel in CompendiumView.", this);
+                return;
+            }
+            if (detailsRoot != null) detailsRoot.gameObject.SetActive(true);
 
             if (database == null)
             {

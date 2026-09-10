@@ -14,10 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   transformationName: "Tree"
-  image: {fileID: -3268116876886179480, guid: 2ab09d5d5751a61488632ad2537225ea, type: 3}
-  description: "Forma vegetale difensiva, forte quando controlla erba, radici e terreno."
-  transformationMethod: "Il Mage beve Water mentre e in stato Grass."
-  cureMethod: "Water su Tree bruciato o Ice con certe condizioni puo far tornare Mage."
+  image: {fileID: 43729913913265897, guid: 569f3eba120034044a290f1f41c11646, type: 3}
+  idleFrames:
+  - {fileID: 43729913913265897, guid: 569f3eba120034044a290f1f41c11646, type: 3}
+  - {fileID: 1898047673537464395, guid: 569f3eba120034044a290f1f41c11646, type: 3}
+  - {fileID: 3533971231398833554, guid: 569f3eba120034044a290f1f41c11646, type: 3}
+  - {fileID: 4425555347852359943, guid: 569f3eba120034044a290f1f41c11646, type: 3}
+  - {fileID: 6256437590312243466, guid: 569f3eba120034044a290f1f41c11646, type: 3}
+  - {fileID: 2689040505580519330, guid: 569f3eba120034044a290f1f41c11646, type: 3}
+  - {fileID: -1829963399284226847, guid: 569f3eba120034044a290f1f41c11646, type: 3}
+  - {fileID: -1284213648604412469, guid: 569f3eba120034044a290f1f41c11646, type: 3}
+  idleFrameRate: 12
+  description: "A defensive woodland form that thrives among grass, roots and fertile ground."
+  transformationMethod: "As the Mage, drink Water while covered in Grass."
+  transformationPotionSprites:
+  - {fileID: 8392550403479288723, guid: c46ed72b71de0254e8f156952ce6a115, type: 3}
+  - {fileID: 3833926529033503733, guid: 1a1694ee82ded3342bde68515610b0d6, type: 3}
+  transformationHint: "As the Mage, drink in this order."
+  cureMethod: "Water while burning, or Ice under certain conditions, can return you to the Mage."
   immunePotionSprites:
   - {fileID: -5469023944784030602, guid: 531bc38a7e672414482189974260f0f8, type: 3}
   - {fileID: -1834088911562275152, guid: 3bcbfe3450d294a45a466ee92b5a7219, type: 3}
@@ -26,18 +40,21 @@ MonoBehaviour:
     costo: 1
     icona: {fileID: 21300000, guid: 6814811798e893e49aeb69f4232536e0, type: 3}
     audio: {fileID: 8300000, guid: 9cac0e3bc9262b945add7c7c1783ffeb, type: 3}
-    descrizioneNormale: "Attiva o disattiva il campo d'erba."
-    descrizionePotenziata: "Il campo d'erba potenzia la forma Tree."
+    descrizioneNormale: "Toggles the Grass field. Activating it replaces any other elemental field and empowers Tree. Each toggle costs mana."
+    descrizionePotenziata: "Same toggle and cost. Casting while Grass is active switches the field off."
+    descrizioneBreve: "Toggle the Grass field to empower Tree."
   - nome: Tree Bark
     costo: 4
     icona: {fileID: 21300000, guid: 051fcadb1cfd7104db4a81008112d33f, type: 3}
     audio: {fileID: 8300000, guid: 9cac0e3bc9262b945add7c7c1783ffeb, type: 3}
-    descrizioneNormale: "Crea una protezione vegetale."
-    descrizionePotenziata: "Protezione migliorata se Tree e powered."
+    descrizioneNormale: "Blocks the next Fire, Lava or Ice potion, then breaks. Cannot be cast while burning or while a Bark shield is already active."
+    descrizionePotenziata: "With the Grass field active: the same one-hit shield also restores 2 HP when cast."
+    descrizioneBreve: "Block 1 Fire, Lava or Ice hit; +2 HP in Grass."
   - nome: Overgrow
     costo: 6
     icona: {fileID: 21300000, guid: 0fc91a701bc5a5b4b8616ad1e1118739, type: 3}
     audio: {fileID: 8300000, guid: 9cac0e3bc9262b945add7c7c1783ffeb, type: 3}
-    descrizioneNormale: "Scatena una crescita vegetale superiore."
-    descrizionePotenziata: "Crescita potenziata dal campo d'erba."
+    descrizioneNormale: "Summons a flower that intercepts 1 Fire, Lava, Poison or Ice potion before dying. Other potions pass through. Only one flower can be active."
+    descrizionePotenziata: "With the Grass field active: summons a grown flower that intercepts 2 of those potions before dying."
+    descrizioneBreve: "Grow a flower that blocks 1 harmful potion; 2 in Grass."
 

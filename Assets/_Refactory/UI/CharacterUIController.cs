@@ -40,6 +40,7 @@ public class CharacterUIController : MonoBehaviour
     [SerializeField] private Animator[] spellAnimators;
     [SerializeField] private Image[] spellImages;
     [SerializeField] private TextMeshProUGUI[] spellCosts;
+    [SerializeField, RequiredInspectorReference] private Refactory.UI.SpellHoverTooltip[] spellTooltips;
 
     [Header("Status UI")]
     [SerializeField] private StatusUIEntry[] statusEntries;
@@ -407,6 +408,9 @@ public class CharacterUIController : MonoBehaviour
             return;
         }
 
+        if (spellTooltips != null && index < spellTooltips.Length && spellTooltips[index] != null)
+            spellTooltips[index].Bind(spell, isAvailable);
+
         if (spellAnimators != null && index < spellAnimators.Length && spellAnimators[index] != null)
         {
             spellAnimators[index].SetBool(SpellOpenParameter, isAvailable);
@@ -426,6 +430,8 @@ public class CharacterUIController : MonoBehaviour
 
     private void ClearSpellSlot(int index)
     {
+        if (spellTooltips != null && index >= 0 && index < spellTooltips.Length && spellTooltips[index] != null)
+            spellTooltips[index].Bind(null, false);
         if (spellAnimators != null && index < spellAnimators.Length && spellAnimators[index] != null)
         {
             spellAnimators[index].SetBool(SpellOpenParameter, false);

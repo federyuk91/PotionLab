@@ -12,6 +12,7 @@ namespace Refactory.UI
     {
         [SerializeField, RequiredInspectorReference] private RectTransform bookRoot;
         [SerializeField, RequiredInspectorReference] private Canvas rootCanvas;
+        [SerializeField, RequiredInspectorReference] private UITextColorPalette textPalette;
         [SerializeField] private Color inkColor = new Color(0.12f, 0.085f, 0.065f, 1f);
         [SerializeField] private Color illuminatedColor = Color.white;
         [Tooltip("Radius in book-local units, independent of screen resolution.")]
@@ -23,6 +24,9 @@ namespace Refactory.UI
             public TMP_Text Text;
             public Action<TMP_TextInfo> Rebuilt;
             public float[] Light = Array.Empty<float>();
+            public string Source;
+            public int PaletteRevision = -1;
+            public Color32[] BaseColors = Array.Empty<Color32>();
         }
 
         private readonly List<TextState> texts = new List<TextState>();
@@ -36,6 +40,8 @@ namespace Refactory.UI
                 Debug.LogWarning($"{name}: assign Book Root and Root Canvas in GrimoireTextIllumination.", this);
                 return;
             }
+            if (textPalette == null)
+                Debug.LogWarning($"{name}: assign Text Palette in GrimoireTextIllumination to enable semantic text colors.", this);
             RefreshTexts();
         }
 
@@ -90,6 +96,12 @@ namespace Refactory.UI
                 return;
             if (state.Light.Length != info.characterCount)
                 state.Light = new float[info.characterCount];
+            if (textPalette != null && (state.Source != state.Text.text || state.PaletteRevision != textPalette.Revision))
+            {
+                state.Source = state.Text.text;
+                state.PaletteRevision = textPalette.Revision;
+                state.BaseColors = textPalette.BuildSourceColors(state.Source, inkColor);
+            }
             float blend = 1f - Mathf.Exp(-responseSpeed * Time.unscaledDeltaTime);
             for (int i = 0; i < info.characterCount; i++)
             {
@@ -109,7 +121,9 @@ namespace Refactory.UI
                 float target = pointerInside ? 1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(lightRadius * 0.2f, lightRadius, distance)) : 0f;
                 if (advance)
                     state.Light[i] = Mathf.Lerp(state.Light[i], target, blend);
-                Color32 color = Color.Lerp(inkColor, illuminatedColor, state.Light[i]);
+                Color baseColor = textPalette != null && character.index < state.BaseColors.Length
+                    ? (Color)state.BaseColors[character.index] : inkColor;
+                Color32 color = Color.Lerp(baseColor, illuminatedColor, state.Light[i]);
                 for (int corner = 0; corner < 4; corner++)
                 {
                     // Preserve TMP alpha; parent CanvasGroup fades remain independent.

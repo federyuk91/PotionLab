@@ -14,10 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 3
   transformationName: "PupperFish"
-  image: {fileID: -3268116876886179480, guid: 2ab09d5d5751a61488632ad2537225ea, type: 3}
-  description: "Forma acquatica e tossica, utile per sopravvivere al veleno e manipolare l'acqua."
-  transformationMethod: "Il Mage beve Poison mentre e in stato Wet."
-  cureMethod: "Bere Dark avvia il ritorno alla forma Mage."
+  image: {fileID: 6762519587811461384, guid: a7dbe47dcf575bb4694625dd90dd9ff2, type: 3}
+  idleFrames:
+  - {fileID: 6762519587811461384, guid: a7dbe47dcf575bb4694625dd90dd9ff2, type: 3}
+  - {fileID: -5380374916476930638, guid: a7dbe47dcf575bb4694625dd90dd9ff2, type: 3}
+  - {fileID: -6675270421117964407, guid: a7dbe47dcf575bb4694625dd90dd9ff2, type: 3}
+  - {fileID: -4074570742015939568, guid: a7dbe47dcf575bb4694625dd90dd9ff2, type: 3}
+  - {fileID: 4356860443331852062, guid: a7dbe47dcf575bb4694625dd90dd9ff2, type: 3}
+  - {fileID: 5114307332460051097, guid: a7dbe47dcf575bb4694625dd90dd9ff2, type: 3}
+  - {fileID: -9215366912716841786, guid: a7dbe47dcf575bb4694625dd90dd9ff2, type: 3}
+  - {fileID: 5935511383758308857, guid: a7dbe47dcf575bb4694625dd90dd9ff2, type: 3}
+  idleFrameRate: 12
+  description: "An aquatic, poisonous form that survives toxins and bends water to its will."
+  transformationMethod: "As the Mage, drink Poison while Wet."
+  transformationPotionSprites:
+  - {fileID: 3833926529033503733, guid: 1a1694ee82ded3342bde68515610b0d6, type: 3}
+  - {fileID: -517353636276603117, guid: 88bee5b2da11771489473878b514bbfb, type: 3}
+  transformationHint: "As the Mage, drink in this order."
+  cureMethod: "Drink a Dark potion to return to the Mage."
   immunePotionSprites:
   - {fileID: -2172864323747464720, guid: edab2cf6e83ce054aa717b7051e46c14, type: 3}
   - {fileID: 1358720898326617198, guid: 1a103b75ec8e47743b5cab6823f048c3, type: 3}
@@ -26,18 +40,21 @@ MonoBehaviour:
     costo: 1
     icona: {fileID: 21300000, guid: 6d5e66595d498d84bb86f9f5e20b4712, type: 3}
     audio: {fileID: 8300000, guid: cfe7a0d49f07b40459112117ebfcd4a8, type: 3}
-    descrizioneNormale: "Attiva o disattiva il campo d'acqua."
-    descrizionePotenziata: "Il campo d'acqua potenzia la forma PupperFish."
+    descrizioneNormale: "Toggles the Water field. Activating it replaces any other elemental field and empowers PupperFish. Each toggle costs mana."
+    descrizionePotenziata: "Same toggle and cost. Casting while Water is active switches the field off."
+    descrizioneBreve: "Toggle the Water field to empower PupperFish."
   - nome: Eat Algae
     costo: 0
     icona: {fileID: 21300000, guid: d7a2a8145bd68b845a85d47848717296, type: 3}
     audio: {fileID: 8300000, guid: cfe7a0d49f07b40459112117ebfcd4a8, type: 3}
-    descrizioneNormale: "Consuma alghe per ottenere beneficio."
-    descrizionePotenziata: "Versione potenziata se il campo corretto e attivo."
+    descrizioneNormale: "Consumes all Algae and restores 2 MP per Algae level. Requires Algae."
+    descrizionePotenziata: "With the Water field active: restores the same MP and also heals 2 HP."
+    descrizioneBreve: "Eat Algae: +2 MP per level; +2 HP in Water."
   - nome: PufferFish
     costo: 6
     icona: {fileID: 21300000, guid: 0521791b244e6f94a987517795167fd9, type: 3}
     audio: {fileID: 8300000, guid: cfe7a0d49f07b40459112117ebfcd4a8, type: 3}
-    descrizioneNormale: "Usa la natura tossica del PupperFish come attacco o difesa."
-    descrizionePotenziata: "Versione potenziata se il campo corretto e attivo."
+    descrizioneNormale: "Activates a projection that destroys potions touching it. Its fifth non-Light potion raises light intensity by 1, once per activation."
+    descrizionePotenziata: "With the Water field active: also restores 3 MP after paying the casting cost. The projection keeps the same destruction and light-reward rules."
+    descrizioneBreve: "Project a potion-destroying fish; +3 MP in Water."
 

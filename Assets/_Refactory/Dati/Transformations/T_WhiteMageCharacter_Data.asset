@@ -15,9 +15,21 @@ MonoBehaviour:
   id: 6
   transformationName: "White Mage"
   image: {fileID: -1647316241, guid: 9d775f356a7f6d94bb0c8ab76d6dee9d, type: 3}
-  description: "Forma luminosa superiore, concentrata su protezione, guarigione e controllo della luce."
-  transformationMethod: "Il Mage accumula luce al massimo fino al terzo livello di benedizione."
-  cureMethod: "Da definire nel design finale della trasformazione."
+  idleFrames:
+  - {fileID: -1647316241, guid: 9d775f356a7f6d94bb0c8ab76d6dee9d, type: 3}
+  - {fileID: 58771242, guid: 9d775f356a7f6d94bb0c8ab76d6dee9d, type: 3}
+  - {fileID: 707916902, guid: 9d775f356a7f6d94bb0c8ab76d6dee9d, type: 3}
+  - {fileID: -239686686, guid: 9d775f356a7f6d94bb0c8ab76d6dee9d, type: 3}
+  - {fileID: -1838612805, guid: 9d775f356a7f6d94bb0c8ab76d6dee9d, type: 3}
+  - {fileID: -568519932, guid: 9d775f356a7f6d94bb0c8ab76d6dee9d, type: 3}
+  - {fileID: 1286052190, guid: 9d775f356a7f6d94bb0c8ab76d6dee9d, type: 3}
+  - {fileID: -2035691449, guid: 9d775f356a7f6d94bb0c8ab76d6dee9d, type: 3}
+  idleFrameRate: 12
+  description: "A radiant form devoted to protection, healing and the power of light."
+  transformationMethod: "Transformation recipe is not yet implemented."
+  transformationPotionSprites: []
+  transformationHint: ""
+  cureMethod: "No return method has been defined yet."
   immunePotionSprites:
   - {fileID: -5469023944784030602, guid: 531bc38a7e672414482189974260f0f8, type: 3}
   - {fileID: -2172864323747464720, guid: edab2cf6e83ce054aa717b7051e46c14, type: 3}
@@ -33,18 +45,21 @@ MonoBehaviour:
     costo: 4
     icona: {fileID: 21300000, guid: fb9f5fecebd2eed4cb276bea9340834c, type: 3}
     audio: {fileID: 0}
-    descrizioneNormale: "Evoca un aiuto o un effetto oscuro."
-    descrizionePotenziata: "Evocazione potenziata dalla condizione corretta."
+    descrizioneNormale: "Placeholder spell: its named effect is not implemented. The current handler spends the listed MP when available and triggers animation/immunity feedback, but does not complete a successful cast."
+    descrizionePotenziata: "No powered variant is implemented."
+    descrizioneBreve: "Placeholder: spell not implemented."
   - nome: Dark-Ray
     costo: 3
     icona: {fileID: 21300000, guid: c0f26f7325a16ca469bdfe69d8c8940f, type: 3}
     audio: {fileID: 8300000, guid: be6e004ca13cb0e43b0c12546ede7549, type: 3}
-    descrizioneNormale: "Lancia un raggio oscuro."
-    descrizionePotenziata: "Raggio oscuro potenziato."
+    descrizioneNormale: "Placeholder spell: its named effect is not implemented. The current handler spends the listed MP when available and triggers animation/immunity feedback, but does not complete a successful cast."
+    descrizionePotenziata: "No powered variant is implemented."
+    descrizioneBreve: "Placeholder: spell not implemented."
   - nome: Second Chance
     costo: 15
     icona: {fileID: 21300000, guid: 170e08f83c0e5904395a9009e57b7ef5, type: 3}
     audio: {fileID: 0}
-    descrizioneNormale: "Tenta un ritorno o una salvezza estrema."
-    descrizionePotenziata: "Effetto migliorato quando la forma e powered."
+    descrizioneNormale: "Placeholder spell: its named effect is not implemented. The current handler spends the listed MP when available and triggers animation/immunity feedback, but does not complete a successful cast."
+    descrizionePotenziata: "No powered variant is implemented."
+    descrizioneBreve: "Placeholder: spell not implemented."
 

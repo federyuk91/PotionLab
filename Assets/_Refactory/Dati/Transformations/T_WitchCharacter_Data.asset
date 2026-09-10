@@ -15,9 +15,19 @@ MonoBehaviour:
   id: 7
   transformationName: "Witch"
   image: {fileID: 1431248125, guid: c25792c69f4c45944bd4a8d5a52319c5, type: 3}
-  description: "Forma alchemica legata a veleno, erbe e reazioni instabili."
-  transformationMethod: "Il Mage interagisce con Grass e Poison secondo la regola dedicata della Witch."
-  cureMethod: "Da definire nel design finale della trasformazione."
+  idleFrames:
+  - {fileID: 1431248125, guid: c25792c69f4c45944bd4a8d5a52319c5, type: 3}
+  - {fileID: 1379133871, guid: c25792c69f4c45944bd4a8d5a52319c5, type: 3}
+  - {fileID: 403355824, guid: c25792c69f4c45944bd4a8d5a52319c5, type: 3}
+  - {fileID: -721073824, guid: c25792c69f4c45944bd4a8d5a52319c5, type: 3}
+  - {fileID: -1124106761, guid: c25792c69f4c45944bd4a8d5a52319c5, type: 3}
+  - {fileID: -2001178247, guid: c25792c69f4c45944bd4a8d5a52319c5, type: 3}
+  idleFrameRate: 12
+  description: "An alchemical form steeped in poison, herbs and volatile reactions."
+  transformationMethod: "Transformation recipe is not yet implemented."
+  transformationPotionSprites: []
+  transformationHint: ""
+  cureMethod: "No return method has been defined yet."
   immunePotionSprites:
   - {fileID: -2172864323747464720, guid: edab2cf6e83ce054aa717b7051e46c14, type: 3}
   - {fileID: 1853813971063210717, guid: ac82f27c79c5dee40a3125721fae32e4, type: 3}
@@ -32,18 +42,21 @@ MonoBehaviour:
     costo: 4
     icona: {fileID: 21300000, guid: fb9f5fecebd2eed4cb276bea9340834c, type: 3}
     audio: {fileID: 0}
-    descrizioneNormale: "Evoca un aiuto o un effetto oscuro."
-    descrizionePotenziata: "Evocazione potenziata dalla condizione corretta."
+    descrizioneNormale: "Not implemented. This spell currently has no gameplay effect and does not spend resources."
+    descrizionePotenziata: "No powered variant is implemented."
+    descrizioneBreve: "Spell not implemented."
   - nome: Dark-Ray
     costo: 3
     icona: {fileID: 21300000, guid: c0f26f7325a16ca469bdfe69d8c8940f, type: 3}
     audio: {fileID: 8300000, guid: be6e004ca13cb0e43b0c12546ede7549, type: 3}
-    descrizioneNormale: "Lancia un raggio oscuro."
-    descrizionePotenziata: "Raggio oscuro potenziato."
+    descrizioneNormale: "Not implemented. This spell currently has no gameplay effect and does not spend resources."
+    descrizionePotenziata: "No powered variant is implemented."
+    descrizioneBreve: "Spell not implemented."
   - nome: Second Chance
     costo: 15
     icona: {fileID: 21300000, guid: 170e08f83c0e5904395a9009e57b7ef5, type: 3}
     audio: {fileID: 0}
-    descrizioneNormale: "Tenta un ritorno o una salvezza estrema."
-    descrizionePotenziata: "Effetto migliorato quando la forma e powered."
+    descrizioneNormale: "Not implemented. This spell currently has no gameplay effect and does not spend resources."
+    descrizionePotenziata: "No powered variant is implemented."
+    descrizioneBreve: "Spell not implemented."
 
