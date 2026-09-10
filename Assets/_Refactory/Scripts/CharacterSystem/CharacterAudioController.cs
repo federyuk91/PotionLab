@@ -157,7 +157,7 @@ namespace CharacterSystem
                 return;
             }
 
-            PlayOneShot(spellSource, spell.castAudio, $"spell '{spell.spellName}' on {character.name}");
+            PlayOneShot(spellSource, spell.audio, $"spell '{spell.nome}' on {character.name}");
         }
 
         private AudioClip GetPotionClip(CharacterType characterType, PotionScriptable potion, IReadOnlyCollection<Status> previousStatuses)
@@ -260,3 +260,4 @@ namespace CharacterSystem
         }
     }
 }
+

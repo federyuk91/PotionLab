@@ -1,11 +1,14 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 namespace CharacterSystem
 {
     public class CharacterSpells : MonoBehaviour
     {
+        private const int SpellSlotCount = 3;
+
         public event Action<IReadOnlyList<Spell>, CharacterType> SpellListChanged;
         public event Action<int, Spell, bool> SpellAvailabilityChanged;
 
@@ -17,6 +20,7 @@ namespace CharacterSystem
         private bool missingCharacterStatsWarningShown;
         private bool missingCurrentCharacterWarningShown;
         private bool missingLightControllerWarningShown;
+        private readonly HashSet<string> missingSpellWarnings = new HashSet<string>();
 
         private void Awake()
         {
@@ -111,10 +115,18 @@ namespace CharacterSystem
                 return;
             }
 
-            for (int i = 0; i < 3; i++)
+            IReadOnlyList<Spell> spells = character.spellList;
+            for (int i = 0; i < SpellSlotCount; i++)
             {
-                Spell spell = character.spellList[i];
-                bool isActive = CanPaySpellCost(character, spell.cost);
+                if (spells == null || i >= spells.Count || spells[i] == null)
+                {
+                    WarnMissingSpell(character, i);
+                    SpellAvailabilityChanged?.Invoke(i, null, false);
+                    continue;
+                }
+
+                Spell spell = spells[i];
+                bool isActive = CanPaySpellCost(character, spell.costo);
                 SpellAvailabilityChanged?.Invoke(i, spell, isActive);
             }
         }
@@ -224,17 +236,32 @@ namespace CharacterSystem
             Debug.LogWarning($"{name}: LightController reference is missing on TransformationManager. Assign it in Inspector.", this);
         }
 
+        private void WarnMissingSpell(BaseCharacter character, int index)
+        {
+            string warningKey = character.GetCharacterForm() + ":" + index;
+            if (!missingSpellWarnings.Add(warningKey))
+            {
+                return;
+            }
+
+            string dataName = character.Data != null ? character.Data.name : "missing TransformationData";
+            Debug.LogWarning($"{name}: {character.name} has no spell configured at index {index}. Check {dataName} in Inspector.", this);
+        }
+
     }
 
     [Serializable]
     public class Spell
     {
-        public string spellName;
-        public int cost;
-        public Sprite sprite;
-        public AudioClip castAudio;
+        [FormerlySerializedAs("spellName")] public string nome;
+        [FormerlySerializedAs("sprite")] public Sprite icona;
+        [FormerlySerializedAs("cost")] public int costo;
+        [FormerlySerializedAs("castAudio")] public AudioClip audio;
+        [FormerlySerializedAs("description"), TextArea(2, 5)] public string descrizioneNormale;
+        [FormerlySerializedAs("poweredDescription"), TextArea(2, 5)] public string descrizionePotenziata;
     }
 
 }
+
 
 

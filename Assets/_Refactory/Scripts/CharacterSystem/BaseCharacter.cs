@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using ProgressSystem;
+using InspectorValidation;
 
 namespace CharacterSystem
 {
@@ -12,9 +13,10 @@ namespace CharacterSystem
         private static readonly int Spell1Trigger = Animator.StringToHash("Spell1");
         private static readonly int Spell2Trigger = Animator.StringToHash("Spell2");
         private static readonly int Spell3Trigger = Animator.StringToHash("Spell3");
+        private static readonly IReadOnlyList<Spell> EmptySpellList = new List<Spell>();
 
         [Header("References")]
-        public List<Spell> spellList;
+        [SerializeField, RequiredInspectorReference] private TransformationData transformationData;
         [SerializeField] public Animator animator;
         [SerializeField] public CharacterStats stats;
         [SerializeField] public CharacterStatusController status;
@@ -29,6 +31,8 @@ namespace CharacterSystem
         public event Action<BaseCharacter, int, Spell, bool> SpellCastSucceeded;
         public event Action<AchievementId> AchievementRequested;
 
+        public TransformationData Data => transformationData;
+        public IReadOnlyList<Spell> spellList => transformationData != null ? transformationData.Spells : EmptySpellList;
         public Color TransformationLightColor => transformationLightColor;
         public bool IsReturnMagePending { get; private set; }
 
@@ -93,6 +97,11 @@ namespace CharacterSystem
             if (dialogManager == null)
             {
                 Debug.LogError($"{name}: DialogManager reference is required.", this);
+            }
+
+            if (transformationData == null)
+            {
+                Debug.LogError($"{name}: TransformationData reference is required.", this);
             }
         }
 

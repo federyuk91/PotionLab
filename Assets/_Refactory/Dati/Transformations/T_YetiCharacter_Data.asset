@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a7f3228c9344d6a9af3ad1f5d4b0b1, type: 3}
+  m_Name: T_YetiCharacter_Data
+  m_EditorClassIdentifier: 
+  id: 4
+  transformationName: "Yeti"
+  image: {fileID: -3268116876886179480, guid: 2ab09d5d5751a61488632ad2537225ea, type: 3}
+  description: "Forma glaciale resistente al freddo, capace di sfruttare neve e terreno congelato."
+  transformationMethod: "Il Mage beve Ice mentre e in stato Grounded."
+  cureMethod: "Alcune reazioni con Fire o ritorno dedicato avviano il ritorno alla forma Mage."
+  immunePotionSprites:
+  - {fileID: -2172864323747464720, guid: edab2cf6e83ce054aa717b7051e46c14, type: 3}
+  - {fileID: 1853813971063210717, guid: ac82f27c79c5dee40a3125721fae32e4, type: 3}
+  - {fileID: 3833926529033503733, guid: 1a1694ee82ded3342bde68515610b0d6, type: 3}
+  spells:
+  - nome: Ice Zone
+    costo: 2
+    icona: {fileID: 21300000, guid: 5e8e420252e25c645b3111e5a722cdd6, type: 3}
+    audio: {fileID: 8300000, guid: 741f8ad35090ae04b992f578345f22f0, type: 3}
+    descrizioneNormale: "Attiva o disattiva il campo di ghiaccio."
+    descrizionePotenziata: "Il campo di ghiaccio potenzia lo Yeti."
+  - nome: Convert
+    costo: 4
+    icona: {fileID: 21300000, guid: 0d54c02d80430f4498b0e334031ec7ed, type: 3}
+    audio: {fileID: 8300000, guid: 741f8ad35090ae04b992f578345f22f0, type: 3}
+    descrizioneNormale: "Converte condizioni e risorse secondo la forma Yeti."
+    descrizionePotenziata: "Conversione migliorata dal campo di ghiaccio."
+  - nome: Punch
+    costo: 0
+    icona: {fileID: 21300000, guid: 133d5512087f4e04ea05c169e70b4f80, type: 3}
+    audio: {fileID: 8300000, guid: 741f8ad35090ae04b992f578345f22f0, type: 3}
+    descrizioneNormale: "Attacco fisico dello Yeti."
+    descrizionePotenziata: "Colpo potenziato se lo Yeti e powered."
+

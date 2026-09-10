@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a7f3228c9344d6a9af3ad1f5d4b0b1, type: 3}
+  m_Name: T_MageCharacter_Data
+  m_EditorClassIdentifier: 
+  id: 0
+  transformationName: "Mage"
+  image: {fileID: -3268116876886179480, guid: 31af895d41f33f84b818c462efcae245, type: 3}
+  description: "Forma base del protagonista, fragile ma versatile. Usa luce, cura e purificazione per controllare la notte."
+  transformationMethod: "Forma iniziale del personaggio e punto di ritorno delle trasformazioni."
+  cureMethod: "Non richiede cura: e la forma stabile del personaggio."
+  immunePotionSprites: []
+  spells:
+  - nome: Light
+    costo: 1
+    icona: {fileID: 21300000, guid: 59d21fb437c9db24c9e9ebe2838a386d, type: 3}
+    audio: {fileID: 8300000, guid: e1b7e4d30089aac4bb39f5af0c9abcf3, type: 3}
+    descrizioneNormale: "Aumenta il livello di luce se non e gia al massimo."
+    descrizionePotenziata: "Non ha effetto quando la luce e gia al massimo."
+  - nome: Heal
+    costo: 4
+    icona: {fileID: 21300000, guid: 5cd7861c3b4c54b4b9323f5cc6c6e3ed, type: 3}
+    audio: {fileID: 8300000, guid: e1b7e4d30089aac4bb39f5af0c9abcf3, type: 3}
+    descrizioneNormale: "Cura il Mage spendendo luce."
+    descrizionePotenziata: "Cura piu HP quando il Mage e powered."
+  - nome: Cleanse
+    costo: 6
+    icona: {fileID: 21300000, guid: bd969a873597b14448c3e80f9e73f4c8, type: 3}
+    audio: {fileID: 8300000, guid: e1b7e4d30089aac4bb39f5af0c9abcf3, type: 3}
+    descrizioneNormale: "Rimuove stati negativi e terreno dal Mage."
+    descrizionePotenziata: "Rimuove gli stati e restituisce anche 1 HP."
+

@@ -39,13 +39,13 @@ namespace CharacterSystem
                 return false;
             }
 
-            if (!stats.HasMana(spell.cost))
+            if (!stats.HasMana(spell.costo))
             {
                 dialogManager.PopDialog("I need more magic for this spell", 3f);
                 return false;
             }
 
-            stats.LoseMana(spell.cost);
+            stats.LoseMana(spell.costo);
             transformationManager.lightController.IncreaseLightLevel();
             return true;
         }
@@ -58,13 +58,13 @@ namespace CharacterSystem
                 return false;
             }
 
-            if (!stats.HasMana(spell.cost))
+            if (!stats.HasMana(spell.costo))
             {
                 dialogManager.PopDialog("I need more magic for this spell", 3f);
                 return false;
             }
 
-            stats.LoseMana(spell.cost);
+            stats.LoseMana(spell.costo);
 
             if (powered)
             {
@@ -87,13 +87,13 @@ namespace CharacterSystem
                 return false;
             }
 
-            if (!stats.HasMana(spell.cost))
+            if (!stats.HasMana(spell.costo))
             {
                 dialogManager.PopDialog("I need more magic for this spell", 3f);
                 return false;
             }
 
-            stats.LoseMana(spell.cost);
+            stats.LoseMana(spell.costo);
 
             if (status.Has(Status.Freezed) && status.Has(Status.Poisoned))
             {
@@ -607,4 +607,5 @@ namespace CharacterSystem
         }*/
     }
 }
+
 

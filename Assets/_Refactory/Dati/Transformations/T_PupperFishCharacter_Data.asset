@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a7f3228c9344d6a9af3ad1f5d4b0b1, type: 3}
+  m_Name: T_PupperFishCharacter_Data
+  m_EditorClassIdentifier: 
+  id: 3
+  transformationName: "PupperFish"
+  image: {fileID: -3268116876886179480, guid: 2ab09d5d5751a61488632ad2537225ea, type: 3}
+  description: "Forma acquatica e tossica, utile per sopravvivere al veleno e manipolare l'acqua."
+  transformationMethod: "Il Mage beve Poison mentre e in stato Wet."
+  cureMethod: "Bere Dark avvia il ritorno alla forma Mage."
+  immunePotionSprites:
+  - {fileID: -2172864323747464720, guid: edab2cf6e83ce054aa717b7051e46c14, type: 3}
+  - {fileID: 1358720898326617198, guid: 1a103b75ec8e47743b5cab6823f048c3, type: 3}
+  spells:
+  - nome: Water Zone
+    costo: 1
+    icona: {fileID: 21300000, guid: 6d5e66595d498d84bb86f9f5e20b4712, type: 3}
+    audio: {fileID: 8300000, guid: cfe7a0d49f07b40459112117ebfcd4a8, type: 3}
+    descrizioneNormale: "Attiva o disattiva il campo d'acqua."
+    descrizionePotenziata: "Il campo d'acqua potenzia la forma PupperFish."
+  - nome: Eat Algae
+    costo: 0
+    icona: {fileID: 21300000, guid: d7a2a8145bd68b845a85d47848717296, type: 3}
+    audio: {fileID: 8300000, guid: cfe7a0d49f07b40459112117ebfcd4a8, type: 3}
+    descrizioneNormale: "Consuma alghe per ottenere beneficio."
+    descrizionePotenziata: "Versione potenziata se il campo corretto e attivo."
+  - nome: PufferFish
+    costo: 6
+    icona: {fileID: 21300000, guid: 0521791b244e6f94a987517795167fd9, type: 3}
+    audio: {fileID: 8300000, guid: cfe7a0d49f07b40459112117ebfcd4a8, type: 3}
+    descrizioneNormale: "Usa la natura tossica del PupperFish come attacco o difesa."
+    descrizionePotenziata: "Versione potenziata se il campo corretto e attivo."
+

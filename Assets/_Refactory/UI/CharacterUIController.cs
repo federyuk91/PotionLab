@@ -380,11 +380,12 @@ public class CharacterUIController : MonoBehaviour
 
     private void RefreshSpells(IReadOnlyList<Spell> spells, CharacterType characterType)
     {
-        int slotCount = GetSpellSlotCount(spells);
+        int slotCount = GetSpellSlotCount();
 
         for (int index = 0; index < slotCount; index++)
         {
-            RefreshSpellSlot(index, spells[index], true);
+            Spell spell = spells != null && index < spells.Count ? spells[index] : null;
+            RefreshSpellSlot(index, spell, spell != null);
         }
     }
 
@@ -395,8 +396,14 @@ public class CharacterUIController : MonoBehaviour
 
     private void RefreshSpellSlot(int index, Spell spell, bool isAvailable)
     {
-        if (spell == null || index < 0)
+        if (index < 0)
         {
+            return;
+        }
+
+        if (spell == null)
+        {
+            ClearSpellSlot(index);
             return;
         }
 
@@ -407,24 +414,38 @@ public class CharacterUIController : MonoBehaviour
 
         if (spellImages != null && index < spellImages.Length && spellImages[index] != null)
         {
-            spellImages[index].sprite = spell.sprite;
+            spellImages[index].sprite = spell.icona;
             spellImages[index].gameObject.SetActive(isAvailable);
         }
 
         if (spellCosts != null && index < spellCosts.Length && spellCosts[index] != null)
         {
-            spellCosts[index].text = spell.cost.ToString();
+            spellCosts[index].text = spell.costo.ToString();
         }
     }
 
-    private int GetSpellSlotCount(IReadOnlyList<Spell> spells)
+    private void ClearSpellSlot(int index)
     {
-        if (spells == null)
+        if (spellAnimators != null && index < spellAnimators.Length && spellAnimators[index] != null)
         {
-            return 0;
+            spellAnimators[index].SetBool(SpellOpenParameter, false);
         }
 
-        int slotCount = spells.Count;
+        if (spellImages != null && index < spellImages.Length && spellImages[index] != null)
+        {
+            spellImages[index].sprite = null;
+            spellImages[index].gameObject.SetActive(false);
+        }
+
+        if (spellCosts != null && index < spellCosts.Length && spellCosts[index] != null)
+        {
+            spellCosts[index].text = string.Empty;
+        }
+    }
+
+    private int GetSpellSlotCount()
+    {
+        int slotCount = int.MaxValue;
 
         if (spellImages != null)
         {
@@ -439,6 +460,11 @@ public class CharacterUIController : MonoBehaviour
         if (spellCosts != null)
         {
             slotCount = Mathf.Min(slotCount, spellCosts.Length);
+        }
+
+        if (slotCount == int.MaxValue)
+        {
+            return 0;
         }
 
         return slotCount;
@@ -1019,3 +1045,4 @@ public class CharacterUIController : MonoBehaviour
         return false;
     }
 }
+

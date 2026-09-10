@@ -98,13 +98,13 @@ namespace CharacterSystem
 
         private bool TrySpendMana(Spell spell, string notEnoughManaDialog)
         {
-            if (!stats.HasMana(spell.cost))
+            if (!stats.HasMana(spell.costo))
             {
                 dialogManager.PopDialog(notEnoughManaDialog, 1f);
                 return false;
             }
 
-            stats.LoseMana(spell.cost);
+            stats.LoseMana(spell.costo);
             return true;
         }
         public override void OnEnable()
@@ -264,3 +264,4 @@ namespace CharacterSystem
 
     }
 }
+

@@ -26,8 +26,8 @@ namespace CharacterSystem
 
         private bool TrySpendMana(Spell spell, string notEnoughManaDialog)
         {
-            int manaCost = Mathf.Min(stats.MP, spell.cost);
-            int healthCost = spell.cost - manaCost;
+            int manaCost = Mathf.Min(stats.MP, spell.costo);
+            int healthCost = spell.costo - manaCost;
 
             if (healthCost > 0 && stats.HP <= healthCost)
             {
@@ -51,7 +51,7 @@ namespace CharacterSystem
         public override void ApplyDark(PotionScriptable ps)
         {
             stats.AddMana(ps.baseValue);
-            Debug.Log("Una vecchia strega sa apprezzare oscurità in bottiglia");
+            Debug.Log("Una vecchia strega sa apprezzare oscuritï¿½ in bottiglia");
         }
 
         public override void ApplyFire(PotionScriptable ps)
@@ -63,7 +63,7 @@ namespace CharacterSystem
 
         public override void ApplyIce(PotionScriptable ps)
         {
-            Debug.Log($"Un po' di ghiaccio è l'ideale per un succo sulla spiaggia");
+            Debug.Log($"Un po' di ghiaccio ï¿½ l'ideale per un succo sulla spiaggia");
             stats.Heal(ps.baseValue);
             return;
         }
@@ -77,7 +77,7 @@ namespace CharacterSystem
 
         public override void ApplyGround(PotionScriptable ps)
         {
-            Debug.Log($"Questo rovinerà il mio intruglio D:");
+            Debug.Log($"Questo rovinerï¿½ il mio intruglio D:");
             status.TriggerImmunity();
             return;
         }
@@ -92,7 +92,7 @@ namespace CharacterSystem
         public override void ApplyLava(PotionScriptable ps)
         {
 
-            Debug.Log($"Solo quel vecchio idiota può bere una cosa del genere");
+            Debug.Log($"Solo quel vecchio idiota puï¿½ bere una cosa del genere");
             status.TriggerImmunity();
             return;
         }
@@ -107,7 +107,7 @@ namespace CharacterSystem
 
         public override void ApplyPoison(PotionScriptable ps)
         {
-            Debug.Log($"La mia favorità");
+            Debug.Log($"La mia favoritï¿½");
             status.TriggerImmunity();
             return;
         }
@@ -155,3 +155,4 @@ namespace CharacterSystem
 
     }
 }
+

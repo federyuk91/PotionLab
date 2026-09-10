@@ -7,10 +7,10 @@ namespace CharacterSystem
         protected override bool CastSpell(int i, bool powered)
         {
             Spell spell = spellList[i];
-            if (stats.HasMana(spell.cost))
+            if (stats.HasMana(spell.costo))
             {
-                stats.LoseMana(spell.cost);
-                animator.SetTrigger(spell.spellName);
+                stats.LoseMana(spell.costo);
+                animator.SetTrigger(spell.nome);
                 status.TriggerImmunity();
             }
 
@@ -96,3 +96,4 @@ namespace CharacterSystem
 
     }
 }
+

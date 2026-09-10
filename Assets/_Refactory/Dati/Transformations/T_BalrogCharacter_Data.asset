@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a7f3228c9344d6a9af3ad1f5d4b0b1, type: 3}
+  m_Name: T_BalrogCharacter_Data
+  m_EditorClassIdentifier: 
+  id: 1
+  transformationName: "Balrog"
+  image: {fileID: -3268116876886179480, guid: 2ab09d5d5751a61488632ad2537225ea, type: 3}
+  description: "Creatura infernale resistente al fuoco, pensata per dominare calore e lava."
+  transformationMethod: "Il Mage beve Lava mentre e in stato Burned."
+  cureMethod: "Bere Light avvia il ritorno alla forma Mage."
+  immunePotionSprites:
+  - {fileID: 1853813971063210717, guid: ac82f27c79c5dee40a3125721fae32e4, type: 3}
+  - {fileID: -1834088911562275152, guid: 3bcbfe3450d294a45a466ee92b5a7219, type: 3}
+  - {fileID: 3833926529033503733, guid: 1a1694ee82ded3342bde68515610b0d6, type: 3}
+  spells:
+  - nome: Fire Zone
+    costo: 2
+    icona: {fileID: 21300000, guid: 4e37fdc8cf5486a488c7ee7fa3bcffab, type: 3}
+    audio: {fileID: 8300000, guid: e05fae91473184b478941338d90f1f26, type: 3}
+    descrizioneNormale: "Attiva o disattiva il campo di fuoco."
+    descrizionePotenziata: "Il campo di fuoco potenzia le regole del Balrog."
+  - nome: Balance
+    costo: 0
+    icona: {fileID: 21300000, guid: 5e12bad24caf60d489a377595771f903, type: 3}
+    audio: {fileID: 8300000, guid: e05fae91473184b478941338d90f1f26, type: 3}
+    descrizioneNormale: "Converte risorse del Balrog bilanciando danno e magia."
+    descrizionePotenziata: "Versione potenziata legata al campo di fuoco."
+  - nome: Calderone
+    costo: 8
+    icona: {fileID: 21300000, guid: a6dfd8a67c41b1543bdc42e767163a6b, type: 3}
+    audio: {fileID: 8300000, guid: e05fae91473184b478941338d90f1f26, type: 3}
+    descrizioneNormale: "Evoca il calderone che distrugge le pozioni nel trigger."
+    descrizionePotenziata: "Usa la versione powered del calderone."
+
