@@ -10,6 +10,10 @@ namespace Refactory.UI.GridList
 {
     public sealed class TransformationCompendiumPanel : MonoBehaviour
     {
+        private const float TargetSpriteCoverage = 0.42f;
+        private const float MinimumSpriteScale = 0.8f;
+        private const float MaximumSpriteScale = 1.35f;
+
         [Serializable]
         private sealed class SpellFields
         {
@@ -26,6 +30,7 @@ namespace Refactory.UI.GridList
         [SerializeField, RequiredInspectorReference] private Image portrait;
         [SerializeField, RequiredInspectorReference] private TMP_Text description;
         [SerializeField, RequiredInspectorReference] private TMP_Text spellCost;
+        [SerializeField, RequiredInspectorReference] private TMP_Text immunityHeading;
         [SerializeField, RequiredInspectorReference] private GameObject[] formOnlyFields;
         [SerializeField, RequiredInspectorReference] private TMP_Text transformationMethod;
         [SerializeField, RequiredInspectorReference] private RectTransform transformationPotionContainer;
@@ -39,11 +44,9 @@ namespace Refactory.UI.GridList
         private readonly List<Image> immunityIcons = new List<Image>();
         private readonly List<Image> transformationIcons = new List<Image>();
         private readonly List<TransformationData> buttonData = new List<TransformationData>();
+        private readonly Dictionary<TransformationData, float> displayScales = new Dictionary<TransformationData, float>();
         private TransformationData selectedData;
         private int previewSpell = -1;
-        private Vector2 descriptionSize;
-        private Vector2 descriptionPosition;
-        private bool descriptionSizeCached;
         private float idleTime;
 
         private void Update()
@@ -51,9 +54,16 @@ namespace Refactory.UI.GridList
             if (listScroll == null || !listScroll.gameObject.activeInHierarchy) return;
             idleTime += Time.unscaledDeltaTime;
             for (int i = 0; i < buttons.Count; i++)
-                ((Image)buttons[i].targetGraphic).sprite = buttonData[i].GetIdleSprite(idleTime + i * 0.13f);
+            {
+                Image buttonImage = (Image)buttons[i].targetGraphic;
+                buttonImage.sprite = buttonData[i].GetIdleSprite(idleTime + i * 0.13f);
+                ApplyCharacterScale(buttonImage, buttonData[i]);
+            }
             if (selectedData != null && previewSpell < 0)
+            {
                 portrait.sprite = selectedData.GetIdleSprite(idleTime);
+                ApplyCharacterScale(portrait, selectedData);
+            }
         }
 
         public void SetVisible(bool visible)
@@ -66,13 +76,6 @@ namespace Refactory.UI.GridList
         public void Show()
         {
             if (!ValidateReferences()) return;
-            // Show can be called by another component's OnEnable before our Awake.
-            if (!descriptionSizeCached)
-            {
-                descriptionSize = description.rectTransform.sizeDelta;
-                descriptionPosition = description.rectTransform.anchoredPosition;
-                descriptionSizeCached = true;
-            }
             SetVisible(true);
             foreach (Button button in buttons)
             {
@@ -81,6 +84,7 @@ namespace Refactory.UI.GridList
             }
             buttons.Clear();
             buttonData.Clear();
+            displayScales.Clear();
             selectedData = null;
             previewSpell = -1;
             detailScroll.content.gameObject.SetActive(false);
@@ -97,7 +101,8 @@ namespace Refactory.UI.GridList
                 button.name = data.TransformationName;
                 Image icon = button.targetGraphic as Image;
                 icon.sprite = data.GetIdleSprite(idleTime);
-                button.onClick.AddListener(() => Select(data, button));
+                ApplyCharacterScale(icon, data);
+                button.onClick.AddListener(() => Select(data));
                 button.gameObject.SetActive(true);
                 buttons.Add(button);
                 buttonData.Add(data);
@@ -105,12 +110,12 @@ namespace Refactory.UI.GridList
                 if (data.Image == null || string.IsNullOrWhiteSpace(data.Description) || data.Spells == null || data.Spells.Count != 3)
                     Debug.LogWarning($"{data.name}: check Image, Description and the three Spells in TransformationData.", data);
             }
-            if (first != null) Select(first, buttons[0]);
+            if (first != null) Select(first);
             ResetScroll(listScroll);
             illumination.RefreshTexts();
         }
 
-        private void Select(TransformationData data, Button selected)
+        private void Select(TransformationData data)
         {
             selectedData = data;
             previewSpell = -1;
@@ -134,8 +139,6 @@ namespace Refactory.UI.GridList
             }
             SetText(transformationMethod, transformationIcons.Count > 0 ? data.TransformationHint : data.TransformationMethod);
             SetText(cureMethod, data.CureMethod);
-            foreach (Button button in buttons)
-                button.targetGraphic.rectTransform.localScale = button == selected ? Vector3.one * 1.08f : Vector3.one;
 
             foreach (Image icon in immunityIcons)
             {
@@ -173,18 +176,20 @@ namespace Refactory.UI.GridList
             if (spell == null) return;
             previewSpell = index;
             foreach (GameObject field in formOnlyFields) field.SetActive(false);
-            title.text = $"{spell.nome} <size=65%>(Cost: {spell.costo})</size>";
+            title.text = spell.nome;
             portrait.sprite = spell.icona;
+            portrait.rectTransform.localScale = Vector3.one;
             portrait.gameObject.SetActive(spell.icona != null);
-            spellCost.text = $"Cost: {spell.costo}";
-            spellCost.gameObject.SetActive(false);
-            string text = spell.descrizioneNormale ?? string.Empty;
+            spellCost.text = $"Cost: {spell.costo} MP";
+            spellCost.gameObject.SetActive(true);
+            string text = !string.IsNullOrWhiteSpace(spell.descrizioneGenerica)
+                ? spell.descrizioneGenerica
+                : spell.descrizioneBreve ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(spell.descrizioneNormale))
+                text += $"\n\n<size=140%><b>Normal</b></size>\n{spell.descrizioneNormale}";
             if (!string.IsNullOrWhiteSpace(spell.descrizionePotenziata))
-                text += "\n\n<b>Powered</b>\n" + spell.descrizionePotenziata;
-            // Keep the spell buttons fixed; use the lower page for the full explanation.
-            description.rectTransform.anchoredPosition = new Vector2(descriptionPosition.x, -30f);
-            description.rectTransform.sizeDelta = new Vector2(descriptionSize.x, 20f);
-            SetText(description, "<b>Normal</b>\n" + text);
+                text += $"\n\n<size=140%><b>Powered</b></size>\n{spell.descrizionePotenziata}";
+            SetText(description, text);
         }
 
         public void EndSpellPreview(int index)
@@ -200,13 +205,13 @@ namespace Refactory.UI.GridList
             foreach (GameObject field in formOnlyFields) field.SetActive(true);
             title.text = selectedData.TransformationName;
             portrait.sprite = selectedData.GetIdleSprite(idleTime);
+            ApplyCharacterScale(portrait, selectedData);
             portrait.gameObject.SetActive(portrait.sprite != null);
-            description.rectTransform.sizeDelta = descriptionSize;
-            description.rectTransform.anchoredPosition = descriptionPosition;
             SetText(description, selectedData.Description);
             spellCost.gameObject.SetActive(false);
             immunityContainer.gameObject.SetActive(immunityIcons.Count > 0);
             transformationPotionContainer.gameObject.SetActive(transformationIcons.Count > 0);
+            immunityHeading.gameObject.SetActive(immunityIcons.Count > 0);
         }
 
         private static void SetText(TMP_Text field, string value)
@@ -220,7 +225,47 @@ namespace Refactory.UI.GridList
             Canvas.ForceUpdateCanvases();
             LayoutRebuilder.ForceRebuildLayoutImmediate(scroll.content);
             scroll.StopMovement();
+            scroll.horizontalNormalizedPosition = 0f;
             scroll.verticalNormalizedPosition = 1f;
+        }
+
+        private void ApplyCharacterScale(Image image, TransformationData data)
+        {
+            if (image == null || data == null) return;
+            if (!displayScales.TryGetValue(data, out float scale))
+            {
+                scale = CalculateCharacterScale(data.Image);
+                displayScales.Add(data, scale);
+            }
+            image.rectTransform.localScale = Vector3.one * scale;
+        }
+
+        private static float CalculateCharacterScale(Sprite sprite)
+        {
+            if (sprite == null || sprite.vertices == null || sprite.vertices.Length == 0)
+                return 1f;
+
+            Vector2 minimum = sprite.vertices[0];
+            Vector2 maximum = sprite.vertices[0];
+            for (int i = 1; i < sprite.vertices.Length; i++)
+            {
+                minimum = Vector2.Min(minimum, sprite.vertices[i]);
+                maximum = Vector2.Max(maximum, sprite.vertices[i]);
+            }
+
+            float pixelsPerUnit = Mathf.Max(sprite.pixelsPerUnit, Mathf.Epsilon);
+            float fullWidth = sprite.rect.width / pixelsPerUnit;
+            float fullHeight = sprite.rect.height / pixelsPerUnit;
+            float visibleWidth = maximum.x - minimum.x;
+            float visibleHeight = maximum.y - minimum.y;
+            float fullArea = fullWidth * fullHeight;
+            float visibleArea = visibleWidth * visibleHeight;
+            if (fullArea <= Mathf.Epsilon || visibleArea <= Mathf.Epsilon)
+                return 1f;
+
+            float coverage = visibleArea / fullArea;
+            float scale = Mathf.Sqrt(TargetSpriteCoverage / coverage);
+            return Mathf.Clamp(scale, MinimumSpriteScale, MaximumSpriteScale);
         }
 
         private bool ValidateReferences()
@@ -230,6 +275,7 @@ namespace Refactory.UI.GridList
                 && title != null && portrait != null && description != null && transformationMethod != null
                 && transformationPotionContainer != null
                 && spellCost != null && formOnlyFields != null
+                && immunityHeading != null
                 && cureMethod != null && immunityContainer != null && immunityTemplate != null && illumination != null
                 && spellFields != null && spellFields.Length == 3 && transformations != null;
             if (spellFields != null)

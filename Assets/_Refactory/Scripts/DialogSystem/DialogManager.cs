@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Refactory.UI;
 
 namespace CharacterSystem
 {
@@ -17,6 +18,10 @@ namespace CharacterSystem
         [SerializeField] private List<CharacterDialogRule> characterRules;
 
         private Coroutine typedDialogRoutine;
+
+        private void OnEnable() { GamePreferences.Changed += ApplyDialogPreference; ApplyDialogPreference(); }
+        private void OnDisable() { GamePreferences.Changed -= ApplyDialogPreference; CloseDialog(); }
+        private void ApplyDialogPreference() { if (!GamePreferences.ShowMageDialogs) CloseDialog(); }
 
         private void Awake()
         {
@@ -111,6 +116,7 @@ namespace CharacterSystem
 
         public void ShowLevelIntroPresentation(string line, float charactersPerSecond, float voiceDuration)
         {
+            if (!GamePreferences.ShowMageDialogs) return;
             if (string.IsNullOrWhiteSpace(line))
             {
                 return;
@@ -123,6 +129,7 @@ namespace CharacterSystem
 
         public void PopDialog(string dialog, float duration = -1f)
         {
+            if (!GamePreferences.ShowMageDialogs) return;
             StopTypedDialog();
             CancelInvoke(nameof(CloseDialog));
 
@@ -183,12 +190,14 @@ namespace CharacterSystem
             float safeCharactersPerSecond = Mathf.Max(1f, charactersPerSecond);
             float secondsPerCharacter = 1f / safeCharactersPerSecond;
             float typingElapsedSeconds = 0f;
+            float realElapsedSeconds = 0f;
             int visibleCharacters = 0;
 
             dialogText.text = string.Empty;
             while (visibleCharacters < line.Length)
             {
-                typingElapsedSeconds += Time.unscaledDeltaTime;
+                typingElapsedSeconds += Time.unscaledDeltaTime * GamePreferences.TextSpeed;
+                realElapsedSeconds += Time.unscaledDeltaTime;
                 int targetVisibleCharacters = Mathf.Clamp(
                     Mathf.FloorToInt(typingElapsedSeconds / secondsPerCharacter),
                     0,
@@ -205,7 +214,7 @@ namespace CharacterSystem
 
             dialogText.text = line;
 
-            float remainingVoiceTime = Mathf.Max(0f, voiceDuration - typingElapsedSeconds);
+            float remainingVoiceTime = Mathf.Max(0f, voiceDuration - realElapsedSeconds);
             float holdDuration = Mathf.Max(0.75f, remainingVoiceTime);
             yield return new WaitForSecondsRealtime(holdDuration);
 

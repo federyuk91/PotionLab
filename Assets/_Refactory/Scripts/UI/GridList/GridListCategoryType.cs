@@ -8,6 +8,7 @@ namespace Refactory.UI.GridList
         Spell,
         Familiar,
         Transformation,
-        Options
+        Home = 6,
+        Options = 7
     }
 }

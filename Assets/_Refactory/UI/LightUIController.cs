@@ -1,13 +1,28 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using InspectorValidation;
 
 public class LightUIController : MonoBehaviour
 {
     [Header("Source")]
-    [SerializeField] private LightController lightController;
+    [SerializeField, RequiredInspectorReference] private LightController lightController;
 
     [Header("Light UI")]
     [SerializeField] private Image lightTimerBar;
+    [SerializeField, RequiredInspectorReference] private TMP_Text lightLevelText;
+
+    private void Awake()
+    {
+        if (lightController == null || lightLevelText == null)
+            Debug.LogWarning($"{name}: assign Light Controller and Light Level Text in LightUIController.", this);
+    }
+
+    private void Start()
+    {
+        // Read again after every source has completed Awake.
+        RefreshInitialState();
+    }
 
     private void OnEnable()
     {
@@ -28,6 +43,7 @@ public class LightUIController : MonoBehaviour
         }
 
         lightController.LightTimerChanged += RefreshLightTimer;
+        lightController.LightLevelChanged += RefreshLightLevel;
     }
 
     private void Unsubscribe()
@@ -38,6 +54,7 @@ public class LightUIController : MonoBehaviour
         }
 
         lightController.LightTimerChanged -= RefreshLightTimer;
+        lightController.LightLevelChanged -= RefreshLightLevel;
     }
 
     private void RefreshInitialState()
@@ -48,6 +65,13 @@ public class LightUIController : MonoBehaviour
         }
 
         RefreshLightTimer(lightController.LightDecayProgress);
+        RefreshLightLevel(lightController.LightIntensity);
+    }
+
+    private void RefreshLightLevel(int level)
+    {
+        if (lightLevelText != null)
+            lightLevelText.SetText("{0}", level);
     }
 
     private void RefreshLightTimer(float progress)

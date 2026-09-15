@@ -14,7 +14,7 @@ namespace Refactory.UI.GridList
         [Header("Data")]
         [SerializeField] private GridListDatabase database;
         [SerializeField, RequiredInspectorReference] private AchievementDatabase achievementDatabase;
-        [SerializeField] private GridListCategoryType startingCategory = GridListCategoryType.Options;
+        [SerializeField] private GridListCategoryType startingCategory = GridListCategoryType.Home;
 
         [Header("Book Pages")]
         [SerializeField, RequiredInspectorReference] private Refactory.UI.GrimoireTextIllumination textIllumination;
@@ -40,7 +40,7 @@ namespace Refactory.UI.GridList
         [SerializeField] private CanvasGroup compendiumCanvasGroup;
         [SerializeField, Min(0f)] private float compendiumFadeDuration = 0.25f;
 
-        [Header("Options Page")]
+        [Header("Home Page")]
         [SerializeField] private Image grimoireBackgroundImage;
         [SerializeField] private Sprite optionsBackgroundSprite;
         [SerializeField] private GameObject rightPageMainMenu;
@@ -62,6 +62,20 @@ namespace Refactory.UI.GridList
         [SerializeField] private TMP_Text detailTitleText;
         [SerializeField] private TMP_Text detailDescriptionText;
         [SerializeField] private Image detailImage;
+
+        [Header("Game Options")]
+        [SerializeField, RequiredInspectorReference] private GameObject optionsLeftPage;
+        [SerializeField, RequiredInspectorReference] private GameObject optionsRightPage;
+
+        public void ShowOptions() { ShowCategory(GridListCategoryType.Options); }
+
+        private void SetOptionsVisible(bool visible)
+        {
+            if (visible && (optionsLeftPage == null || optionsRightPage == null))
+                Debug.LogError($"{name}: Options pages are missing. Assign Options Left Page and Options Right Page, or run Tools > The Good Night Potion > Repair Grimoire Options in the Editor.", this);
+            if (optionsLeftPage != null) optionsLeftPage.SetActive(visible);
+            if (optionsRightPage != null) optionsRightPage.SetActive(visible);
+        }
 
         private readonly List<CompendiumEntryView> spawnedEntries = new List<CompendiumEntryView>();
         private GridListCategoryType currentCategory;
@@ -135,9 +149,9 @@ namespace Refactory.UI.GridList
             RestoreCategoryPageVisuals();
             RefreshLayout();
 
-            if (startingCategory == GridListCategoryType.Options)
+            if (startingCategory == GridListCategoryType.Home)
             {
-                ShowOptionsImmediately();
+                ShowHomeImmediately();
             }
             else
             {
@@ -189,9 +203,9 @@ namespace Refactory.UI.GridList
 
         public void ShowCategory(GridListCategoryType categoryType)
         {
-            if (categoryType == GridListCategoryType.Options)
+            if (categoryType == GridListCategoryType.Home)
             {
-                ShowOptions();
+                ShowHome();
                 return;
             }
 
@@ -228,21 +242,24 @@ namespace Refactory.UI.GridList
             categoryTransition = StartCoroutine(ChangeCategoryRoutine());
         }
 
-        public void ShowOptions()
+        public void ShowHome()
         {
             if (!isActiveAndEnabled || isShowingOptions || categoryTransition != null)
             {
                 return;
             }
 
-            startingCategory = GridListCategoryType.Options;
-            categoryTransition = StartCoroutine(ShowOptionsRoutine());
+            startingCategory = GridListCategoryType.Home;
+            categoryTransition = StartCoroutine(ShowHomeRoutine());
         }
 
-        private void ShowOptionsImmediately()
+        private void ShowHomeImmediately()
         {
+            SetOptionsVisible(false);
+            currentCategory = queuedCategory = GridListCategoryType.Home;
+            hasRenderedCategory = true;
             if (transformationPanel != null) transformationPanel.SetVisible(false);
-            startingCategory = GridListCategoryType.Options;
+            startingCategory = GridListCategoryType.Home;
             isShowingOptions = true;
             ApplyOptionsBackground();
 
@@ -290,8 +307,11 @@ namespace Refactory.UI.GridList
             }
         }
 
-        private IEnumerator ShowOptionsRoutine()
+        private IEnumerator ShowHomeRoutine()
         {
+            SetOptionsVisible(false);
+            currentCategory = queuedCategory = GridListCategoryType.Home;
+            hasRenderedCategory = true;
             if (transformationPanel != null) transformationPanel.SetVisible(false);
             isShowingOptions = true;
             SetPageInputEnabled(false);
@@ -359,10 +379,30 @@ namespace Refactory.UI.GridList
 
         private void RenderRequestedCategory(GridListCategoryType categoryType)
         {
+            if (categoryType == GridListCategoryType.Home)
+            {
+                ShowHomeImmediately();
+                return;
+            }
             startingCategory = categoryType;
             currentCategory = categoryType;
             queuedCategory = categoryType;
             hasRenderedCategory = true;
+
+            bool showOptions = categoryType == GridListCategoryType.Options;
+            SetOptionsVisible(showOptions);
+            if (categoryTitleText != null) categoryTitleText.gameObject.SetActive(!showOptions);
+            if (showOptions)
+            {
+                if (transformationPanel != null) transformationPanel.SetVisible(false);
+                ClearEntries();
+                ClearDetails();
+                if (scrollViewRoot != null) scrollViewRoot.gameObject.SetActive(false);
+                if (potionGrid != null) potionGrid.gameObject.SetActive(false);
+                if (detailsRoot != null) detailsRoot.gameObject.SetActive(false);
+                if (textIllumination != null) textIllumination.RefreshTexts();
+                return;
+            }
 
             bool showTransformations = categoryType == GridListCategoryType.Transformation || categoryType == GridListCategoryType.Spell;
             if (transformationPanel != null) transformationPanel.SetVisible(showTransformations);
@@ -558,6 +598,7 @@ namespace Refactory.UI.GridList
 
         private void RestoreCategoryPageVisuals()
         {
+            SetOptionsVisible(false);
             isShowingOptions = false;
             RestoreCategoryBackground();
 

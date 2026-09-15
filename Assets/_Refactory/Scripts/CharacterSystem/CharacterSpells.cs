@@ -257,6 +257,7 @@ namespace CharacterSystem
         [FormerlySerializedAs("sprite")] public Sprite icona;
         [FormerlySerializedAs("cost")] public int costo;
         [FormerlySerializedAs("castAudio")] public AudioClip audio;
+        [TextArea(1, 3)] public string descrizioneGenerica;
         [FormerlySerializedAs("description"), TextArea(2, 5)] public string descrizioneNormale;
         [FormerlySerializedAs("poweredDescription"), TextArea(2, 5)] public string descrizionePotenziata;
         [TextArea(1, 3)] public string descrizioneBreve;

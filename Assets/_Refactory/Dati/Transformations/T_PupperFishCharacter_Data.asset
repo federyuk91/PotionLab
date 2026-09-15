@@ -41,6 +41,7 @@ MonoBehaviour:
     icona: {fileID: 21300000, guid: 6d5e66595d498d84bb86f9f5e20b4712, type: 3}
     audio: {fileID: 8300000, guid: cfe7a0d49f07b40459112117ebfcd4a8, type: 3}
     descrizioneNormale: "Toggles the Water field. Activating it replaces any other elemental field and empowers PupperFish. Each toggle costs mana."
+    descrizioneGenerica: "Floods the battlefield with the PupperFish's native element."
     descrizionePotenziata: "Same toggle and cost. Casting while Water is active switches the field off."
     descrizioneBreve: "Toggle the Water field to empower PupperFish."
   - nome: Eat Algae
@@ -48,6 +49,7 @@ MonoBehaviour:
     icona: {fileID: 21300000, guid: d7a2a8145bd68b845a85d47848717296, type: 3}
     audio: {fileID: 8300000, guid: cfe7a0d49f07b40459112117ebfcd4a8, type: 3}
     descrizioneNormale: "Consumes all Algae and restores 2 MP per Algae level. Requires Algae."
+    descrizioneGenerica: "Turns gathered algae into nourishing magical energy."
     descrizionePotenziata: "With the Water field active: restores the same MP and also heals 2 HP."
     descrizioneBreve: "Eat Algae: +2 MP per level; +2 HP in Water."
   - nome: PufferFish
@@ -55,6 +57,7 @@ MonoBehaviour:
     icona: {fileID: 21300000, guid: 0521791b244e6f94a987517795167fd9, type: 3}
     audio: {fileID: 8300000, guid: cfe7a0d49f07b40459112117ebfcd4a8, type: 3}
     descrizioneNormale: "Activates a projection that destroys potions touching it. Its fifth non-Light potion raises light intensity by 1, once per activation."
+    descrizioneGenerica: "Summons a spectral fish that clears falling potions."
     descrizionePotenziata: "With the Water field active: also restores 3 MP after paying the casting cost. The projection keeps the same destruction and light-reward rules."
     descrizioneBreve: "Project a potion-destroying fish; +3 MP in Water."
 

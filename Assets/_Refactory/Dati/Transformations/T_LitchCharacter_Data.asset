@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 5
   transformationName: "Litch"
-  image: {fileID: 1431248125, guid: c25792c69f4c45944bd4a8d5a52319c5, type: 3}
+  image: {fileID: 448216256, guid: 60e8b0f89fb59d54f9d68490dc3f11a7, type: 3}
   idleFrames:
-  - {fileID: 1431248125, guid: c25792c69f4c45944bd4a8d5a52319c5, type: 3}
+  - {fileID: 448216256, guid: 60e8b0f89fb59d54f9d68490dc3f11a7, type: 3}
   - {fileID: 2002127569, guid: 60e8b0f89fb59d54f9d68490dc3f11a7, type: 3}
   - {fileID: 3929848, guid: 60e8b0f89fb59d54f9d68490dc3f11a7, type: 3}
   - {fileID: -986582170, guid: 60e8b0f89fb59d54f9d68490dc3f11a7, type: 3}
@@ -42,6 +42,7 @@ MonoBehaviour:
     icona: {fileID: 21300000, guid: fb9f5fecebd2eed4cb276bea9340834c, type: 3}
     audio: {fileID: 0}
     descrizioneNormale: "Summons 3 skeletons in the standard setup. Each intercepts 1 Health, Seed, Lava or Light potion, then disappears. Cannot be recast while any skeleton is active. Missing MP is paid with HP, leaving at least 1 HP."
+    descrizioneGenerica: "Raises skeletal servants to guard their master."
     descrizionePotenziata: "No powered variant is implemented. The effect and payment rules are unchanged."
     descrizioneBreve: "Summon skeletons to intercept harmful potions."
   - nome: Dark-Ray
@@ -49,6 +50,7 @@ MonoBehaviour:
     icona: {fileID: 21300000, guid: c0f26f7325a16ca469bdfe69d8c8940f, type: 3}
     audio: {fileID: 8300000, guid: be6e004ca13cb0e43b0c12546ede7549, type: 3}
     descrizioneNormale: "Replaces each non-Dark potion touched by the ray with 1 Dark potion, preserving its motion. The standard ray lasts 0.5 seconds. Missing MP is paid with HP, leaving at least 1 HP."
+    descrizioneGenerica: "Bends falling potions toward the power of darkness."
     descrizionePotenziata: "No powered variant is implemented. The ray and payment rules are unchanged."
     descrizioneBreve: "Turn potions hit by the ray into Dark potions."
   - nome: Second Chance
@@ -56,6 +58,7 @@ MonoBehaviour:
     icona: {fileID: 21300000, guid: 170e08f83c0e5904395a9009e57b7ef5, type: 3}
     audio: {fileID: 0}
     descrizioneNormale: "Clears all statuses and starts the return-to-Mage animation. Missing MP is paid with HP, leaving at least 1 HP. Does not directly restore HP or MP."
+    descrizioneGenerica: "Abandons the undead form for one final escape."
     descrizionePotenziata: "No powered variant is implemented. The effect and payment rules are unchanged."
     descrizioneBreve: "Clear all statuses and return to Mage."
 

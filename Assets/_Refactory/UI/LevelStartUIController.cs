@@ -43,6 +43,7 @@ public class LevelStartUIController : MonoBehaviour
 
     private void OnEnable()
     {
+        Refactory.UI.GamePreferences.Changed += ApplyDialogPreference;
         if (startLevelButton == null)
         {
             Debug.LogError("LevelStartUIController requires the Start Level Button Inspector reference.", this);
@@ -55,6 +56,7 @@ public class LevelStartUIController : MonoBehaviour
 
     private void OnDisable()
     {
+        Refactory.UI.GamePreferences.Changed -= ApplyDialogPreference;
         if (startLevelButton != null)
         {
             startLevelButton.onClick.RemoveListener(HandleLevelStartClicked);
@@ -125,6 +127,7 @@ public class LevelStartUIController : MonoBehaviour
 
     private void PlayIntroPresentationAudio(AudioClip voiceClip)
     {
+        if (!Refactory.UI.GamePreferences.ShowMageDialogs) return;
         if (voiceClip == null)
         {
             return;
@@ -147,6 +150,11 @@ public class LevelStartUIController : MonoBehaviour
             introPresentationText.text = string.Empty;
             introPresentationText.gameObject.SetActive(false);
         }
+    }
+
+    private void ApplyDialogPreference()
+    {
+        if (!Refactory.UI.GamePreferences.ShowMageDialogs) StopIntroPresentationAudio();
     }
 
     private void StopIntroPresentationAudio()

@@ -46,6 +46,7 @@ MonoBehaviour:
     icona: {fileID: 21300000, guid: fb9f5fecebd2eed4cb276bea9340834c, type: 3}
     audio: {fileID: 0}
     descrizioneNormale: "Placeholder spell: its named effect is not implemented. The current handler spends the listed MP when available and triggers animation/immunity feedback, but does not complete a successful cast."
+    descrizioneGenerica: "An unfinished summoning art reserved for the White Mage."
     descrizionePotenziata: "No powered variant is implemented."
     descrizioneBreve: "Placeholder: spell not implemented."
   - nome: Dark-Ray
@@ -53,6 +54,7 @@ MonoBehaviour:
     icona: {fileID: 21300000, guid: c0f26f7325a16ca469bdfe69d8c8940f, type: 3}
     audio: {fileID: 8300000, guid: be6e004ca13cb0e43b0c12546ede7549, type: 3}
     descrizioneNormale: "Placeholder spell: its named effect is not implemented. The current handler spends the listed MP when available and triggers animation/immunity feedback, but does not complete a successful cast."
+    descrizioneGenerica: "An unfinished ray of focused radiant magic."
     descrizionePotenziata: "No powered variant is implemented."
     descrizioneBreve: "Placeholder: spell not implemented."
   - nome: Second Chance
@@ -60,6 +62,7 @@ MonoBehaviour:
     icona: {fileID: 21300000, guid: 170e08f83c0e5904395a9009e57b7ef5, type: 3}
     audio: {fileID: 0}
     descrizioneNormale: "Placeholder spell: its named effect is not implemented. The current handler spends the listed MP when available and triggers animation/immunity feedback, but does not complete a successful cast."
+    descrizioneGenerica: "An unfinished spell of rescue and renewal."
     descrizionePotenziata: "No powered variant is implemented."
     descrizioneBreve: "Placeholder: spell not implemented."
 

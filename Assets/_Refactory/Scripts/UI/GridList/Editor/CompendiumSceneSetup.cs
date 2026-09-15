@@ -52,7 +52,7 @@ namespace Refactory.UI.GridList.Editor
 
             SerializedObject viewObject = new SerializedObject(compendiumView);
             SetObject(viewObject, "database", database);
-            SetEnum(viewObject, "startingCategory", GridListCategoryType.Options);
+            SetEnum(viewObject, "startingCategory", GridListCategoryType.Home);
             SetObject(viewObject, "pageLeft", leftPage.GetComponent<RectTransform>());
             SetObject(viewObject, "pageRight", rightPage.GetComponent<RectTransform>());
             SetEnum(viewObject, "detailsPage", CompendiumPageSide.Right);

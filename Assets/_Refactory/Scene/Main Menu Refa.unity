@@ -67647,6 +67647,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1878664069}
   - component: {fileID: 1878664067}
+  - component: {fileID: 793000900}
   m_Layer: 0
   m_Name: DontDestroy
   m_TagString: music
@@ -67654,6 +67655,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &793000900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878664066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f61d03a76274dfd81874a8b480137f3, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  musicSource: {fileID: 1878664067}
 --- !u!82 &1878664067
 AudioSource:
   m_ObjectHideFlags: 0

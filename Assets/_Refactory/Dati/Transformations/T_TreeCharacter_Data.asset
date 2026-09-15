@@ -41,6 +41,7 @@ MonoBehaviour:
     icona: {fileID: 21300000, guid: 6814811798e893e49aeb69f4232536e0, type: 3}
     audio: {fileID: 8300000, guid: 9cac0e3bc9262b945add7c7c1783ffeb, type: 3}
     descrizioneNormale: "Toggles the Grass field. Activating it replaces any other elemental field and empowers Tree. Each toggle costs mana."
+    descrizioneGenerica: "Spreads living grass through the battlefield."
     descrizionePotenziata: "Same toggle and cost. Casting while Grass is active switches the field off."
     descrizioneBreve: "Toggle the Grass field to empower Tree."
   - nome: Tree Bark
@@ -48,6 +49,7 @@ MonoBehaviour:
     icona: {fileID: 21300000, guid: 051fcadb1cfd7104db4a81008112d33f, type: 3}
     audio: {fileID: 8300000, guid: 9cac0e3bc9262b945add7c7c1783ffeb, type: 3}
     descrizioneNormale: "Blocks the next Fire, Lava or Ice potion, then breaks. Cannot be cast while burning or while a Bark shield is already active."
+    descrizioneGenerica: "Wraps the Tree in a shield of enchanted bark."
     descrizionePotenziata: "With the Grass field active: the same one-hit shield also restores 2 HP when cast."
     descrizioneBreve: "Block 1 Fire, Lava or Ice hit; +2 HP in Grass."
   - nome: Overgrow
@@ -55,6 +57,7 @@ MonoBehaviour:
     icona: {fileID: 21300000, guid: 0fc91a701bc5a5b4b8616ad1e1118739, type: 3}
     audio: {fileID: 8300000, guid: 9cac0e3bc9262b945add7c7c1783ffeb, type: 3}
     descrizioneNormale: "Summons a flower that intercepts 1 Fire, Lava, Poison or Ice potion before dying. Other potions pass through. Only one flower can be active."
+    descrizioneGenerica: "Grows a magical flower that intercepts danger."
     descrizionePotenziata: "With the Grass field active: summons a grown flower that intercepts 2 of those potions before dying."
     descrizioneBreve: "Grow a flower that blocks 1 harmful potion; 2 in Grass."
 
