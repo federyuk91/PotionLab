@@ -31,6 +31,11 @@ public class CharacterUIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI mpText;
     [SerializeField] private TMP_Text statPopupText;
 
+    [Header("Stats Feedback")]
+    [SerializeField, Min(0.05f)] private float statBarTransitionDuration = 0.28f;
+    [SerializeField, Min(0.05f)] private float yetiBalanceFlashDuration = 0.4f;
+    [SerializeField] private Color yetiBalanceFlashColor = Color.white;
+
     [Header("Level UI")]
     [SerializeField, RequiredInspectorReference] private TMP_Text currentNightText;
     [SerializeField, RequiredInspectorReference] private GridListCategoryData nightsData;
@@ -100,6 +105,12 @@ public class CharacterUIController : MonoBehaviour
     }
 
     private MageCharacter subscribedMage;
+    private YetiCharacter subscribedYeti;
+    private Coroutine hpFillAnimation;
+    private Coroutine mpFillAnimation;
+    private Coroutine balanceFlashAnimation;
+    private Color hpFillBaseColor;
+    private Color mpFillBaseColor;
 
     private void Awake()
     {
@@ -112,6 +123,9 @@ public class CharacterUIController : MonoBehaviour
         {
             compendiumView = GetComponentInChildren<CompendiumView>(true);
         }
+
+        hpFillBaseColor = hpFill != null ? hpFill.color : Color.white;
+        mpFillBaseColor = mpFill != null ? mpFill.color : Color.white;
     }
 
     private void OnEnable()
@@ -123,6 +137,7 @@ public class CharacterUIController : MonoBehaviour
     private void OnDisable()
     {
         Unsubscribe();
+        StopStatsFeedback();
     }
 
     private void Subscribe()
@@ -160,6 +175,7 @@ public class CharacterUIController : MonoBehaviour
         }
 
         SubscribeCurrentMage();
+        SubscribeCurrentYeti();
     }
 
     private void Unsubscribe()
@@ -197,6 +213,7 @@ public class CharacterUIController : MonoBehaviour
         }
 
         UnsubscribeCurrentMage();
+        UnsubscribeCurrentYeti();
     }
 
     private void RefreshInitialState()
@@ -205,8 +222,8 @@ public class CharacterUIController : MonoBehaviour
 
         if (characterStats != null)
         {
-            RefreshHP(characterStats.HP, characterStats.MaxHP);
-            RefreshMP(characterStats.MP, characterStats.MaxMP);
+            SetHPImmediate(characterStats.HP, characterStats.MaxHP);
+            SetMPImmediate(characterStats.MP, characterStats.MaxMP);
         }
 
         if (transformationManager != null && transformationManager.Current != null)
@@ -335,7 +352,7 @@ public class CharacterUIController : MonoBehaviour
     {
         if (hpFill != null)
         {
-            hpFill.fillAmount = GetFillAmount(currentHP, maxHP);
+            StartHPFillAnimation(GetFillAmount(currentHP, maxHP));
         }
 
         if (hpText != null)
@@ -348,12 +365,106 @@ public class CharacterUIController : MonoBehaviour
     {
         if (mpFill != null)
         {
+            StartMPFillAnimation(GetFillAmount(currentMP, maxMP));
+        }
+
+        if (mpText != null)
+        {
+            mpText.text = currentMP.ToString();
+        }
+    }
+
+    private void SetHPImmediate(int currentHP, int maxHP)
+    {
+        if (hpFillAnimation != null)
+        {
+            StopCoroutine(hpFillAnimation);
+            hpFillAnimation = null;
+        }
+
+        if (hpFill != null)
+        {
+            hpFill.fillAmount = GetFillAmount(currentHP, maxHP);
+        }
+
+        if (hpText != null)
+        {
+            hpText.text = currentHP.ToString();
+        }
+    }
+
+    private void SetMPImmediate(int currentMP, int maxMP)
+    {
+        if (mpFillAnimation != null)
+        {
+            StopCoroutine(mpFillAnimation);
+            mpFillAnimation = null;
+        }
+
+        if (mpFill != null)
+        {
             mpFill.fillAmount = GetFillAmount(currentMP, maxMP);
         }
 
         if (mpText != null)
         {
             mpText.text = currentMP.ToString();
+        }
+    }
+
+    private void StartHPFillAnimation(float targetFill)
+    {
+        if (hpFillAnimation != null)
+        {
+            StopCoroutine(hpFillAnimation);
+            hpFillAnimation = null;
+        }
+
+        if (hpFill == null || Mathf.Approximately(hpFill.fillAmount, targetFill))
+        {
+            return;
+        }
+
+        hpFillAnimation = StartCoroutine(AnimateStatFill(hpFill, targetFill, true));
+    }
+
+    private void StartMPFillAnimation(float targetFill)
+    {
+        if (mpFillAnimation != null)
+        {
+            StopCoroutine(mpFillAnimation);
+            mpFillAnimation = null;
+        }
+
+        if (mpFill == null || Mathf.Approximately(mpFill.fillAmount, targetFill))
+        {
+            return;
+        }
+
+        mpFillAnimation = StartCoroutine(AnimateStatFill(mpFill, targetFill, false));
+    }
+
+    private IEnumerator AnimateStatFill(Image fill, float targetFill, bool isHealthBar)
+    {
+        float startingFill = fill.fillAmount;
+        float elapsed = 0f;
+
+        while (elapsed < statBarTransitionDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float progress = Mathf.Clamp01(elapsed / statBarTransitionDuration);
+            fill.fillAmount = Mathf.Lerp(startingFill, targetFill, Mathf.SmoothStep(0f, 1f, progress));
+            yield return null;
+        }
+
+        fill.fillAmount = targetFill;
+        if (isHealthBar)
+        {
+            hpFillAnimation = null;
+        }
+        else
+        {
+            mpFillAnimation = null;
         }
     }
 
@@ -572,7 +683,9 @@ public class CharacterUIController : MonoBehaviour
     private void OnTransformation(CharacterType _, CharacterType __)
     {
         UnsubscribeCurrentMage();
+        UnsubscribeCurrentYeti();
         SubscribeCurrentMage();
+        SubscribeCurrentYeti();
         RefreshMageStatusLevels();
     }
 
@@ -596,6 +709,109 @@ public class CharacterUIController : MonoBehaviour
 
         subscribedMage.BlessCurseLevelsChanged -= RefreshMageStatusLevels;
         subscribedMage = null;
+    }
+
+    private void SubscribeCurrentYeti()
+    {
+        if (transformationManager == null || transformationManager.Current is not YetiCharacter yeti)
+        {
+            return;
+        }
+
+        subscribedYeti = yeti;
+        subscribedYeti.StatsBalanced += PlayBalanceFlash;
+    }
+
+    private void UnsubscribeCurrentYeti()
+    {
+        if (subscribedYeti == null)
+        {
+            return;
+        }
+
+        subscribedYeti.StatsBalanced -= PlayBalanceFlash;
+        subscribedYeti = null;
+    }
+
+    private void PlayBalanceFlash()
+    {
+        if (balanceFlashAnimation != null)
+        {
+            StopCoroutine(balanceFlashAnimation);
+        }
+
+        balanceFlashAnimation = StartCoroutine(AnimateBalanceFlash());
+    }
+
+    private IEnumerator AnimateBalanceFlash()
+    {
+        if (hpFill != null)
+        {
+            hpFill.color = yetiBalanceFlashColor;
+        }
+
+        if (mpFill != null)
+        {
+            mpFill.color = yetiBalanceFlashColor;
+        }
+
+        float elapsed = 0f;
+        while (elapsed < yetiBalanceFlashDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float progress = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / yetiBalanceFlashDuration));
+
+            if (hpFill != null)
+            {
+                hpFill.color = Color.Lerp(yetiBalanceFlashColor, hpFillBaseColor, progress);
+            }
+
+            if (mpFill != null)
+            {
+                mpFill.color = Color.Lerp(yetiBalanceFlashColor, mpFillBaseColor, progress);
+            }
+
+            yield return null;
+        }
+
+        RestoreStatBarColors();
+        balanceFlashAnimation = null;
+    }
+
+    private void StopStatsFeedback()
+    {
+        if (hpFillAnimation != null)
+        {
+            StopCoroutine(hpFillAnimation);
+            hpFillAnimation = null;
+        }
+
+        if (mpFillAnimation != null)
+        {
+            StopCoroutine(mpFillAnimation);
+            mpFillAnimation = null;
+        }
+
+        if (balanceFlashAnimation != null)
+        {
+            StopCoroutine(balanceFlashAnimation);
+            balanceFlashAnimation = null;
+        }
+
+        RestoreStatBarColors();
+    }
+
+    private void RestoreStatBarColors()
+    {
+        if (hpFill != null)
+        {
+            hpFill.color = hpFillBaseColor;
+        }
+
+        if (mpFill != null)
+        {
+            mpFill.color = mpFillBaseColor;
+        }
     }
 
     private void RefreshMageStatusLevels(int _, int __)

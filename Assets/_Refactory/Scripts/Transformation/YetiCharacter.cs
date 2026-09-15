@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using ProgressSystem;
 namespace CharacterSystem
@@ -7,6 +9,9 @@ namespace CharacterSystem
         [Header("Spell References")]
         [SerializeField] private GameObject punchObject;
         private int punchPotionHitCount;
+        private Coroutine mutationCheckRoutine;
+
+        public event Action StatsBalanced;
 
         protected override bool CastSpell(int i, bool powered)
         {
@@ -124,14 +129,40 @@ namespace CharacterSystem
             stats.OnHealtDown -= CheckMutation;
             stats.OnManaDown -= CheckMutation;
             stats.OnManaUp -= CheckMutation;
+
+            if (mutationCheckRoutine != null)
+            {
+                StopCoroutine(mutationCheckRoutine);
+                mutationCheckRoutine = null;
+            }
         }
 
-        public void CheckMutation()
+        private void CheckMutation()
         {
-            if (stats.HP == stats.MP)
+            if (mutationCheckRoutine == null)
             {
-                TriggerReturnMageAnimation();
+                mutationCheckRoutine = StartCoroutine(CheckMutationAfterCurrentAction());
             }
+        }
+
+        private IEnumerator CheckMutationAfterCurrentAction()
+        {
+            // One action can change HP and MP separately; evaluate only its final values.
+            yield return null;
+            mutationCheckRoutine = null;
+
+            if (!isActiveAndEnabled || IsReturnMagePending || stats == null || stats.HP <= 0)
+            {
+                yield break;
+            }
+
+            if (stats.HP != stats.MP)
+            {
+                yield break;
+            }
+
+            StatsBalanced?.Invoke();
+            TriggerReturnMageAnimation();
         }
         public override void ApplyDark(PotionScriptable ps)
         {

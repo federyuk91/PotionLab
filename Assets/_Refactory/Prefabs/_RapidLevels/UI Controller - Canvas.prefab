@@ -11103,6 +11103,9 @@ MonoBehaviour:
   hpText: {fileID: 6248907227943739444}
   mpText: {fileID: 399612304278039231}
   statPopupText: {fileID: 6440471762738280783}
+  statBarTransitionDuration: 0.28
+  yetiBalanceFlashDuration: 0.4
+  yetiBalanceFlashColor: {r: 1, g: 1, b: 1, a: 1}
   currentNightText: {fileID: 8948759419190154461}
   nightsData: {fileID: 11400000, guid: 2c1941ea63a84963a1b7d345934ff4a0, type: 2}
   spellBar: {fileID: 9012686434036246492}
@@ -19810,7 +19813,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -47.999985}
+  m_AnchoredPosition: {x: 0, y: -48}
   m_SizeDelta: {x: -60, y: -250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1131048524596649110
@@ -22973,7 +22976,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 37.499985}
+  m_AnchoredPosition: {x: 0, y: 37.5}
   m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8077730046356808180
