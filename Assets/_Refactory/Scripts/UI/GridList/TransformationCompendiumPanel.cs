@@ -13,6 +13,8 @@ namespace Refactory.UI.GridList
         private const float TargetSpriteCoverage = 0.42f;
         private const float MinimumSpriteScale = 0.8f;
         private const float MaximumSpriteScale = 1.35f;
+        private const float StandardButtonSize = 18f;
+        private const float SelectedButtonSize = 32f;
 
         [Serializable]
         private sealed class SpellFields
@@ -41,6 +43,7 @@ namespace Refactory.UI.GridList
         [SerializeField, RequiredInspectorReference] private Refactory.UI.GrimoireTextIllumination illumination;
 
         private readonly List<Button> buttons = new List<Button>();
+        private readonly List<LayoutElement> buttonLayouts = new List<LayoutElement>();
         private readonly List<Image> immunityIcons = new List<Image>();
         private readonly List<Image> transformationIcons = new List<Image>();
         private readonly List<TransformationData> buttonData = new List<TransformationData>();
@@ -83,13 +86,13 @@ namespace Refactory.UI.GridList
                 Destroy(button.gameObject);
             }
             buttons.Clear();
+            buttonLayouts.Clear();
             buttonData.Clear();
             displayScales.Clear();
             selectedData = null;
             previewSpell = -1;
             detailScroll.content.gameObject.SetActive(false);
             HashSet<CharacterType> ids = new HashSet<CharacterType>();
-            TransformationData first = null;
             foreach (TransformationData data in transformations)
             {
                 if (data == null || !ids.Add(data.Id))
@@ -100,25 +103,36 @@ namespace Refactory.UI.GridList
                 Button button = Instantiate(buttonTemplate, listScroll.content);
                 button.name = data.TransformationName;
                 Image icon = button.targetGraphic as Image;
+                LayoutElement buttonLayout = button.GetComponent<LayoutElement>();
+                if (buttonLayout == null)
+                {
+                    Debug.LogError($"{button.name}: the transformation button template requires a LayoutElement.", button);
+                    Destroy(button.gameObject);
+                    continue;
+                }
                 icon.sprite = data.GetIdleSprite(idleTime);
                 ApplyCharacterScale(icon, data);
-                button.onClick.AddListener(() => Select(data));
+                SetButtonSize(buttonLayout, StandardButtonSize);
+                button.onClick.AddListener(() => Select(data, button));
                 button.gameObject.SetActive(true);
                 buttons.Add(button);
+                buttonLayouts.Add(buttonLayout);
                 buttonData.Add(data);
-                if (first == null) first = data;
                 if (data.Image == null || string.IsNullOrWhiteSpace(data.Description) || data.Spells == null || data.Spells.Count != 3)
                     Debug.LogWarning($"{data.name}: check Image, Description and the three Spells in TransformationData.", data);
             }
-            if (first != null) Select(first);
+            if (buttons.Count > 0) Select(buttonData[0], buttons[0]);
             ResetScroll(listScroll);
             illumination.RefreshTexts();
         }
 
-        private void Select(TransformationData data)
+        private void Select(TransformationData data, Button selectedButton)
         {
             selectedData = data;
             previewSpell = -1;
+            for (int i = 0; i < buttonLayouts.Count; i++)
+                SetButtonSize(buttonLayouts[i], buttons[i] == selectedButton ? SelectedButtonSize : StandardButtonSize);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(listScroll.content);
             detailScroll.content.gameObject.SetActive(true);
             foreach (Image icon in transformationIcons)
             {
@@ -227,6 +241,14 @@ namespace Refactory.UI.GridList
             scroll.StopMovement();
             scroll.horizontalNormalizedPosition = 0f;
             scroll.verticalNormalizedPosition = 1f;
+        }
+
+        private static void SetButtonSize(LayoutElement layout, float size)
+        {
+            layout.minWidth = size;
+            layout.minHeight = size;
+            layout.preferredWidth = size;
+            layout.preferredHeight = size;
         }
 
         private void ApplyCharacterScale(Image image, TransformationData data)
