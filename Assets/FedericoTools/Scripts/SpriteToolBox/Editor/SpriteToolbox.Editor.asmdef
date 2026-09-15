@@ -1,0 +1,19 @@
+{
+    "name": "SpriteToolbox.Editor",
+    "rootNamespace": "FedericoTools.SpriteToolBox.Editor",
+    "references": [
+        "SpriteToolbox.Core",
+        "Unity.2D.Sprite.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,10 @@
+PICO-8 palette notice
+
+The PICO-8 author states that the PICO-8 palette is released under the
+Creative Commons CC0 1.0 Universal public domain dedication.
+
+Source: https://www.lexaloffle.com/pico-8.php?page=faq
+License: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+
+CC0 permits copying, modification, distribution and commercial use without
+asking permission. No purchase or attribution is required.

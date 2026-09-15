@@ -1,0 +1,26 @@
+Sprite Toolbox — Third-Party Notices
+====================================
+
+This package includes color values from the following freely usable palettes.
+No purchase is required for any item listed here.
+
+Nord
+----
+Copyright (c) 2016-present Sven Greb.
+Source: https://github.com/nordtheme/nord
+License: MIT. The complete license is included in Licenses/Nord-MIT.txt.
+Included preset: PalettePresets/Nord16.asset.
+
+Solarized
+---------
+Copyright (c) 2011 Ethan Schoonover.
+Source: https://github.com/altercation/solarized
+License: MIT. The complete license is included in Licenses/Solarized-MIT.txt.
+Included preset: PalettePresets/Solarized16.asset.
+
+PICO-8 palette
+--------------
+Source: https://www.lexaloffle.com/pico-8.php?page=faq
+License: Creative Commons CC0 1.0 Universal.
+The source and canonical legal-code link are included in Licenses/PICO8-CC0.txt.
+Included preset: PalettePresets/PICO8.asset.

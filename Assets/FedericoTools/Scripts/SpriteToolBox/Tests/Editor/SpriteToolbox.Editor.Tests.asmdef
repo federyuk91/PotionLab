@@ -1,0 +1,22 @@
+{
+    "name": "SpriteToolbox.Editor.Tests",
+    "rootNamespace": "FedericoTools.SpriteToolBox.Tests.Editor",
+    "references": [
+        "SpriteToolbox.Core",
+        "SpriteToolbox.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "noEngineReferences": false
+}
