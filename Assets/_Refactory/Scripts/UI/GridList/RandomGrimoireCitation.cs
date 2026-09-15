@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using InspectorValidation;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Refactory.UI.GridList
 {
@@ -8,6 +10,7 @@ namespace Refactory.UI.GridList
     public sealed class RandomGrimoireCitation : MonoBehaviour
     {
         [SerializeField, RequiredInspectorReference(ResolveMode.Local)] private TMP_Text citationText;
+        [SerializeField, RequiredInspectorReference] private Image illustrationImage;
 
         [Header("Grimoire Curiosities")]
         [SerializeField, TextArea(2, 4)] private string[] citations =
@@ -34,7 +37,11 @@ namespace Refactory.UI.GridList
             "Never accept candy from a witch. Potions, however, are perfectly trustworthy."
         };
 
+        [Header("Random Illustrations")]
+        [SerializeField] private Sprite[] illustrations;
+
         private int lastCitationIndex = -1;
+        private Sprite lastIllustration;
 
         private void Reset()
         {
@@ -47,11 +54,17 @@ namespace Refactory.UI.GridList
             {
                 Debug.LogError($"{name}: Random Grimoire Citation requires a TMP_Text reference on the same GameObject.", this);
             }
+
+            if (illustrationImage == null)
+            {
+                Debug.LogError($"{name}: assign Illustration Image to show random grimoire images.", this);
+            }
         }
 
         private void OnEnable()
         {
             ShowRandomCitation();
+            ShowRandomIllustration();
         }
 
         public void ShowRandomCitation()
@@ -78,6 +91,44 @@ namespace Refactory.UI.GridList
 
             lastCitationIndex = citationIndex;
             citationText.text = citations[citationIndex];
+        }
+
+        public void ShowRandomIllustration()
+        {
+            if (illustrationImage == null)
+            {
+                return;
+            }
+
+            List<Sprite> validIllustrations = new List<Sprite>();
+            if (illustrations != null)
+            {
+                foreach (Sprite illustration in illustrations)
+                {
+                    if (illustration != null)
+                    {
+                        validIllustrations.Add(illustration);
+                    }
+                }
+            }
+
+            if (validIllustrations.Count == 0)
+            {
+                Debug.LogWarning($"{name}: no random grimoire illustrations are configured.", this);
+                illustrationImage.enabled = false;
+                return;
+            }
+
+            int illustrationIndex = Random.Range(0, validIllustrations.Count);
+            if (validIllustrations.Count > 1 && validIllustrations[illustrationIndex] == lastIllustration)
+            {
+                int offset = Random.Range(1, validIllustrations.Count);
+                illustrationIndex = (illustrationIndex + offset) % validIllustrations.Count;
+            }
+
+            lastIllustration = validIllustrations[illustrationIndex];
+            illustrationImage.sprite = lastIllustration;
+            illustrationImage.enabled = true;
         }
     }
 }

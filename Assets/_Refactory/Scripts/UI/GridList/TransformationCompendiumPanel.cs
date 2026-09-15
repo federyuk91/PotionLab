@@ -10,11 +10,9 @@ namespace Refactory.UI.GridList
 {
     public sealed class TransformationCompendiumPanel : MonoBehaviour
     {
-        private const float TargetSpriteCoverage = 0.42f;
-        private const float MinimumSpriteScale = 0.8f;
-        private const float MaximumSpriteScale = 1.35f;
-        private const float StandardButtonSize = 18f;
-        private const float SelectedButtonSize = 32f;
+        private const float TargetVisibleSpriteExtent = 0.74f;
+        private const float MinimumSpriteScale = 0.75f;
+        private const float MaximumSpriteScale = 2.6f;
 
         [Serializable]
         private sealed class SpellFields
@@ -26,6 +24,7 @@ namespace Refactory.UI.GridList
 
         [SerializeField, RequiredInspectorReference] private List<TransformationData> transformations = new List<TransformationData>();
         [SerializeField, RequiredInspectorReference] private ScrollRect listScroll;
+        [SerializeField, RequiredInspectorReference] private GridLayoutGroup listLayout;
         [SerializeField, RequiredInspectorReference] private ScrollRect detailScroll;
         [SerializeField, RequiredInspectorReference] private Button buttonTemplate;
         [SerializeField, RequiredInspectorReference] private TMP_Text title;
@@ -43,7 +42,6 @@ namespace Refactory.UI.GridList
         [SerializeField, RequiredInspectorReference] private Refactory.UI.GrimoireTextIllumination illumination;
 
         private readonly List<Button> buttons = new List<Button>();
-        private readonly List<LayoutElement> buttonLayouts = new List<LayoutElement>();
         private readonly List<Image> immunityIcons = new List<Image>();
         private readonly List<Image> transformationIcons = new List<Image>();
         private readonly List<TransformationData> buttonData = new List<TransformationData>();
@@ -71,7 +69,10 @@ namespace Refactory.UI.GridList
 
         public void SetVisible(bool visible)
         {
-            if (!visible) previewSpell = -1;
+            if (!visible)
+            {
+                previewSpell = -1;
+            }
             if (listScroll != null) listScroll.gameObject.SetActive(visible);
             if (detailScroll != null) detailScroll.gameObject.SetActive(visible);
         }
@@ -86,7 +87,6 @@ namespace Refactory.UI.GridList
                 Destroy(button.gameObject);
             }
             buttons.Clear();
-            buttonLayouts.Clear();
             buttonData.Clear();
             displayScales.Clear();
             selectedData = null;
@@ -103,20 +103,11 @@ namespace Refactory.UI.GridList
                 Button button = Instantiate(buttonTemplate, listScroll.content);
                 button.name = data.TransformationName;
                 Image icon = button.targetGraphic as Image;
-                LayoutElement buttonLayout = button.GetComponent<LayoutElement>();
-                if (buttonLayout == null)
-                {
-                    Debug.LogError($"{button.name}: the transformation button template requires a LayoutElement.", button);
-                    Destroy(button.gameObject);
-                    continue;
-                }
                 icon.sprite = data.GetIdleSprite(idleTime);
                 ApplyCharacterScale(icon, data);
-                SetButtonSize(buttonLayout, StandardButtonSize);
                 button.onClick.AddListener(() => Select(data, button));
                 button.gameObject.SetActive(true);
                 buttons.Add(button);
-                buttonLayouts.Add(buttonLayout);
                 buttonData.Add(data);
                 if (data.Image == null || string.IsNullOrWhiteSpace(data.Description) || data.Spells == null || data.Spells.Count != 3)
                     Debug.LogWarning($"{data.name}: check Image, Description and the three Spells in TransformationData.", data);
@@ -130,9 +121,9 @@ namespace Refactory.UI.GridList
         {
             selectedData = data;
             previewSpell = -1;
-            for (int i = 0; i < buttonLayouts.Count; i++)
-                SetButtonSize(buttonLayouts[i], buttons[i] == selectedButton ? SelectedButtonSize : StandardButtonSize);
             LayoutRebuilder.ForceRebuildLayoutImmediate(listScroll.content);
+            if (selectedButton != null)
+                selectedButton.Select();
             detailScroll.content.gameObject.SetActive(true);
             foreach (Image icon in transformationIcons)
             {
@@ -243,14 +234,6 @@ namespace Refactory.UI.GridList
             scroll.verticalNormalizedPosition = 1f;
         }
 
-        private static void SetButtonSize(LayoutElement layout, float size)
-        {
-            layout.minWidth = size;
-            layout.minHeight = size;
-            layout.preferredWidth = size;
-            layout.preferredHeight = size;
-        }
-
         private void ApplyCharacterScale(Image image, TransformationData data)
         {
             if (image == null || data == null) return;
@@ -280,19 +263,21 @@ namespace Refactory.UI.GridList
             float fullHeight = sprite.rect.height / pixelsPerUnit;
             float visibleWidth = maximum.x - minimum.x;
             float visibleHeight = maximum.y - minimum.y;
-            float fullArea = fullWidth * fullHeight;
-            float visibleArea = visibleWidth * visibleHeight;
-            if (fullArea <= Mathf.Epsilon || visibleArea <= Mathf.Epsilon)
+            float fullExtent = Mathf.Max(fullWidth, fullHeight);
+            float visibleExtent = Mathf.Max(visibleWidth, visibleHeight);
+            if (fullExtent <= Mathf.Epsilon || visibleExtent <= Mathf.Epsilon)
                 return 1f;
 
-            float coverage = visibleArea / fullArea;
-            float scale = Mathf.Sqrt(TargetSpriteCoverage / coverage);
+            // Images preserve aspect inside a square cell. Comparing the longest visible
+            // edge compensates spritesheets whose frames contain different transparent padding.
+            float visibleCoverage = visibleExtent / fullExtent;
+            float scale = TargetVisibleSpriteExtent / visibleCoverage;
             return Mathf.Clamp(scale, MinimumSpriteScale, MaximumSpriteScale);
         }
 
         private bool ValidateReferences()
         {
-            bool valid = listScroll != null && listScroll.content != null && detailScroll != null
+            bool valid = listScroll != null && listScroll.content != null && listLayout != null && detailScroll != null
                 && detailScroll.content != null && buttonTemplate != null && buttonTemplate.targetGraphic is Image
                 && title != null && portrait != null && description != null && transformationMethod != null
                 && transformationPotionContainer != null

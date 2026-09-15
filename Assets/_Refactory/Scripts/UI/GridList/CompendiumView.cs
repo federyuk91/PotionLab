@@ -11,6 +11,16 @@ namespace Refactory.UI.GridList
 {
     public class CompendiumView : MonoBehaviour
     {
+        [System.Serializable]
+        private sealed class TabBookmark
+        {
+            [SerializeField] private GridListCategoryType category;
+            [SerializeField, RequiredInspectorReference] private GameObject image;
+
+            public GridListCategoryType Category => category;
+            public GameObject Image => image;
+        }
+
         [Header("Data")]
         [SerializeField] private GridListDatabase database;
         [SerializeField, RequiredInspectorReference] private AchievementDatabase achievementDatabase;
@@ -66,6 +76,9 @@ namespace Refactory.UI.GridList
         [Header("Game Options")]
         [SerializeField, RequiredInspectorReference] private GameObject optionsLeftPage;
         [SerializeField, RequiredInspectorReference] private GameObject optionsRightPage;
+
+        [Header("Tab Bookmarks")]
+        [SerializeField, RequiredInspectorReference] private TabBookmark[] tabBookmarks;
 
         public void ShowOptions() { ShowCategory(GridListCategoryType.Options); }
 
@@ -135,6 +148,8 @@ namespace Refactory.UI.GridList
             {
                 defaultGrimoireSprite = grimoireBackgroundImage.sprite;
             }
+
+            ValidateTabBookmarks();
         }
 
         private void OnEnable()
@@ -220,6 +235,8 @@ namespace Refactory.UI.GridList
                 return;
             }
 
+            SetActiveBookmark(categoryType);
+
             if (isShowingOptions)
             {
                 queuedCategory = categoryType;
@@ -249,12 +266,14 @@ namespace Refactory.UI.GridList
                 return;
             }
 
+            SetActiveBookmark(GridListCategoryType.Home);
             startingCategory = GridListCategoryType.Home;
             categoryTransition = StartCoroutine(ShowHomeRoutine());
         }
 
         private void ShowHomeImmediately()
         {
+            SetActiveBookmark(GridListCategoryType.Home);
             SetOptionsVisible(false);
             currentCategory = queuedCategory = GridListCategoryType.Home;
             hasRenderedCategory = true;
@@ -388,6 +407,7 @@ namespace Refactory.UI.GridList
             currentCategory = categoryType;
             queuedCategory = categoryType;
             hasRenderedCategory = true;
+            SetActiveBookmark(categoryType);
 
             bool showOptions = categoryType == GridListCategoryType.Options;
             SetOptionsVisible(showOptions);
@@ -1006,6 +1026,50 @@ namespace Refactory.UI.GridList
             }
 
             return isValid;
+        }
+
+        private void SetActiveBookmark(GridListCategoryType categoryType)
+        {
+            if (tabBookmarks == null)
+            {
+                return;
+            }
+
+            GridListCategoryType selectedCategory = categoryType == GridListCategoryType.Spell
+                ? GridListCategoryType.Transformation
+                : categoryType;
+
+            foreach (TabBookmark bookmark in tabBookmarks)
+            {
+                if (bookmark?.Image != null)
+                {
+                    bookmark.Image.SetActive(bookmark.Category == selectedCategory);
+                }
+            }
+        }
+
+        private void ValidateTabBookmarks()
+        {
+            if (tabBookmarks == null || tabBookmarks.Length == 0)
+            {
+                Debug.LogError($"{name}: assign the tab bookmark images in CompendiumView.", this);
+                return;
+            }
+
+            HashSet<GridListCategoryType> categories = new HashSet<GridListCategoryType>();
+            foreach (TabBookmark bookmark in tabBookmarks)
+            {
+                if (bookmark == null || bookmark.Image == null)
+                {
+                    Debug.LogError($"{name}: a Compendium tab bookmark entry is incomplete. Assign its category and image.", this);
+                    continue;
+                }
+
+                if (!categories.Add(bookmark.Category))
+                {
+                    Debug.LogWarning($"{name}: duplicate bookmark configured for {bookmark.Category}.", this);
+                }
+            }
         }
     }
 }

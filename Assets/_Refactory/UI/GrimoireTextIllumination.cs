@@ -4,6 +4,7 @@ using InspectorValidation;
 using Refactory.UI.GridList;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Refactory.UI
 {
@@ -13,6 +14,7 @@ namespace Refactory.UI
         [SerializeField, RequiredInspectorReference] private RectTransform bookRoot;
         [SerializeField, RequiredInspectorReference] private Canvas rootCanvas;
         [SerializeField, RequiredInspectorReference] private UITextColorPalette textPalette;
+        [SerializeField, RequiredInspectorReference] private Image[] illuminatedImages;
         [SerializeField] private Color inkColor = new Color(0.12f, 0.085f, 0.065f, 1f);
         [SerializeField] private Color illuminatedColor = Color.white;
         [Tooltip("Radius in book-local units, independent of screen resolution.")]
@@ -29,7 +31,15 @@ namespace Refactory.UI
             public Color32[] BaseColors = Array.Empty<Color32>();
         }
 
+        private sealed class ImageState
+        {
+            public Image Image;
+            public Color OriginalColor;
+            public float Light;
+        }
+
         private readonly List<TextState> texts = new List<TextState>();
+        private readonly List<ImageState> images = new List<ImageState>();
         private Vector2 pointer;
         private bool pointerInside;
 
@@ -62,6 +72,21 @@ namespace Refactory.UI
                 text.SetVerticesDirty();
                 texts.Add(state);
             }
+
+            if (illuminatedImages == null)
+                return;
+            foreach (Image targetImage in illuminatedImages)
+            {
+                if (targetImage == null)
+                    continue;
+                ImageState state = new ImageState
+                {
+                    Image = targetImage,
+                    OriginalColor = targetImage.color
+                };
+                targetImage.color = WithAlpha(inkColor, state.OriginalColor.a);
+                images.Add(state);
+            }
         }
 
         private void LateUpdate()
@@ -88,6 +113,32 @@ namespace Refactory.UI
                 ApplyColors(state, info, true);
                 text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
             }
+            foreach (ImageState state in images)
+                ApplyImageColor(state);
+        }
+
+        private void ApplyImageColor(ImageState state)
+        {
+            if (state.Image == null || !state.Image.isActiveAndEnabled)
+                return;
+            RectTransform imageRect = state.Image.rectTransform;
+            Vector3 imageWorldCenter = imageRect.TransformPoint(imageRect.rect.center);
+            Vector2 imageBookPosition = bookRoot.InverseTransformPoint(imageWorldCenter);
+            float distance = Vector2.Distance(pointer, imageBookPosition);
+            float target = pointerInside
+                ? 1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(lightRadius * 0.2f, lightRadius, distance))
+                : 0f;
+            float blend = 1f - Mathf.Exp(-responseSpeed * Time.unscaledDeltaTime);
+            state.Light = Mathf.Lerp(state.Light, target, blend);
+            Color darkColor = WithAlpha(inkColor, state.OriginalColor.a);
+            Color lightColor = WithAlpha(illuminatedColor, state.OriginalColor.a);
+            state.Image.color = Color.Lerp(darkColor, lightColor, state.Light);
+        }
+
+        private static Color WithAlpha(Color color, float alpha)
+        {
+            color.a = alpha;
+            return color;
         }
 
         private void ApplyColors(TextState state, TMP_TextInfo info, bool advance)
@@ -149,6 +200,12 @@ namespace Refactory.UI
                 state.Text.SetVerticesDirty();
             }
             texts.Clear();
+            foreach (ImageState state in images)
+            {
+                if (state.Image != null)
+                    state.Image.color = state.OriginalColor;
+            }
+            images.Clear();
         }
     }
 }
