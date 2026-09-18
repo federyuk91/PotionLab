@@ -84,7 +84,11 @@ namespace Refactory.LevelObjects
         {
             if (other == null || other.GetComponentInParent<DrinkingTrigger>() == null)
                 return;
-
+            if(other.GetComponentInParent<DrinkingTrigger>())
+            {
+                //player prende danno?
+                
+            }
             Break();
         }
 
