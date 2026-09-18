@@ -34,21 +34,21 @@ MonoBehaviour:
   - {fileID: 1853813971063210717, guid: ac82f27c79c5dee40a3125721fae32e4, type: 3}
   - {fileID: 3833926529033503733, guid: 1a1694ee82ded3342bde68515610b0d6, type: 3}
   spells:
-  - nome: Ice Zone
+  - nome: Ice Field
     costo: 2
     icona: {fileID: 21300000, guid: 5e8e420252e25c645b3111e5a722cdd6, type: 3}
     audio: {fileID: 8300000, guid: 741f8ad35090ae04b992f578345f22f0, type: 3}
-    descrizioneNormale: "Toggles the Ice field. Activating it replaces any other elemental field and empowers Yeti. Each toggle costs mana."
+    descrizioneNormale: "Toggles the Ice Field. Activating it replaces any active Fire Field, Water Field or Grass Field and empowers Yeti. Each toggle costs mana."
     descrizioneGenerica: "Freezes the battlefield with the Yeti's native element."
-    descrizionePotenziata: "Same toggle and cost. Casting while Ice is active switches the field off."
-    descrizioneBreve: "Toggle the Ice field to empower Yeti."
+    descrizionePotenziata: "Same toggle and cost. Casting while the Ice Field is active switches the Ice Field off."
+    descrizioneBreve: "Toggle the Ice Field to empower Yeti."
   - nome: Convert
     costo: 4
     icona: {fileID: 21300000, guid: 0d54c02d80430f4498b0e334031ec7ed, type: 3}
     audio: {fileID: 8300000, guid: 741f8ad35090ae04b992f578345f22f0, type: 3}
     descrizioneNormale: "Restores 3 HP. Cannot be cast at full health. If HP and MP become equal, Yeti begins returning to Mage."
     descrizioneGenerica: "Converts cold magic into renewed vitality."
-    descrizionePotenziata: "With the Ice field active: restores 4 HP instead of 3. The HP-equals-MP return rule still applies."
+    descrizionePotenziata: "With the Ice Field active: restores 4 HP instead of 3. The HP-equals-MP return rule still applies."
     descrizioneBreve: "Heal 3 HP; 4 in Ice."
   - nome: Punch
     costo: 0
@@ -56,6 +56,6 @@ MonoBehaviour:
     audio: {fileID: 8300000, guid: 741f8ad35090ae04b992f578345f22f0, type: 3}
     descrizioneNormale: "Takes 2 HP and punches nearby potions away. The punch pushes them; it does not directly destroy them. The HP loss can be fatal."
     descrizioneGenerica: "Unleashes a chilling blow that drives potions away."
-    descrizionePotenziata: "With the Ice field active: takes only 1 HP. The knockback is unchanged."
+    descrizionePotenziata: "With the Ice Field active: takes only 1 HP. The knockback is unchanged."
     descrizioneBreve: "Push potions away. Costs 2 HP; 1 in Ice."
 

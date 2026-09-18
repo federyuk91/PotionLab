@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using InspectorValidation;
 using ProgressSystem;
@@ -29,6 +30,10 @@ public sealed class MainMenuController : MonoBehaviour
     [FormerlySerializedAs("buttonAnimator")]
     [SerializeField, RequiredInspectorReference] private Animator[] buttonAnimators;
     [SerializeField, RequiredInspectorReference] private Camera menuCamera;
+
+    [Header("Title Intro Audio")]
+    [SerializeField, RequiredInspectorReference] private AudioSource musicSource;
+    [SerializeField] private AudioClip[] titleIntroClips = Array.Empty<AudioClip>();
 
     [Header("Sections")]
     [FormerlySerializedAs("arcadeLevelCanvas")]
@@ -74,6 +79,7 @@ public sealed class MainMenuController : MonoBehaviour
 
     private Coroutine sectionTransitionCoroutine;
     private Coroutine buttonAnimationCoroutine;
+    private Coroutine titleIntroSequenceCoroutine;
     private MenuSection activeSection;
     private Vector3[] choiceHomeLocalPositions;
     private Quaternion[] choiceHomeLocalRotations;
@@ -111,7 +117,7 @@ public sealed class MainMenuController : MonoBehaviour
 
     public void StartScene()
     {
-        if (!ValidateCoreAnimationReferences())
+        if (titleIntroSequenceCoroutine != null || !ValidateCoreAnimationReferences())
         {
             return;
         }
@@ -119,7 +125,55 @@ public sealed class MainMenuController : MonoBehaviour
         titleScreenAnimation.Play();
         lightAnimator.SetTrigger(StartLightTrigger);
         PlayButtonAnimation();
-        PlayMenuSound();
+        titleIntroSequenceCoroutine = StartCoroutine(PlayTitleIntroThenMusic());
+    }
+
+    private IEnumerator PlayTitleIntroThenMusic()
+    {
+        musicSource.Stop();
+        AudioClip introClip = GetRandomTitleIntroClip();
+        if (introClip != null)
+        {
+            audioSource.PlayOneShot(introClip);
+            float playbackPitch = Mathf.Max(0.01f, Mathf.Abs(audioSource.pitch));
+            yield return WaitUnscaled(introClip.length / playbackPitch);
+        }
+        else
+        {
+            Debug.LogWarning("MainMenuController has no valid Title Intro Clips. Music will start immediately.", this);
+        }
+
+        if (musicSource.clip == null)
+        {
+            Debug.LogWarning("MainMenuController cannot start menu music because Music Source has no clip assigned.", this);
+        }
+        else
+        {
+            musicSource.Play();
+        }
+
+        titleIntroSequenceCoroutine = null;
+    }
+
+    private AudioClip GetRandomTitleIntroClip()
+    {
+        AudioClip selectedClip = null;
+        int validClipCount = 0;
+        foreach (AudioClip clip in titleIntroClips)
+        {
+            if (clip == null)
+            {
+                continue;
+            }
+
+            validClipCount++;
+            if (UnityEngine.Random.Range(0, validClipCount) == 0)
+            {
+                selectedClip = clip;
+            }
+        }
+
+        return selectedClip;
     }
 
     public void ButtonArcade()
@@ -582,6 +636,18 @@ public sealed class MainMenuController : MonoBehaviour
         if (lightAnimator == null)
         {
             Debug.LogError("MainMenuController requires the Light Animator Inspector reference.", this);
+            return false;
+        }
+
+        if (audioSource == null)
+        {
+            Debug.LogError("MainMenuController requires the Audio Source Inspector reference.", this);
+            return false;
+        }
+
+        if (musicSource == null)
+        {
+            Debug.LogError("MainMenuController requires the Music Source Inspector reference.", this);
             return false;
         }
 

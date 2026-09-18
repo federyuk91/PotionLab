@@ -37,21 +37,21 @@ MonoBehaviour:
   - {fileID: -1834088911562275152, guid: 3bcbfe3450d294a45a466ee92b5a7219, type: 3}
   - {fileID: 3833926529033503733, guid: 1a1694ee82ded3342bde68515610b0d6, type: 3}
   spells:
-  - nome: Fire Zone
+  - nome: Fire Field
     costo: 2
     icona: {fileID: 21300000, guid: 4e37fdc8cf5486a488c7ee7fa3bcffab, type: 3}
     audio: {fileID: 8300000, guid: e05fae91473184b478941338d90f1f26, type: 3}
-    descrizioneNormale: "Toggles the Fire field. Activating it replaces any other elemental field and empowers Balrog. Each toggle costs mana."
+    descrizioneNormale: "Toggles the Fire Field. Activating it replaces any active Ice Field, Water Field or Grass Field and empowers Balrog. Each toggle costs mana."
     descrizioneGenerica: "Ignites the battlefield with Balrog's native element."
-    descrizionePotenziata: "Same toggle and cost. Casting while Fire is active switches the field off."
-    descrizioneBreve: "Toggle the Fire field to empower Balrog."
+    descrizionePotenziata: "Same toggle and cost. Casting while the Fire Field is active switches the Fire Field off."
+    descrizioneBreve: "Toggle the Fire Field to empower Balrog."
   - nome: Balance
     costo: 0
     icona: {fileID: 21300000, guid: 5e12bad24caf60d489a377595771f903, type: 3}
     audio: {fileID: 8300000, guid: e05fae91473184b478941338d90f1f26, type: 3}
     descrizioneNormale: "Takes 3 HP and restores 1 MP. The HP loss can be fatal."
     descrizioneGenerica: "A dangerous exchange of vitality for magical power."
-    descrizionePotenziata: "With the Fire field active: takes 3 HP and restores 2 MP."
+    descrizionePotenziata: "With the Fire Field active: takes 3 HP and restores 2 MP."
     descrizioneBreve: "Trade 3 HP for 1 MP; 2 MP in Fire."
   - nome: Calderone
     costo: 8
@@ -59,6 +59,6 @@ MonoBehaviour:
     audio: {fileID: 8300000, guid: e05fae91473184b478941338d90f1f26, type: 3}
     descrizioneNormale: "Summons a cauldron that destroys potions dropped into it. The fifth non-Light potion raises light intensity by 1, once per activation."
     descrizioneGenerica: "Conjures a hungry cauldron that devours falling potions."
-    descrizionePotenziata: "With the Fire field active: summons the powered cauldron. It retains the same five-potion light reward; no extra HP or MP is granted."
+    descrizionePotenziata: "With the Fire Field active: summons the powered cauldron. It retains the same five-potion light reward; no extra HP or MP is granted."
     descrizioneBreve: "Summon a potion-destroying cauldron."
 

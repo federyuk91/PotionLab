@@ -246,8 +246,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProgressSystem.ProgressService
   repositoryBehaviour: {fileID: 619804325845619801}
-  classicLevelCount: 25
-  finalClassicLevelBuildIndex: 25
+  classicLevelCount: 30
+  finalClassicLevelBuildIndex: 30
+  firstAlwaysUnlockedClassicLevel: 24
+  lastAlwaysUnlockedClassicLevel: 30
 --- !u!114 &619804325845619803
 MonoBehaviour:
   m_ObjectHideFlags: 0

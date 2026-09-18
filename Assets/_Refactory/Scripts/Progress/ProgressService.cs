@@ -14,8 +14,10 @@ namespace ProgressSystem
         [SerializeField] private MonoBehaviour playerNameProviderBehaviour;
 
         [Header("Classic Mode")]
-        [SerializeField] private int classicLevelCount = 25;
-        [SerializeField] private int finalClassicLevelBuildIndex = 25;
+        [SerializeField] private int classicLevelCount = 30;
+        [SerializeField] private int finalClassicLevelBuildIndex = 30;
+        [SerializeField, Min(0)] private int firstAlwaysUnlockedClassicLevel = 24;
+        [SerializeField, Min(0)] private int lastAlwaysUnlockedClassicLevel = 30;
 
         [Header("Diagnostics")]
         [SerializeField] private bool logPlayerNameFlow = true;
@@ -251,7 +253,16 @@ namespace ProgressSystem
 
             return sceneBuildIndex > 0
                 && sceneBuildIndex <= finalClassicLevelBuildIndex
-                && sceneBuildIndex <= progress.maxClassicLevelReached;
+                && (sceneBuildIndex <= progress.maxClassicLevelReached
+                    || IsInAlwaysUnlockedClassicRange(sceneBuildIndex));
+        }
+
+        private bool IsInAlwaysUnlockedClassicRange(int sceneBuildIndex)
+        {
+            return firstAlwaysUnlockedClassicLevel > 0
+                && lastAlwaysUnlockedClassicLevel >= firstAlwaysUnlockedClassicLevel
+                && sceneBuildIndex >= firstAlwaysUnlockedClassicLevel
+                && sceneBuildIndex <= lastAlwaysUnlockedClassicLevel;
         }
 
         public bool IsEndlessUnlocked()

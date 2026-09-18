@@ -1,6 +1,6 @@
 # UI text color scheme
 
-Source of truth: `Dati/UI_TextColorPalette.asset` (`UITextColorPalette`). Edit colors and aliases in the Inspector. The palette currently applies only to grimoire text; gameplay tooltips remain neutral.
+Source of truth: `Dati/UI_TextColorPalette.asset` (`UITextColorPalette`). Edit colors and aliases in the Inspector. The palette currently applies to grimoire text. Gameplay spell tooltips use a yellow title and neutral body text.
 
 | Meaning | Color | Recognized words |
 | --- | --- | --- |
@@ -21,4 +21,4 @@ Matching is case-insensitive and uses whole words. A preceding number is colored
 
 Reuse: assign this asset to UI components; `BuildSourceColors(text, baseColor)` returns a source-indexed color array compatible with `TMP_CharacterInfo.index`. Rebuild only when text or palette revision changes. These dark colors target light/parchment backgrounds: check contrast before reusing on dark panels.
 
-Spell data: `descrizioneBreve` is the concise gameplay tooltip. `descrizioneNormale` and `descrizionePotenziata` remain the detailed grimoire descriptions. Tooltip delay is set on `SpellHoverTooltip` (default 1 second); it hides on pointer exit, click, disabled/unavailable slots, pause and an open grimoire.
+Spell data: gameplay tooltips show the yellow spell name followed by `descrizioneNormale` and `descrizionePotenziata`. `descrizioneBreve` remains available as concise data but is not rendered by this tooltip. Tooltip delay is set on `SpellHoverTooltip` (default 1 second); it hides on pointer exit, click, disabled/unavailable slots, pause and an open grimoire.

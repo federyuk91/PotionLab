@@ -58,8 +58,8 @@ MonoBehaviour:
     unlockedByDefault: 1
     sceneBuildIndex: -1
   - id: "Fire_Zone"
-    displayName: "Fire Zone!"
-    description: "Set stage on fire! Boost up other Balrog spells!"
+    displayName: "Fire Field!"
+    description: "Activate the Fire Field to empower Balrog's other spells."
     sprite: {fileID: 21300000, guid: 4e37fdc8cf5486a488c7ee7fa3bcffab, type: 3}
     unlockedByDefault: 1
     sceneBuildIndex: -1
@@ -88,8 +88,8 @@ MonoBehaviour:
     unlockedByDefault: 1
     sceneBuildIndex: -1
   - id: "Grass_Zone"
-    displayName: "Grass Zone!"
-    description: "Activate to grow some good grass and reinforce your tree spells"
+    displayName: "Grass Field!"
+    description: "Activate the Grass Field to empower Tree's other spells."
     sprite: {fileID: 21300000, guid: 6814811798e893e49aeb69f4232536e0, type: 3}
     unlockedByDefault: 1
     sceneBuildIndex: -1
@@ -118,8 +118,8 @@ MonoBehaviour:
     unlockedByDefault: 1
     sceneBuildIndex: -1
   - id: "Water_Zone"
-    displayName: "Water Zone!"
-    description: "Activate to blobloblo bloblo bloblo."
+    displayName: "Water Field!"
+    description: "Activate the Water Field to empower PupperFish's other spells."
     sprite: {fileID: 21300000, guid: 6d5e66595d498d84bb86f9f5e20b4712, type: 3}
     unlockedByDefault: 1
     sceneBuildIndex: -1
@@ -148,8 +148,8 @@ MonoBehaviour:
     unlockedByDefault: 1
     sceneBuildIndex: -1
   - id: "Ice_Zone"
-    displayName: "Ice Zone!"
-    description: "Activate to Let it snow!"
+    displayName: "Ice Field!"
+    description: "Activate the Ice Field to empower Yeti's other spells."
     sprite: {fileID: 21300000, guid: 5e8e420252e25c645b3111e5a722cdd6, type: 3}
     unlockedByDefault: 1
     sceneBuildIndex: -1
