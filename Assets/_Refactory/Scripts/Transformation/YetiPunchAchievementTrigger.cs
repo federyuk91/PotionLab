@@ -14,7 +14,7 @@ namespace CharacterSystem
             Refactory.LevelObjects.GroundBlock groundBlock = collision.GetComponentInParent<Refactory.LevelObjects.GroundBlock>();
             if (groundBlock != null)
             {
-                groundBlock.BreakByYetiPunch();
+                groundBlock.BreakByYetiPunch(punchDirection, punchForce);
                 return;
             }
 

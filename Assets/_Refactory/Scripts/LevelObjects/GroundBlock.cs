@@ -88,11 +88,14 @@ namespace Refactory.LevelObjects
             Break();
         }
 
-        public void BreakByYetiPunch()
+        public void BreakByYetiPunch(Vector2 direction,float force)
         {
             if (isBreaking)
                 return;
 
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            rb.mass = 1f;
+            rb.AddForce(direction.normalized * force, ForceMode2D.Impulse);
             Break();
         }
 
@@ -102,7 +105,6 @@ namespace Refactory.LevelObjects
                 return;
 
             isBreaking = true;
-            blockCollider.enabled = false;
             animator.ResetTrigger(BreakTrigger);
             animator.SetTrigger(BreakTrigger);
             breakAudioSource.Play();
