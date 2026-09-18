@@ -11,6 +11,13 @@ namespace CharacterSystem
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
+            Refactory.LevelObjects.GroundBlock groundBlock = collision.GetComponentInParent<Refactory.LevelObjects.GroundBlock>();
+            if (groundBlock != null)
+            {
+                groundBlock.BreakByYetiPunch();
+                return;
+            }
+
             if (!collision.CompareTag("Potion"))
             {
                 return;
