@@ -38,6 +38,7 @@ public sealed class MainMenuController : MonoBehaviour
     [Header("Sections")]
     [FormerlySerializedAs("arcadeLevelCanvas")]
     [SerializeField, RequiredInspectorReference] private GameObject arcadePanel;
+    [SerializeField, RequiredInspectorReference] private ClassicMenuController classicMenuController;
     [FormerlySerializedAs("advanceLevelCanvas")]
     [SerializeField, RequiredInspectorReference] private GameObject advancedPanel;
     [FormerlySerializedAs("recordLevelCanvas")]
@@ -110,6 +111,11 @@ public sealed class MainMenuController : MonoBehaviour
         ShowUpdateLogForNewVersion();
     }
 
+    private void Start()
+    {
+        StartTitleIntroSequence();
+    }
+
     private void OnProgressChanged(PlayerProgress progress)
     {
         RefreshPlayerNameInput();
@@ -117,7 +123,7 @@ public sealed class MainMenuController : MonoBehaviour
 
     public void StartScene()
     {
-        if (titleIntroSequenceCoroutine != null || !ValidateCoreAnimationReferences())
+        if (!ValidateCoreAnimationReferences())
         {
             return;
         }
@@ -125,6 +131,28 @@ public sealed class MainMenuController : MonoBehaviour
         titleScreenAnimation.Play();
         lightAnimator.SetTrigger(StartLightTrigger);
         PlayButtonAnimation();
+        PlayMenuSound();
+    }
+
+    private void StartTitleIntroSequence()
+    {
+        if (titleIntroSequenceCoroutine != null)
+        {
+            return;
+        }
+
+        if (audioSource == null)
+        {
+            Debug.LogError("MainMenuController requires the Audio Source Inspector reference for the title intro.", this);
+            return;
+        }
+
+        if (musicSource == null)
+        {
+            Debug.LogError("MainMenuController requires the Music Source Inspector reference.", this);
+            return;
+        }
+
         titleIntroSequenceCoroutine = StartCoroutine(PlayTitleIntroThenMusic());
     }
 
@@ -214,6 +242,14 @@ public sealed class MainMenuController : MonoBehaviour
         if (progressService != null && !CanLoadSceneWithProgress(sceneBuildIndex))
         {
             Debug.LogWarning($"MainMenuController blocked locked scene build index {sceneBuildIndex}. Complete the previous level first.", this);
+            return;
+        }
+
+        if (classicMenuController != null
+            && classicMenuController.TryPlayLevelSelectionTransition(
+                sceneBuildIndex,
+                () => SceneManager.LoadScene(sceneBuildIndex)))
+        {
             return;
         }
 
@@ -636,18 +672,6 @@ public sealed class MainMenuController : MonoBehaviour
         if (lightAnimator == null)
         {
             Debug.LogError("MainMenuController requires the Light Animator Inspector reference.", this);
-            return false;
-        }
-
-        if (audioSource == null)
-        {
-            Debug.LogError("MainMenuController requires the Audio Source Inspector reference.", this);
-            return false;
-        }
-
-        if (musicSource == null)
-        {
-            Debug.LogError("MainMenuController requires the Music Source Inspector reference.", this);
             return false;
         }
 

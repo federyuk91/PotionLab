@@ -10404,6 +10404,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2354504444883028744, guid: 457b834e16d03b445830e001b732b8a2, type: 3}
+      propertyPath: m_Resource
+      value:
+      objectReference: {fileID: 8300000, guid: 63ffa20047ed6104ca1883d54669475d, type: 3}
     - target: {fileID: 1225089884597636322, guid: 64df246d16e7be94590fd909ae7b2515, type: 3}
       propertyPath: lightController
       value: 

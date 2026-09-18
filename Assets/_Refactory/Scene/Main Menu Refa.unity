@@ -15618,6 +15618,7 @@ MonoBehaviour:
   sectionTitle: {fileID: 2100100012}
   sectionDescription: {fileID: 2100100022}
   levelGrid: {fileID: 1357579597}
+  levelLayout: {fileID: 1357579598}
   sectionCanvasGroup: {fileID: 2100200001}
   levelButtons:
   - {fileID: 2100200101}
@@ -15674,6 +15675,10 @@ MonoBehaviour:
   buttonActivationMaxSequenceDuration: 0.4
   buttonStartScale: 0.72
   buttonOvershootScale: 1.08
+  selectionFallDuration: 0.65
+  selectionFallStagger: 0.045
+  selectionFallDistance: 420
+  selectionFallRotationDegrees: 100
   sections:
   - title: BASEMENT
     titleColor: {r: 1, g: 0.5891361, b: 0, a: 1}
@@ -78055,6 +78060,7 @@ GameObject:
   - component: {fileID: 1878664069}
   - component: {fileID: 1878664067}
   - component: {fileID: 793000900}
+  - component: {fileID: 1878664070}
   m_Layer: 0
   m_Name: DontDestroy
   m_TagString: music
@@ -78159,6 +78165,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1878664070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878664066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e3d52a7c2a4e6e8d1f019d35bdcaf1, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  musicSource: {fileID: 1878664067}
 --- !u!4 &1878664069
 Transform:
   m_ObjectHideFlags: 0
@@ -78662,6 +78681,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c3ea22542e4572d40a739d89afad2f8b, type: 3}
   - {fileID: 8300000, guid: 53a9bfebe80dc1146b749c3b2f18e27b, type: 3}
   arcadePanel: {fileID: 388273895}
+  classicMenuController: {fileID: 388273897}
   advancedPanel: {fileID: 279461531}
   recordsPanel: {fileID: 2064175591}
   pausePanel: {fileID: 1761793769}

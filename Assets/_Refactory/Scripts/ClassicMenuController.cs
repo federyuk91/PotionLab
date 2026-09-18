@@ -35,6 +35,7 @@ public sealed class ClassicMenuController : MonoBehaviour
     [SerializeField, RequiredInspectorReference] private TMP_Text sectionTitle;
     [SerializeField, RequiredInspectorReference] private TMP_Text sectionDescription;
     [SerializeField, RequiredInspectorReference] private RectTransform levelGrid;
+    [SerializeField, RequiredInspectorReference] private LayoutGroup levelLayout;
     [SerializeField, RequiredInspectorReference] private CanvasGroup sectionCanvasGroup;
     [SerializeField, RequiredInspectorReference] private CanvasGroup[] levelButtons;
     [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private ProgressService progressService;
@@ -56,6 +57,12 @@ public sealed class ClassicMenuController : MonoBehaviour
     [SerializeField, Range(0.1f, 1f)] private float buttonStartScale = 0.72f;
     [SerializeField, Range(1f, 1.5f)] private float buttonOvershootScale = 1.08f;
 
+    [Header("Level Selection Fall")]
+    [SerializeField, Min(0.01f)] private float selectionFallDuration = 0.65f;
+    [SerializeField, Min(0f)] private float selectionFallStagger = 0.045f;
+    [SerializeField, Min(0f)] private float selectionFallDistance = 420f;
+    [SerializeField] private float selectionFallRotationDegrees = 100f;
+
     [Header("Sections")]
     [SerializeField] private ClassicSection[] sections;
 
@@ -65,6 +72,7 @@ public sealed class ClassicMenuController : MonoBehaviour
     private readonly Dictionary<SpriteRenderer, Color> environmentTargetColors = new Dictionary<SpriteRenderer, Color>();
     private readonly Dictionary<ClassicSection, SpriteRenderer[]> sectionEnvironmentSprites = new Dictionary<ClassicSection, SpriteRenderer[]>();
     private Vector3[] buttonTargetScales = Array.Empty<Vector3>();
+    private Quaternion[] buttonTargetRotations = Array.Empty<Quaternion>();
     private ClassicLevelButtonProgressView[] buttonProgressViews = Array.Empty<ClassicLevelButtonProgressView>();
     private Coroutine sectionTransition;
     private int currentSectionIndex;
@@ -85,6 +93,11 @@ public sealed class ClassicMenuController : MonoBehaviour
 
     private void OnEnable()
     {
+        if (levelLayout != null)
+        {
+            levelLayout.enabled = true;
+        }
+
         if (progressService != null)
         {
             progressService.ProgressChanged += OnProgressChanged;
@@ -120,6 +133,12 @@ public sealed class ClassicMenuController : MonoBehaviour
         }
 
         transitionLocked = false;
+        RestoreButtonRotations();
+        if (levelLayout != null)
+        {
+            levelLayout.enabled = true;
+        }
+
         RestoreButtonAudioPitch();
     }
 
@@ -141,6 +160,38 @@ public sealed class ClassicMenuController : MonoBehaviour
         }
 
         StartSectionTransition(currentSectionIndex + 1);
+    }
+
+    public bool TryPlayLevelSelectionTransition(int sceneBuildIndex, Action onComplete)
+    {
+        if (!isActiveAndEnabled || !gameObject.activeInHierarchy || transitionLocked || onComplete == null)
+        {
+            return false;
+        }
+
+        if (!ValidateReferences())
+        {
+            return false;
+        }
+
+        ClassicSection currentSection = sections[currentSectionIndex];
+        List<int> visibleButtonIndexes = GetVisibleButtonIndexes(currentSection);
+        if (visibleButtonIndexes.Count == 0)
+        {
+            return false;
+        }
+
+        int selectedButtonIndex = sceneBuildIndex - 1;
+        if (visibleButtonIndexes.Remove(selectedButtonIndex))
+        {
+            visibleButtonIndexes.Insert(0, selectedButtonIndex);
+        }
+
+        transitionLocked = true;
+        sectionCanvasGroup.interactable = false;
+        sectionCanvasGroup.blocksRaycasts = false;
+        sectionTransition = StartCoroutine(FallLevelButtonsThenLoad(visibleButtonIndexes, onComplete));
+        return true;
     }
 
     private void StartSectionTransition(int targetSectionIndex)
@@ -305,6 +356,81 @@ public sealed class ClassicMenuController : MonoBehaviour
         }
     }
 
+    private IEnumerator FallLevelButtonsThenLoad(List<int> visibleButtonIndexes, Action onComplete)
+    {
+        LayoutRebuilder.ForceRebuildLayoutImmediate(levelGrid);
+
+        int buttonCount = visibleButtonIndexes.Count;
+        RectTransform[] buttonTransforms = new RectTransform[buttonCount];
+        Vector2[] startPositions = new Vector2[buttonCount];
+        Quaternion[] startRotations = new Quaternion[buttonCount];
+
+        for (int sequenceIndex = 0; sequenceIndex < buttonCount; sequenceIndex++)
+        {
+            int buttonIndex = visibleButtonIndexes[sequenceIndex];
+            RectTransform buttonTransform = levelButtons[buttonIndex].transform as RectTransform;
+            if (buttonTransform == null)
+            {
+                Debug.LogError($"ClassicMenuController level button {buttonIndex + 1} requires a RectTransform.", levelButtons[buttonIndex]);
+                RestoreSelectionTransitionState();
+                yield break;
+            }
+
+            buttonTransforms[sequenceIndex] = buttonTransform;
+            startPositions[sequenceIndex] = buttonTransform.anchoredPosition;
+            startRotations[sequenceIndex] = buttonTransform.localRotation;
+        }
+
+        levelLayout.enabled = false;
+        float duration = Mathf.Max(0.01f, selectionFallDuration);
+        float totalDuration = duration + selectionFallStagger * Mathf.Max(0, buttonCount - 1);
+        float elapsed = 0f;
+
+        while (elapsed < totalDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            for (int sequenceIndex = 0; sequenceIndex < buttonCount; sequenceIndex++)
+            {
+                float delay = selectionFallStagger * sequenceIndex;
+                float progress = Mathf.Clamp01((elapsed - delay) / duration);
+                if (progress <= 0f)
+                {
+                    continue;
+                }
+
+                float gravityProgress = progress * progress;
+                RectTransform buttonTransform = buttonTransforms[sequenceIndex];
+                Vector2 position = startPositions[sequenceIndex];
+                position.y = Mathf.LerpUnclamped(position.y, position.y - selectionFallDistance, gravityProgress);
+                buttonTransform.anchoredPosition = position;
+
+                float rotationDirection = sequenceIndex % 2 == 0 ? 1f : -1f;
+                buttonTransform.localRotation = startRotations[sequenceIndex]
+                    * Quaternion.Euler(0f, 0f, selectionFallRotationDegrees * rotationDirection * gravityProgress);
+            }
+
+            yield return null;
+        }
+
+        sectionTransition = null;
+        onComplete.Invoke();
+    }
+
+    private void RestoreSelectionTransitionState()
+    {
+        RestoreButtonRotations();
+        if (levelLayout != null)
+        {
+            levelLayout.enabled = true;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(levelGrid);
+        }
+
+        sectionCanvasGroup.interactable = true;
+        sectionCanvasGroup.blocksRaycasts = true;
+        transitionLocked = false;
+        sectionTransition = null;
+    }
+
     private List<int> GetVisibleButtonIndexes(ClassicSection section)
     {
         List<int> visibleButtonIndexes = new List<int>();
@@ -407,14 +533,34 @@ public sealed class ClassicMenuController : MonoBehaviour
         if (levelButtons == null)
         {
             buttonTargetScales = Array.Empty<Vector3>();
+            buttonTargetRotations = Array.Empty<Quaternion>();
             return;
         }
 
         buttonTargetScales = new Vector3[levelButtons.Length];
+        buttonTargetRotations = new Quaternion[levelButtons.Length];
         for (int buttonIndex = 0; buttonIndex < levelButtons.Length; buttonIndex++)
         {
             CanvasGroup levelButton = levelButtons[buttonIndex];
             buttonTargetScales[buttonIndex] = levelButton != null ? levelButton.transform.localScale : Vector3.one;
+            buttonTargetRotations[buttonIndex] = levelButton != null ? levelButton.transform.localRotation : Quaternion.identity;
+        }
+    }
+
+    private void RestoreButtonRotations()
+    {
+        if (levelButtons == null)
+        {
+            return;
+        }
+
+        for (int buttonIndex = 0; buttonIndex < levelButtons.Length; buttonIndex++)
+        {
+            CanvasGroup levelButton = levelButtons[buttonIndex];
+            if (levelButton != null && buttonIndex < buttonTargetRotations.Length)
+            {
+                levelButton.transform.localRotation = buttonTargetRotations[buttonIndex];
+            }
         }
     }
 
@@ -662,6 +808,7 @@ public sealed class ClassicMenuController : MonoBehaviour
         referencesValid &= ValidateReference(sectionTitle, "Section Title");
         referencesValid &= ValidateReference(sectionDescription, "Section Description");
         referencesValid &= ValidateReference(levelGrid, "Level Grid");
+        referencesValid &= ValidateReference(levelLayout, "Level Layout");
         referencesValid &= ValidateReference(sectionCanvasGroup, "Section Canvas Group");
         referencesValid &= ValidateReference(progressService, "Progress Service");
         referencesValid &= ValidateReference(buttonAppearAudioSource, "Button Appear Audio Source");
