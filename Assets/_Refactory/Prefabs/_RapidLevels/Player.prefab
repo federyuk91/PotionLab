@@ -1586,6 +1586,7 @@ GameObject:
   - component: {fileID: 2389580602795789827}
   - component: {fileID: 4910868572146435026}
   - component: {fileID: 7448842513355030194}
+  - component: {fileID: 910000000000000123}
   m_Layer: 0
   m_Name: Mage
   m_TagString: Untagged
@@ -1901,6 +1902,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &910000000000000123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2526192719340539468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9e890c9b0ab4f8a9f70a6d74e8c0f21, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  animator: {fileID: 4910868572146435026}
+  idleClip: {fileID: 7400000, guid: f007d1d56f43b7d4b8784097c4b2a7da, type: 2}
+  specialIdleChance: 0.15
+  idleVariantCount: 9
 --- !u!1 &2683145374623254669
 GameObject:
   m_ObjectHideFlags: 0
