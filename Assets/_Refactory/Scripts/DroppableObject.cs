@@ -6,7 +6,7 @@ using UnityEngine;
 public class DroppableObject : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField, RequiredInspectorReference] protected GameObject whiteSquare;
+    [SerializeField] protected GameObject whiteSquare;
 
     [Header("Runtime State")]
     [SerializeField] protected bool isActive;
@@ -29,9 +29,9 @@ public class DroppableObject : MonoBehaviour
         initialBodyType = body.bodyType;
         initialMass = body.mass;
 
-        if (whiteSquare == null)
+        if (whiteSquare == null && body.bodyType == RigidbodyType2D.Kinematic)
         {
-            Debug.LogError($"{name}: assign the drop selection indicator in DroppableObject.", this);
+            Debug.LogWarning($"{name}: Without drop square indicator set in DroppableObject or dinamic rb this object cannot be dropped", this);
         }
     }
 

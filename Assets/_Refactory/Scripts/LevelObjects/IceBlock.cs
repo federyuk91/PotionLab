@@ -17,6 +17,9 @@ namespace Refactory.LevelObjects
         [SerializeField, RequiredInspectorReference(ResolveMode.Local)] private Animator animator;
         [SerializeField, RequiredInspectorReference(ResolveMode.Local)] private AudioSource breakAudioSource;
 
+        [Header("Break Settings")]
+        [SerializeField, Min(0f)] private float minimumBreakImpactSpeed = 0.1f;
+
         private bool isBreaking;
         private Sprite intactSprite;
 
@@ -65,7 +68,9 @@ namespace Refactory.LevelObjects
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (isBreaking || collision == null || !IsPotion(collision.collider))
+            if (isBreaking ||
+                collision == null ||
+                collision.relativeVelocity.sqrMagnitude < minimumBreakImpactSpeed * minimumBreakImpactSpeed)
                 return;
 
             isBreaking = true;
