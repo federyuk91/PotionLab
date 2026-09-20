@@ -686,7 +686,7 @@ Transform:
   m_GameObject: {fileID: 1306702012515122673}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.129, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1912,8 +1912,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9e890c9b0ab4f8a9f70a6d74e8c0f21, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   animator: {fileID: 4910868572146435026}
   idleClip: {fileID: 7400000, guid: f007d1d56f43b7d4b8784097c4b2a7da, type: 2}
   specialIdleChance: 0.15
@@ -2375,6 +2375,8 @@ MonoBehaviour:
   - {fileID: 8638871281187187539}
   - {fileID: 5498118413747246837}
   - {fileID: 1800831682775079853}
+  - {fileID: 5156693961920356292}
+  - {fileID: 3241442234388877711}
 --- !u!114 &7990633729634138069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3539,8 +3541,8 @@ MonoBehaviour:
   m_ComponentVersion: 2
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FalloffIntensity: 0.768
+  m_Color: {r: 1, g: 0.9353311, b: 0.8207547, a: 1}
   m_Intensity: 1
   m_LightVolumeIntensity: 0
   m_LightVolumeEnabled: 0
@@ -3565,7 +3567,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0.13
-  m_PointLightOuterRadius: 0.25
+  m_PointLightOuterRadius: 1.79
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -4871,7 +4873,7 @@ Transform:
   m_GameObject: {fileID: 5484120283534305102}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.71, y: 0.68, z: 0}
+  m_LocalPosition: {x: -1.12, y: 0.68, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 13.812799}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5523,7 +5525,7 @@ Transform:
   m_GameObject: {fileID: 5773147082088290650}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.129, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5945,7 +5947,7 @@ Transform:
   m_GameObject: {fileID: 6174332081266419172}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.061, z: 0}
+  m_LocalPosition: {x: 0, y: -0.003, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5966,8 +5968,8 @@ MonoBehaviour:
   m_ComponentVersion: 2
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FalloffIntensity: 0.444
+  m_Color: {r: 1, g: 0.86264646, b: 0.6094339, a: 1}
   m_Intensity: 1
   m_LightVolumeIntensity: 0
   m_LightVolumeEnabled: 0
@@ -5992,7 +5994,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0.13
-  m_PointLightOuterRadius: 0.25
+  m_PointLightOuterRadius: 2.39
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1

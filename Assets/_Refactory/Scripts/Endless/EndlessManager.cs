@@ -8,7 +8,10 @@ namespace EndlessSystem
 {
     public class EndlessManager : MonoBehaviour
     {
+        public int CurrentWave => Mathf.Max(1, waveNumber);
+
         public event Action<int> PhaseChanged;
+        public event Action<int> WaveChanged;
         public event Action<int> SpawnedPotionCountChanged;
         public event Action<EndlessPhaseSettings> PhaseEventTriggered;
         public event Action OverflowBombTriggered;
@@ -31,6 +34,7 @@ namespace EndlessSystem
         [SerializeField] private bool startOnLevelInteraction = true;
 
         private int phaseIndex;
+        private int waveNumber;
         private int spawnedPotionsInCurrentPhase;
         private Coroutine spawnCoroutine;
         private readonly HashSet<PotionScript> activeEndlessPotions = new HashSet<PotionScript>();
@@ -90,8 +94,10 @@ namespace EndlessSystem
             }
 
             phaseIndex = Mathf.Clamp(phaseIndex, 0, phases.Count - 1);
+            waveNumber = 1;
             activeEndlessPotions.Clear();
             PhaseChanged?.Invoke(phaseIndex);
+            WaveChanged?.Invoke(CurrentWave);
             spawnCoroutine = StartCoroutine(SpawnRoutine());
         }
 
@@ -194,7 +200,9 @@ namespace EndlessSystem
                 phaseIndex = 0;
             }
 
+            waveNumber++;
             PhaseChanged?.Invoke(phaseIndex);
+            WaveChanged?.Invoke(CurrentWave);
         }
 
         private float GetSpawnSeconds(EndlessPhaseSettings phase)

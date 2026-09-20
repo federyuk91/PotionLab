@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 4378936084262915376}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.84, y: -4.98, z: 0}
+  m_LocalPosition: {x: 6.84, y: -5.97, z: 0}
   m_LocalScale: {x: 6.5992875, y: 0.4635512, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -127,7 +127,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.06307429, y: 1.0731605}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -137,7 +137,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.8738514, y: 3.146321}
   m_EdgeRadius: 0
 --- !u!114 &881375958655061364
 MonoBehaviour:
@@ -246,10 +246,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProgressSystem.ProgressService
   repositoryBehaviour: {fileID: 619804325845619801}
+  playerNameProviderBehaviour: {fileID: 0}
   classicLevelCount: 30
   finalClassicLevelBuildIndex: 30
   firstAlwaysUnlockedClassicLevel: 24
   lastAlwaysUnlockedClassicLevel: 30
+  logPlayerNameFlow: 1
 --- !u!114 &619804325845619803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,23 +284,6 @@ MonoBehaviour:
   achievementDatabase: {fileID: 11400000, guid: 201de1488cd74036aa246f04fafb8984, type: 2}
   submitExistingUnlockedOnStart: 1
   logKnownAchievementNamesOnFailure: 1
---- !u!114 &619804325845619805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7203259774743543503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67478ce6a68c46dbad8ae7bd03170b2c, type: 3}
-  m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::SteamIntegration.SteamStatsController
-  progressService: {fileID: 619804325845619802}
-  labelsText: {fileID: 0}
-  primaryValuesText: {fileID: 0}
-  secondaryValuesText: {fileID: 0}
-  tertiaryValuesText: {fileID: 0}
 --- !u!114 &8641056418368551660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,3 +298,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PotionPool
   inactiveContainer: {fileID: 7718765073081216478}
   preloadedPotions: []
+--- !u!114 &619804325845619805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7203259774743543503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67478ce6a68c46dbad8ae7bd03170b2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SteamIntegration.SteamStatsController
+  progressService: {fileID: 619804325845619802}
+  potionsDrunkValueText: {fileID: 0}
+  deathsValueText: {fileID: 0}
+  transformationsValueText: {fileID: 0}
+  bestEndlessValueText: {fileID: 0}
+  lastEndlessValueText: {fileID: 0}
+  maxClassicLevelValueText: {fileID: 0}

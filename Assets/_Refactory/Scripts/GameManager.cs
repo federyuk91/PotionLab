@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
 
     public BaseCharacter Character => transformationManager != null ? transformationManager.Current : null;
     public bool IsPuzzleMode => GetIsPuzzleMode();
+    public LevelGameMode GameMode => levelSettings != null ? levelSettings.GameMode : LevelGameMode.Classic;
+    public bool IsLaboratoryMode => GameMode == LevelGameMode.Laboratory;
+    public bool IsEndlessMode => GameMode == LevelGameMode.Endless;
     public int LevelPotionTarget => levelPotionTarget;
     public int BestHealthScore => GetBestHealthScore();
     public int MaxMalusScore => GetMaxMalusScore();

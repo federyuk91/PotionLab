@@ -24,11 +24,12 @@ namespace Refactory.UI.GridList
 
         [SerializeField, RequiredInspectorReference] private List<TransformationData> transformations = new List<TransformationData>();
         [SerializeField, RequiredInspectorReference] private ScrollRect listScroll;
-        [SerializeField, RequiredInspectorReference] private GridLayoutGroup listLayout;
+        [SerializeField, RequiredInspectorReference] private VerticalLayoutGroup listLayout;
         [SerializeField, RequiredInspectorReference] private ScrollRect detailScroll;
         [SerializeField, RequiredInspectorReference] private Button buttonTemplate;
         [SerializeField, RequiredInspectorReference] private TMP_Text title;
         [SerializeField, RequiredInspectorReference] private Image portrait;
+        [SerializeField, RequiredInspectorReference] private Image spellPortrait;
         [SerializeField, RequiredInspectorReference] private TMP_Text description;
         [SerializeField, RequiredInspectorReference] private TMP_Text spellCost;
         [SerializeField, RequiredInspectorReference] private TMP_Text immunityHeading;
@@ -182,18 +183,18 @@ namespace Refactory.UI.GridList
             previewSpell = index;
             foreach (GameObject field in formOnlyFields) field.SetActive(false);
             title.text = spell.nome;
-            portrait.sprite = spell.icona;
-            portrait.rectTransform.localScale = Vector3.one;
-            portrait.gameObject.SetActive(spell.icona != null);
+            portrait.gameObject.SetActive(false);
+            spellPortrait.sprite = spell.icona;
+            spellPortrait.gameObject.SetActive(spell.icona != null);
             spellCost.text = $"Cost: {spell.costo} MP";
             spellCost.gameObject.SetActive(true);
             string text = !string.IsNullOrWhiteSpace(spell.descrizioneGenerica)
                 ? spell.descrizioneGenerica
                 : spell.descrizioneBreve ?? string.Empty;
             if (!string.IsNullOrWhiteSpace(spell.descrizioneNormale))
-                text += $"\n\n<size=140%><b>Normal</b></size>\n{spell.descrizioneNormale}";
+                text += $"\n\n<size=125%><b>Normal</b></size>\n{spell.descrizioneNormale}";
             if (!string.IsNullOrWhiteSpace(spell.descrizionePotenziata))
-                text += $"\n\n<size=140%><b>Powered</b></size>\n{spell.descrizionePotenziata}";
+                text += $"\n\n<size=125%><b>Powered</b></size>\n{spell.descrizionePotenziata}";
             SetText(description, text);
         }
 
@@ -209,6 +210,7 @@ namespace Refactory.UI.GridList
             if (selectedData == null) return;
             foreach (GameObject field in formOnlyFields) field.SetActive(true);
             title.text = selectedData.TransformationName;
+            spellPortrait.gameObject.SetActive(false);
             portrait.sprite = selectedData.GetIdleSprite(idleTime);
             ApplyCharacterScale(portrait, selectedData);
             portrait.gameObject.SetActive(portrait.sprite != null);
@@ -279,7 +281,7 @@ namespace Refactory.UI.GridList
         {
             bool valid = listScroll != null && listScroll.content != null && listLayout != null && detailScroll != null
                 && detailScroll.content != null && buttonTemplate != null && buttonTemplate.targetGraphic is Image
-                && title != null && portrait != null && description != null && transformationMethod != null
+                && title != null && portrait != null && spellPortrait != null && description != null && transformationMethod != null
                 && transformationPotionContainer != null
                 && spellCost != null && formOnlyFields != null
                 && immunityHeading != null

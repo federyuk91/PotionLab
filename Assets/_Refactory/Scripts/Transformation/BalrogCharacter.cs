@@ -4,6 +4,11 @@ namespace CharacterSystem
 {
     public class BalrogCharacter : BaseCharacter
     {
+        private const string CauldronPoweredParameter = "Spell3Powered";
+
+        private bool hasPendingCauldronCast;
+        private bool pendingCauldronPowered;
+
         [Header("Spell References")]
         [SerializeField] private CauldronSpellEffect cauldronSpellEffect;
 
@@ -69,6 +74,8 @@ namespace CharacterSystem
                 return false;
             }
 
+            animator.SetBool(CauldronPoweredParameter, powered);
+
             CauldronSpellEffect effect = GetCauldronSpellEffect();
             if (effect == null)
             {
@@ -76,14 +83,33 @@ namespace CharacterSystem
                 return true;
             }
 
-            effect.Play(powered);
+            pendingCauldronPowered = powered;
+            hasPendingCauldronCast = true;
 
-            if (powered)
+            return true;
+        }
+
+        public void SpawnCauldronFromAnimation()
+        {
+            if (!hasPendingCauldronCast)
+            {
+                return;
+            }
+
+            bool powered = pendingCauldronPowered;
+            hasPendingCauldronCast = false;
+
+            CauldronSpellEffect effect = GetCauldronSpellEffect();
+            if (effect == null)
+            {
+                Debug.LogWarning($"{name} has no cauldron spell effect assigned.", this);
+                return;
+            }
+
+            if (effect.Play(powered) && powered)
             {
                 RequestAchievement(AchievementId.CookingMama);
             }
-
-            return true;
         }
 
         private CauldronSpellEffect GetCauldronSpellEffect()
@@ -236,6 +262,7 @@ namespace CharacterSystem
 
         public override void OnExitTransformation()
         {
+            hasPendingCauldronCast = false;
             stats.TakeDamage(stats.HP-1);
             stats.SetMP(10);
         }

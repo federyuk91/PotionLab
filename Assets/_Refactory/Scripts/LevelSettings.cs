@@ -1,5 +1,12 @@
 using UnityEngine;
 
+public enum LevelGameMode
+{
+    Classic = 0,
+    Laboratory = 1,
+    Endless = 2
+}
+
 public class LevelSettings : MonoBehaviour
 {
     private const int MinLightIntensity = 0;
@@ -10,6 +17,7 @@ public class LevelSettings : MonoBehaviour
 
     [Header("Mode")]
     [SerializeField] private bool isPuzzleMode = true;
+    [SerializeField] private LevelGameMode gameMode = LevelGameMode.Classic;
 
     [Header("Score")]
     [SerializeField] private int bestHealthScore = 10;
@@ -38,6 +46,7 @@ public class LevelSettings : MonoBehaviour
     [SerializeField] private int maxActivePotionsBeforeBomb = 30;
 
     public bool IsPuzzleMode => isPuzzleMode;
+    public LevelGameMode GameMode => gameMode;
     public int BestHealthScore => bestHealthScore;
     public int MaxMalusScore => maxMalusScore;
     public string IntroPresentationLine => introPresentationLine;

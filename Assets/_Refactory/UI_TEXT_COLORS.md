@@ -5,7 +5,7 @@ Source of truth: `Dati/UI_TextColorPalette.asset` (`UITextColorPalette`). Edit c
 | Meaning | Color | Recognized words |
 | --- | --- | --- |
 | HP | #A12642 | HP, health, vita |
-| MP | #2855A1 | MP, mana |
+| MP | #FDFF00 | MP, mana |
 | Damage | #A84020 | damage, damages, danno, danni |
 | Healing | #296C3C | heal, heals, healing, restores, cura |
 | Fire | #A64B16 | Fire, Burn, Burning, Lava |

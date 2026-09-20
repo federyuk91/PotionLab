@@ -14,6 +14,13 @@ public class CharacterUIController : MonoBehaviour
 {
     private static readonly int SpellOpenParameter = Animator.StringToHash("isOpen");
 
+    private enum ResultPresentation
+    {
+        Classic,
+        Laboratory,
+        Endless
+    }
+
     public GameManager GameManager => gameManager;
 
     [Header("Sources")]
@@ -64,6 +71,8 @@ public class CharacterUIController : MonoBehaviour
     [SerializeField, RequiredInspectorReference] private GameObject classicResultPanel;
     [SerializeField, RequiredInspectorReference] private TMP_Text classicScoreText;
     [SerializeField, RequiredInspectorReference] private TMP_Text classicFinalMessage;
+    [SerializeField, RequiredInspectorReference] private GameObject classicNextButton;
+    [SerializeField, RequiredInspectorReference] private GameObject classicScoreIconsRoot;
     [SerializeField] private Image[] classicScoreIcons;
     [SerializeField] private Color inactiveScoreIconColor = new Color(0.3207547f, 0.3207547f, 0.3207547f, 1f);
     [SerializeField] private Color activeScoreIconColor = Color.white;
@@ -77,6 +86,7 @@ public class CharacterUIController : MonoBehaviour
 
     private Coroutine classicResultAnimation;
     private Vector3[] classicIconBaseScales;
+    private ResultPresentation activeResultPresentation;
     [Header("Endless Score UI")]
     [FormerlySerializedAs("proceduralResultPanel")]
     [SerializeField] private GameObject endlessResultPanel;
@@ -240,7 +250,7 @@ public class CharacterUIController : MonoBehaviour
             SetSpellBarVisible(spellBar.activeSelf);
         }
 
-        SetResultPanelsVisible(false, false);
+        SetResultPanelVisible(false);
         RefreshCurrentNight();
         RefreshStatuses();
         RefreshMageStatusLevels();
@@ -291,6 +301,17 @@ public class CharacterUIController : MonoBehaviour
 
         Debug.LogWarning($"{name}: Nights Data has no entry for scene '{activeScene.name}' (night index {nightIndex}).", this);
         currentNightText.text = FormatNightLabel(nightIndex, null);
+    }
+
+    public void ShowEndlessWave(int waveNumber)
+    {
+        if (currentNightText == null)
+        {
+            Debug.LogError($"{name}: Cannot display the endless wave because Current Night Text is missing.", this);
+            return;
+        }
+
+        currentNightText.text = $"ENDLESS\n<size=12>Wave: {Mathf.Max(1, waveNumber)}</size>";
     }
 
     private static string FormatNightLabel(int nightIndex, string displayName)
@@ -862,12 +883,11 @@ public class CharacterUIController : MonoBehaviour
     private void ShowDeathPanel(string deathDialog)
     {
         StopClassicResultAnimation();
-        SetResultPanelsVisible(false, false);
+        SetResultPanelVisible(false);
 
         if (gameManager != null && !gameManager.IsPuzzleMode)
         {
-            PopulateEndlessScorePanel();
-            SetResultPanelsVisible(false, true);
+            ShowSpecialResultPanel();
             return;
         }
 
@@ -891,19 +911,39 @@ public class CharacterUIController : MonoBehaviour
 
         if (gameManager.IsPuzzleMode)
         {
+            activeResultPresentation = ResultPresentation.Classic;
             PopulateClassicScorePanel();
+            SetResultPanelVisible(true);
+            PlayClassicResultAnimation();
+            return;
+        }
+
+        ShowSpecialResultPanel();
+    }
+
+    private void ShowSpecialResultPanel()
+    {
+        if (gameManager == null)
+        {
+            Debug.LogWarning($"{name}: Cannot show the special result panel because GameManager is missing.", this);
+            return;
+        }
+
+        activeResultPresentation = gameManager.IsLaboratoryMode
+            ? ResultPresentation.Laboratory
+            : ResultPresentation.Endless;
+
+        if (activeResultPresentation == ResultPresentation.Laboratory)
+        {
+            PopulateLaboratoryResultPanel();
         }
         else
         {
             PopulateEndlessScorePanel();
         }
 
-        SetResultPanelsVisible(gameManager.IsPuzzleMode, !gameManager.IsPuzzleMode);
-
-        if (gameManager.IsPuzzleMode)
-        {
-            PlayClassicResultAnimation();
-        }
+        SetResultPanelVisible(true);
+        PlayClassicResultAnimation();
     }
 
     private void PopulateClassicScorePanel()
@@ -1003,18 +1043,57 @@ public class CharacterUIController : MonoBehaviour
         {
             endlessBestScoreText.text = gameManager.BestProceduralScore.ToString();
         }
+
+        if (classicScoreText != null)
+        {
+            classicScoreText.text = FormatEndlessScore(
+                gameManager.potionDrunked,
+                gameManager.BestProceduralScore,
+                gameManager.EndlessScore,
+                gameManager.mutationCounter);
+        }
+
+        if (classicFinalMessage != null)
+        {
+            classicFinalMessage.text = "ENDLESS OVER";
+        }
     }
 
-    private void SetResultPanelsVisible(bool classicVisible, bool endlessVisible)
+    private void PopulateLaboratoryResultPanel()
+    {
+        if (classicScoreText != null)
+        {
+            classicScoreText.text = FormatLaboratoryScore(gameManager.potionDrunked, gameManager.spawnedPotion, gameManager.mutationCounter);
+        }
+
+        if (classicFinalMessage != null)
+        {
+            classicFinalMessage.text = "Maybe it's a dream...";
+        }
+
+        RefreshClassicScoreIcons(4);
+    }
+
+    private void SetResultPanelVisible(bool visible)
     {
         if (classicResultPanel != null)
         {
-            classicResultPanel.SetActive(classicVisible);
+            classicResultPanel.SetActive(visible);
         }
 
         if (endlessResultPanel != null)
         {
-            endlessResultPanel.SetActive(endlessVisible);
+            endlessResultPanel.SetActive(false);
+        }
+
+        if (classicNextButton != null)
+        {
+            classicNextButton.SetActive(visible && activeResultPresentation == ResultPresentation.Classic);
+        }
+
+        if (classicScoreIconsRoot != null)
+        {
+            classicScoreIconsRoot.SetActive(visible && activeResultPresentation != ResultPresentation.Endless);
         }
     }
 
@@ -1041,13 +1120,20 @@ public class CharacterUIController : MonoBehaviour
         int bestHealth = gameManager.BestHealthScore;
         int malusCount = status != null ? status.Count() : 0;
         int maxMalus = gameManager.MaxMalusScore;
-        int score = gameManager.CalculateClassicScorePoints();
+        int endlessScore = gameManager.EndlessScore;
+        int bestEndlessScore = gameManager.BestProceduralScore;
+        int mutationCount = gameManager.mutationCounter;
+        int spawnedPotionCount = gameManager.spawnedPotion;
+        int score = GetActiveResultScore();
 
         Color scoreTextColor = classicScoreText != null ? classicScoreText.color : Color.white;
         Color messageColor = classicFinalMessage != null ? classicFinalMessage.color : Color.white;
         Vector3 messageBaseScale = classicFinalMessage != null ? classicFinalMessage.rectTransform.localScale : Vector3.one;
 
-        PrepareClassicIcons(score);
+        if (activeResultPresentation != ResultPresentation.Endless)
+        {
+            PrepareClassicIcons(score);
+        }
 
         if (classicFinalMessage != null)
         {
@@ -1067,7 +1153,20 @@ public class CharacterUIController : MonoBehaviour
                 int displayedPotions = Mathf.RoundToInt(Mathf.Lerp(0f, potionCount, easedTime));
                 int displayedHealth = Mathf.RoundToInt(Mathf.Lerp(0f, currentHP, easedTime));
                 int displayedMalus = Mathf.RoundToInt(Mathf.Lerp(0f, malusCount, easedTime));
-                classicScoreText.text = FormatClassicScore(displayedPotions, totalPotion, displayedHealth, bestHealth, displayedMalus, maxMalus);
+                int displayedEndlessScore = Mathf.RoundToInt(Mathf.Lerp(0f, endlessScore, easedTime));
+                int displayedBestEndlessScore = Mathf.RoundToInt(Mathf.Lerp(0f, bestEndlessScore, easedTime));
+                int displayedMutations = Mathf.RoundToInt(Mathf.Lerp(0f, mutationCount, easedTime));
+                classicScoreText.text = FormatActiveResultScore(
+                    displayedPotions,
+                    totalPotion,
+                    displayedHealth,
+                    bestHealth,
+                    displayedMalus,
+                    maxMalus,
+                    displayedEndlessScore,
+                    displayedBestEndlessScore,
+                    displayedMutations,
+                    Mathf.RoundToInt(Mathf.Lerp(0f, spawnedPotionCount, easedTime)));
                 classicScoreText.color = WithAlpha(scoreTextColor, easedTime * scoreTextColor.a);
             }
 
@@ -1076,11 +1175,21 @@ public class CharacterUIController : MonoBehaviour
 
         if (classicScoreText != null)
         {
-            classicScoreText.text = FormatClassicScore(potionCount, totalPotion, currentHP, bestHealth, malusCount, maxMalus);
+            classicScoreText.text = FormatActiveResultScore(
+                potionCount,
+                totalPotion,
+                currentHP,
+                bestHealth,
+                malusCount,
+                maxMalus,
+                endlessScore,
+                bestEndlessScore,
+                mutationCount,
+                spawnedPotionCount);
             classicScoreText.color = scoreTextColor;
         }
 
-        if (classicScoreIcons != null)
+        if (activeResultPresentation != ResultPresentation.Endless && classicScoreIcons != null)
         {
             int activeIcons = Mathf.Clamp(score - 1, 0, classicScoreIcons.Length);
             for (int index = 0; index < classicScoreIcons.Length; index++)
@@ -1198,6 +1307,63 @@ public class CharacterUIController : MonoBehaviour
 
         StopCoroutine(classicResultAnimation);
         classicResultAnimation = null;
+    }
+
+    private int GetActiveResultScore()
+    {
+        switch (activeResultPresentation)
+        {
+            case ResultPresentation.Laboratory:
+                return 4;
+            case ResultPresentation.Endless:
+                return 1;
+            default:
+                return gameManager != null ? gameManager.CalculateClassicScorePoints() : 1;
+        }
+    }
+
+    private string FormatActiveResultScore(
+        int potionCount,
+        int totalPotion,
+        int currentHealth,
+        int bestHealth,
+        int malusCount,
+        int maxMalus,
+        int endlessScore,
+        int bestEndlessScore,
+        int mutationCount,
+        int spawnedPotionCount)
+    {
+        switch (activeResultPresentation)
+        {
+            case ResultPresentation.Laboratory:
+                return FormatLaboratoryScore(potionCount, spawnedPotionCount, mutationCount);
+            case ResultPresentation.Endless:
+                return FormatEndlessScore(potionCount, bestEndlessScore, endlessScore, mutationCount);
+            default:
+                return FormatClassicScore(potionCount, totalPotion, currentHealth, bestHealth, malusCount, maxMalus);
+        }
+    }
+
+    private string FormatLaboratoryScore(int potionCount, int spawnedPotionCount, int mutationCount)
+    {
+        return "Potions tested: " + potionCount + "\n\n"
+            + "Potions spawned: " + spawnedPotionCount + "\n\n"
+            + "Transformations: " + mutationCount;
+    }
+
+    private string FormatEndlessScore(int potionCount, int personalBest, int currentScore, int mutationCount)
+    {
+        string potionLine = "Potions drunk: " + potionCount;
+        string personalBestLine = "Personal best: " + personalBest;
+        string currentScoreLine = "Current score: " + currentScore;
+        string transformationLine = "Transformations: " + mutationCount;
+        bool isPersonalBest = currentScore > 0 && currentScore >= personalBest;
+
+        return potionLine + "\n\n"
+            + HighlightCompletedSection(personalBestLine, isPersonalBest) + "\n\n"
+            + currentScoreLine + "\n\n"
+            + transformationLine;
     }
 
     private string FormatClassicScore(int potionCount, int totalPotion, int currentHP, int bestHealth, int malusCount, int maxMalus)

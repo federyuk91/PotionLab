@@ -65,6 +65,7 @@ public sealed class MainMenuController : MonoBehaviour
     [SerializeField] private string buyMeACoffeeUrl = "https://www.buymeacoffee.com/creativelizards";
 
     [Header("Progression")]
+    [SerializeField] private int laboratorySceneBuildIndex = 36;
     [SerializeField] private int endlessSceneBuildIndex = 35;
 
     [Header("Events")]
@@ -637,6 +638,11 @@ public sealed class MainMenuController : MonoBehaviour
         if (sceneBuildIndex <= progressService.FinalClassicLevelBuildIndex)
         {
             return progressService.IsClassicLevelUnlocked(sceneBuildIndex);
+        }
+
+        if (sceneBuildIndex == laboratorySceneBuildIndex)
+        {
+            return true;
         }
 
         return sceneBuildIndex == endlessSceneBuildIndex && progressService.IsEndlessUnlocked();

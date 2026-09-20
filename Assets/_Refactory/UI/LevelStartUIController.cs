@@ -1,4 +1,5 @@
 using System.Collections;
+using EndlessSystem;
 using InspectorValidation;
 using TMPro;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class LevelStartUIController : MonoBehaviour
     [Header("Sources")]
     [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private LevelSettings levelSettings;
     [SerializeField, RequiredInspectorReference(ResolveMode.Local)] private CharacterUIController characterUIController;
+    [SerializeField] private EndlessManager endlessManager;
 
     [Header("Intro Presentation")]
     [SerializeField, RequiredInspectorReference] private TMP_Text introPresentationText;
@@ -39,6 +41,11 @@ public class LevelStartUIController : MonoBehaviour
     {
         PrepareNightIntro();
         HideLegacyIntroPresentationText();
+
+        if (endlessManager != null)
+        {
+            HandleEndlessWaveChanged(endlessManager.CurrentWave);
+        }
     }
 
     private void OnEnable()
@@ -52,6 +59,11 @@ public class LevelStartUIController : MonoBehaviour
 
         startLevelButton.onClick.AddListener(HandleLevelStartClicked);
         SubscribeToLevelIntroPresentation();
+
+        if (endlessManager != null)
+        {
+            endlessManager.WaveChanged += HandleEndlessWaveChanged;
+        }
     }
 
     private void OnDisable()
@@ -63,7 +75,23 @@ public class LevelStartUIController : MonoBehaviour
         }
 
         UnsubscribeFromLevelIntroPresentation();
+        if (endlessManager != null)
+        {
+            endlessManager.WaveChanged -= HandleEndlessWaveChanged;
+        }
+
         StopIntroPresentationAudio();
+    }
+
+    private void HandleEndlessWaveChanged(int waveNumber)
+    {
+        if (characterUIController == null)
+        {
+            Debug.LogError("LevelStartUIController requires the Character UI Controller Inspector reference to display the endless wave.", this);
+            return;
+        }
+
+        characterUIController.ShowEndlessWave(waveNumber);
     }
 
     private void HandleLevelStartClicked()

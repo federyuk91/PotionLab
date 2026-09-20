@@ -4,6 +4,7 @@ using UnityEditor;
 public class LevelSettingsEditor : Editor
 {
     private SerializedProperty isPuzzleMode;
+    private SerializedProperty gameMode;
     private SerializedProperty bestHealthScore;
     private SerializedProperty maxMalusScore;
     private SerializedProperty introPresentationLine;
@@ -24,6 +25,7 @@ public class LevelSettingsEditor : Editor
     private void OnEnable()
     {
         isPuzzleMode = serializedObject.FindProperty("isPuzzleMode");
+        gameMode = serializedObject.FindProperty("gameMode");
         bestHealthScore = serializedObject.FindProperty("bestHealthScore");
         maxMalusScore = serializedObject.FindProperty("maxMalusScore");
         introPresentationLine = serializedObject.FindProperty("introPresentationLine");
@@ -47,6 +49,7 @@ public class LevelSettingsEditor : Editor
         serializedObject.Update();
 
         EditorGUILayout.PropertyField(isPuzzleMode);
+        EditorGUILayout.PropertyField(gameMode);
         EditorGUILayout.Space();
 
         EditorGUILayout.LabelField("Score", EditorStyles.boldLabel);
