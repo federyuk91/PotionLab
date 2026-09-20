@@ -15,7 +15,8 @@ namespace CharacterSystem
         public event Action OnHealtUp, OnHealtDown, OnManaUp, OnManaDown;
         public event Action<int, int> HPChanged;
         public event Action<int, int> MPChanged;
-        public event Action<string, Color> StatPopupRequested;
+        public event Action<string, Color> HPPopupRequested;
+        public event Action<string, Color> MPPopupRequested;
         public event Action<int> DamageTaken;
         public event Action OnDeath;
 
@@ -74,28 +75,22 @@ namespace CharacterSystem
             return HP >= value;
         }
 
-        public void PopUp(string text, Color col)
-        {
-            StatPopupRequested?.Invoke(text, col);
-        }
-
-        private void PopUpDelta(int delta, Color color)
+        private void RequestPopup(int delta, Color color, Action<string, Color> popupRequested)
         {
             if (delta == 0)
             {
-                
                 return;
             }
 
             string sign = delta > 0 ? "+" : string.Empty;
-            PopUp(sign + delta, color);
+            popupRequested?.Invoke(sign + delta, color);
         }
 
         private void ModifyHP(int delta)
         {
             int previousHP = HP;
             HP = Mathf.Clamp(HP + delta, 0, MaxHP);
-            PopUpDelta(HP - previousHP, hpColor);
+            RequestPopup(HP - previousHP, hpColor, HPPopupRequested);
             if (!deferChangedEvents)
             {
                 HPChanged?.Invoke(HP, MaxHP);
@@ -118,7 +113,7 @@ namespace CharacterSystem
         {
             int previousMP = MP;
             MP = Mathf.Clamp(MP + delta, 0, MaxMP);
-            PopUpDelta(MP - previousMP, lightColor);
+            RequestPopup(MP - previousMP, lightColor, MPPopupRequested);
             if (!deferChangedEvents)
             {
                 MPChanged?.Invoke(MP, MaxMP);

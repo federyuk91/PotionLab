@@ -29,7 +29,9 @@ public class CharacterUIController : MonoBehaviour
     [SerializeField] private Image mpFill;
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private TextMeshProUGUI mpText;
-    [SerializeField] private TMP_Text statPopupText;
+    [FormerlySerializedAs("statPopupText")]
+    [SerializeField, RequiredInspectorReference] private TMP_Text hpPopupText;
+    [SerializeField, RequiredInspectorReference] private TMP_Text mpPopupText;
 
     [Header("Stats Feedback")]
     [SerializeField, Min(0.05f)] private float statBarTransitionDuration = 0.28f;
@@ -146,7 +148,8 @@ public class CharacterUIController : MonoBehaviour
         {
             characterStats.HPChanged += RefreshHP;
             characterStats.MPChanged += RefreshMP;
-            characterStats.StatPopupRequested += ShowStatPopup;
+            characterStats.HPPopupRequested += ShowHPPopup;
+            characterStats.MPPopupRequested += ShowMPPopup;
         }
 
         if (characterSpells != null)
@@ -184,7 +187,8 @@ public class CharacterUIController : MonoBehaviour
         {
             characterStats.HPChanged -= RefreshHP;
             characterStats.MPChanged -= RefreshMP;
-            characterStats.StatPopupRequested -= ShowStatPopup;
+            characterStats.HPPopupRequested -= ShowHPPopup;
+            characterStats.MPPopupRequested -= ShowMPPopup;
         }
 
         if (characterSpells != null)
@@ -478,16 +482,27 @@ public class CharacterUIController : MonoBehaviour
         return Mathf.Clamp01((float)currentValue / maxValue);
     }
 
-    private void ShowStatPopup(string text, Color color)
+    private void ShowHPPopup(string text, Color color)
     {
-        if (statPopupText == null)
+        ShowStatPopup(hpPopupText, text, color, "HP Popup Text");
+    }
+
+    private void ShowMPPopup(string text, Color color)
+    {
+        ShowStatPopup(mpPopupText, text, color, "MP Popup Text");
+    }
+
+    private void ShowStatPopup(TMP_Text popupText, string text, Color color, string referenceName)
+    {
+        if (popupText == null)
         {
+            Debug.LogWarning($"{name}: Cannot show stat variation because {referenceName} is missing.", this);
             return;
         }
 
-        statPopupText.text = text;
-        statPopupText.color = color;
-        statPopupText.gameObject.SetActive(true);
+        popupText.text = text;
+        popupText.color = color;
+        popupText.gameObject.SetActive(true);
     }
 
     private void RefreshSpells(IReadOnlyList<Spell> spells, CharacterType characterType)

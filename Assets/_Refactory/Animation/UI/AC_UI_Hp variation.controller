@@ -66,7 +66,7 @@ AnimatorStateMachine:
     m_Position: {x: 412.4903, y: 158.92142, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7286876430375715712}
-    m_Position: {x: 447.4903, y: 223.92142, z: 0}
+    m_Position: {x: 450, y: 220, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -83,7 +83,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: AC_UI_Textpopo
+  m_Name: AC_UI_Hp variation
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:
