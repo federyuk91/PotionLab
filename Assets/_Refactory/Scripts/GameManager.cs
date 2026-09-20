@@ -790,11 +790,6 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (sceneIndex == 26)
-        {
-            return;
-        }
-
         progressService.SaveClassicLevelResult(sceneIndex, score);
     }
 
