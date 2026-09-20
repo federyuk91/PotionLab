@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 8636329463900394516}
   - component: {fileID: 6400460995715264717}
   - component: {fileID: 8401571047642546089}
-  - component: {fileID: 8748691028949188699}
   - component: {fileID: 5838044406849275402}
   m_Layer: 0
   m_Name: GroundBlock
@@ -290,20 +289,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &8748691028949188699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2938383376343738727}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 024f81fb6738ece4582cda394a06aa1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DroppableObject
-  whiteSquare: {fileID: 6352383415805479753}
-  isActive: 0
 --- !u!114 &5838044406849275402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,11 +301,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3adcad698eedb9745a6e475ed25daca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Refactory.LevelObjects.GroundBlock
+  whiteSquare: {fileID: 6352383415805479753}
+  isActive: 0
   spriteRenderer: {fileID: 580696748984907370}
   blockCollider: {fileID: 5876436709784287330}
   animator: {fileID: 8636329463900394516}
   breakAudioSource: {fileID: 6400460995715264717}
-  droppableObject: {fileID: 8748691028949188699}
   characterDamage: 1
 --- !u!1 &6352383415805479753
 GameObject:
@@ -432,8 +418,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 8748691028949188699}
-          m_TargetAssemblyTypeName: DroppableObject, Assembly-CSharp
+        - m_Target: {fileID: 5838044406849275402}
+          m_TargetAssemblyTypeName: Refactory.LevelObjects.GroundBlock, Assembly-CSharp
           m_MethodName: Drop
           m_Mode: 1
           m_Arguments:

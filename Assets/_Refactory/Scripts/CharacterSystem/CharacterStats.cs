@@ -20,6 +20,7 @@ namespace CharacterSystem
         public event Action OnDeath;
 
         private bool deathNotified;
+        private bool deferChangedEvents;
 
         public void TakeDamage(int value)
         {
@@ -44,6 +45,24 @@ namespace CharacterSystem
         {
             ModifyMP(-value);
             OnManaDown?.Invoke();
+        }
+
+        public void ModifyHPAndMP(int hpDelta, int mpDelta)
+        {
+            deferChangedEvents = true;
+
+            try
+            {
+                ApplyHPDelta(hpDelta);
+                ApplyMPDelta(mpDelta);
+            }
+            finally
+            {
+                deferChangedEvents = false;
+            }
+
+            HPChanged?.Invoke(HP, MaxHP);
+            MPChanged?.Invoke(MP, MaxMP);
         }
 
         public bool HasMana(int value)
@@ -77,7 +96,10 @@ namespace CharacterSystem
             int previousHP = HP;
             HP = Mathf.Clamp(HP + delta, 0, MaxHP);
             PopUpDelta(HP - previousHP, hpColor);
-            HPChanged?.Invoke(HP, MaxHP);
+            if (!deferChangedEvents)
+            {
+                HPChanged?.Invoke(HP, MaxHP);
+            }
 
             if (HP > 0)
             {
@@ -97,7 +119,34 @@ namespace CharacterSystem
             int previousMP = MP;
             MP = Mathf.Clamp(MP + delta, 0, MaxMP);
             PopUpDelta(MP - previousMP, lightColor);
-            MPChanged?.Invoke(MP, MaxMP);
+            if (!deferChangedEvents)
+            {
+                MPChanged?.Invoke(MP, MaxMP);
+            }
+        }
+
+        private void ApplyHPDelta(int delta)
+        {
+            if (delta > 0)
+            {
+                Heal(delta);
+            }
+            else if (delta < 0)
+            {
+                TakeDamage(-delta);
+            }
+        }
+
+        private void ApplyMPDelta(int delta)
+        {
+            if (delta > 0)
+            {
+                AddMana(delta);
+            }
+            else if (delta < 0)
+            {
+                LoseMana(-delta);
+            }
         }
 
         public void SetHP(int value)

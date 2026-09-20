@@ -4664,7 +4664,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e10c6839d244ebdb45a424301219572, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterSystem.YetiPunchAchievementTrigger
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterSystem.YetiPunchHitbox
   yetiCharacter: {fileID: 5498118413747246837}
   punchDirection: {x: -0.7, y: 0.5}
   punchForce: 12

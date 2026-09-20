@@ -116,6 +116,11 @@ public class GameManager : MonoBehaviour
         droppables = new List<DroppableObject>();
         foreach (DroppableObject droppable in drops)
         {
+            if (droppable is PotionScript)
+            {
+                continue;
+            }
+
             droppables.Add(droppable);
         }
 

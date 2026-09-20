@@ -102,7 +102,6 @@ public class Spawner : MonoBehaviour
         }
 
         blockCollider.enabled = true;
-        currentPotion.isActive = true;
         gameManager.RegisterSpawnedPotion(currentPotion);
         currentPotion.DropPotion(false);
     }

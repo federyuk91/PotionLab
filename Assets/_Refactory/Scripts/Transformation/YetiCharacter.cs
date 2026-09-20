@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 using ProgressSystem;
 namespace CharacterSystem
@@ -9,7 +8,6 @@ namespace CharacterSystem
         [Header("Spell References")]
         [SerializeField] private GameObject punchObject;
         private int punchPotionHitCount;
-        private Coroutine mutationCheckRoutine;
 
         public event Action StatsBalanced;
 
@@ -62,23 +60,25 @@ namespace CharacterSystem
                 return false;
             }
 
-            if (!TrySpendMana(spell, "eh?"))
+            if (!HasEnoughMana(spell, "eh?"))
             {
                 return false;
             }
 
-            stats.Heal(powered ? 4 : 3);
+            int healing = powered ? 4 : 3;
+            stats.ModifyHPAndMP(healing, -spell.costo);
             return true;
         }
 
         private bool CastPunch(Spell spell, bool powered)
         {
-            if (!TrySpendMana(spell, "eh?"))
+            if (!HasEnoughMana(spell, "eh?"))
             {
                 return false;
             }
 
-            stats.TakeDamage(powered ? 1 : 2);
+            int selfDamage = powered ? 1 : 2;
+            stats.ModifyHPAndMP(-selfDamage, -spell.costo);
             punchPotionHitCount = 0;
 
             if (punchObject == null)
@@ -103,62 +103,51 @@ namespace CharacterSystem
 
         private bool TrySpendMana(Spell spell, string notEnoughManaDialog)
         {
-            if (!stats.HasMana(spell.costo))
+            if (!HasEnoughMana(spell, notEnoughManaDialog))
             {
-                dialogManager.PopDialog(notEnoughManaDialog, 1f);
                 return false;
             }
 
             stats.LoseMana(spell.costo);
             return true;
         }
+
+        private bool HasEnoughMana(Spell spell, string notEnoughManaDialog)
+        {
+            if (stats.HasMana(spell.costo))
+            {
+                return true;
+            }
+
+            dialogManager.PopDialog(notEnoughManaDialog, 1f);
+            return false;
+        }
+
         public override void OnEnable()
         {
             base.OnEnable();
             Debug.Log("Yeti on enable");
-            stats.OnHealtUp += CheckMutation;
-            stats.OnHealtDown += CheckMutation;
-            stats.OnManaDown += CheckMutation;
-            stats.OnManaUp += CheckMutation;
+            stats.HPChanged += CheckMutation;
+            stats.MPChanged += CheckMutation;
         }
         public override void OnDisable()
         {
             base.OnDisable();
             Debug.Log("Yeti on disable");
-            stats.OnHealtUp -= CheckMutation;
-            stats.OnHealtDown -= CheckMutation;
-            stats.OnManaDown -= CheckMutation;
-            stats.OnManaUp -= CheckMutation;
-
-            if (mutationCheckRoutine != null)
-            {
-                StopCoroutine(mutationCheckRoutine);
-                mutationCheckRoutine = null;
-            }
+            stats.HPChanged -= CheckMutation;
+            stats.MPChanged -= CheckMutation;
         }
 
-        private void CheckMutation()
+        private void CheckMutation(int currentValue, int maximumValue)
         {
-            if (mutationCheckRoutine == null)
-            {
-                mutationCheckRoutine = StartCoroutine(CheckMutationAfterCurrentAction());
-            }
-        }
-
-        private IEnumerator CheckMutationAfterCurrentAction()
-        {
-            // One action can change HP and MP separately; evaluate only its final values.
-            yield return null;
-            mutationCheckRoutine = null;
-
             if (!isActiveAndEnabled || IsReturnMagePending || stats == null || stats.HP <= 0)
             {
-                yield break;
+                return;
             }
 
             if (stats.HP != stats.MP)
             {
-                yield break;
+                return;
             }
 
             StatsBalanced?.Invoke();
@@ -213,8 +202,7 @@ namespace CharacterSystem
 
         public override void ApplyLight(PotionScriptable ps)
         {
-            stats.TakeDamage(ps.baseValue);
-            stats.AddMana(ps.baseValue);
+            stats.ModifyHPAndMP(-ps.baseValue, ps.baseValue);
         }
 
 

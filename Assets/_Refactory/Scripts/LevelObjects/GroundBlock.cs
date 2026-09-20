@@ -8,8 +8,8 @@ namespace Refactory.LevelObjects
     [DisallowMultipleComponent]
     [RequireComponent(typeof(SpriteRenderer), typeof(Collider2D), typeof(Animator))]
     [RequireComponent(typeof(AudioSource))]
-    [RequireComponent(typeof(Rigidbody2D), typeof(DroppableObject))]
-    public sealed class GroundBlock : MonoBehaviour
+    [RequireComponent(typeof(Rigidbody2D))]
+    public sealed class GroundBlock : DroppableObject
     {
         private static readonly int BreakTrigger = Animator.StringToHash("Break");
 
@@ -18,7 +18,6 @@ namespace Refactory.LevelObjects
         [SerializeField, RequiredInspectorReference(ResolveMode.Local)] private Collider2D blockCollider;
         [SerializeField, RequiredInspectorReference(ResolveMode.Local)] private Animator animator;
         [SerializeField, RequiredInspectorReference(ResolveMode.Local)] private AudioSource breakAudioSource;
-        [SerializeField, RequiredInspectorReference(ResolveMode.Local)] private DroppableObject droppableObject;
         [SerializeField, Min(1)] private int characterDamage = 1;
 
         private bool isBreaking;
@@ -30,11 +29,11 @@ namespace Refactory.LevelObjects
             blockCollider = GetComponent<Collider2D>();
             animator = GetComponent<Animator>();
             breakAudioSource = GetComponent<AudioSource>();
-            droppableObject = GetComponent<DroppableObject>();
         }
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             ValidateReferences();
             if (spriteRenderer != null)
                 intactSprite = spriteRenderer.sprite;
@@ -44,6 +43,7 @@ namespace Refactory.LevelObjects
         {
             isBreaking = false;
             StopAllCoroutines();
+            ResetRuntimeState();
 
             if (spriteRenderer != null)
                 spriteRenderer.enabled = true;
@@ -68,38 +68,25 @@ namespace Refactory.LevelObjects
             }
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision == null)
-                return;
-
-            BaseCharacter character = collision.collider.GetComponentInParent<BaseCharacter>();
-            if (character != null && character.stats != null)
-            {
-                character.stats.TakeDamage(characterDamage);
-            }
-        }
-
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other == null || other.GetComponentInParent<DrinkingTrigger>() == null)
-                return;
-            if(other.GetComponentInParent<DrinkingTrigger>())
+            if (isBreaking || other == null)
             {
-                //player prende danno?
-                
+                return;
             }
+
+            DrinkingTrigger drinkingTrigger = other.GetComponentInParent<DrinkingTrigger>();
+            if (drinkingTrigger == null)
+            {
+                return;
+            }
+
+            drinkingTrigger.TryDamageCurrentCharacter(characterDamage);
             Break();
         }
 
-        public void BreakByYetiPunch(Vector2 direction,float force)
+        public void BreakFromYetiPunch()
         {
-            if (isBreaking)
-                return;
-
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            rb.mass = 1f;
-            rb.AddForce(direction.normalized * force, ForceMode2D.Impulse);
             Break();
         }
 
@@ -148,8 +135,6 @@ namespace Refactory.LevelObjects
                 Debug.LogError($"{name}: assign the local Animator in groundBlock.", this);
             if (breakAudioSource == null)
                 Debug.LogError($"{name}: assign the ice break AudioSource in groundBlock.", this);
-            if (droppableObject == null)
-                Debug.LogError($"{name}: assign the local DroppableObject in groundBlock.", this);
         }
     }
 }

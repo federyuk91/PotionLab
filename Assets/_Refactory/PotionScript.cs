@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PotionScript : MonoBehaviour
+public class PotionScript : DroppableObject
 {
     private static readonly System.Random ActivationPitchRandom = new System.Random();
 
-    private Rigidbody2D _rb;
-    private Sprite _potionSprite;
     private AudioSource _audio;
     private AudioSource _activationAudio;
     private float _clickPitch = 1f;
@@ -17,14 +15,13 @@ public class PotionScript : MonoBehaviour
     [SerializeField, Range(0.1f, 3f)] private float activationPitchMax = 1.2f;
 
     public PotionScriptable potion;
-    public GameObject whiteSquare;
-    public bool isActive = false;
     public bool isStackable = true;
 
     public List<PotionScript> stock = new List<PotionScript>();
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         EnsureRuntimeReferences();
         stock.Add(this);
     }
@@ -33,22 +30,9 @@ public class PotionScript : MonoBehaviour
     {
         EnsureRuntimeReferences();
 
-        isActive = false;
+        ResetRuntimeState();
         stock.Clear();
         stock.Add(this);
-
-        if (_rb != null)
-        {
-            _rb.linearVelocity = Vector2.zero;
-            _rb.angularVelocity = 0f;
-            _rb.mass = 1f;
-            _rb.bodyType = RigidbodyType2D.Kinematic;
-        }
-
-        if (whiteSquare != null)
-        {
-            whiteSquare.SetActive(false);
-        }
     }
 
     private void EnsureRuntimeReferences()
@@ -67,25 +51,12 @@ public class PotionScript : MonoBehaviour
             CreateActivationAudioSource();
         }
 
-        if (_rb == null)
-        {
-            _rb = GetComponent<Rigidbody2D>();
-        }
-
-        if (_potionSprite == null)
-        {
-            _potionSprite = GetComponent<Sprite>();
-        }
     }
 
-    public void ActivateBox()
+    public override void ActivateBox()
     {
-        if(_rb==null)
-            return;
-        if (_rb.bodyType.Equals(RigidbodyType2D.Kinematic))
+        if (TryActivateDropSelection())
         {
-            whiteSquare.SetActive(true);
-            isActive = true;
             PlayActivationAudio();
         }
     }
@@ -132,21 +103,17 @@ public class PotionScript : MonoBehaviour
 
     public void DropPotion(bool clickEvent)
     {
-        if (isActive)
+        bool dropped = clickEvent ? TryDrop(true) : ActivatePhysics(false);
+        if (!dropped)
         {
-            if(clickEvent)
-                ClickLightEvents.RaiseTargetClicked(transform);
-            //Debug.Log("Drop Potion: " + this.name);
-            //Debug.Log(_audio);
-            if (_audio != null)
-            {
-                _audio.pitch = _clickPitch;
-                _audio.Play();
-            }
-            _rb.bodyType = RigidbodyType2D.Dynamic;
-            whiteSquare.SetActive(false);
+            return;
         }
 
+        if (_audio != null)
+        {
+            _audio.pitch = _clickPitch;
+            _audio.Play();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -167,7 +134,7 @@ public class PotionScript : MonoBehaviour
             if (!stock.Contains(pot))
                 stock.Add(pot);
         }
-        _rb.mass = 1f / stock.Count;
+        Body.mass = 1f / stock.Count;
     }
 
 
@@ -175,7 +142,7 @@ public class PotionScript : MonoBehaviour
     {
         PotionScript collisionPotion = collision.collider.GetComponent<PotionScript>();
         stock.Remove(collisionPotion);
-        _rb.mass = 1f / stock.Count;
+        Body.mass = 1f / stock.Count;
     }
 
 }

@@ -19,6 +19,23 @@ namespace CharacterSystem
         private bool missingGameManagerWarningShown;
         private bool missingLitchSummonPotionWarningShown;
 
+        public bool TryDamageCurrentCharacter(int damage)
+        {
+            if (damage <= 0)
+            {
+                return false;
+            }
+
+            BaseCharacter currentCharacter = GetCurrentCharacter();
+            if (currentCharacter == null || currentCharacter.stats == null)
+            {
+                return false;
+            }
+
+            currentCharacter.stats.TakeDamage(damage);
+            return true;
+        }
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision == null)

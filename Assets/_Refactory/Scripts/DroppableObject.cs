@@ -1,38 +1,124 @@
-using System.Collections;
-using System.Collections.Generic;
+using InspectorValidation;
 using UnityEngine;
 
+[DisallowMultipleComponent]
+[RequireComponent(typeof(Rigidbody2D))]
 public class DroppableObject : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField, RequiredInspectorReference] protected GameObject whiteSquare;
 
-    private Rigidbody2D _rb;
-    public GameObject whiteSquare;
-    public bool isActive = false;
+    [Header("Runtime State")]
+    [SerializeField] protected bool isActive;
 
-    private void Start()
+    private Rigidbody2D body;
+    private RigidbodyType2D initialBodyType;
+    private float initialMass;
+
+    protected Rigidbody2D Body => body;
+
+    protected virtual void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
+        body = GetComponent<Rigidbody2D>();
+        if (body == null)
+        {
+            Debug.LogError($"{name}: DroppableObject requires a local Rigidbody2D.", this);
+            return;
+        }
+
+        initialBodyType = body.bodyType;
+        initialMass = body.mass;
+
+        if (whiteSquare == null)
+        {
+            Debug.LogError($"{name}: assign the drop selection indicator in DroppableObject.", this);
+        }
     }
 
-    public void ActivateBox()
+    public virtual void ActivateBox()
     {
-        if (whiteSquare)
-        {
-            whiteSquare.SetActive(true);
-            isActive = true;
-        }
+        TryActivateDropSelection();
     }
 
     public void Drop()
     {
-        if (isActive)
-        {
-            Debug.Log("Drop Potion: " + this.name);
-            ClickLightEvents.RaiseTargetClicked(transform);
+        TryDrop(true);
+    }
 
-            _rb.bodyType = RigidbodyType2D.Dynamic;
+    public bool ApplyImpulse(Vector2 direction, float force)
+    {
+        if (body == null || direction.sqrMagnitude <= Mathf.Epsilon || force <= 0f)
+        {
+            return false;
+        }
+
+        ActivatePhysics(false);
+        body.AddForce(direction.normalized * force, ForceMode2D.Impulse);
+        return true;
+    }
+
+    public void ResetRuntimeState()
+    {
+        isActive = false;
+
+        if (whiteSquare != null)
+        {
             whiteSquare.SetActive(false);
         }
 
+        if (body == null)
+        {
+            return;
+        }
+
+        body.linearVelocity = Vector2.zero;
+        body.angularVelocity = 0f;
+        body.mass = initialMass;
+        body.bodyType = initialBodyType;
+    }
+
+    protected bool TryActivateDropSelection()
+    {
+        if (body == null || body.bodyType != RigidbodyType2D.Kinematic || whiteSquare == null)
+        {
+            return false;
+        }
+
+        whiteSquare.SetActive(true);
+        isActive = true;
+        return true;
+    }
+
+    protected bool TryDrop(bool notifyTargetClicked)
+    {
+        if (!isActive)
+        {
+            return false;
+        }
+
+        return ActivatePhysics(notifyTargetClicked);
+    }
+
+    protected bool ActivatePhysics(bool notifyTargetClicked)
+    {
+        if (body == null)
+        {
+            return false;
+        }
+
+        if (notifyTargetClicked)
+        {
+            ClickLightEvents.RaiseTargetClicked(transform);
+        }
+
+        body.bodyType = RigidbodyType2D.Dynamic;
+        isActive = false;
+
+        if (whiteSquare != null)
+        {
+            whiteSquare.SetActive(false);
+        }
+
+        return true;
     }
 }
