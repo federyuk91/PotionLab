@@ -7,6 +7,13 @@ public enum LevelGameMode
     Endless = 2
 }
 
+public enum EndlessBaseModifier
+{
+    Normal = 0,
+    Hyper = 1,
+    HyperHyper = 2
+}
+
 public class LevelSettings : MonoBehaviour
 {
     private const int MinLightIntensity = 0;
@@ -64,33 +71,71 @@ public class LevelSettings : MonoBehaviour
     public float MinimumSpawnSeconds => minimumSpawnSeconds;
     public int MaxActivePotionsBeforeBomb => maxActivePotionsBeforeBomb;
 
-    public bool EndlessHyperMode => GetPlayerPrefBool(EndlessHyperModeKey);
-    public bool EndlessHyperHyperMode => GetPlayerPrefBool(EndlessHyperHyperModeKey);
-    public bool EndlessFailureMode => GetPlayerPrefBool(EndlessFailureModeKey);
+    public bool EndlessHyperMode => SavedEndlessBaseModifier == EndlessBaseModifier.Hyper;
+    public bool EndlessHyperHyperMode => SavedEndlessBaseModifier == EndlessBaseModifier.HyperHyper;
+    public bool EndlessFlawlessMode => SavedEndlessFlawlessMode;
+    public bool EndlessFailureMode => EndlessFlawlessMode;
+
+    public static EndlessBaseModifier SavedEndlessBaseModifier
+    {
+        get
+        {
+            if (GetSavedBool(EndlessHyperHyperModeKey))
+            {
+                return EndlessBaseModifier.HyperHyper;
+            }
+
+            return GetSavedBool(EndlessHyperModeKey)
+                ? EndlessBaseModifier.Hyper
+                : EndlessBaseModifier.Normal;
+        }
+    }
+
+    public static bool SavedEndlessFlawlessMode => GetSavedBool(EndlessFailureModeKey);
+
+    public static float SavedEndlessBaseScoreMultiplier
+    {
+        get
+        {
+            switch (SavedEndlessBaseModifier)
+            {
+                case EndlessBaseModifier.Hyper:
+                    return 1.5f;
+                case EndlessBaseModifier.HyperHyper:
+                    return 2f;
+                default:
+                    return 1f;
+            }
+        }
+    }
+
+    public static float SavedEndlessTotalScoreMultiplier =>
+        SavedEndlessBaseScoreMultiplier * (SavedEndlessFlawlessMode ? 2f : 1f);
+
+    public static void SetSavedEndlessBaseModifier(EndlessBaseModifier modifier)
+    {
+        SetSavedBool(EndlessHyperModeKey, modifier == EndlessBaseModifier.Hyper, false);
+        SetSavedBool(EndlessHyperHyperModeKey, modifier == EndlessBaseModifier.HyperHyper, true);
+    }
+
+    public static void SetSavedEndlessFlawlessMode(bool active)
+    {
+        SetSavedBool(EndlessFailureModeKey, active, true);
+    }
 
     public void SetEndlessHyperMode(bool active)
     {
-        SetPlayerPrefBool(EndlessHyperModeKey, active);
-
-        if (active)
-        {
-            SetPlayerPrefBool(EndlessHyperHyperModeKey, false);
-        }
+        SetSavedEndlessBaseModifier(active ? EndlessBaseModifier.Hyper : EndlessBaseModifier.Normal);
     }
 
     public void SetEndlessHyperHyperMode(bool active)
     {
-        SetPlayerPrefBool(EndlessHyperHyperModeKey, active);
-
-        if (active)
-        {
-            SetPlayerPrefBool(EndlessHyperModeKey, false);
-        }
+        SetSavedEndlessBaseModifier(active ? EndlessBaseModifier.HyperHyper : EndlessBaseModifier.Normal);
     }
 
     public void SetEndlessFailureMode(bool active)
     {
-        SetPlayerPrefBool(EndlessFailureModeKey, active);
+        SetSavedEndlessFlawlessMode(active);
     }
 
     public void ToggleEndlessHyperMode()
@@ -110,19 +155,21 @@ public class LevelSettings : MonoBehaviour
 
     public void ResetEndlessPreferences()
     {
-        SetPlayerPrefBool(EndlessHyperModeKey, false);
-        SetPlayerPrefBool(EndlessHyperHyperModeKey, false);
-        SetPlayerPrefBool(EndlessFailureModeKey, false);
+        SetSavedEndlessBaseModifier(EndlessBaseModifier.Normal);
+        SetSavedEndlessFlawlessMode(false);
     }
 
-    private bool GetPlayerPrefBool(string key)
+    private static bool GetSavedBool(string key)
     {
         return PlayerPrefs.GetInt(key, 0) == 1;
     }
 
-    private void SetPlayerPrefBool(string key, bool value)
+    private static void SetSavedBool(string key, bool value, bool save)
     {
         PlayerPrefs.SetInt(key, value ? 1 : 0);
-        PlayerPrefs.Save();
+        if (save)
+        {
+            PlayerPrefs.Save();
+        }
     }
 }

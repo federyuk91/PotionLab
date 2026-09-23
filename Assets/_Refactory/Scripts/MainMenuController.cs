@@ -14,7 +14,7 @@ public sealed class MainMenuController : MonoBehaviour
     {
         None,
         Arcade,
-        Advanced,
+        Endless,
         Records
     }
 
@@ -40,7 +40,8 @@ public sealed class MainMenuController : MonoBehaviour
     [SerializeField, RequiredInspectorReference] private GameObject arcadePanel;
     [SerializeField, RequiredInspectorReference] private ClassicMenuController classicMenuController;
     [FormerlySerializedAs("advanceLevelCanvas")]
-    [SerializeField, RequiredInspectorReference] private GameObject advancedPanel;
+    [FormerlySerializedAs("advancedPanel")]
+    [SerializeField, RequiredInspectorReference] private GameObject endlessPanel;
     [FormerlySerializedAs("recordLevelCanvas")]
     [SerializeField, RequiredInspectorReference] private GameObject recordsPanel;
     [SerializeField, RequiredInspectorReference] private GameObject pausePanel;
@@ -212,7 +213,12 @@ public sealed class MainMenuController : MonoBehaviour
 
     public void ButtonAdvance()
     {
-        ToggleSection(MenuSection.Advanced);
+        ButtonEndless();
+    }
+
+    public void ButtonEndless()
+    {
+        ToggleSection(MenuSection.Endless);
     }
 
     public void ButtonRecord()
@@ -255,6 +261,11 @@ public sealed class MainMenuController : MonoBehaviour
         }
 
         SceneManager.LoadScene(sceneBuildIndex);
+    }
+
+    public void StartEndless()
+    {
+        StartLevel(endlessSceneBuildIndex);
     }
 
     public void UnlockAllLevelsForDevelopment()
@@ -348,7 +359,7 @@ public sealed class MainMenuController : MonoBehaviour
         transitionLocked = true;
         PrepareChoiceButtonsForFalling();
 
-        if (section != MenuSection.Advanced)
+        if (section != MenuSection.Endless)
         {
             lightAnimator.SetInteger(LightMenuParameter, 1);
         }
@@ -585,9 +596,9 @@ public sealed class MainMenuController : MonoBehaviour
             return MenuSection.Arcade;
         }
 
-        if (advancedPanel != null && advancedPanel.activeSelf)
+        if (endlessPanel != null && endlessPanel.activeSelf)
         {
-            return MenuSection.Advanced;
+            return MenuSection.Endless;
         }
 
         if (recordsPanel != null && recordsPanel.activeSelf)
@@ -619,8 +630,8 @@ public sealed class MainMenuController : MonoBehaviour
         {
             case MenuSection.Arcade:
                 return arcadePanel;
-            case MenuSection.Advanced:
-                return advancedPanel;
+            case MenuSection.Endless:
+                return endlessPanel;
             case MenuSection.Records:
                 return recordsPanel;
             default:
@@ -640,12 +651,12 @@ public sealed class MainMenuController : MonoBehaviour
             return progressService.IsClassicLevelUnlocked(sceneBuildIndex);
         }
 
-        if (sceneBuildIndex == laboratorySceneBuildIndex)
+        if (sceneBuildIndex == laboratorySceneBuildIndex || sceneBuildIndex == endlessSceneBuildIndex)
         {
             return true;
         }
 
-        return sceneBuildIndex == endlessSceneBuildIndex && progressService.IsEndlessUnlocked();
+        return false;
     }
 
     private void ShowUpdateLogForNewVersion()

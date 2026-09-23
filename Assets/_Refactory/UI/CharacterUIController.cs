@@ -84,12 +84,34 @@ public class CharacterUIController : MonoBehaviour
     [SerializeField, Min(0.1f)] private float classicMessageRevealDuration = 0.35f;
     [SerializeField] private Color classicCompletedSectionColor = new Color(1f, 0.82f, 0.24f, 1f);
 
+    [Header("Endless Result Animation")]
+    [SerializeField, Min(0.1f)] private float endlessStatisticCountDuration = 0.55f;
+    [SerializeField, Min(0f)] private float endlessStatisticDelay = 0.18f;
+    [SerializeField, Min(0.1f)] private float endlessScoreCountDuration = 0.9f;
+
+    [Header("Endless Result Colors")]
+    [SerializeField] private Color endlessTitleColor = new Color(1f, 0.56f, 0.18f, 1f);
+    [SerializeField] private Color endlessSectionColor = new Color(1f, 0.78f, 0.29f, 1f);
+    [SerializeField] private Color endlessLabelColor = new Color(0.91f, 0.85f, 0.72f, 1f);
+    [SerializeField] private Color endlessValueColor = new Color(0.36f, 0.82f, 0.95f, 1f);
+    [SerializeField] private Color endlessBonusColor = new Color(0.38f, 0.86f, 0.45f, 1f);
+    [SerializeField] private Color endlessModifierColor = new Color(0.75f, 0.5f, 1f, 1f);
+    [SerializeField] private Color endlessFinalScoreColor = new Color(1f, 0.86f, 0.22f, 1f);
+
     private Coroutine classicResultAnimation;
     private Vector3[] classicIconBaseScales;
     private ResultPresentation activeResultPresentation;
-    [Header("Endless Score UI")]
+    [Header("Endless Result UI")]
+    [SerializeField, RequiredInspectorReference] private GameObject endlessResultPanel;
+    [SerializeField, RequiredInspectorReference] private TMP_Text endlessTitleText;
+    [SerializeField, RequiredInspectorReference] private TMP_Text endlessRunSummaryText;
+    [SerializeField, RequiredInspectorReference] private TMP_Text endlessRunSummaryValuesText;
+    [SerializeField, RequiredInspectorReference] private TMP_Text endlessModifiersText;
+    [SerializeField, RequiredInspectorReference] private TMP_Text endlessFinalScoreText;
+
+    [Header("Legacy Endless Score UI")]
     [FormerlySerializedAs("proceduralResultPanel")]
-    [SerializeField] private GameObject endlessResultPanel;
+    [SerializeField] private GameObject legacyEndlessResultPanel;
     [SerializeField] private TMP_Text endlessCurrentScoreText;
     [FormerlySerializedAs("endlessScoreText")]
     [SerializeField] private TMP_Text endlessBestScoreText;
@@ -123,6 +145,7 @@ public class CharacterUIController : MonoBehaviour
     private Coroutine balanceFlashAnimation;
     private Color hpFillBaseColor;
     private Color mpFillBaseColor;
+    private int currentEndlessWave = 1;
 
     private void Awake()
     {
@@ -180,6 +203,7 @@ public class CharacterUIController : MonoBehaviour
             gameManager.SpellBarVisibilityChanged += SetSpellBarVisible;
             gameManager.CharacterDied += ShowDeathPanel;
             gameManager.LevelCompleted += ShowResultPanel;
+            gameManager.PotionRemoved += HandleEndlessPotionRemoved;
         }
 
         if (transformationManager != null)
@@ -219,6 +243,7 @@ public class CharacterUIController : MonoBehaviour
             gameManager.SpellBarVisibilityChanged -= SetSpellBarVisible;
             gameManager.CharacterDied -= ShowDeathPanel;
             gameManager.LevelCompleted -= ShowResultPanel;
+            gameManager.PotionRemoved -= HandleEndlessPotionRemoved;
         }
 
         if (transformationManager != null)
@@ -305,13 +330,36 @@ public class CharacterUIController : MonoBehaviour
 
     public void ShowEndlessWave(int waveNumber)
     {
-        if (currentNightText == null)
+        currentEndlessWave = Mathf.Max(1, waveNumber);
+
+        RefreshEndlessProgressText();
+    }
+
+    private void HandleEndlessPotionRemoved(PotionScript potion, bool drunked)
+    {
+        if (!drunked || gameManager == null || !gameManager.IsEndlessMode)
         {
-            Debug.LogError($"{name}: Cannot display the endless wave because Current Night Text is missing.", this);
             return;
         }
 
-        currentNightText.text = $"ENDLESS\n<size=12>Wave: {Mathf.Max(1, waveNumber)}</size>";
+        RefreshEndlessProgressText();
+    }
+
+    private void RefreshEndlessProgressText()
+    {
+        if (gameManager == null || !gameManager.IsEndlessMode)
+        {
+            return;
+        }
+
+        if (currentNightText == null)
+        {
+            Debug.LogError($"{name}: Cannot display Endless progress because Current Night Text is missing.", this);
+            return;
+        }
+
+        int drunkPotions = Mathf.Max(0, gameManager.potionDrunked);
+        currentNightText.text = $"ENDLESS - Wave: {currentEndlessWave}\n<size=12>{drunkPotions}</size>";
     }
 
     private static string FormatNightLabel(int nightIndex, string displayName)
@@ -1044,19 +1092,26 @@ public class CharacterUIController : MonoBehaviour
             endlessBestScoreText.text = gameManager.BestProceduralScore.ToString();
         }
 
-        if (classicScoreText != null)
+        int transformationBonus = gameManager.mutationCounter * 5;
+        int baseScore = gameManager.EndlessBaseScore;
+        int finalScore = gameManager.EndlessScore;
+        int[] values =
         {
-            classicScoreText.text = FormatEndlessScore(
-                gameManager.potionDrunked,
-                gameManager.BestProceduralScore,
-                gameManager.EndlessScore,
-                gameManager.mutationCounter);
+            currentEndlessWave,
+            gameManager.potionDrunked,
+            gameManager.mutationCounter,
+            transformationBonus,
+            baseScore,
+            finalScore,
+            gameManager.BestProceduralScore
+        };
+
+        if (endlessTitleText != null)
+        {
+            endlessTitleText.text = ColorizeEndlessText("ENDLESS OVER", endlessTitleColor);
         }
 
-        if (classicFinalMessage != null)
-        {
-            classicFinalMessage.text = "ENDLESS OVER";
-        }
+        UpdateEndlessResultTexts(values, values.Length);
     }
 
     private void PopulateLaboratoryResultPanel()
@@ -1078,12 +1133,17 @@ public class CharacterUIController : MonoBehaviour
     {
         if (classicResultPanel != null)
         {
-            classicResultPanel.SetActive(visible);
+            classicResultPanel.SetActive(visible && activeResultPresentation != ResultPresentation.Endless);
         }
 
         if (endlessResultPanel != null)
         {
-            endlessResultPanel.SetActive(false);
+            endlessResultPanel.SetActive(visible && activeResultPresentation == ResultPresentation.Endless);
+        }
+
+        if (legacyEndlessResultPanel != null)
+        {
+            legacyEndlessResultPanel.SetActive(false);
         }
 
         if (classicNextButton != null)
@@ -1100,7 +1160,77 @@ public class CharacterUIController : MonoBehaviour
     private void PlayClassicResultAnimation()
     {
         StopClassicResultAnimation();
-        classicResultAnimation = StartCoroutine(AnimateClassicResult());
+        classicResultAnimation = activeResultPresentation == ResultPresentation.Endless
+            ? StartCoroutine(AnimateEndlessResult())
+            : StartCoroutine(AnimateClassicResult());
+    }
+
+    private IEnumerator AnimateEndlessResult()
+    {
+        if (gameManager == null
+            || endlessRunSummaryText == null
+            || endlessRunSummaryValuesText == null
+            || endlessModifiersText == null
+            || endlessFinalScoreText == null)
+        {
+            Debug.LogWarning($"{name}: Cannot animate the Endless result because its TMP text references are not assigned.", this);
+            classicResultAnimation = null;
+            yield break;
+        }
+
+        int potionCount = gameManager.potionDrunked;
+        int mutationCount = gameManager.mutationCounter;
+        int transformationBonus = mutationCount * 5;
+        int baseScore = gameManager.EndlessBaseScore;
+        int finalScore = gameManager.EndlessScore;
+        int personalBest = gameManager.BestProceduralScore;
+        int[] targets =
+        {
+            currentEndlessWave,
+            potionCount,
+            mutationCount,
+            transformationBonus,
+            baseScore,
+            finalScore,
+            personalBest
+        };
+        int[] displayedValues = new int[targets.Length];
+
+        UpdateEndlessResultTexts(displayedValues, 0);
+
+        for (int statisticIndex = 0; statisticIndex < targets.Length; statisticIndex++)
+        {
+            yield return WaitForUnscaledSeconds(endlessStatisticDelay);
+
+            float duration = statisticIndex >= 4
+                ? endlessScoreCountDuration
+                : endlessStatisticCountDuration;
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float normalizedTime = Mathf.Clamp01(elapsed / duration);
+                displayedValues[statisticIndex] = Mathf.RoundToInt(
+                    Mathf.Lerp(0f, targets[statisticIndex], EaseOutCubic(normalizedTime)));
+                UpdateEndlessResultTexts(displayedValues, statisticIndex + 1);
+                yield return null;
+            }
+
+            displayedValues[statisticIndex] = targets[statisticIndex];
+            UpdateEndlessResultTexts(displayedValues, statisticIndex + 1);
+        }
+
+        classicResultAnimation = null;
+    }
+
+    private static IEnumerator WaitForUnscaledSeconds(float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
     }
 
     private IEnumerator AnimateClassicResult()
@@ -1354,16 +1484,104 @@ public class CharacterUIController : MonoBehaviour
 
     private string FormatEndlessScore(int potionCount, int personalBest, int currentScore, int mutationCount)
     {
-        string potionLine = "Potions drunk: " + potionCount;
-        string personalBestLine = "Personal best: " + personalBest;
-        string currentScoreLine = "Current score: " + currentScore;
-        string transformationLine = "Transformations: " + mutationCount;
-        bool isPersonalBest = currentScore > 0 && currentScore >= personalBest;
+        return "Potions drunk: " + potionCount + "\n\n"
+            + "Transformations: " + mutationCount + "\n\n"
+            + "Current score: " + currentScore + "\n\n"
+            + "Personal best: " + personalBest;
+    }
 
-        return potionLine + "\n\n"
-            + HighlightCompletedSection(personalBestLine, isPersonalBest) + "\n\n"
-            + currentScoreLine + "\n\n"
-            + transformationLine;
+    private void UpdateEndlessResultTexts(int[] values, int revealedStatistics)
+    {
+        if (endlessRunSummaryText != null)
+        {
+            endlessRunSummaryText.text = "<size=115%>" + ColorizeEndlessText("RUN SUMMARY", endlessSectionColor) + "</size>\n\n\n"
+                + ColorizeEndlessText("Wave Reached", endlessLabelColor) + "\n\n\n"
+                + ColorizeEndlessText("Potions Drunk", endlessLabelColor) + "\n\n\n"
+                + ColorizeEndlessText("Unique Transformations", endlessLabelColor) + "\n\n\n"
+                + ColorizeEndlessText("Transformation Bonus", endlessBonusColor) + "\n\n\n"
+                + "<size=115%>" + ColorizeEndlessText("BASE SCORE", endlessSectionColor) + "</size>";
+        }
+
+        if (endlessRunSummaryValuesText != null)
+        {
+            endlessRunSummaryValuesText.text = "<size=115%> </size>\n\n\n"
+                + ColorizeEndlessText(GetEndlessValue(values, 0, revealedStatistics), endlessValueColor) + "\n\n\n"
+                + ColorizeEndlessText(GetEndlessValue(values, 1, revealedStatistics), endlessValueColor) + "\n\n\n"
+                + ColorizeEndlessText(GetEndlessValue(values, 2, revealedStatistics), endlessValueColor) + "\n\n\n"
+                + ColorizeEndlessText(GetEndlessSignedValue(values, 3, revealedStatistics), endlessBonusColor) + "\n\n\n"
+                + "<size=115%>" + ColorizeEndlessText(GetEndlessValue(values, 4, revealedStatistics), endlessFinalScoreColor) + "</size>";
+        }
+
+        if (endlessModifiersText != null)
+        {
+            string baseModifierName;
+            switch (LevelSettings.SavedEndlessBaseModifier)
+            {
+                case EndlessBaseModifier.Hyper:
+                    baseModifierName = "Hyper";
+                    break;
+                case EndlessBaseModifier.HyperHyper:
+                    baseModifierName = "Hyper Hyper";
+                    break;
+                default:
+                    baseModifierName = "Normal";
+                    break;
+            }
+
+            string flawlessValue = LevelSettings.SavedEndlessFlawlessMode ? "x2" : "OFF";
+            Color flawlessColor = LevelSettings.SavedEndlessFlawlessMode ? endlessBonusColor : endlessLabelColor;
+            endlessModifiersText.text = "<size=115%>" + ColorizeEndlessText("ACTIVE MODIFIERS", endlessSectionColor) + "</size>\n\n\n"
+                + ColorizeEndlessText(baseModifierName, endlessModifierColor)
+                + "<pos=78%>" + ColorizeEndlessText("x" + FormatEndlessMultiplier(LevelSettings.SavedEndlessBaseScoreMultiplier), endlessValueColor) + "\n\n\n"
+                + ColorizeEndlessText("Flawless", endlessModifierColor)
+                + "<pos=78%>" + ColorizeEndlessText(flawlessValue, flawlessColor) + "\n\n\n"
+                + ColorizeEndlessText("Total\nMultiplier", endlessLabelColor)
+                + "<pos=78%>" + ColorizeEndlessText("x" + FormatEndlessMultiplier(LevelSettings.SavedEndlessTotalScoreMultiplier), endlessFinalScoreColor);
+        }
+
+        if (endlessFinalScoreText != null)
+        {
+            endlessFinalScoreText.text = "<size=130%>"
+                + ColorizeEndlessText("FINAL SCORE", endlessSectionColor) + "<pos=70%>"
+                + ColorizeEndlessText(GetEndlessValue(values, 5, revealedStatistics), endlessFinalScoreColor) + "</size>\n\n\n"
+                + ColorizeEndlessText("PERSONAL BEST", endlessLabelColor) + "<pos=70%>"
+                + ColorizeEndlessText(GetEndlessValue(values, 6, revealedStatistics), endlessValueColor);
+        }
+    }
+
+    private static string ColorizeEndlessText(string text, Color color)
+    {
+        return "<color=#" + ColorUtility.ToHtmlStringRGB(color) + ">" + text + "</color>";
+    }
+
+    private static string GetEndlessValue(int[] values, int index, int revealedStatistics)
+    {
+        if (values == null || index < 0 || index >= values.Length || revealedStatistics <= index)
+        {
+            return "--";
+        }
+
+        return values[index].ToString();
+    }
+
+    private static string GetEndlessSignedValue(int[] values, int index, int revealedStatistics)
+    {
+        if (values == null || index < 0 || index >= values.Length || revealedStatistics <= index)
+        {
+            return "--";
+        }
+
+        return values[index] >= 0 ? "+" + values[index] : values[index].ToString();
+    }
+
+    private static string FormatEndlessMultiplier(float multiplier)
+    {
+        if (Mathf.Approximately(multiplier, Mathf.Round(multiplier)))
+        {
+            return Mathf.RoundToInt(multiplier).ToString();
+        }
+
+        return multiplier.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture);
     }
 
     private string FormatClassicScore(int potionCount, int totalPotion, int currentHP, int bestHealth, int malusCount, int maxMalus)

@@ -31,7 +31,9 @@ public class GameManager : MonoBehaviour
     public int BestHealthScore => GetBestHealthScore();
     public int MaxMalusScore => GetMaxMalusScore();
     public int BestProceduralScore => GetBestProceduralScore();
-    public int EndlessScore => endlessScore;
+    public int EndlessBaseScore => endlessScore + mutationCounter * 5;
+    public float EndlessScoreMultiplier => LevelSettings.SavedEndlessTotalScoreMultiplier;
+    public int EndlessScore => Mathf.RoundToInt(EndlessBaseScore * EndlessScoreMultiplier);
     public ProgressService ProgressService => progressService;
 
     [Header("Compiled from code")]
@@ -804,7 +806,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        progressService.SaveProceduralScore(endlessScore);
+        progressService.SaveProceduralScore(EndlessScore);
     }
 
     private void TryUnlockEndlessAchievements()
@@ -824,17 +826,17 @@ public class GameManager : MonoBehaviour
             UnlockAchievementIfAvailable(AchievementId.HardcoreDrinker);
         }
 
-        if (endlessScore >= 250)
+        if (EndlessScore >= 250)
         {
             UnlockAchievementIfAvailable(AchievementId.MasterDrinker);
         }
 
-        if (endlessScore >= 500)
+        if (EndlessScore >= 500)
         {
             UnlockAchievementIfAvailable(AchievementId.AlmostAProblemDrinker);
         }
 
-        if (endlessScore >= 1000)
+        if (EndlessScore >= 1000)
         {
             UnlockAchievementIfAvailable(AchievementId.GodOfLibations);
         }

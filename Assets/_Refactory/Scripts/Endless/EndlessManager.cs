@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CharacterSystem;
 using InspectorValidation;
 using UnityEngine;
 
@@ -37,7 +38,9 @@ namespace EndlessSystem
         private int waveNumber;
         private int spawnedPotionsInCurrentPhase;
         private Coroutine spawnCoroutine;
+        private CharacterStats flawlessCharacterStats;
         private readonly HashSet<PotionScript> activeEndlessPotions = new HashSet<PotionScript>();
+        private bool flawlessEndingRun;
         private bool missingGameManagerWarningShown;
         private bool missingLevelSettingsWarningShown;
         private bool missingSpawnPointWarningShown;
@@ -95,7 +98,9 @@ namespace EndlessSystem
 
             phaseIndex = Mathf.Clamp(phaseIndex, 0, phases.Count - 1);
             waveNumber = 1;
+            flawlessEndingRun = false;
             activeEndlessPotions.Clear();
+            SubscribeToFlawlessDamage();
             PhaseChanged?.Invoke(phaseIndex);
             WaveChanged?.Invoke(CurrentWave);
             spawnCoroutine = StartCoroutine(SpawnRoutine());
@@ -103,13 +108,13 @@ namespace EndlessSystem
 
         public void StopEndless()
         {
-            if (spawnCoroutine == null)
+            if (spawnCoroutine != null)
             {
-                return;
+                StopCoroutine(spawnCoroutine);
+                spawnCoroutine = null;
             }
 
-            StopCoroutine(spawnCoroutine);
-            spawnCoroutine = null;
+            UnsubscribeFromFlawlessDamage();
         }
 
         private IEnumerator SpawnRoutine()
@@ -294,6 +299,44 @@ namespace EndlessSystem
             if (replacementPotion != null)
             {
                 activeEndlessPotions.Add(replacementPotion);
+            }
+        }
+
+        private void SubscribeToFlawlessDamage()
+        {
+            UnsubscribeFromFlawlessDamage();
+
+            BaseCharacter character = gameManager != null ? gameManager.Character : null;
+            flawlessCharacterStats = character != null ? character.stats : null;
+            if (flawlessCharacterStats != null)
+            {
+                flawlessCharacterStats.DamageTaken += HandleFlawlessDamage;
+            }
+        }
+
+        private void UnsubscribeFromFlawlessDamage()
+        {
+            if (flawlessCharacterStats != null)
+            {
+                flawlessCharacterStats.DamageTaken -= HandleFlawlessDamage;
+                flawlessCharacterStats = null;
+            }
+        }
+
+        private void HandleFlawlessDamage(int damage)
+        {
+            if (damage <= 0
+                || flawlessEndingRun
+                || levelSettings == null
+                || !levelSettings.EndlessFlawlessMode)
+            {
+                return;
+            }
+
+            flawlessEndingRun = true;
+            if (flawlessCharacterStats != null && flawlessCharacterStats.HP > 0)
+            {
+                flawlessCharacterStats.SetHP(0);
             }
         }
 
