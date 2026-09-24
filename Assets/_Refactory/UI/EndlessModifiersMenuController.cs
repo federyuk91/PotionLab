@@ -10,6 +10,8 @@ public sealed class EndlessModifiersMenuController : MonoBehaviour
     [SerializeField, RequiredInspectorReference] private Button openModifiersButton;
     [SerializeField, RequiredInspectorReference] private GameObject modifiersPanel;
     [SerializeField, RequiredInspectorReference] private CanvasGroup modifiersCanvasGroup;
+    [SerializeField, RequiredInspectorReference] private GameObject secondaryModifiersPanel;
+    [SerializeField, RequiredInspectorReference] private CanvasGroup secondaryModifiersCanvasGroup;
 
     [Header("Modifiers")]
     [SerializeField, RequiredInspectorReference] private Toggle normalToggle;
@@ -27,6 +29,7 @@ public sealed class EndlessModifiersMenuController : MonoBehaviour
     [Header("Animation")]
     [SerializeField, Min(0.05f)] private float panelAnimationDuration = 0.2f;
     [SerializeField, Range(0.5f, 1f)] private float closedPanelScale = 0.92f;
+    [SerializeField, Min(0f)] private float secondaryPanelClosedOffset = 36f;
     [SerializeField, Min(0.05f)] private float tooltipAnimationDuration = 0.12f;
 
     [Header("Total Modifier Animation")]
@@ -40,7 +43,10 @@ public sealed class EndlessModifiersMenuController : MonoBehaviour
     private Coroutine tooltipAnimation;
     private Coroutine totalModifierAnimation;
     private Vector3 panelOpenScale;
+    private Vector3 secondaryPanelOpenScale;
     private Vector3 tooltipOpenScale;
+    private Vector2 secondaryPanelOpenPosition;
+    private RectTransform secondaryPanelRectTransform;
     private Vector3 totalModifierBaseScale;
     private Vector2 totalModifierBasePosition;
     private RectTransform totalModifierRectTransform;
@@ -50,6 +56,15 @@ public sealed class EndlessModifiersMenuController : MonoBehaviour
     private void Awake()
     {
         panelOpenScale = modifiersPanel != null ? modifiersPanel.transform.localScale : Vector3.one;
+        secondaryPanelOpenScale = secondaryModifiersPanel != null
+            ? secondaryModifiersPanel.transform.localScale
+            : Vector3.one;
+        secondaryPanelRectTransform = secondaryModifiersPanel != null
+            ? secondaryModifiersPanel.transform as RectTransform
+            : null;
+        secondaryPanelOpenPosition = secondaryPanelRectTransform != null
+            ? secondaryPanelRectTransform.anchoredPosition
+            : Vector2.zero;
         tooltipOpenScale = tooltipPanel != null ? tooltipPanel.transform.localScale : Vector3.one;
         totalModifierRectTransform = totalModifierValueText != null ? totalModifierValueText.rectTransform : null;
         totalModifierBaseScale = totalModifierRectTransform != null ? totalModifierRectTransform.localScale : Vector3.one;
@@ -148,13 +163,19 @@ public sealed class EndlessModifiersMenuController : MonoBehaviour
     private void BindListeners()
     {
         if (openModifiersButton == null
+            || modifiersPanel == null
+            || modifiersCanvasGroup == null
+            || secondaryModifiersPanel == null
+            || secondaryModifiersCanvasGroup == null
             || normalToggle == null
             || hyperToggle == null
             || hyperHyperToggle == null
             || flawlessToggle == null
             || totalModifierValueText == null)
         {
-            Debug.LogError($"{name}: assign the Modifiers button and every Endless modifier Toggle in the Inspector.", this);
+            Debug.LogError(
+                $"{name}: assign both modifier panels, the Modifiers button and every Endless modifier Toggle in the Inspector.",
+                this);
             return;
         }
 
@@ -323,7 +344,10 @@ public sealed class EndlessModifiersMenuController : MonoBehaviour
     private void SetPanelOpen(bool open, bool animated)
     {
         panelOpen = open;
-        if (modifiersPanel == null || modifiersCanvasGroup == null)
+        if (modifiersPanel == null
+            || modifiersCanvasGroup == null
+            || secondaryModifiersPanel == null
+            || secondaryModifiersCanvasGroup == null)
         {
             return;
         }
@@ -340,6 +364,15 @@ public sealed class EndlessModifiersMenuController : MonoBehaviour
             modifiersCanvasGroup.interactable = open;
             modifiersCanvasGroup.blocksRaycasts = open;
             modifiersPanel.transform.localScale = open ? panelOpenScale : panelOpenScale * closedPanelScale;
+
+            secondaryModifiersPanel.SetActive(open);
+            secondaryModifiersCanvasGroup.alpha = open ? 1f : 0f;
+            secondaryModifiersCanvasGroup.interactable = open;
+            secondaryModifiersCanvasGroup.blocksRaycasts = open;
+            secondaryModifiersPanel.transform.localScale = open
+                ? secondaryPanelOpenScale
+                : secondaryPanelOpenScale * closedPanelScale;
+            ApplySecondaryPanelPosition(open ? 0f : secondaryPanelClosedOffset);
             return;
         }
 
@@ -351,14 +384,27 @@ public sealed class EndlessModifiersMenuController : MonoBehaviour
         if (open)
         {
             modifiersPanel.SetActive(true);
+            secondaryModifiersPanel.SetActive(true);
         }
 
         modifiersCanvasGroup.interactable = false;
         modifiersCanvasGroup.blocksRaycasts = false;
+        secondaryModifiersCanvasGroup.interactable = false;
+        secondaryModifiersCanvasGroup.blocksRaycasts = false;
         float startAlpha = modifiersCanvasGroup.alpha;
+        float secondaryStartAlpha = secondaryModifiersCanvasGroup.alpha;
         float targetAlpha = open ? 1f : 0f;
         Vector3 startScale = modifiersPanel.transform.localScale;
         Vector3 targetScale = open ? panelOpenScale : panelOpenScale * closedPanelScale;
+        Vector3 secondaryStartScale = secondaryModifiersPanel.transform.localScale;
+        Vector3 secondaryTargetScale = open
+            ? secondaryPanelOpenScale
+            : secondaryPanelOpenScale * closedPanelScale;
+        Vector2 secondaryStartPosition = secondaryPanelRectTransform != null
+            ? secondaryPanelRectTransform.anchoredPosition
+            : Vector2.zero;
+        Vector2 secondaryTargetPosition = secondaryPanelOpenPosition
+            + Vector2.right * (open ? 0f : secondaryPanelClosedOffset);
         float elapsed = 0f;
 
         while (elapsed < panelAnimationDuration)
@@ -368,6 +414,19 @@ public sealed class EndlessModifiersMenuController : MonoBehaviour
             float easedProgress = 1f - Mathf.Pow(1f - progress, 3f);
             modifiersCanvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, easedProgress);
             modifiersPanel.transform.localScale = Vector3.LerpUnclamped(startScale, targetScale, easedProgress);
+            secondaryModifiersCanvasGroup.alpha = Mathf.Lerp(secondaryStartAlpha, targetAlpha, easedProgress);
+            secondaryModifiersPanel.transform.localScale = Vector3.LerpUnclamped(
+                secondaryStartScale,
+                secondaryTargetScale,
+                easedProgress);
+            if (secondaryPanelRectTransform != null)
+            {
+                secondaryPanelRectTransform.anchoredPosition = Vector2.LerpUnclamped(
+                    secondaryStartPosition,
+                    secondaryTargetPosition,
+                    easedProgress);
+            }
+
             yield return null;
         }
 
@@ -375,8 +434,26 @@ public sealed class EndlessModifiersMenuController : MonoBehaviour
         modifiersPanel.transform.localScale = targetScale;
         modifiersCanvasGroup.interactable = open;
         modifiersCanvasGroup.blocksRaycasts = open;
+        secondaryModifiersCanvasGroup.alpha = targetAlpha;
+        secondaryModifiersPanel.transform.localScale = secondaryTargetScale;
+        secondaryModifiersCanvasGroup.interactable = open;
+        secondaryModifiersCanvasGroup.blocksRaycasts = open;
+        if (secondaryPanelRectTransform != null)
+        {
+            secondaryPanelRectTransform.anchoredPosition = secondaryTargetPosition;
+        }
+
         modifiersPanel.SetActive(open);
+        secondaryModifiersPanel.SetActive(open);
         panelAnimation = null;
+    }
+
+    private void ApplySecondaryPanelPosition(float closedOffset)
+    {
+        if (secondaryPanelRectTransform != null)
+        {
+            secondaryPanelRectTransform.anchoredPosition = secondaryPanelOpenPosition + Vector2.right * closedOffset;
+        }
     }
 
     private void SetTooltipVisible(bool visible, bool animated)

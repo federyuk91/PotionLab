@@ -496,17 +496,17 @@ public class GameManager : MonoBehaviour
             currentLevel = 0;
         }
 
-        SceneManager.LoadScene(currentLevel);
+        SceneTransitionFader.LoadScene(currentLevel);
     }
 
     public void MainMenu()
     {
-        SceneManager.LoadScene(0);
+        SceneTransitionFader.LoadScene(0);
     }
 
     public void TryAgain()
     {
-        SceneManager.LoadScene(currentLevel);
+        SceneTransitionFader.LoadScene(currentLevel);
     }
 
     public void ExitGame()

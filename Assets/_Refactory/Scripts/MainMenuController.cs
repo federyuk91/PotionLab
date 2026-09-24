@@ -255,12 +255,12 @@ public sealed class MainMenuController : MonoBehaviour
         if (classicMenuController != null
             && classicMenuController.TryPlayLevelSelectionTransition(
                 sceneBuildIndex,
-                () => SceneManager.LoadScene(sceneBuildIndex)))
+                () => SceneTransitionFader.LoadScene(sceneBuildIndex)))
         {
             return;
         }
 
-        SceneManager.LoadScene(sceneBuildIndex);
+        SceneTransitionFader.LoadScene(sceneBuildIndex);
     }
 
     public void StartEndless()
