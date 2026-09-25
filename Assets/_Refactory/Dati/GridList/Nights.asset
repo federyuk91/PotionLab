@@ -15,265 +15,342 @@ MonoBehaviour:
   categoryType: 2
   title: Nights
   entries:
-  - id: Menu
-    displayName: Menu
+  - displayName: Menu
+    id: Menu
     shortDescription: 
     description: Return to MAIN
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 0
-  - id: Night_1_Only_the_last_one
-    displayName: 1 - Only the last one
+  - displayName: 1 - Only the last one
+    id: Night_1_Only_the_last_one
     shortDescription: 
     description: Just one last potion before dream...
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 1
-  - id: Night_2_Two_lava
-    displayName: 2 - Two for one
+  - displayName: 2 - Two for one
+    id: Night_2_Two_lava
     shortDescription: 
     description: Two lava potions for the price of one
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 2
-  - id: Night_3_The_Faster_conveyor_belt
-    displayName: 3 - The Faster shift
+  - displayName: 3 - The Faster shift
+    id: Night_3_The_Faster_conveyor_belt
     shortDescription: 
     description: A faster conveyor belt equals more potions to drink
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 3
-  - id: Night_4_It_s_getting_dark
-    displayName: 4 - It's getting dark
+  - displayName: 4 - It's getting dark
+    id: Night_4_It_s_getting_dark
     shortDescription: 
     description: It's getting dark, a potion of light is the right choice
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 4
-  - id: Night_5_detox
-    displayName: 5 - detox
+  - displayName: 5 - detox
+    id: Night_5_detox
     shortDescription: 
     description: Too much lava the past few nights, I need some healing magic
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 5
-  - id: Night_6_The_lever
-    displayName: 6 - The lever
+  - displayName: 6 - The lever
+    id: Night_6_The_lever
     shortDescription: 
     description: That conveyor belt has changed direction, never give a machine the
       work of a magician
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 6
-  - id: Night_7_Moria_Gift
-    displayName: 7 - The Bald Rogue
+  - displayName: 7 - The Bald Rogue
+    id: Night_7_Moria_Gift
     shortDescription: 
     description: Gandalf should have finished the job
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 7
-  - id: Night_8_I_stop_whenever_I_want
-    displayName: 8 - I can stop whenever I want...
+  - displayName: 8 - I can stop whenever I want...
+    id: Night_8_I_stop_whenever_I_want
     shortDescription: 
     description: ...
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 8
-  - id: Night_9_Dark_thoughts
-    displayName: 9 - Dark thoughts
+  - displayName: 9 - Dark thoughts
+    id: Night_9_Dark_thoughts
     shortDescription: 
     description: Just don't overdo it
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 9
-  - id: Night_10_The_vortex
-    displayName: 10 - The vortex
+  - displayName: 10 - The vortex
+    id: Night_10_The_vortex
     shortDescription: 
     description: It's all double and it goes all the way around
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 10
-  - id: Night_11_Nail_crushes_nail
-    displayName: 11 - One nail drives out another
+  - displayName: 11 - One nail drives out another
+    id: Night_11_Nail_crushes_nail
     shortDescription: 
     description: I'll stop now, a little weed will help
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 11
-  - id: Night_12_Chinese_medicine
-    displayName: 12 - Something Fishy
+  - displayName: 12 - Something Fishy
+    id: Night_12_Something_Fishy
     shortDescription: 
     description: Alternative medicine, perhaps with seaweed
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 12
-  - id: Night_13_So_dark
-    displayName: 13 - So dark
+  - displayName: 13 - So dark
+    id: Night_13_So_dark
     shortDescription: 
     description: Sometimes just a few glasses are enough
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 13
-  - id: Night_14_It_s_cold
-    displayName: 14 - It's cold
+  - displayName: 14 - It's cold
+    id: Night_14_It_s_cold
     shortDescription: 
     description: Cold nights call for liquid fire
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 14
-  - id: Night_15_One_night_at_the_time
-    displayName: 15 - One night at the time
+  - displayName: 15 - One night at the time
+    id: Night_15_One_night_at_the_time
     shortDescription: 
     description: Left, right, left, right... one potion after another until bed
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 15
-  - id: Night_16_The_devil_inside
-    displayName: 16 - The devil inside
+  - displayName: 16 - The devil inside
+    id: Night_16_The_devil_inside
     shortDescription: 
     description: It's so cold! It's like a devil offering to warm me
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 16
-  - id: Night_17_Both_moons_shining
-    displayName: 17 - Both moons shining
+  - displayName: 17 - Both moons shining
+    id: Night_17_Both_moons_shining
     shortDescription: 
     description: What poison do I use this time? The moons are beautiful. Both!?
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 17
-  - id: Night_18_Shower_Nah
-    displayName: 18 - Shower? Nah..
+  - displayName: 18 - Shower? Nah..
+    id: Night_18_Shower_Nah
     shortDescription: 
     description: When did I last take a shower?
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 18
-  - id: Night_19_Fish
-    displayName: 19 - Fish
+  - displayName: 19 - Fish
+    id: Night_19_Fish
     shortDescription: 
     description: I heard on TV that fish improves memory
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 19
-  - id: Night_20_Never_end
-    displayName: 20 - Never end
+  - displayName: 20 - Never end
+    id: Night_20_Never_end
     shortDescription: 
     description: This shit is so dark but I need to drink it all in. Let no one stop
       me!
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 20
-  - id: Night_21_The_fridge
-    displayName: 21 - The fridge
+  - displayName: 21 - The fridge
+    id: Night_21_The_fridge
     shortDescription: 
     description: I feel so bloated, I should eat something... Maybe tomorrow
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 21
-  - id: Night_22_Take_easy
-    displayName: 22 - Take easy
-    shortDescription: 
-    description: Sometimes you just need to put a little ice on it
+  - displayName: 22 - The Devil Inside
+    id: Night_22_The_Devil_Inside
+    shortDescription: I feel so bloated I could explode... better put some ice on
+      it.
+    description: I feel so bloated I could explode... better put some ice on it.
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 22
-  - id: Night_23_The_wrong_lever
-    displayName: 23 - The wrong lever
-    shortDescription: 
-    description: It's ever a levers question
+  - displayName: 23 -Taking Temperature
+    id: Night_23_Taking_Temperature
+    shortDescription: Sometimes, you just need to put a little ice on it.
+    description: Sometimes, you just need to put a little ice on it.
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 23
-  - id: Night_24_The_loop
-    displayName: 24 - The loop
-    shortDescription: 
-    description: I drink one potion after another, I don't even notice how many there
-      are anymore
+  - displayName: 24 -  Fever Nightmare
+    id: Night_24_The_loop
+    shortDescription: The white needs to cool down.
+    description: The white needs to cool down.
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 24
-  - id: Night_25_The_cellar
-    displayName: 25 - The cellar
-    shortDescription: 
-    description: I knew I still had supplies, this stuff will bury me
+  - displayName: 25 - Say My Name
+    id: Night_25_The_cellar
+    shortDescription: "I'm Mr. Red\u2026 or Mr. White?"
+    description: "I'm Mr. Red\u2026 or Mr. White?"
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 25
-  - id: Night_26_The_grove
-    displayName: 26 - The grove
+  - displayName: 26 - Ice age
+    id: Night_26_The_grove
     shortDescription: 
-    description: 
+    description: This whole Ice Age thing is getting old. I could go for some global
+      warming.
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 26
-  - id: Night_27_The_grove
-    displayName: 27 - The grove
-    shortDescription: 
-    description: 
+  - displayName: "27 - \u2026 and then they come for you"
+    id: Night_27_The_grove
+    shortDescription: I am the one who knocks.
+    description: "\u201CSomeone breaks into your house, they steal your things, they
+      hurt your family\u2026 and then they come for you.\u201D\n\u201CI am the one
+      who knocks.\u201D"
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 27
-  - id: Night_28_The_grove
-    displayName: 28 - The grove
+  - displayName: 28 - The grove
+    id: Night_28_The_grove
     shortDescription: 
     description: 
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 28
-  - id: Night_29_The_grove
-    displayName: 29 - The grove
+  - displayName: 29 - The grove
+    id: Night_29_The_grove
     shortDescription: 
     description: 
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 29
-  - id: Night_30_The_grove
-    displayName: 30 - The grove
+  - displayName: 30 - The grove
+    id: Night_30_The_grove
     shortDescription: 
     description: 
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 30
-  - id: Night_31_The_grove
-    displayName: 31 - The grove
+  - displayName: 31 - The grove
+    id: Night_31_The_grove
     shortDescription: 
     description: 
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 31
-  - id: Night_32_The_grove
-    displayName: 32 - The grove
+  - displayName: 32 - The grove
+    id: Night_32_The_grove
     shortDescription: 
     description: 
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 32
-  - id: Night_33_The_Groove
-    displayName: 33 - The Groove
+  - displayName: 33 - The Groove
+    id: Night_33_The_Groove
     shortDescription: 
     description: The magician laboratory
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 33
-  - id: Night_34_The_Laboratory
-    displayName: 34 - The Laboratory
+  - displayName: 34 - The Laboratory
+    id: Night_34_The_Laboratory
     shortDescription: 
     description: The magician laboratory
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 34
-  - id: Night_x_Endless
-    displayName: x - Endless
+  - displayName: x - Endless
+    id: Night_x_Endless
     shortDescription: 
     description: ENDLESS MODE!
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 35
-  - id: Night_xx_The_Laboratory
-    displayName: xx - The Laboratory
+  - displayName: xx - The Laboratory
+    id: Night_xx_The_Laboratory
     shortDescription: 
     description: The magician laboratory
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 36

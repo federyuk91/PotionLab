@@ -6,8 +6,8 @@ namespace Refactory.UI.GridList
     [Serializable]
     public class GridListEntryData
     {
-        [SerializeField] private string id;
         [SerializeField] private string displayName;
+        [SerializeField] private string id;
         [SerializeField] private string shortDescription;
         [SerializeField, TextArea(2, 5)] private string description;
         [SerializeField] private Sprite sprite;
