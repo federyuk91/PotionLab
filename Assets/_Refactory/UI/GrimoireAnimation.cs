@@ -69,6 +69,51 @@ public class GrimoireAnimation : MonoBehaviour
         }
     }
 
+    public void CloseImmediately()
+    {
+        bool wasOpen = isOpen;
+        isOpen = false;
+        RestoreDefaultCursor();
+        StopBaseFade();
+
+        if (compendiumView != null)
+        {
+            compendiumView.CloseImmediately();
+        }
+
+        if (menuPanel != null)
+        {
+            menuPanel.SetActive(false);
+        }
+
+        if (grimoireBaseCanvasGroup != null)
+        {
+            grimoireBaseCanvasGroup.alpha = 0f;
+            SetBaseInputEnabled(false);
+        }
+
+        if (grimoireBase != null)
+        {
+            grimoireBase.SetActive(false);
+        }
+
+        if (anim != null)
+        {
+            anim.SetBool("IsOpen", false);
+        }
+
+        if (wasOpen)
+        {
+            Time.timeScale = 1f;
+        }
+    }
+
+    public void HideCompletely()
+    {
+        CloseImmediately();
+        gameObject.SetActive(false);
+    }
+
     public void ActivatePanel()
     {
         if (grimoireBase != null)

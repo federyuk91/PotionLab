@@ -46,6 +46,7 @@ public class LightController : MonoBehaviour
     private bool missingLight2DWarningShown;
     private bool missingAudioSourceWarningShown;
     private bool missingClickLightWarningShown;
+    private bool lightDurationPaused;
     private Coroutine clickFeedbackRoutine;
     private bool clickFeedbackPulseActive;
     private bool clickFeedbackAnimatorWasEnabled;
@@ -203,6 +204,18 @@ public class LightController : MonoBehaviour
         SetLightLevel(intensity, false, true, true);
     }
 
+    public void PauseLightDuration()
+    {
+        lightDurationPaused = true;
+        NotifyLightTimerChanged();
+    }
+
+    public void ResumeLightDuration()
+    {
+        lightDurationPaused = false;
+        NotifyLightTimerChanged();
+    }
+
     private void SetLightLevel(int intensity, bool triggerLightOn, bool triggerAnimation, bool playAudio)
     {
         lightIntensity = Mathf.Clamp(intensity, MinLightIntensity, MaxLightIntensity);
@@ -235,7 +248,7 @@ public class LightController : MonoBehaviour
 
     private bool ShouldDecayLight()
     {
-        return GetDecayLightOverTime();
+        return !lightDurationPaused && GetDecayLightOverTime();
     }
 
     private void ResetLightDecayTimer()

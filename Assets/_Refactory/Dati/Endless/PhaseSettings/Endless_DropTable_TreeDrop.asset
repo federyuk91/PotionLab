@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd82afa743e44fa9244f98ae5d4eb45, type: 3}
   m_Name: Endless_DropTable_TreeDrop
   m_EditorClassIdentifier: 
+  displayName: Verdant Surge
+  description: Grass and Ice potions flood the laboratory before the lower conveyor accelerates.
   eventType: 4
   eventValue: 6
-  nextSetupAfterSpawnedPotion: 20
+  nextSetupAfterSpawnedPotion: 30
   spawnSpeedIncrement: 0.2
   platformSpeedIncrement: 0
   spawnChanches:

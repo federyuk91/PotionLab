@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd82afa743e44fa9244f98ae5d4eb45, type: 3}
   m_Name: Endless_DropTable_StartingPhase
   m_EditorClassIdentifier: 
+  displayName: Shifting Laboratory
+  description: Helpful potions arrive while the laboratory prepares a new obstacle.
   eventType: 2
   eventValue: 0
-  nextSetupAfterSpawnedPotion: 15
+  nextSetupAfterSpawnedPotion: 30
   spawnSpeedIncrement: -0.1
   platformSpeedIncrement: 0
   spawnChanches:

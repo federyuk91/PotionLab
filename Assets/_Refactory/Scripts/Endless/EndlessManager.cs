@@ -10,16 +10,22 @@ namespace EndlessSystem
     public class EndlessManager : MonoBehaviour
     {
         public int CurrentWave => Mathf.Max(1, waveNumber);
+        public EndlessPhaseSettings CurrentPhase => phases != null && phases.Count > 0
+            ? phases[Mathf.Clamp(phaseIndex, 0, phases.Count - 1)]
+            : null;
+        public int SpawnedPotionsInCurrentPhase => spawnedPotionsInCurrentPhase;
 
         public event Action<int> PhaseChanged;
         public event Action<int> WaveChanged;
         public event Action<int> SpawnedPotionCountChanged;
+        public event Action<EndlessPhaseSettings, int, int> PhaseProgressChanged;
         public event Action<EndlessPhaseSettings> PhaseEventTriggered;
         public event Action OverflowBombTriggered;
 
         [Header("References")]
         [RequiredInspectorReference(ResolveMode.SceneSingleton)]
         [SerializeField] private GameManager gameManager;
+        [SerializeField] private LightController lightController;
         [RequiredInspectorReference(ResolveMode.SceneSingleton)]
         [SerializeField] private LevelSettings levelSettings;
         [RequiredInspectorReference(ResolveMode.SceneSingleton)]
@@ -28,6 +34,13 @@ namespace EndlessSystem
         [SerializeField] private Transform spawnPoint;
         [RequiredInspectorReference(ResolveMode.SceneSingleton)]
         [SerializeField] private PotionPool potionPool;
+
+        [Header("Wave Audio")]
+        [RequiredInspectorReference]
+        [SerializeField] private AudioSource nextWaveAudioSource;
+        [RequiredInspectorReference]
+        [SerializeField] private AudioClip nextWaveAudioClip;
+        [SerializeField, Range(0f, 1f)] private float nextWaveAudioVolume = 0.2f;
 
         [Header("Phases")]
         [SerializeField] private List<EndlessPhaseSettings> phases = new List<EndlessPhaseSettings>();
@@ -42,6 +55,7 @@ namespace EndlessSystem
         private readonly HashSet<PotionScript> activeEndlessPotions = new HashSet<PotionScript>();
         private bool flawlessEndingRun;
         private bool missingGameManagerWarningShown;
+        private bool missingLightControllerWarningShown;
         private bool missingLevelSettingsWarningShown;
         private bool missingSpawnPointWarningShown;
         private bool missingEventControllerWarningShown;
@@ -99,10 +113,16 @@ namespace EndlessSystem
             phaseIndex = Mathf.Clamp(phaseIndex, 0, phases.Count - 1);
             waveNumber = 1;
             flawlessEndingRun = false;
+            LightController activeLightController = ResolveLightController();
+            if (activeLightController != null)
+            {
+                activeLightController.ResumeLightDuration();
+            }
             activeEndlessPotions.Clear();
             SubscribeToFlawlessDamage();
             PhaseChanged?.Invoke(phaseIndex);
             WaveChanged?.Invoke(CurrentWave);
+            NotifyPhaseProgress();
             spawnCoroutine = StartCoroutine(SpawnRoutine());
         }
 
@@ -126,9 +146,10 @@ namespace EndlessSystem
 
                 while (spawnedPotionsInCurrentPhase < phase.NextPhaseAfterSpawnedPotions)
                 {
-                    yield return new WaitForSeconds(GetSpawnSeconds(phase));
+                    yield return new WaitForSeconds(GetSpawnInterval(phase));
                     SpawnPotion(phase);
                     spawnedPotionsInCurrentPhase++;
+                    NotifyPhaseProgress();
                 }
 
                 TriggerPhaseEvent(phase);
@@ -205,20 +226,85 @@ namespace EndlessSystem
                 phaseIndex = 0;
             }
 
+            spawnedPotionsInCurrentPhase = 0;
             waveNumber++;
+            PlayNextWaveAudio();
             PhaseChanged?.Invoke(phaseIndex);
             WaveChanged?.Invoke(CurrentWave);
+            NotifyPhaseProgress();
         }
 
-        private float GetSpawnSeconds(EndlessPhaseSettings phase)
+        private void PlayNextWaveAudio()
         {
-            if (levelSettings != null && levelSettings.EndlessHyperHyperMode)
+            if (waveNumber <= 1)
+            {
+                return;
+            }
+
+            if (nextWaveAudioSource == null)
+            {
+                Debug.LogWarning($"{name}: Next Wave Audio Source is missing. Assign it in Inspector to play the wave transition sound.", this);
+                return;
+            }
+
+            if (nextWaveAudioClip == null)
+            {
+                Debug.LogWarning($"{name}: Next Wave Audio Clip is missing. Assign it in Inspector to play the wave transition sound.", this);
+                return;
+            }
+
+            nextWaveAudioSource.PlayOneShot(nextWaveAudioClip, nextWaveAudioVolume);
+        }
+
+        public EndlessPhaseSettings GetPhaseAfterCurrent(int offset = 1)
+        {
+            if (phases == null || phases.Count == 0)
+            {
+                return null;
+            }
+
+            int requestedIndex = phaseIndex + Mathf.Max(0, offset);
+            if (loopPhases)
+            {
+                requestedIndex %= phases.Count;
+            }
+            else
+            {
+                requestedIndex = Mathf.Clamp(requestedIndex, 0, phases.Count - 1);
+            }
+
+            return phases[requestedIndex];
+        }
+
+        private void NotifyPhaseProgress()
+        {
+            EndlessPhaseSettings phase = CurrentPhase;
+            if (phase == null)
+            {
+                return;
+            }
+
+            PhaseProgressChanged?.Invoke(
+                phase,
+                Mathf.Clamp(spawnedPotionsInCurrentPhase, 0, phase.NextPhaseAfterSpawnedPotions),
+                phase.NextPhaseAfterSpawnedPotions);
+        }
+
+        public float GetSpawnInterval(EndlessPhaseSettings phase)
+        {
+            if (levelSettings == null)
+            {
+                WarnMissingLevelSettings();
+                return 0f;
+            }
+
+            if (levelSettings.EndlessHyperHyperMode)
             {
                 return Mathf.Max(levelSettings.MinimumSpawnSeconds, levelSettings.HyperHyperModeSpawnSeconds);
             }
 
             float spawnSeconds = levelSettings.DefaultSpawnSeconds;
-            if (levelSettings != null && levelSettings.EndlessHyperMode)
+            if (levelSettings.EndlessHyperMode)
             {
                 spawnSeconds = levelSettings.HyperModeSpawnSeconds;
             }
@@ -276,7 +362,27 @@ namespace EndlessSystem
 
         private void HandleCharacterDied(string deathDialog)
         {
+            LightController activeLightController = ResolveLightController();
+            if (activeLightController == null)
+            {
+                WarnMissingLightController();
+            }
+            else
+            {
+                activeLightController.PauseLightDuration();
+            }
+
             StopEndless();
+        }
+
+        private LightController ResolveLightController()
+        {
+            if (lightController != null)
+            {
+                return lightController;
+            }
+
+            return gameManager != null ? gameManager.lightController : null;
         }
 
         private void HandlePotionRemoved(PotionScript potion, bool drunked)
@@ -349,6 +455,17 @@ namespace EndlessSystem
 
             missingGameManagerWarningShown = true;
             Debug.LogWarning($"{name}: GameManager reference is missing. Assign it in Inspector so endless potions can be registered.", this);
+        }
+
+        private void WarnMissingLightController()
+        {
+            if (missingLightControllerWarningShown)
+            {
+                return;
+            }
+
+            missingLightControllerWarningShown = true;
+            Debug.LogWarning($"{name}: LightController reference is missing. Assign it in Inspector so light duration can stop when the Endless run ends.", this);
         }
 
         private void WarnMissingLevelSettings()

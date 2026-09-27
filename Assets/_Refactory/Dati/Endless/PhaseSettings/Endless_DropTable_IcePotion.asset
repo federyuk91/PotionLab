@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventType: 0
   eventValue: 1
-  nextSetupAfterSpawnedPotion: 3
+  nextSetupAfterSpawnedPotion: 30
   spawnSpeedIncrement: -0.5
   platformSpeedIncrement: 0
   spawnChanches:

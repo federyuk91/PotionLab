@@ -2575,6 +2575,12 @@ MonoBehaviour:
   feedbackSource: {fileID: 7335516976547852054}
   spellSource: {fileID: 7335516976547852054}
   potionSource: {fileID: 7335516976547852054}
+  statusEffectSources:
+  - {fileID: 6919721646537242302}
+  - {fileID: 8512990516612545693}
+  - {fileID: 1629797486591416659}
+  - {fileID: 4372891881851822907}
+  - {fileID: 7873135904911118042}
   damageClip: {fileID: 8300000, guid: 224b24ff3a3f1564587d287ba40c7cb2, type: 3}
   healClip: {fileID: 8300000, guid: 49be78d4bbd337749ae8ec1b191c6a32, type: 3}
   manaUpClip: {fileID: 8300000, guid: 17eae5f5a49105647b97a224c2728d73, type: 3}

@@ -11,6 +11,7 @@ public class LevelStartUIController : MonoBehaviour
     [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private LevelSettings levelSettings;
     [SerializeField, RequiredInspectorReference(ResolveMode.Local)] private CharacterUIController characterUIController;
     [SerializeField] private EndlessManager endlessManager;
+    [SerializeField, RequiredInspectorReference] private EndlessWaveUIController endlessWaveUI;
 
     [Header("Intro Presentation")]
     [SerializeField, RequiredInspectorReference] private TMP_Text introPresentationText;
@@ -39,13 +40,9 @@ public class LevelStartUIController : MonoBehaviour
 
     private void Start()
     {
+        ConfigureEndlessHud();
         PrepareNightIntro();
         HideLegacyIntroPresentationText();
-
-        if (endlessManager != null)
-        {
-            HandleEndlessWaveChanged(endlessManager.CurrentWave);
-        }
     }
 
     private void OnEnable()
@@ -85,13 +82,17 @@ public class LevelStartUIController : MonoBehaviour
 
     private void HandleEndlessWaveChanged(int waveNumber)
     {
-        if (characterUIController == null)
+        if (endlessWaveUI == null)
         {
-            Debug.LogError("LevelStartUIController requires the Character UI Controller Inspector reference to display the endless wave.", this);
+            Debug.LogError("LevelStartUIController requires the Endless Wave UI Inspector reference to display the endless wave.", this);
             return;
         }
 
-        characterUIController.ShowEndlessWave(waveNumber);
+        endlessWaveUI.RefreshWave(waveNumber);
+        if (characterUIController != null)
+        {
+            characterUIController.ShowEndlessWave(waveNumber);
+        }
     }
 
     private void HandleLevelStartClicked()
@@ -108,6 +109,10 @@ public class LevelStartUIController : MonoBehaviour
         if (nightIntroReady)
         {
             StartCoroutine(AnimateNightToHud());
+        }
+        else if (endlessManager != null && endlessWaveUI != null)
+        {
+            endlessWaveUI.ShowGameplayHud();
         }
 
         startLevelButton.gameObject.SetActive(false);
@@ -210,6 +215,11 @@ public class LevelStartUIController : MonoBehaviour
 
         Canvas.ForceUpdateCanvases();
 
+        if (endlessManager != null && endlessWaveUI != null && endlessWaveUI.HudTarget != null)
+        {
+            ApplyRectTransformLayout(currentNight, endlessWaveUI.HudTarget);
+        }
+
         nightTargetPosition = currentNight.anchoredPosition;
         nightTargetScale = currentNight.localScale;
         nightIntroStartScale = new Vector3(
@@ -237,6 +247,10 @@ public class LevelStartUIController : MonoBehaviour
         {
             currentNight.anchoredPosition = nightTargetPosition;
             currentNight.localScale = nightTargetScale;
+            if (endlessManager != null && endlessWaveUI != null)
+            {
+                endlessWaveUI.ShowGameplayHud();
+            }
             yield break;
         }
 
@@ -261,6 +275,37 @@ public class LevelStartUIController : MonoBehaviour
 
         currentNight.anchoredPosition = nightTargetPosition;
         currentNight.localScale = nightTargetScale;
+        if (endlessManager != null && endlessWaveUI != null)
+        {
+            endlessWaveUI.ShowGameplayHud();
+        }
+    }
+
+    private void ConfigureEndlessHud()
+    {
+        if (endlessManager == null)
+        {
+            return;
+        }
+
+        if (endlessWaveUI == null)
+        {
+            Debug.LogError("LevelStartUIController requires the Endless Wave UI Inspector reference in Endless mode.", this);
+            return;
+        }
+
+        GameManager gameManager = characterUIController != null ? characterUIController.GameManager : null;
+        endlessWaveUI.Configure(endlessManager, gameManager);
+        endlessWaveUI.PrepareIntro();
+    }
+
+    private static void ApplyRectTransformLayout(RectTransform target, RectTransform source)
+    {
+        target.anchorMin = source.anchorMin;
+        target.anchorMax = source.anchorMax;
+        target.pivot = source.pivot;
+        target.anchoredPosition = source.anchoredPosition;
+        target.sizeDelta = source.sizeDelta;
     }
 
     private IEnumerator FadeGameplayUIIn()

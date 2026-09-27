@@ -211,6 +211,30 @@ namespace Refactory.UI.GridList
             visibilityTransition = StartCoroutine(FadeCompendiumOutAndDisable());
         }
 
+        public void CloseImmediately()
+        {
+            if (visibilityTransition != null)
+            {
+                StopCoroutine(visibilityTransition);
+                visibilityTransition = null;
+            }
+
+            if (categoryTransition != null)
+            {
+                StopCoroutine(categoryTransition);
+                categoryTransition = null;
+            }
+
+            SetCompendiumInputEnabled(false);
+
+            if (compendiumCanvasGroup != null)
+            {
+                compendiumCanvasGroup.alpha = 0f;
+            }
+
+            gameObject.SetActive(false);
+        }
+
         public void ShowCategory(int categoryIndex)
         {
             ShowCategory((GridListCategoryType)categoryIndex);

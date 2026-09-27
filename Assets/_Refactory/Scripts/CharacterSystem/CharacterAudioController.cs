@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using InspectorValidation;
 using UnityEngine;
 
 namespace CharacterSystem
@@ -15,6 +17,9 @@ namespace CharacterSystem
         [SerializeField] private AudioSource spellSource;
         [SerializeField] private AudioSource potionSource;
 
+        [Header("Status Effect Audio")]
+        [SerializeField, RequiredInspectorReference] private AudioSource[] statusEffectSources = Array.Empty<AudioSource>();
+
         [Header("Stats")]
         [SerializeField] private AudioClip damageClip;
         [SerializeField] private AudioClip healClip;
@@ -27,6 +32,7 @@ namespace CharacterSystem
         [SerializeField] private AudioClip explosionClip;
 
         private BaseCharacter currentCharacter;
+        private bool characterDead;
 
         private void Awake()
         {
@@ -70,6 +76,7 @@ namespace CharacterSystem
                 stats.OnHealtUp += PlayHeal;
                 stats.OnManaUp += PlayManaUp;
                 stats.OnManaDown += PlayManaDown;
+                stats.HPChanged += HandleHPChanged;
                 stats.OnDeath += PlayDeath;
             }
 
@@ -93,6 +100,7 @@ namespace CharacterSystem
                 stats.OnHealtUp -= PlayHeal;
                 stats.OnManaUp -= PlayManaUp;
                 stats.OnManaDown -= PlayManaDown;
+                stats.HPChanged -= HandleHPChanged;
                 stats.OnDeath -= PlayDeath;
             }
 
@@ -139,6 +147,11 @@ namespace CharacterSystem
 
         private void OnPotionEffectResolving(BaseCharacter character, PotionScriptable potion, IReadOnlyCollection<Status> previousStatuses)
         {
+            if (characterDead)
+            {
+                return;
+            }
+
             if (potion == null)
             {
                 Debug.LogWarning("AUDIO: Cannot play potion audio because the potion reference is missing.", this);
@@ -151,6 +164,11 @@ namespace CharacterSystem
 
         private void OnSpellCastSucceeded(BaseCharacter character, int index, Spell spell, bool powered)
         {
+            if (characterDead)
+            {
+                return;
+            }
+
             if (spell == null)
             {
                 Debug.LogWarning($"AUDIO: Cannot play spell audio for {character.name} spell index {index} because the spell reference is missing.", this);
@@ -209,37 +227,110 @@ namespace CharacterSystem
 
         private void PlayDamage()
         {
+            if (characterDead)
+            {
+                return;
+            }
+
             PlayOneShot(feedbackSource, damageClip, "damage feedback");
         }
 
         private void PlayHeal()
         {
+            if (characterDead)
+            {
+                return;
+            }
+
             PlayOneShot(feedbackSource, healClip, "heal feedback");
         }
 
         private void PlayManaUp()
         {
+            if (characterDead)
+            {
+                return;
+            }
+
             PlayOneShot(feedbackSource, manaUpClip, "mana up feedback");
         }
 
         private void PlayManaDown()
         {
+            if (characterDead)
+            {
+                return;
+            }
+
             PlayOneShot(feedbackSource, manaDownClip, "mana down feedback");
         }
 
         private void PlayDeath()
         {
+            characterDead = true;
+            StopActiveAudio();
             PlayOneShot(feedbackSource, deathClip, "death feedback");
         }
 
         private void PlayImmunity()
         {
+            if (characterDead)
+            {
+                return;
+            }
+
             PlayOneShot(feedbackSource, immunityClip, "immunity reaction");
         }
 
         private void PlayExplosion()
         {
+            if (characterDead)
+            {
+                return;
+            }
+
             PlayOneShot(feedbackSource, explosionClip, "explosion reaction");
+        }
+
+        private void HandleHPChanged(int currentHP, int maximumHP)
+        {
+            if (currentHP > 0)
+            {
+                characterDead = false;
+            }
+        }
+
+        private void StopActiveAudio()
+        {
+            StopAudioSource(feedbackSource);
+
+            if (spellSource != feedbackSource)
+            {
+                StopAudioSource(spellSource);
+            }
+
+            if (potionSource != feedbackSource && potionSource != spellSource)
+            {
+                StopAudioSource(potionSource);
+            }
+
+            if (statusEffectSources == null)
+            {
+                return;
+            }
+
+            foreach (AudioSource statusEffectSource in statusEffectSources)
+            {
+                StopAudioSource(statusEffectSource);
+            }
+        }
+
+        private static void StopAudioSource(AudioSource source)
+        {
+            if (source != null)
+            {
+                source.Stop();
+            }
         }
 
         private void PlayOneShot(AudioSource source, AudioClip clip, string context)

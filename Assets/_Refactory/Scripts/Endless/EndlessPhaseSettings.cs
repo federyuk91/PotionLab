@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace EndlessSystem
@@ -18,6 +19,10 @@ namespace EndlessSystem
     [CreateAssetMenu(fileName = "EndlessPhaseSettings", menuName = "TheGoodNightPotion/Endless/Phase Settings", order = 1)]
     public class EndlessPhaseSettings : ScriptableObject
     {
+        [Header("Presentation")]
+        [SerializeField] private string displayName;
+        [SerializeField, TextArea(2, 4)] private string description;
+
         [Header("Event")]
         [SerializeField] private EndlessEventType eventType;
         [SerializeField] private float eventValue;
@@ -34,6 +39,34 @@ namespace EndlessSystem
         public float EventValue => eventValue;
         public int NextPhaseAfterSpawnedPotions => Mathf.Max(0, nextSetupAfterSpawnedPotion);
         public float SpawnSpeedIncrement => spawnSpeedIncrement;
+        public string DisplayName => string.IsNullOrWhiteSpace(displayName) ? name : displayName;
+        public string Description => description;
+        public IReadOnlyList<EndlessPotionSpawnChance> SpawnChances => spawnChanches;
+
+        public List<EndlessPotionSpawnChance> GetMostLikelyPotions(int count)
+        {
+            if (spawnChanches == null || count <= 0)
+            {
+                return new List<EndlessPotionSpawnChance>();
+            }
+
+            return spawnChanches
+                .Where(entry => entry != null && entry.Potion != null && entry.Chance > 0f)
+                .OrderByDescending(entry => entry.Chance)
+                .Take(count)
+                .ToList();
+        }
+
+        public float GetNormalizedChance(EndlessPotionSpawnChance target)
+        {
+            if (target == null)
+            {
+                return 0f;
+            }
+
+            float total = CalculateTotalChance();
+            return total > 0f ? Mathf.Max(0f, target.Chance) / total : 0f;
+        }
 
         public GameObject PickRandomPotionPrefab()
         {

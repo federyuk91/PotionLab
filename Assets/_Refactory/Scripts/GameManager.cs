@@ -713,7 +713,33 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        Character.animator.SetBool(DieParameter, true);
+        Animator characterAnimator = Character.animator;
+        AnimatorControllerParameter[] parameters = characterAnimator.parameters;
+        for (int index = 0; index < parameters.Length; index++)
+        {
+            AnimatorControllerParameter parameter = parameters[index];
+            if (parameter.nameHash != DieParameter)
+            {
+                continue;
+            }
+
+            if (parameter.type == AnimatorControllerParameterType.Trigger)
+            {
+                characterAnimator.SetTrigger(DieParameter);
+            }
+            else if (parameter.type == AnimatorControllerParameterType.Bool)
+            {
+                characterAnimator.SetBool(DieParameter, true);
+            }
+            else
+            {
+                Debug.LogWarning($"{characterAnimator.name}: Die animator parameter must be a Bool or Trigger.", characterAnimator);
+            }
+
+            return;
+        }
+
+        Debug.LogWarning($"{characterAnimator.name}: Die animator parameter is missing.", characterAnimator);
     }
 
     private void CloseActiveDialog()
