@@ -70,6 +70,7 @@ namespace EndlessSystem
             if (gameManager != null)
             {
                 gameManager.PotionRemoved += HandlePotionRemoved;
+                gameManager.CharacterDied += HandleCharacterDied;
                 drunkPotionsAtWaveStart = Mathf.Max(0, gameManager.potionDrunked);
             }
 
@@ -79,6 +80,7 @@ namespace EndlessSystem
         public void PrepareIntro()
         {
             gameplayHudVisible = false;
+            headerText.gameObject.SetActive(true);
             headerText.alignment = TextAlignmentOptions.Center;
             headerText.text = "ENDLESS";
             drunkPotionsText.gameObject.SetActive(false);
@@ -89,6 +91,7 @@ namespace EndlessSystem
         public void ShowGameplayHud()
         {
             gameplayHudVisible = true;
+            headerText.gameObject.SetActive(true);
             headerText.alignment = TextAlignmentOptions.TopLeft;
             drunkPotionsText.gameObject.SetActive(true);
             infoButton.gameObject.SetActive(true);
@@ -122,6 +125,15 @@ namespace EndlessSystem
             {
                 RefreshAll();
             }
+        }
+
+        private void HandleCharacterDied(string deathDialog)
+        {
+            gameplayHudVisible = false;
+            headerText.gameObject.SetActive(false);
+            drunkPotionsText.gameObject.SetActive(false);
+            infoButton.gameObject.SetActive(false);
+            SetInfoPanelImmediate(false);
         }
 
         private void RefreshAll()
@@ -356,6 +368,7 @@ namespace EndlessSystem
             if (gameManager != null)
             {
                 gameManager.PotionRemoved -= HandlePotionRemoved;
+                gameManager.CharacterDied -= HandleCharacterDied;
             }
         }
     }

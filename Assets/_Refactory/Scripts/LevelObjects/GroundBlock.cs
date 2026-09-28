@@ -99,6 +99,7 @@ namespace Refactory.LevelObjects
             animator.ResetTrigger(BreakTrigger);
             animator.SetTrigger(BreakTrigger);
             breakAudioSource.Play();
+            blockCollider.enabled = false;
         }
 
         // Called by the final frame of Anim_IceBlock_Break.
@@ -106,6 +107,7 @@ namespace Refactory.LevelObjects
         {
             if (!isBreaking)
                 return;
+
 
             spriteRenderer.enabled = false;
             if (breakAudioSource.isPlaying)
