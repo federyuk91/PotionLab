@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Wizard_NasimBenelkour(1)_AudioSplitterProject
   m_EditorClassIdentifier: Assembly-CSharp-Editor::AudioSplitterProject
   sourceClip: {fileID: 8300000, guid: 102e0ad59a09bc240958bf0bc51bda32, type: 3}
-  cutSamples: 1d04020070cd03008290050084fe0700894f0a0074e80f0083921500922b1b004f991d0023f91f001c2b21009aa223005aea25002eda2700aac52900eb612b00da952d009dd92f00c8153400b0e83a00d46540009ff44700705b4d00d8d05000ad10520012565500378b5800573c5b001c6d5e0090686100d4f56400796e680005236c006ff370002b307600a3027b00e73f7f00e26e83009a868800a9908b00591e8f00836f960059289a00ae769d008bfd9f00bef4a20029aba60048d8aa000860af00933ab400033cba0014e9bc00cf11c0008bc0c300f581c7007082ca000b23cc009d00ce00c8eecf00d826d200ba5ad300399dd400c29cd6007751d800002bda00bf17dc009fa5dd005372df003626e200c980e5008c28e8001abae900a6fbea005379ec00b4baed002ff6ee006b41f00067d0f1005941f3000a26f500e731f7004568f800436df900e3b4fa00d739fc003491fd001bcffe0018d4ff00b2c7000139a4010146a20201499d0301f4c304015cbb0501288e06010e5f0701565c080130590901a6470a0114630b013f680c0184730d0125aa0e01edf50f015e2c1101244912019e9113011c0715010c9116011062180157fd1901f48a1a01e3821b01ae271c0106531d01ed171e019eb31e01b2051f017d521f010dcb1f018a3a2001c18520016aca2001a3452101cbd021012d2422013e6622013edb2201f9d92301eada240199d625017662260169b227016424290175b32a017e4c2c01d42e2d0162d22d01921f2e010bb72e01879c2f0120be3001dc4c32015c5e340136443601adc137016baa38015d903901e5e93a01cccf3b011c153d016d143e017cbb3e013809400170fe4001d5044201d9514301173e4401571e45010207460174d2460174c947018aab48017dad49012c084b014f4e4c0130644d01bd7f4e010abf4f01d3ca500119fd510103f952017a2254018c3555016b1657015fbc5801d7c459016f105b01f4e65d0158ae5e015ca75f010f1a6301594066015e9167014f2d6a01eb5e6b01e5cc6c014cd76d0115006f017d6871015eb07201
+  cutSamples: 1d04020070cd03008290050084fe0700894f0a0074e80f0083921500922b1b004f991d0023f91f001c2b21009aa223005aea25002eda2700aac52900eb612b00da952d009dd92f00c8153400b0e83a00d46540009ff44700705b4d00d8d05000ad10520012565500378b5800573c5b001c6d5e0090686100d4f56400796e680005236c006ff370002b307600a3027b00e73f7f00e26e83009a868800a9908b00113c8d00591e8f00836f960059289a00ae769d008bfd9f00bef4a20029aba60048d8aa000860af00933ab400033cba0014e9bc00cf11c0008bc0c300f581c7007082ca00c8eecf00c29cd600bf17dc009fa5dd005372df003626e200c980e5008c28e8001abae900a6fbea005379ec00b4baed002ff6ee006b41f00067d0f1005941f3000a26f500e731f7004568f800436df900e3b4fa00d739fc003491fd001bcffe0018d4ff00b2c7000139a4010146a20201499d0301f4c304015cbb0501288e06010e5f0701565c080130590901a6470a0114630b013f680c0184730d0125aa0e01edf50f015e2c1101244912019e9113011c0715010c9116011062180157fd1901f48a1a01e3821b01ae271c0106531d01ed171e019eb31e01b2051f017d521f010dcb1f018a3a2001c18520016aca2001a3452101cbd021012d2422013e6622013edb2201f9d92301eada240199d625017662260169b227016424290175b32a017e4c2c01d42e2d0162d22d01921f2e010bb72e01879c2f0120be3001dc4c32015c5e340136443601adc137016baa38015d903901e5e93a01cccf3b011c153d016d143e017cbb3e013809400170fe4001d5044201d9514301173e4401571e45010207460174d2460174c947018aab48017dad49012c084b014f4e4c0130644d01bd7f4e010abf4f01d3ca500119fd510103f952017a2254018c3555016b1657015fbc5801d7c459016f105b01f4e65d0158ae5e015ca75f010f1a6301594066015e9167014f2d6a01eb5e6b01e5cc6c014cd76d0115006f017d6871015eb07201
   segmentNames:
   - Hello Traveller_0
   - Hello Traveller_1
@@ -41,51 +41,45 @@ MonoBehaviour:
   - Spiral of thirst_2
   - excess
   - Poor Decision
-  - Wizard_NasimBenelkour(1)_clip_42
-  - Wizard_NasimBenelkour(1)_clip_43
-  - Wizard_NasimBenelkour(1)_clip_44
-  - Wizard_NasimBenelkour(1)_clip_46
-  - Wizard_NasimBenelkour(1)_clip_48
-  - Wizard_NasimBenelkour(1)_clip_50
-  - Wizard_NasimBenelkour(1)_clip_51
-  - Wizard_NasimBenelkour(1)_clip_52
-  - Wizard_NasimBenelkour(1)_clip_54
-  - Wizard_NasimBenelkour(1)_clip_57
-  - Wizard_NasimBenelkour(1)_clip_59
-  - Wizard_NasimBenelkour(1)_clip_61
-  - Wizard_NasimBenelkour(1)_clip_63
-  - Wizard_NasimBenelkour(1)_clip_66
-  - Wizard_NasimBenelkour(1)_clip_68
-  - Wizard_NasimBenelkour(1)_clip_70
-  - Wizard_NasimBenelkour(1)_clip_73
-  - Wizard_NasimBenelkour(1)_clip_74
-  - Wizard_NasimBenelkour(1)_clip_75
-  - Wizard_NasimBenelkour(1)_clip_76
-  - Wizard_NasimBenelkour(1)_clip_77
-  - Wizard_NasimBenelkour(1)_clip_80
-  - Wizard_NasimBenelkour(1)_clip_83
-  - Wizard_NasimBenelkour(1)_clip_85
-  - Wizard_NasimBenelkour(1)_clip_87
-  - Wizard_NasimBenelkour(1)_clip_89
-  - Wizard_NasimBenelkour(1)_clip_90
-  - Wizard_NasimBenelkour(1)_clip_91
-  - Wizard_NasimBenelkour(1)_clip_92
-  - Wizard_NasimBenelkour(1)_clip_95
-  - Wizard_NasimBenelkour(1)_clip_96
-  - Wizard_NasimBenelkour(1)_clip_97
-  - Wizard_NasimBenelkour(1)_clip_98
-  - Wizard_NasimBenelkour(1)_clip_99
-  - Wizard_NasimBenelkour(1)_clip_100
-  - Wizard_NasimBenelkour(1)_clip_101
-  - Wizard_NasimBenelkour(1)_clip_102
-  - Wizard_NasimBenelkour(1)_clip_103
-  - Wizard_NasimBenelkour(1)_clip_104
-  - Wizard_NasimBenelkour(1)_clip_105
-  - Wizard_NasimBenelkour(1)_clip_106
-  - Wizard_NasimBenelkour(1)_clip_107
-  - Wizard_NasimBenelkour(1)_clip_108
-  - Wizard_NasimBenelkour(1)_clip_109
-  - Wizard_NasimBenelkour(1)_clip_110
+  - To infinity_0
+  - To infinity_1
+  - Oh Shit_0
+  - Oh Shit_1
+  - Oh Shit_2
+  - Never Ending Story_0
+  - Never Ending Story_1
+  - SoMany Bottles_0
+  - SoMany Bottles_1
+  - SoMany Bottles_2
+  - A poison on the rocks_0
+  - A poison on the rocks_1
+  - A poison on the rocks_2
+  - FeelSoBloated
+  - I should eat something
+  - Maybe Tomorrow
+  - FeelBloatedEatTomorrow
+  - PutIceOnIt_0
+  - PutIceOnIt_1
+  - TheWhiteNeedToCoolDown_0
+  - TheWhiteNeedToCoolDown_1
+  - RedOrWhite_0
+  - RedOrWhite_1
+  - Ice Age_0
+  - Ice Age_1
+  - Ice Age_2
+  - The one who knocks_0
+  - The one who knocks_1
+  - Two balls_0
+  - Two balls_1
+  - Two balls_2
+  - Same Rooms_0
+  - Same Rooms_1 +
+  - Same Rooms_2
+  - Yahoo
+  - I'm in the future
+  - AnotherMillenium_0
+  - Yahooo Im in the future
+  - AnotherMillenium_1
   - Wizard_NasimBenelkour(1)_clip_111
   - Wizard_NasimBenelkour(1)_clip_112
   - Wizard_NasimBenelkour(1)_clip_113
@@ -207,8 +201,8 @@ MonoBehaviour:
   - Wizard_NasimBenelkour(1)_clip_229
   - Wizard_NasimBenelkour(1)_clip_230
   - Wizard_NasimBenelkour(1)_clip_231
-  selectedSegmentIndices: 000000000100000002000000
-  selectedSegmentIndex: 2
+  selectedSegmentIndices: 1a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f00000040000000
+  selectedSegmentIndex: 26
   horizontalZoom: 8.6135645
   autoCutMinimumSilenceSeconds: 0.2
   silenceTolerancePercent: 0.1
