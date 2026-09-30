@@ -40,6 +40,7 @@ public class AudioSplitterWindow : EditorWindow
     private float silenceTolerancePercent = 2f;
     private double silenceToleranceHighlightUntil;
     private int selectedSegmentIndex = -1;
+    private readonly List<int> selectedSegmentIndices = new List<int>();
     private int lowerPanelTabIndex;
     private int pendingDragCutIndex = -1;
     private int draggingCutIndex = -1;
@@ -118,12 +119,23 @@ public class AudioSplitterWindow : EditorWindow
     {
         Event currentEvent = Event.current;
 
-        if (currentEvent.type != EventType.KeyDown || currentEvent.keyCode != KeyCode.Space)
+        if (currentEvent.type != EventType.KeyDown)
         {
             return;
         }
 
-        if (EditorGUIUtility.editingTextField || sourceClip == null || selectedSegmentIndex < 0)
+        if ((currentEvent.control || currentEvent.command) && currentEvent.keyCode == KeyCode.S)
+        {
+            if (sourceClip != null)
+            {
+                SaveProject();
+                currentEvent.Use();
+            }
+
+            return;
+        }
+
+        if (currentEvent.keyCode != KeyCode.Space || EditorGUIUtility.editingTextField || sourceClip == null || selectedSegmentIndex < 0)
         {
             return;
         }
@@ -158,6 +170,8 @@ public class AudioSplitterWindow : EditorWindow
                 cutSamples.Clear();
                 selectedSegmentIndex = GetSegmentCount() > 0 ? 0 : -1;
                 EnsureSegmentNames();
+                selectedSegmentIndices.Clear();
+                EnsureActiveSegmentIsSelected();
                 MarkProjectDirty();
                 Repaint();
             }
@@ -308,6 +322,7 @@ public class AudioSplitterWindow : EditorWindow
         sourceSamples = Array.Empty<float>();
         cutSamples.Clear();
         segmentNames.Clear();
+        selectedSegmentIndices.Clear();
 
         if (sourceClip == null)
         {
@@ -327,6 +342,15 @@ public class AudioSplitterWindow : EditorWindow
         segmentNames.Clear();
         segmentNames.AddRange(project.segmentNames);
         selectedSegmentIndex = Mathf.Clamp(project.selectedSegmentIndex, 0, GetSegmentCount() - 1);
+        selectedSegmentIndices.Clear();
+        selectedSegmentIndices.AddRange(project.selectedSegmentIndices);
+        RemoveInvalidSelectedSegments();
+
+        if (selectedSegmentIndices.Count == 0 && selectedSegmentIndex >= 0)
+        {
+            selectedSegmentIndices.Add(selectedSegmentIndex);
+        }
+
         horizontalZoom = Mathf.Clamp(project.horizontalZoom, MinimumHorizontalZoom, MaximumHorizontalZoom);
         autoCutMinimumSilenceSeconds = Mathf.Max(0.01f, project.autoCutMinimumSilenceSeconds);
         silenceTolerancePercent = Mathf.Clamp(project.silenceTolerancePercent, 0f, 100f);
@@ -347,6 +371,8 @@ public class AudioSplitterWindow : EditorWindow
         project.cutSamples.AddRange(cutSamples);
         project.segmentNames.Clear();
         project.segmentNames.AddRange(segmentNames);
+        project.selectedSegmentIndices.Clear();
+        project.selectedSegmentIndices.AddRange(selectedSegmentIndices);
         project.selectedSegmentIndex = selectedSegmentIndex;
         project.horizontalZoom = horizontalZoom;
         project.autoCutMinimumSilenceSeconds = autoCutMinimumSilenceSeconds;
@@ -390,6 +416,8 @@ public class AudioSplitterWindow : EditorWindow
         window.cutSamples.AddRange(cutSamples);
         window.segmentNames.Clear();
         window.segmentNames.AddRange(segmentNames);
+        window.selectedSegmentIndices.Clear();
+        window.selectedSegmentIndices.AddRange(selectedSegmentIndices);
         window.waveformScroll = waveformScroll;
         window.clipListScroll = clipListScroll;
         window.cutListScroll = cutListScroll;
@@ -603,9 +631,12 @@ public class AudioSplitterWindow : EditorWindow
             float endX = SampleToX(endSample, graphRect);
             Rect segmentRect = new Rect(startX, graphRect.y, Mathf.Max(1f, endX - startX), graphRect.height);
 
-            if (i == selectedSegmentIndex)
+            if (IsSegmentMultiSelected(i))
             {
-                EditorGUI.DrawRect(segmentRect, new Color(0.25f, 0.47f, 0.87f, 0.22f));
+                Color segmentColor = i == selectedSegmentIndex
+                    ? new Color(0.25f, 0.47f, 0.87f, 0.22f)
+                    : new Color(0.25f, 0.47f, 0.87f, 0.12f);
+                EditorGUI.DrawRect(segmentRect, segmentColor);
             }
             else if (IsMouseInside(segmentRect))
             {
@@ -705,7 +736,8 @@ public class AudioSplitterWindow : EditorWindow
             }
             else
             {
-                SelectSegment(FindSegmentIndex(clickedSample), true);
+                SelectSegmentFromList(FindSegmentIndex(clickedSample), currentEvent.shift, currentEvent.control || currentEvent.command);
+                RevealSelectedSegmentInClipList();
             }
 
             EnsureSegmentNames();
@@ -770,6 +802,8 @@ public class AudioSplitterWindow : EditorWindow
 
         selectedSegmentIndex = Mathf.Clamp(selectedSegmentIndex, 0, GetSegmentCount() - 1);
         EnsureSegmentNames();
+        selectedSegmentIndices.Clear();
+        EnsureActiveSegmentIsSelected();
         MarkProjectDirty();
     }
 
@@ -803,8 +837,10 @@ public class AudioSplitterWindow : EditorWindow
         RemoveInvalidCuts();
 
         segmentNames.Clear();
+        selectedSegmentIndices.Clear();
         EnsureSegmentNames();
         selectedSegmentIndex = GetSegmentCount() > 0 ? 0 : -1;
+        EnsureActiveSegmentIsSelected();
         lowerPanelTabIndex = 0;
         MarkProjectDirty();
         Repaint();
@@ -911,11 +947,11 @@ public class AudioSplitterWindow : EditorWindow
 
             EditorGUILayout.LabelField("Selected", $"Clip {selectedSegmentIndex}: {FormatSampleTime(startSample)} - {FormatSampleTime(endSample)}");
             EditorGUI.BeginChangeCheck();
-            string clipName = EditorGUILayout.TextField("Clip Name", segmentNames[selectedSegmentIndex]);
+            string clipName = EditorGUILayout.TextField(GetClipNameFieldLabel(), GetDisplayedClipName());
 
             if (EditorGUI.EndChangeCheck())
             {
-                segmentNames[selectedSegmentIndex] = clipName;
+                RenameSelectedSegments(clipName);
                 MarkProjectDirty();
             }
 
@@ -938,6 +974,14 @@ public class AudioSplitterWindow : EditorWindow
                 if (GUILayout.Button("Save As...", GUILayout.Width(100f)))
                 {
                     SaveSelectedSegmentAs();
+                }
+
+                using (new EditorGUI.DisabledScope(selectedSegmentIndices.Count == 0))
+                {
+                    if (GUILayout.Button("Save Selected", GUILayout.Width(108f)))
+                    {
+                        SaveSelectedSegments();
+                    }
                 }
 
                 if (GUILayout.Button("Split All", GUILayout.Width(90f)))
@@ -986,17 +1030,15 @@ public class AudioSplitterWindow : EditorWindow
 
             Rect rowRect = EditorGUILayout.BeginHorizontal();
 
-            if (Event.current.type == EventType.Repaint && i == selectedSegmentIndex)
+            if (Event.current.type == EventType.Repaint && IsSegmentMultiSelected(i))
             {
-                EditorGUI.DrawRect(rowRect, new Color(0.25f, 0.47f, 0.87f, 0.28f));
+                Color rowColor = i == selectedSegmentIndex
+                    ? new Color(0.25f, 0.47f, 0.87f, 0.32f)
+                    : new Color(0.25f, 0.47f, 0.87f, 0.16f);
+                EditorGUI.DrawRect(rowRect, rowColor);
             }
 
-            if (GUILayout.Button($"Clip {i}", GUILayout.Width(64f)))
-            {
-                SelectSegment(i, false);
-                Repaint();
-            }
-
+            EditorGUILayout.LabelField($"Clip {i}", GUILayout.Width(64f));
             EditorGUILayout.LabelField(segmentNames[i], GUILayout.Width(180f));
             EditorGUILayout.LabelField($"{FormatSampleTime(startSample)} - {FormatSampleTime(endSample)}", GUILayout.Width(160f));
             EditorGUILayout.LabelField($"Duration {FormatSegmentDuration(startSample, endSample)}", GUILayout.Width(110f));
@@ -1012,9 +1054,26 @@ public class AudioSplitterWindow : EditorWindow
 
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
+
+            HandleSegmentRowSelection(rowRect, i);
         }
 
         EditorGUILayout.EndScrollView();
+    }
+
+    private void HandleSegmentRowSelection(Rect rowRect, int segmentIndex)
+    {
+        Event currentEvent = Event.current;
+
+        if (currentEvent.type != EventType.MouseDown || currentEvent.button != 0 || !rowRect.Contains(currentEvent.mousePosition))
+        {
+            return;
+        }
+
+        SelectSegmentFromList(segmentIndex, currentEvent.shift, currentEvent.control || currentEvent.command);
+        GUI.FocusControl(null);
+        currentEvent.Use();
+        Repaint();
     }
 
     private void DrawCutList()
@@ -1057,6 +1116,7 @@ public class AudioSplitterWindow : EditorWindow
         sourceSamples = Array.Empty<float>();
         cutSamples.Clear();
         segmentNames.Clear();
+        selectedSegmentIndices.Clear();
         selectedSegmentIndex = -1;
         SetProjectDirty(clip != null);
 
@@ -1093,6 +1153,8 @@ public class AudioSplitterWindow : EditorWindow
 
         sourceSamples = samples;
         selectedSegmentIndex = GetSegmentCount() > 0 ? 0 : -1;
+        selectedSegmentIndices.Clear();
+        EnsureActiveSegmentIsSelected();
         EnsureSegmentNames();
     }
 
@@ -1118,6 +1180,8 @@ public class AudioSplitterWindow : EditorWindow
         EnsureSegmentNames();
         segmentNames.Insert(insertIndex + 1, GetDefaultSegmentName(insertIndex + 1));
         EnsureSegmentNames();
+        selectedSegmentIndices.Clear();
+        EnsureActiveSegmentIsSelected();
         MarkProjectDirty();
     }
 
@@ -1189,11 +1253,15 @@ public class AudioSplitterWindow : EditorWindow
         if (selectedSegmentIndex != clampedSegmentIndex)
         {
             selectedSegmentIndex = clampedSegmentIndex;
+            selectedSegmentIndices.Clear();
+            selectedSegmentIndices.Add(selectedSegmentIndex);
             MarkProjectDirty();
         }
         else
         {
             selectedSegmentIndex = clampedSegmentIndex;
+            selectedSegmentIndices.Clear();
+            selectedSegmentIndices.Add(selectedSegmentIndex);
         }
 
         if (!revealInClipList)
@@ -1201,8 +1269,159 @@ public class AudioSplitterWindow : EditorWindow
             return;
         }
 
+        RevealSelectedSegmentInClipList();
+    }
+
+    private void SelectSegmentFromList(int segmentIndex, bool rangeSelect, bool toggleSelect)
+    {
+        int segmentCount = GetSegmentCount();
+        int clampedSegmentIndex = Mathf.Clamp(segmentIndex, 0, segmentCount - 1);
+
+        if (rangeSelect && selectedSegmentIndex >= 0)
+        {
+            selectedSegmentIndices.Clear();
+            int startIndex = Mathf.Min(selectedSegmentIndex, clampedSegmentIndex);
+            int endIndex = Mathf.Max(selectedSegmentIndex, clampedSegmentIndex);
+
+            for (int i = startIndex; i <= endIndex; i++)
+            {
+                selectedSegmentIndices.Add(i);
+            }
+        }
+        else if (toggleSelect)
+        {
+            if (!selectedSegmentIndices.Contains(clampedSegmentIndex))
+            {
+                selectedSegmentIndices.Add(clampedSegmentIndex);
+            }
+
+            selectedSegmentIndices.Sort();
+        }
+        else
+        {
+            selectedSegmentIndices.Clear();
+            selectedSegmentIndices.Add(clampedSegmentIndex);
+        }
+
+        selectedSegmentIndex = clampedSegmentIndex;
+        EnsureActiveSegmentIsSelected();
+        MarkProjectDirty();
+    }
+
+    private void RevealSelectedSegmentInClipList()
+    {
+        if (selectedSegmentIndex < 0)
+        {
+            return;
+        }
+
         lowerPanelTabIndex = 0;
         clipListScroll.y = Mathf.Max(0f, selectedSegmentIndex * EditorGUIUtility.singleLineHeight - EditorGUIUtility.singleLineHeight);
+    }
+
+    private void EnsureActiveSegmentIsSelected()
+    {
+        RemoveInvalidSelectedSegments();
+
+        if (selectedSegmentIndex >= 0 && !selectedSegmentIndices.Contains(selectedSegmentIndex))
+        {
+            selectedSegmentIndices.Add(selectedSegmentIndex);
+            selectedSegmentIndices.Sort();
+        }
+    }
+
+    private void RemoveInvalidSelectedSegments()
+    {
+        int segmentCount = GetSegmentCount();
+        HashSet<int> uniqueSegmentIndices = new HashSet<int>();
+
+        for (int i = selectedSegmentIndices.Count - 1; i >= 0; i--)
+        {
+            int segmentIndex = selectedSegmentIndices[i];
+
+            if (segmentIndex < 0 || segmentIndex >= segmentCount || !uniqueSegmentIndices.Add(segmentIndex))
+            {
+                selectedSegmentIndices.RemoveAt(i);
+            }
+        }
+
+        selectedSegmentIndices.Sort();
+    }
+
+    private bool IsSegmentMultiSelected(int segmentIndex)
+    {
+        return selectedSegmentIndices.Contains(segmentIndex);
+    }
+
+    private string GetClipNameFieldLabel()
+    {
+        return selectedSegmentIndices.Count > 1 ? $"Clip Name ({selectedSegmentIndices.Count})" : "Clip Name";
+    }
+
+    private string GetDisplayedClipName()
+    {
+        if (selectedSegmentIndices.Count <= 1)
+        {
+            return segmentNames[selectedSegmentIndex];
+        }
+
+        return GetCommonBatchRenameBase();
+    }
+
+    private string GetCommonBatchRenameBase()
+    {
+        if (selectedSegmentIndices.Count == 0)
+        {
+            return segmentNames[selectedSegmentIndex];
+        }
+
+        string firstBaseName = StripBatchSuffix(segmentNames[selectedSegmentIndices[0]]);
+
+        foreach (int segmentIndex in selectedSegmentIndices)
+        {
+            if (StripBatchSuffix(segmentNames[segmentIndex]) != firstBaseName)
+            {
+                return string.Empty;
+            }
+        }
+
+        return firstBaseName;
+    }
+
+    private static string StripBatchSuffix(string value)
+    {
+        int separatorIndex = value.LastIndexOf('_');
+
+        if (separatorIndex < 0 || separatorIndex == value.Length - 1)
+        {
+            return value;
+        }
+
+        for (int i = separatorIndex + 1; i < value.Length; i++)
+        {
+            if (!char.IsDigit(value[i]))
+            {
+                return value;
+            }
+        }
+
+        return value.Substring(0, separatorIndex);
+    }
+
+    private void RenameSelectedSegments(string baseName)
+    {
+        EnsureActiveSegmentIsSelected();
+
+        if (selectedSegmentIndices.Count <= 1)
+        {
+            segmentNames[selectedSegmentIndex] = baseName;
+            return;
+        }
+
+        for (int i = 0; i < selectedSegmentIndices.Count; i++)
+        {
+            segmentNames[selectedSegmentIndices[i]] = $"{baseName}_{i}";
+        }
     }
 
     private int GetSegmentCount()
@@ -1447,6 +1666,42 @@ public class AudioSplitterWindow : EditorWindow
             return;
         }
 
+        int segmentCount = GetSegmentCount();
+        List<int> segmentIndices = new List<int>();
+
+        for (int i = 0; i < segmentCount; i++)
+        {
+            segmentIndices.Add(i);
+        }
+
+        SaveSegmentsToFolder(segmentIndices);
+    }
+
+    private void SaveSelectedSegments()
+    {
+        if (sourceClip == null)
+        {
+            return;
+        }
+
+        EnsureActiveSegmentIsSelected();
+        RemoveInvalidSelectedSegments();
+
+        if (selectedSegmentIndices.Count == 0)
+        {
+            return;
+        }
+
+        SaveSegmentsToFolder(selectedSegmentIndices);
+    }
+
+    private void SaveSegmentsToFolder(IReadOnlyList<int> segmentIndices)
+    {
+        if (segmentIndices.Count == 0)
+        {
+            return;
+        }
+
         string folder = EditorUtility.OpenFolderPanel("Choose output folder inside Assets", Application.dataPath, string.Empty);
 
         if (string.IsNullOrEmpty(folder))
@@ -1462,17 +1717,16 @@ public class AudioSplitterWindow : EditorWindow
             return;
         }
 
-        int segmentCount = GetSegmentCount();
-
-        for (int i = 0; i < segmentCount; i++)
+        for (int i = 0; i < segmentIndices.Count; i++)
         {
-            GetSegmentSamples(i, out int startSample, out int endSample);
-            string outputPath = AssetDatabase.GenerateUniqueAssetPath($"{projectFolder}/{GetSafeSegmentName(i)}.wav");
+            int segmentIndex = segmentIndices[i];
+            GetSegmentSamples(segmentIndex, out int startSample, out int endSample);
+            string outputPath = AssetDatabase.GenerateUniqueAssetPath($"{projectFolder}/{GetSafeSegmentName(segmentIndex)}.wav");
             SaveSegment(startSample, endSample, outputPath);
         }
 
         AssetDatabase.Refresh();
-        ShowNotification(new GUIContent($"Saved {segmentCount} audio clips."));
+        ShowNotification(new GUIContent($"Saved {segmentIndices.Count} audio clips."));
     }
 
     private void SaveSegment(int startSample, int endSample, string projectPath)

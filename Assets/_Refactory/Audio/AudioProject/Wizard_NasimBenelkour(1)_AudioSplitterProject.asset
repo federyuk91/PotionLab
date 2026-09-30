@@ -1,0 +1,214 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e0d2f4f77d54744a82a5e65f3c0e2b9, type: 3}
+  m_Name: Wizard_NasimBenelkour(1)_AudioSplitterProject
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::AudioSplitterProject
+  sourceClip: {fileID: 8300000, guid: 102e0ad59a09bc240958bf0bc51bda32, type: 3}
+  cutSamples: 1d04020070cd03008290050084fe0700894f0a0074e80f0083921500922b1b004f991d0023f91f001c2b21009aa223005aea25002eda2700aac52900eb612b00da952d009dd92f00c8153400b0e83a00d46540009ff44700705b4d00d8d05000ad10520012565500378b5800573c5b001c6d5e0090686100d4f56400796e680005236c006ff370002b307600a3027b00e73f7f00e26e83009a868800a9908b00591e8f00836f960059289a00ae769d008bfd9f00bef4a20029aba60048d8aa000860af00933ab400033cba0014e9bc00cf11c0008bc0c300f581c7007082ca000b23cc009d00ce00c8eecf00d826d200ba5ad300399dd400c29cd6007751d800002bda00bf17dc009fa5dd005372df003626e200c980e5008c28e8001abae900a6fbea005379ec00b4baed002ff6ee006b41f00067d0f1005941f3000a26f500e731f7004568f800436df900e3b4fa00d739fc003491fd001bcffe0018d4ff00b2c7000139a4010146a20201499d0301f4c304015cbb0501288e06010e5f0701565c080130590901a6470a0114630b013f680c0184730d0125aa0e01edf50f015e2c1101244912019e9113011c0715010c9116011062180157fd1901f48a1a01e3821b01ae271c0106531d01ed171e019eb31e01b2051f017d521f010dcb1f018a3a2001c18520016aca2001a3452101cbd021012d2422013e6622013edb2201f9d92301eada240199d625017662260169b227016424290175b32a017e4c2c01d42e2d0162d22d01921f2e010bb72e01879c2f0120be3001dc4c32015c5e340136443601adc137016baa38015d903901e5e93a01cccf3b011c153d016d143e017cbb3e013809400170fe4001d5044201d9514301173e4401571e45010207460174d2460174c947018aab48017dad49012c084b014f4e4c0130644d01bd7f4e010abf4f01d3ca500119fd510103f952017a2254018c3555016b1657015fbc5801d7c459016f105b01f4e65d0158ae5e015ca75f010f1a6301594066015e9167014f2d6a01eb5e6b01e5cc6c014cd76d0115006f017d6871015eb07201
+  segmentNames:
+  - Hello Traveller_0
+  - Hello Traveller_1
+  - Hello Traveller_2
+  - Welcome_0
+  - Welcome_1
+  - Stop Drinking_0
+  - Stop Drinking_1
+  - Stop Drinking_2
+  - A chance to relax_0
+  - NeedMyGNP_0
+  - Wizard_NasimBenelkour(1)_clip_18
+  - A chance to relax_1
+  - NeedMyGNP_1
+  - WichOne_0
+  - WichOne_1
+  - AllOfThem_0
+  - AllOfThem_1
+  - AllOfThem_2
+  - The Dark Tale_0
+  - Spiral of thirst_0
+  - The Dark Tale_1
+  - Spiral of thirst_1
+  - The Dark Tale_2
+  - Spiral of thirst_2
+  - excess
+  - Poor Decision
+  - Wizard_NasimBenelkour(1)_clip_42
+  - Wizard_NasimBenelkour(1)_clip_43
+  - Wizard_NasimBenelkour(1)_clip_44
+  - Wizard_NasimBenelkour(1)_clip_46
+  - Wizard_NasimBenelkour(1)_clip_48
+  - Wizard_NasimBenelkour(1)_clip_50
+  - Wizard_NasimBenelkour(1)_clip_51
+  - Wizard_NasimBenelkour(1)_clip_52
+  - Wizard_NasimBenelkour(1)_clip_54
+  - Wizard_NasimBenelkour(1)_clip_57
+  - Wizard_NasimBenelkour(1)_clip_59
+  - Wizard_NasimBenelkour(1)_clip_61
+  - Wizard_NasimBenelkour(1)_clip_63
+  - Wizard_NasimBenelkour(1)_clip_66
+  - Wizard_NasimBenelkour(1)_clip_68
+  - Wizard_NasimBenelkour(1)_clip_70
+  - Wizard_NasimBenelkour(1)_clip_73
+  - Wizard_NasimBenelkour(1)_clip_74
+  - Wizard_NasimBenelkour(1)_clip_75
+  - Wizard_NasimBenelkour(1)_clip_76
+  - Wizard_NasimBenelkour(1)_clip_77
+  - Wizard_NasimBenelkour(1)_clip_80
+  - Wizard_NasimBenelkour(1)_clip_83
+  - Wizard_NasimBenelkour(1)_clip_85
+  - Wizard_NasimBenelkour(1)_clip_87
+  - Wizard_NasimBenelkour(1)_clip_89
+  - Wizard_NasimBenelkour(1)_clip_90
+  - Wizard_NasimBenelkour(1)_clip_91
+  - Wizard_NasimBenelkour(1)_clip_92
+  - Wizard_NasimBenelkour(1)_clip_95
+  - Wizard_NasimBenelkour(1)_clip_96
+  - Wizard_NasimBenelkour(1)_clip_97
+  - Wizard_NasimBenelkour(1)_clip_98
+  - Wizard_NasimBenelkour(1)_clip_99
+  - Wizard_NasimBenelkour(1)_clip_100
+  - Wizard_NasimBenelkour(1)_clip_101
+  - Wizard_NasimBenelkour(1)_clip_102
+  - Wizard_NasimBenelkour(1)_clip_103
+  - Wizard_NasimBenelkour(1)_clip_104
+  - Wizard_NasimBenelkour(1)_clip_105
+  - Wizard_NasimBenelkour(1)_clip_106
+  - Wizard_NasimBenelkour(1)_clip_107
+  - Wizard_NasimBenelkour(1)_clip_108
+  - Wizard_NasimBenelkour(1)_clip_109
+  - Wizard_NasimBenelkour(1)_clip_110
+  - Wizard_NasimBenelkour(1)_clip_111
+  - Wizard_NasimBenelkour(1)_clip_112
+  - Wizard_NasimBenelkour(1)_clip_113
+  - Wizard_NasimBenelkour(1)_clip_114
+  - Wizard_NasimBenelkour(1)_clip_115
+  - Wizard_NasimBenelkour(1)_clip_116
+  - Wizard_NasimBenelkour(1)_clip_117
+  - Wizard_NasimBenelkour(1)_clip_118
+  - Wizard_NasimBenelkour(1)_clip_119
+  - Wizard_NasimBenelkour(1)_clip_120
+  - Wizard_NasimBenelkour(1)_clip_121
+  - Wizard_NasimBenelkour(1)_clip_122
+  - Wizard_NasimBenelkour(1)_clip_123
+  - Wizard_NasimBenelkour(1)_clip_124
+  - Wizard_NasimBenelkour(1)_clip_125
+  - Wizard_NasimBenelkour(1)_clip_126
+  - Wizard_NasimBenelkour(1)_clip_127
+  - Wizard_NasimBenelkour(1)_clip_128
+  - Wizard_NasimBenelkour(1)_clip_129
+  - Wizard_NasimBenelkour(1)_clip_130
+  - Wizard_NasimBenelkour(1)_clip_131
+  - Wizard_NasimBenelkour(1)_clip_132
+  - Wizard_NasimBenelkour(1)_clip_133
+  - Wizard_NasimBenelkour(1)_clip_134
+  - Wizard_NasimBenelkour(1)_clip_135
+  - Wizard_NasimBenelkour(1)_clip_136
+  - Wizard_NasimBenelkour(1)_clip_137
+  - Wizard_NasimBenelkour(1)_clip_138
+  - Wizard_NasimBenelkour(1)_clip_139
+  - Wizard_NasimBenelkour(1)_clip_140
+  - Wizard_NasimBenelkour(1)_clip_141
+  - Wizard_NasimBenelkour(1)_clip_142
+  - Wizard_NasimBenelkour(1)_clip_143
+  - Wizard_NasimBenelkour(1)_clip_144
+  - Wizard_NasimBenelkour(1)_clip_145
+  - Wizard_NasimBenelkour(1)_clip_146
+  - Wizard_NasimBenelkour(1)_clip_147
+  - Wizard_NasimBenelkour(1)_clip_148
+  - Wizard_NasimBenelkour(1)_clip_149
+  - Wizard_NasimBenelkour(1)_clip_150
+  - Wizard_NasimBenelkour(1)_clip_151
+  - Wizard_NasimBenelkour(1)_clip_152
+  - Wizard_NasimBenelkour(1)_clip_153
+  - Wizard_NasimBenelkour(1)_clip_154
+  - Wizard_NasimBenelkour(1)_clip_155
+  - Wizard_NasimBenelkour(1)_clip_156
+  - Wizard_NasimBenelkour(1)_clip_157
+  - Wizard_NasimBenelkour(1)_clip_158
+  - Wizard_NasimBenelkour(1)_clip_159
+  - Wizard_NasimBenelkour(1)_clip_160
+  - Wizard_NasimBenelkour(1)_clip_161
+  - Wizard_NasimBenelkour(1)_clip_162
+  - Wizard_NasimBenelkour(1)_clip_163
+  - Wizard_NasimBenelkour(1)_clip_164
+  - Wizard_NasimBenelkour(1)_clip_165
+  - Wizard_NasimBenelkour(1)_clip_166
+  - Wizard_NasimBenelkour(1)_clip_167
+  - Wizard_NasimBenelkour(1)_clip_168
+  - Wizard_NasimBenelkour(1)_clip_169
+  - Wizard_NasimBenelkour(1)_clip_170
+  - Wizard_NasimBenelkour(1)_clip_171
+  - Wizard_NasimBenelkour(1)_clip_172
+  - Wizard_NasimBenelkour(1)_clip_173
+  - Wizard_NasimBenelkour(1)_clip_174
+  - Wizard_NasimBenelkour(1)_clip_175
+  - Wizard_NasimBenelkour(1)_clip_176
+  - Wizard_NasimBenelkour(1)_clip_177
+  - Wizard_NasimBenelkour(1)_clip_178
+  - Wizard_NasimBenelkour(1)_clip_179
+  - Wizard_NasimBenelkour(1)_clip_180
+  - Wizard_NasimBenelkour(1)_clip_181
+  - Wizard_NasimBenelkour(1)_clip_182
+  - Wizard_NasimBenelkour(1)_clip_183
+  - Wizard_NasimBenelkour(1)_clip_184
+  - Wizard_NasimBenelkour(1)_clip_185
+  - Wizard_NasimBenelkour(1)_clip_186
+  - Wizard_NasimBenelkour(1)_clip_187
+  - Wizard_NasimBenelkour(1)_clip_188
+  - Wizard_NasimBenelkour(1)_clip_189
+  - Wizard_NasimBenelkour(1)_clip_190
+  - Wizard_NasimBenelkour(1)_clip_191
+  - Wizard_NasimBenelkour(1)_clip_192
+  - Wizard_NasimBenelkour(1)_clip_193
+  - Wizard_NasimBenelkour(1)_clip_194
+  - Wizard_NasimBenelkour(1)_clip_195
+  - Wizard_NasimBenelkour(1)_clip_196
+  - Wizard_NasimBenelkour(1)_clip_197
+  - Wizard_NasimBenelkour(1)_clip_198
+  - Wizard_NasimBenelkour(1)_clip_199
+  - Wizard_NasimBenelkour(1)_clip_200
+  - Wizard_NasimBenelkour(1)_clip_201
+  - Wizard_NasimBenelkour(1)_clip_202
+  - Wizard_NasimBenelkour(1)_clip_203
+  - Wizard_NasimBenelkour(1)_clip_204
+  - Wizard_NasimBenelkour(1)_clip_205
+  - Wizard_NasimBenelkour(1)_clip_206
+  - Wizard_NasimBenelkour(1)_clip_207
+  - Wizard_NasimBenelkour(1)_clip_208
+  - Wizard_NasimBenelkour(1)_clip_209
+  - Wizard_NasimBenelkour(1)_clip_210
+  - Wizard_NasimBenelkour(1)_clip_211
+  - Wizard_NasimBenelkour(1)_clip_212
+  - Wizard_NasimBenelkour(1)_clip_213
+  - Wizard_NasimBenelkour(1)_clip_214
+  - Wizard_NasimBenelkour(1)_clip_215
+  - Wizard_NasimBenelkour(1)_clip_216
+  - Wizard_NasimBenelkour(1)_clip_217
+  - Wizard_NasimBenelkour(1)_clip_218
+  - Wizard_NasimBenelkour(1)_clip_219
+  - Wizard_NasimBenelkour(1)_clip_220
+  - Wizard_NasimBenelkour(1)_clip_221
+  - Wizard_NasimBenelkour(1)_clip_222
+  - Wizard_NasimBenelkour(1)_clip_223
+  - Wizard_NasimBenelkour(1)_clip_224
+  - Wizard_NasimBenelkour(1)_clip_225
+  - Wizard_NasimBenelkour(1)_clip_226
+  - Wizard_NasimBenelkour(1)_clip_227
+  - Wizard_NasimBenelkour(1)_clip_228
+  - Wizard_NasimBenelkour(1)_clip_229
+  - Wizard_NasimBenelkour(1)_clip_230
+  - Wizard_NasimBenelkour(1)_clip_231
+  selectedSegmentIndices: 000000000100000002000000
+  selectedSegmentIndex: 2
+  horizontalZoom: 8.6135645
+  autoCutMinimumSilenceSeconds: 0.2
+  silenceTolerancePercent: 0.1
