@@ -160,10 +160,10 @@ MonoBehaviour:
     animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 15
-  - displayName: 16 - The devil inside
-    id: Night_16_The_devil_inside
+  - displayName: 16 - Rock bottom
+    id: Night_16_End_of_the_glass
     shortDescription: 
-    description: It's so cold! It's like a devil offering to warm me
+    description: A poison on the rocks! Then hit rock bottom.
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
     animationFrames: []
     animationFrameRate: 12
@@ -219,7 +219,7 @@ MonoBehaviour:
     id: Night_22_The_Devil_Inside
     shortDescription: I feel so bloated I could explode... better put some ice on
       it.
-    description: I feel so bloated I could explode... better put some ice on it.
+    description: w
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
     animationFrames: []
     animationFrameRate: 12
@@ -255,7 +255,7 @@ MonoBehaviour:
   - displayName: 26 - Ice age
     id: Night_26_The_grove
     shortDescription: 
-    description: This whole Ice Age thing is getting old. I could go for some global
+    description: This whole Freezer thing is getting old. I could go for some global
       warming.
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
     animationFrames: []
@@ -265,36 +265,34 @@ MonoBehaviour:
   - displayName: "27 - \u2026 and then they come for you"
     id: Night_27_The_grove
     shortDescription: I am the one who knocks.
-    description: "\u201CSomeone breaks into your house, they steal your things, they
-      hurt your family\u2026 and then they come for you.\u201D\n\u201CI am the one
-      who knocks.\u201D"
+    description: "\u201CI am the one who knocks.\u201D"
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
     animationFrames: []
     animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 27
-  - displayName: 28 - The grove
-    id: Night_28_The_grove
+  - displayName: 28 - Two Balls
+    id: Night_28_Two Balls
     shortDescription: 
-    description: 
+    description: At a certain age, they fall out.
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
     animationFrames: []
     animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 28
-  - displayName: 29 - The grove
-    id: Night_29_The_grove
+  - displayName: 29 - Deja Brew
+    id: Night_29_Deja Brew
     shortDescription: 
-    description: 
+    description: Same room. Same potions. Different mistake.
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
     animationFrames: []
     animationFrameRate: 12
     unlockedByDefault: 1
     sceneBuildIndex: 29
-  - displayName: 30 - The grove
+  - displayName: 30 - The world of tomorrow!
     id: Night_30_The_grove
     shortDescription: 
-    description: 
+    description: Yahoo! I'm in the future! Here's to another lousy millennium.
     sprite: {fileID: 21300000, guid: 6e767295af65956408b9689e41b463a7, type: 3}
     animationFrames: []
     animationFrameRate: 12
