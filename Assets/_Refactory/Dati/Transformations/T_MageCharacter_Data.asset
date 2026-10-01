@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: T_MageCharacter_Data
   m_EditorClassIdentifier: 
   id: 0
-  transformationName: "Mage"
+  transformationName: Mage
   image: {fileID: -3268116876886179480, guid: 31af895d41f33f84b818c462efcae245, type: 3}
   idleFrames:
   - {fileID: -3268116876886179480, guid: 31af895d41f33f84b818c462efcae245, type: 3}
@@ -24,35 +24,49 @@ MonoBehaviour:
   - {fileID: 1773732111931389266, guid: 31af895d41f33f84b818c462efcae245, type: 3}
   - {fileID: 2412548871939554092, guid: 31af895d41f33f84b818c462efcae245, type: 3}
   idleFrameRate: 12
-  description: "Fragile but versatile, the Mage uses light, healing and cleansing to keep the night under control."
-  transformationMethod: "The starting form."
+  description: Fragile but versatile, the Mage uses light, healing and cleansing
+    to keep the night under control.
+  transformationMethod: The starting form.
   transformationPotionSprites: []
-  transformationHint: ""
-  cureMethod: "Your natural form. There is no transformation to reverse."
+  transformationHint: 
+  cureMethod: Your natural form. There is no transformation to reverse.
   immunePotionSprites: []
   spells:
   - nome: Light
-    costo: 1
     icona: {fileID: 21300000, guid: 59d21fb437c9db24c9e9ebe2838a386d, type: 3}
+    costo: 1
     audio: {fileID: 8300000, guid: e1b7e4d30089aac4bb39f5af0c9abcf3, type: 3}
-    descrizioneNormale: "Raises light intensity by 1 level (maximum: 3)."
-    descrizioneGenerica: "A guiding flame that pushes back the darkness."
-    descrizionePotenziata: "At light level 3, casting is blocked and no mana is spent."
-    descrizioneBreve: "Raise light by 1 level."
+    audioClips:
+    - {fileID: 8300000, guid: bed9b09bbb16a3445aff57062ef18be3, type: 3}
+    - {fileID: 8300000, guid: 7d4b10e7e32123e4cabe243f730b67d5, type: 3}
+    - {fileID: 8300000, guid: 9f7b0e9df5d2fb246ba0980d22b1b25d, type: 3}
+    descrizioneGenerica: A guiding flame that pushes back the darkness.
+    descrizioneNormale: 'Raises light intensity by 1 level (maximum: 3).'
+    descrizionePotenziata: At light level 3, casting is blocked and no mana is spent.
+    descrizioneBreve: Raise light by 1 level.
   - nome: Heal
-    costo: 4
     icona: {fileID: 21300000, guid: 5cd7861c3b4c54b4b9323f5cc6c6e3ed, type: 3}
+    costo: 4
     audio: {fileID: 8300000, guid: e1b7e4d30089aac4bb39f5af0c9abcf3, type: 3}
-    descrizioneNormale: "Restores 3 HP. Cannot be cast at full health."
-    descrizioneGenerica: "Restorative magic that mends the Mage's wounds."
-    descrizionePotenziata: "At light level 3: restores 4 HP instead of 3."
-    descrizioneBreve: "Heal 3 HP; 4 at full light."
+    audioClips:
+    - {fileID: 8300000, guid: 2d2b3cd060fd2954386be75c2188ed0b, type: 3}
+    - {fileID: 8300000, guid: a87f3ae2399037b4ab892dc5b684881d, type: 3}
+    - {fileID: 8300000, guid: 2b7f6e757aead5143a4d667343a2857d, type: 3}
+    descrizioneGenerica: Restorative magic that mends the Mage's wounds.
+    descrizioneNormale: Restores 3 HP. Cannot be cast at full health.
+    descrizionePotenziata: 'At light level 3: restores 4 HP instead of 3.'
+    descrizioneBreve: Heal 3 HP; 4 at full light.
   - nome: Cleanse
-    costo: 6
     icona: {fileID: 21300000, guid: bd969a873597b14448c3e80f9e73f4c8, type: 3}
+    costo: 6
     audio: {fileID: 8300000, guid: e1b7e4d30089aac4bb39f5af0c9abcf3, type: 3}
-    descrizioneNormale: "Removes Burn, Grass, Wet, Ice, Poison and Grounded. Does not remove Algae, Bless or Curse. Requires at least one removable status."
-    descrizioneGenerica: "Purifying light that washes harmful ailments away."
-    descrizionePotenziata: "At light level 3: removes the same statuses and restores 1 HP."
-    descrizioneBreve: "Remove basic ailments; +1 HP at full light."
-
+    audioClips:
+    - {fileID: 8300000, guid: c050901ca4ec64d4d9f27002b52dc71c, type: 3}
+    - {fileID: 8300000, guid: e27f8c105c12d1745979db6699149323, type: 3}
+    - {fileID: 8300000, guid: d6d9e10a4f622a54abd74cab622a3fb2, type: 3}
+    descrizioneGenerica: Purifying light that washes harmful ailments away.
+    descrizioneNormale: Removes Burn, Grass, Wet, Ice, Poison and Grounded. Does
+      not remove Algae, Bless or Curse. Requires at least one removable status.
+    descrizionePotenziata: 'At light level 3: removes the same statuses and restores
+      1 HP.'
+    descrizioneBreve: Remove basic ailments; +1 HP at full light.

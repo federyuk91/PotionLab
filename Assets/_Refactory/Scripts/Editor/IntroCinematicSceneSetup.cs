@@ -78,11 +78,17 @@ public static class IntroCinematicSceneSetup
         director.playOnAwake = false;
         director.extrapolationMode = DirectorWrapMode.None;
 
+        AudioSource dialogueAudioSource = sequenceObject.AddComponent<AudioSource>();
+        dialogueAudioSource.playOnAwake = false;
+        dialogueAudioSource.loop = false;
+        dialogueAudioSource.spatialBlend = 0f;
+
         IntroCinematicController controller = sequenceObject.AddComponent<IntroCinematicController>();
         SerializedObject serializedController = new SerializedObject(controller);
         serializedController.FindProperty("director").objectReferenceValue = director;
         serializedController.FindProperty("dialogueRoot").objectReferenceValue = dialogueRoot;
         serializedController.FindProperty("dialogueText").objectReferenceValue = dialogueText;
+        serializedController.FindProperty("dialogueAudioSource").objectReferenceValue = dialogueAudioSource;
         SerializedProperty dialogueLines = serializedController.FindProperty("dialogueLines");
         dialogueLines.arraySize = 1;
         SerializedProperty firstDialogueLine = dialogueLines.GetArrayElementAtIndex(0);

@@ -182,9 +182,14 @@ public class LightController : MonoBehaviour
     }
     public void IncreaseLightLevel()
     {
+        IncreaseLightLevel(true);
+    }
+
+    public void IncreaseLightLevel(bool playAudio)
+    {
         if (lightIntensity < MaxLightIntensity)
         {
-            SetLightLevel(lightIntensity + 1, true, true, true);
+            SetLightLevel(lightIntensity + 1, true, true, playAudio);
         }
 
         if (ShouldDecayLight())

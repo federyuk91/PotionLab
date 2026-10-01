@@ -10,6 +10,7 @@ using UnityEngine.Timeline;
 namespace Cinematics
 {
     [ExecuteAlways]
+    [RequireComponent(typeof(AudioSource))]
     public sealed class IntroCinematicController : MonoBehaviour
     {
         private const double TimelineClipTolerance = 0.0001d;
@@ -18,6 +19,7 @@ namespace Cinematics
         private sealed class IntroDialogueLine
         {
             [TextArea(2, 4)] public string text = "Some nights begin with a single spark.";
+            public AudioClip audioClip = null;
         }
 
         [Header("Sequence")]
@@ -27,6 +29,7 @@ namespace Cinematics
         [Header("Dialogue")]
         [SerializeField, RequiredInspectorReference] private GameObject dialogueRoot;
         [SerializeField, RequiredInspectorReference] private TMP_Text dialogueText;
+        [SerializeField] private AudioSource dialogueAudioSource;
         [SerializeField] private List<IntroDialogueLine> dialogueLines = new List<IntroDialogueLine>
         {
             new IntroDialogueLine()
@@ -39,10 +42,13 @@ namespace Cinematics
 
         private bool isLeavingScene;
         private int displayedDialogueIndex = -1;
+        private int playingDialogueAudioIndex = -1;
         private int warnedMissingDialogueIndex = -1;
 
         private void Awake()
         {
+            ResolveDialogueAudioSource();
+
             if (director == null)
             {
                 Debug.LogError("IntroCinematicController requires the Playable Director Inspector reference.", this);
@@ -120,6 +126,8 @@ namespace Cinematics
             {
                 director.stopped -= HandleDirectorStopped;
             }
+
+            StopDialogueAudio();
         }
 
         private void OnValidate()
@@ -204,6 +212,10 @@ namespace Cinematics
             }
 
             dialogueRoot.SetActive(isVisible);
+            if (!isVisible)
+            {
+                StopDialogueAudio();
+            }
         }
 
         private void UpdateDialogueFromTimeline()
@@ -213,40 +225,54 @@ namespace Cinematics
                 return;
             }
 
-            int dialogueIndex = FindCurrentOrNextDialogueClipIndex();
+            int dialogueIndex = FindCurrentOrNextDialogueClipIndex(out bool isInsideActiveClip);
             if (dialogueIndex < 0)
             {
                 displayedDialogueIndex = -1;
+                StopDialogueAudio();
                 return;
             }
 
-            if (dialogueIndex == displayedDialogueIndex)
+            if (dialogueIndex != displayedDialogueIndex)
             {
-                return;
-            }
-
-            displayedDialogueIndex = dialogueIndex;
-            if (dialogueLines == null || dialogueIndex >= dialogueLines.Count)
-            {
-                dialogueText.text = string.Empty;
-                if (Application.isPlaying && warnedMissingDialogueIndex != dialogueIndex)
+                displayedDialogueIndex = dialogueIndex;
+                if (dialogueLines == null || dialogueIndex >= dialogueLines.Count)
                 {
-                    warnedMissingDialogueIndex = dialogueIndex;
-                    Debug.LogWarning(
-                        $"IntroCinematicController Active dialogue clip {dialogueIndex + 1} has no matching Dialogue Line. " +
-                        "Add a line at the same position in the Dialogue Lines list.",
-                        this);
+                    dialogueText.text = string.Empty;
+                    if (Application.isPlaying && warnedMissingDialogueIndex != dialogueIndex)
+                    {
+                        warnedMissingDialogueIndex = dialogueIndex;
+                        Debug.LogWarning(
+                            $"IntroCinematicController Active dialogue clip {dialogueIndex + 1} has no matching Dialogue Line. " +
+                            "Add a line at the same position in the Dialogue Lines list.",
+                            this);
+                    }
                 }
+                else
+                {
+                    IntroDialogueLine dialogueLine = dialogueLines[dialogueIndex];
+                    dialogueText.text = dialogueLine != null ? dialogueLine.text ?? string.Empty : string.Empty;
+                }
+            }
 
+            if (!Application.isPlaying)
+            {
                 return;
             }
 
-            IntroDialogueLine dialogueLine = dialogueLines[dialogueIndex];
-            dialogueText.text = dialogueLine != null ? dialogueLine.text ?? string.Empty : string.Empty;
+            if (isInsideActiveClip)
+            {
+                PlayDialogueAudio(dialogueIndex);
+            }
+            else
+            {
+                StopDialogueAudio();
+            }
         }
 
-        private int FindCurrentOrNextDialogueClipIndex()
+        private int FindCurrentOrNextDialogueClipIndex(out bool isInsideActiveClip)
         {
+            isInsideActiveClip = false;
             TimelineAsset timeline = director.playableAsset as TimelineAsset;
             if (timeline == null)
             {
@@ -278,6 +304,7 @@ namespace Cinematics
                         && currentTime < clip.end;
                     if (isInsideClip)
                     {
+                        isInsideActiveClip = true;
                         return index;
                     }
                 }
@@ -286,6 +313,65 @@ namespace Cinematics
             }
 
             return -1;
+        }
+
+        private void PlayDialogueAudio(int dialogueIndex)
+        {
+            if (dialogueIndex == playingDialogueAudioIndex
+                || dialogueLines == null
+                || dialogueIndex < 0
+                || dialogueIndex >= dialogueLines.Count)
+            {
+                return;
+            }
+
+            playingDialogueAudioIndex = dialogueIndex;
+            IntroDialogueLine dialogueLine = dialogueLines[dialogueIndex];
+            AudioClip audioClip = dialogueLine != null ? dialogueLine.audioClip : null;
+            if (audioClip == null)
+            {
+                return;
+            }
+
+            ResolveDialogueAudioSource();
+            if (dialogueAudioSource == null)
+            {
+                Debug.LogWarning(
+                    $"IntroCinematicController cannot play audio for Dialogue Line {dialogueIndex + 1} because its AudioSource is missing.",
+                    this);
+                return;
+            }
+
+            dialogueAudioSource.Stop();
+            dialogueAudioSource.clip = audioClip;
+            dialogueAudioSource.Play();
+        }
+
+        private void StopDialogueAudio()
+        {
+            if (dialogueAudioSource != null && dialogueAudioSource.isPlaying)
+            {
+                dialogueAudioSource.Stop();
+            }
+
+            playingDialogueAudioIndex = -1;
+        }
+
+        private void ResolveDialogueAudioSource()
+        {
+            if (dialogueAudioSource != null)
+            {
+                return;
+            }
+
+            dialogueAudioSource = GetComponent<AudioSource>();
+            if (dialogueAudioSource == null && Application.isPlaying)
+            {
+                dialogueAudioSource = gameObject.AddComponent<AudioSource>();
+                dialogueAudioSource.playOnAwake = false;
+                dialogueAudioSource.loop = false;
+                dialogueAudioSource.spatialBlend = 0f;
+            }
         }
 
         private void SetFirstDialogueLine()
