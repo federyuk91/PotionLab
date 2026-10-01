@@ -46,7 +46,8 @@ namespace CharacterSystem
             }
 
             stats.LoseMana(spell.costo);
-            transformationManager.lightController.IncreaseLightLevel();
+            // CharacterAudioController owns spell audio; avoid replaying LightController feedback.
+            transformationManager.lightController.IncreaseLightLevel(false);
             return true;
         }
 

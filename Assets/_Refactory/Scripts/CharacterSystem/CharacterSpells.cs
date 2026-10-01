@@ -256,11 +256,51 @@ namespace CharacterSystem
         [FormerlySerializedAs("spellName")] public string nome;
         [FormerlySerializedAs("sprite")] public Sprite icona;
         [FormerlySerializedAs("cost")] public int costo;
-        [FormerlySerializedAs("castAudio")] public AudioClip audio;
+        [FormerlySerializedAs("castAudio"), HideInInspector] public AudioClip audio;
+        [SerializeField, Tooltip("One valid clip is selected randomly whenever the spell is cast.")]
+        private List<AudioClip> audioClips = new List<AudioClip>();
         [TextArea(1, 3)] public string descrizioneGenerica;
         [FormerlySerializedAs("description"), TextArea(2, 5)] public string descrizioneNormale;
         [FormerlySerializedAs("poweredDescription"), TextArea(2, 5)] public string descrizionePotenziata;
         [TextArea(1, 3)] public string descrizioneBreve;
+
+        public AudioClip GetRandomAudioClip()
+        {
+            int validClipCount = 0;
+            if (audioClips != null)
+            {
+                foreach (AudioClip audioClip in audioClips)
+                {
+                    if (audioClip != null)
+                    {
+                        validClipCount++;
+                    }
+                }
+            }
+
+            if (validClipCount == 0)
+            {
+                return audio;
+            }
+
+            int selectedValidIndex = UnityEngine.Random.Range(0, validClipCount);
+            foreach (AudioClip audioClip in audioClips)
+            {
+                if (audioClip == null)
+                {
+                    continue;
+                }
+
+                if (selectedValidIndex == 0)
+                {
+                    return audioClip;
+                }
+
+                selectedValidIndex--;
+            }
+
+            return audio;
+        }
     }
 
 }
