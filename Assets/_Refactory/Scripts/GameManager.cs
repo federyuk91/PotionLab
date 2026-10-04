@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     public event Action LevelStarted;
     public event Action LevelIntroPresentationStarted;
+    public event Action<AudioClip> LevelIntroPresentationVoiceRequested;
     public event Action LevelInteractionStarted;
     public event Action LevelCompleted;
     public event Action<bool> SpellBarVisibilityChanged;
@@ -324,23 +325,102 @@ public class GameManager : MonoBehaviour
             yield return levelItemsActivation;
         }
 
-        if (levelSettings != null)
-        {
-            AudioClip voiceClip = levelSettings.IntroPresentationVoiceClip;
-            float voiceDuration = voiceClip != null ? voiceClip.length : 0f;
-            dialogManager.ShowLevelIntroPresentation(
-                levelSettings.IntroPresentationLine,
-                levelSettings.IntroPresentationCharactersPerSecond,
-                voiceDuration);
-        }
-
-        LevelIntroPresentationStarted?.Invoke();
+        yield return StartCoroutine(PlayRandomLevelIntroPresentation());
 
         yield return new WaitForSeconds(.3f);
 
         SetSpellBarVisible(true);
         LevelInteractionStarted?.Invoke();
 
+    }
+
+    private IEnumerator PlayRandomLevelIntroPresentation()
+    {
+        if (levelSettings == null)
+        {
+            yield break;
+        }
+
+        float startDelay = levelSettings.IntroPresentationStartDelay;
+        if (startDelay > 0f)
+        {
+            yield return new WaitForSecondsRealtime(startDelay);
+        }
+
+        LevelIntroPresentationStarted?.Invoke();
+        if (!TryGetRandomLevelIntroPhrase(out string text, out AudioClip voiceClip))
+        {
+            yield break;
+        }
+
+        LevelIntroPresentationVoiceRequested?.Invoke(voiceClip);
+        float voiceDuration = voiceClip != null ? voiceClip.length : 0f;
+        dialogManager.ShowLevelIntroPresentation(
+            text,
+            levelSettings.IntroPresentationCharactersPerSecond,
+            voiceDuration);
+    }
+
+    private bool TryGetRandomLevelIntroPhrase(out string selectedText, out AudioClip selectedVoiceClip)
+    {
+        bool hasPrimaryPhrase = !string.IsNullOrWhiteSpace(levelSettings.IntroPresentationLine);
+        int validPhraseCount = hasPrimaryPhrase ? 1 : 0;
+        IReadOnlyList<LevelIntroPhrase> additionalPhrases = levelSettings.AdditionalIntroPhrases;
+
+        if (additionalPhrases != null)
+        {
+            foreach (LevelIntroPhrase phrase in additionalPhrases)
+            {
+                if (phrase != null && !string.IsNullOrWhiteSpace(phrase.Text))
+                {
+                    validPhraseCount++;
+                }
+            }
+        }
+
+        if (validPhraseCount == 0)
+        {
+            selectedText = string.Empty;
+            selectedVoiceClip = null;
+            return false;
+        }
+
+        int selectedValidIndex = UnityEngine.Random.Range(0, validPhraseCount);
+        if (hasPrimaryPhrase)
+        {
+            if (selectedValidIndex == 0)
+            {
+                selectedText = levelSettings.IntroPresentationLine;
+                selectedVoiceClip = levelSettings.IntroPresentationVoiceClip;
+                return true;
+            }
+
+            selectedValidIndex--;
+        }
+
+        if (additionalPhrases != null)
+        {
+            foreach (LevelIntroPhrase phrase in additionalPhrases)
+            {
+                if (phrase == null || string.IsNullOrWhiteSpace(phrase.Text))
+                {
+                    continue;
+                }
+
+                if (selectedValidIndex == 0)
+                {
+                    selectedText = phrase.Text;
+                    selectedVoiceClip = phrase.VoiceClip;
+                    return true;
+                }
+
+                selectedValidIndex--;
+            }
+        }
+
+        selectedText = string.Empty;
+        selectedVoiceClip = null;
+        return false;
     }
 
     public void RemovePotion(PotionScript potion, bool drunked = true)

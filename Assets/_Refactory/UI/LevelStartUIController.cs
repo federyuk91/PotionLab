@@ -133,7 +133,7 @@ public class LevelStartUIController : MonoBehaviour
             return;
         }
 
-        subscribedGameManager.LevelIntroPresentationStarted += HandleLevelIntroPresentationStarted;
+        subscribedGameManager.LevelIntroPresentationVoiceRequested += PlayIntroPresentationAudio;
     }
 
     private void UnsubscribeFromLevelIntroPresentation()
@@ -143,19 +143,8 @@ public class LevelStartUIController : MonoBehaviour
             return;
         }
 
-        subscribedGameManager.LevelIntroPresentationStarted -= HandleLevelIntroPresentationStarted;
+        subscribedGameManager.LevelIntroPresentationVoiceRequested -= PlayIntroPresentationAudio;
         subscribedGameManager = null;
-    }
-
-    private void HandleLevelIntroPresentationStarted()
-    {
-        if (levelSettings == null)
-        {
-            Debug.LogError("LevelStartUIController requires the Level Settings Inspector reference.", this);
-            return;
-        }
-
-        PlayIntroPresentationAudio(levelSettings.IntroPresentationVoiceClip);
     }
 
     private void PlayIntroPresentationAudio(AudioClip voiceClip)

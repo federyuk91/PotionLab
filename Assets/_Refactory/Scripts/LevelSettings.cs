@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum LevelGameMode
@@ -12,6 +14,16 @@ public enum EndlessBaseModifier
     Normal = 0,
     Hyper = 1,
     HyperHyper = 2
+}
+
+[Serializable]
+public sealed class LevelIntroPhrase
+{
+    [SerializeField, TextArea] private string text;
+    [SerializeField] private AudioClip voiceClip;
+
+    public string Text => text;
+    public AudioClip VoiceClip => voiceClip;
 }
 
 public class LevelSettings : MonoBehaviour
@@ -33,6 +45,7 @@ public class LevelSettings : MonoBehaviour
     [Header("Intro Presentation")]
     [SerializeField, TextArea] private string introPresentationLine;
     [SerializeField] private AudioClip introPresentationVoiceClip;
+    [SerializeField] private List<LevelIntroPhrase> additionalIntroPhrases = new List<LevelIntroPhrase>();
     [SerializeField, Min(1f)] private float introPresentationCharactersPerSecond = 35f;
     [SerializeField, Min(0f)] private float introPresentationStartDelay = 0f;
 
@@ -58,6 +71,7 @@ public class LevelSettings : MonoBehaviour
     public int MaxMalusScore => maxMalusScore;
     public string IntroPresentationLine => introPresentationLine;
     public AudioClip IntroPresentationVoiceClip => introPresentationVoiceClip;
+    public IReadOnlyList<LevelIntroPhrase> AdditionalIntroPhrases => additionalIntroPhrases;
     public float IntroPresentationCharactersPerSecond => introPresentationCharactersPerSecond;
     public float IntroPresentationStartDelay => introPresentationStartDelay;
     public int StartingLightIntensity => startingLightIntensity;

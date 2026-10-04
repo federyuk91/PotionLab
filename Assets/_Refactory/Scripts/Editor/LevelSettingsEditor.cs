@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEngine;
 
 [CustomEditor(typeof(LevelSettings))]
 public class LevelSettingsEditor : Editor
@@ -9,6 +10,7 @@ public class LevelSettingsEditor : Editor
     private SerializedProperty maxMalusScore;
     private SerializedProperty introPresentationLine;
     private SerializedProperty introPresentationVoiceClip;
+    private SerializedProperty additionalIntroPhrases;
     private SerializedProperty introPresentationCharactersPerSecond;
     private SerializedProperty introPresentationStartDelay;
     private SerializedProperty startingLightIntensity;
@@ -30,6 +32,7 @@ public class LevelSettingsEditor : Editor
         maxMalusScore = serializedObject.FindProperty("maxMalusScore");
         introPresentationLine = serializedObject.FindProperty("introPresentationLine");
         introPresentationVoiceClip = serializedObject.FindProperty("introPresentationVoiceClip");
+        additionalIntroPhrases = serializedObject.FindProperty("additionalIntroPhrases");
         introPresentationCharactersPerSecond = serializedObject.FindProperty("introPresentationCharactersPerSecond");
         introPresentationStartDelay = serializedObject.FindProperty("introPresentationStartDelay");
         startingLightIntensity = serializedObject.FindProperty("startingLightIntensity");
@@ -58,8 +61,14 @@ public class LevelSettingsEditor : Editor
         EditorGUILayout.Space();
 
         EditorGUILayout.LabelField("Intro Presentation", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Initial Phrase 1", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(introPresentationLine);
         EditorGUILayout.PropertyField(introPresentationVoiceClip);
+        EditorGUILayout.Space(2f);
+        EditorGUILayout.PropertyField(additionalIntroPhrases, new GUIContent("Additional Random Phrases"), true);
+        EditorGUILayout.HelpBox(
+            "At level start, one phrase is chosen randomly between Initial Phrase 1 and the additional entries.",
+            MessageType.Info);
         EditorGUILayout.PropertyField(introPresentationCharactersPerSecond);
         EditorGUILayout.PropertyField(introPresentationStartDelay);
         EditorGUILayout.Space();
