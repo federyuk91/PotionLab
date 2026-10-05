@@ -6,6 +6,8 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [Header("References")]
+
+    [SerializeField, RequiredInspectorReference] private Animator animator;
     [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private GameManager gameManager;
     [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private PotionPool potionPool;
     [SerializeField, RequiredInspectorReference] private EndlessPhaseSettings spawnSettings;
@@ -102,6 +104,7 @@ public class Spawner : MonoBehaviour
         }
 
         blockCollider.enabled = true;
+
         gameManager.RegisterSpawnedPotion(currentPotion);
         currentPotion.DropPotion(false);
     }
@@ -124,7 +127,7 @@ public class Spawner : MonoBehaviour
             ScheduleSpawn(replaceMissingPotionDelay);
             return;
         }
-
+        animator.SetTrigger("Open");
         blockCollider.enabled = false;
         SetSpawnerButtonActive(false);
 

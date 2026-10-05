@@ -7,6 +7,7 @@ public class CheckCollision : MonoBehaviour
 
     private bool missingSpawnerWarningShown;
 
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision == null || collision.gameObject == null)
