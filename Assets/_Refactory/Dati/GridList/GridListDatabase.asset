@@ -21,7 +21,6 @@ MonoBehaviour:
     sceneBuildIndex: -1
   categories:
   - {fileID: 11400000, guid: 2752e01430ba43d79fda3360fbf1380e, type: 2}
-  - {fileID: 11400000, guid: b5dee6cc4e2a4e47ae296253c8479199, type: 2}
   - {fileID: 11400000, guid: 2c1941ea63a84963a1b7d345934ff4a0, type: 2}
   - {fileID: 11400000, guid: 526d276b6e534c479b7ef5a39dec0b27, type: 2}
   - {fileID: 11400000, guid: 216025038a10497680f6d8b9eff33960, type: 2}

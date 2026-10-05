@@ -472,6 +472,12 @@ namespace Refactory.UI.GridList
                 return;
             }
 
+            if (currentCategory == GridListCategoryType.Achievement)
+            {
+                RenderAchievementCategory();
+                return;
+            }
+
             if (!database.TryGetCategory(currentCategory, out GridListCategoryData category))
             {
                 Debug.LogWarning($"{name}: category {currentCategory} is missing from GridListDatabase.", this);
@@ -792,9 +798,45 @@ namespace Refactory.UI.GridList
 
         private void RenderCategory(GridListCategoryData category)
         {
+            RenderCategory(category.CategoryType, category.Title, category.Entries);
+        }
+
+        private void RenderAchievementCategory()
+        {
+            if (achievementDatabase == null)
+            {
+                Debug.LogError($"{name}: Achievement Database reference is missing. Assign it in Inspector to display achievements.", this);
+                ClearEntries();
+                ClearDetails();
+                return;
+            }
+
+            List<GridListEntryData> achievementEntries = new List<GridListEntryData>();
+            foreach (AchievementDatabase.AchievementDefinition definition in achievementDatabase.Achievements)
+            {
+                if (definition == null || definition.id == AchievementId.None)
+                {
+                    continue;
+                }
+
+                achievementEntries.Add(GridListEntryData.CreateAchievement(
+                    definition.id,
+                    definition.displayName,
+                    definition.description,
+                    definition.icon));
+            }
+
+            RenderCategory(GridListCategoryType.Achievement, "Achievements", achievementEntries);
+        }
+
+        private void RenderCategory(
+            GridListCategoryType categoryType,
+            string categoryTitle,
+            IReadOnlyList<GridListEntryData> entries)
+        {
             ClearEntries();
 
-            bool showPotionGrid = category.CategoryType == GridListCategoryType.Potion;
+            bool showPotionGrid = categoryType == GridListCategoryType.Potion;
             if (showPotionGrid && potionGrid == null)
             {
                 Debug.LogWarning($"{name}: assign Potion Grid in CompendiumView to display potion buttons.", this);
@@ -821,17 +863,16 @@ namespace Refactory.UI.GridList
 
             if (categoryTitleText != null)
             {
-                categoryTitleText.text = category.Title;
+                categoryTitleText.text = categoryTitle;
             }
 
-            IReadOnlyList<GridListEntryData> entries = category.Entries;
             Transform container = showPotionGrid ? potionGrid.transform : entriesContainer;
             potionCount = showPotionGrid ? entries.Count : 0;
             lastGridSize = new Vector2(-1f, -1f);
             for (int index = 0; index < entries.Count; index++)
             {
                 CompendiumEntryView entryView = Instantiate(entryPrefab, container);
-                bool isUnlocked = IsEntryUnlocked(category.CategoryType, entries[index]);
+                bool isUnlocked = IsEntryUnlocked(categoryType, entries[index]);
                 entryView.Bind(entries[index], database.LockedEntry, isUnlocked, ShowDetails);
                 if (showPotionGrid)
                     entryView.UsePotionPresentation();
@@ -843,7 +884,7 @@ namespace Refactory.UI.GridList
 
             if (entries.Count > 0)
             {
-                bool firstEntryUnlocked = IsEntryUnlocked(category.CategoryType, entries[0]);
+                bool firstEntryUnlocked = IsEntryUnlocked(categoryType, entries[0]);
                 GridListEntryData firstEntry = firstEntryUnlocked ? entries[0] : database.LockedEntry;
                 ShowDetails(spawnedEntries[0], firstEntry);
                 ResetEntriesScroll();
@@ -879,13 +920,14 @@ namespace Refactory.UI.GridList
                 return false;
             }
 
-            if (!achievementDatabase.TryGetByDisplayName(entry.DisplayName, out AchievementDatabase.AchievementDefinition definition))
+            AchievementId achievementId = entry.RuntimeAchievementId;
+            if (achievementId == AchievementId.None)
             {
-                Debug.LogWarning($"{name}: achievement entry '{entry.DisplayName}' is not mapped in AchievementDatabase.", this);
+                Debug.LogWarning($"{name}: achievement entry '{entry.DisplayName}' has no AchievementId.", this);
                 return false;
             }
 
-            return progressService.IsAchievementUnlocked(definition.id);
+            return progressService.IsAchievementUnlocked(achievementId);
         }
 
         private bool IsNightUnlocked(GridListEntryData entry)
