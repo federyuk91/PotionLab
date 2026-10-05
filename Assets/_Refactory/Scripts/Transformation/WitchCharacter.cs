@@ -26,8 +26,9 @@ namespace CharacterSystem
 
         private bool TrySpendMana(Spell spell, string notEnoughManaDialog)
         {
-            int manaCost = Mathf.Min(stats.MP, spell.costo);
-            int healthCost = spell.costo - manaCost;
+            int effectiveCost = GetEffectiveSpellManaCost(spell);
+            int manaCost = Mathf.Min(stats.MP, effectiveCost);
+            int healthCost = effectiveCost - manaCost;
 
             if (healthCost > 0 && stats.HP <= healthCost)
             {

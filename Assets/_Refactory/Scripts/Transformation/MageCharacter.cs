@@ -39,13 +39,14 @@ namespace CharacterSystem
                 return false;
             }
 
-            if (!stats.HasMana(spell.costo))
+            int manaCost = GetEffectiveSpellManaCost(spell);
+            if (!stats.HasMana(manaCost))
             {
                 dialogManager.PopDialog("I need more magic for this spell", 3f);
                 return false;
             }
 
-            stats.LoseMana(spell.costo);
+            stats.LoseMana(manaCost);
             // CharacterAudioController owns spell audio; avoid replaying LightController feedback.
             transformationManager.lightController.IncreaseLightLevel(false);
             return true;
@@ -59,13 +60,14 @@ namespace CharacterSystem
                 return false;
             }
 
-            if (!stats.HasMana(spell.costo))
+            int manaCost = GetEffectiveSpellManaCost(spell);
+            if (!stats.HasMana(manaCost))
             {
                 dialogManager.PopDialog("I need more magic for this spell", 3f);
                 return false;
             }
 
-            stats.LoseMana(spell.costo);
+            stats.LoseMana(manaCost);
 
             if (powered)
             {
@@ -88,13 +90,14 @@ namespace CharacterSystem
                 return false;
             }
 
-            if (!stats.HasMana(spell.costo))
+            int manaCost = GetEffectiveSpellManaCost(spell);
+            if (!stats.HasMana(manaCost))
             {
                 dialogManager.PopDialog("I need more magic for this spell", 3f);
                 return false;
             }
 
-            stats.LoseMana(spell.costo);
+            stats.LoseMana(manaCost);
 
             if (status.Has(Status.Freezed) && status.Has(Status.Poisoned))
             {

@@ -23,6 +23,54 @@ public sealed class EndlessModifierOptionView : MonoBehaviour, IPointerEnterHand
     private Color baseTextColor;
     private bool pointerInside;
 
+    public void Configure(
+        EndlessModifiersMenuController controller,
+        string label,
+        string multiplier,
+        string title,
+        string description)
+    {
+        menuController = controller;
+        tooltipTitle = title;
+        tooltipDescription = description;
+
+        if (titleText != null)
+        {
+            titleText.text = label;
+            titleText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 110f);
+        }
+
+        TMP_Text[] localTexts = GetComponentsInChildren<TMP_Text>(true);
+        for (int index = 0; index < localTexts.Length; index++)
+        {
+            TMP_Text localText = localTexts[index];
+            if (localText != null && localText != titleText && localText.gameObject.name == "Score Multiplier")
+            {
+                localText.text = multiplier;
+                break;
+            }
+        }
+
+        gameObject.name = title + " Toggle";
+    }
+
+    public void SetBaseScale(float scale)
+    {
+        if (visualRoot == null)
+        {
+            visualRoot = transform as RectTransform;
+        }
+
+        if (visualRoot == null)
+        {
+            return;
+        }
+
+        baseScale = new Vector3(scale, scale, visualRoot.localScale.z);
+        visualRoot.localScale = baseScale;
+        ApplyImmediateVisual();
+    }
+
     private void Awake()
     {
         if (toggle == null)

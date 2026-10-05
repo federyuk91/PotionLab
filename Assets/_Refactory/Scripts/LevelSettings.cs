@@ -33,6 +33,11 @@ public class LevelSettings : MonoBehaviour
     private const string EndlessHyperModeKey = "Endless_HyperMode";
     private const string EndlessHyperHyperModeKey = "Endless_HyperHyperMode";
     private const string EndlessFailureModeKey = "Endless_FailureMode";
+    private const string EndlessFadingLightKey = "Endless_FadingLight";
+    private const string EndlessNightFallKey = "Endless_NightFall";
+    private const string EndlessExpensiveMagicKey = "Endless_ExpensiveMagic";
+    private const string EndlessTransformationFatigueKey = "Endless_TransformationFatigue";
+    private const string EndlessLingeringEffectsKey = "Endless_LingeringEffects";
 
     [Header("Mode")]
     [SerializeField] private bool isPuzzleMode = true;
@@ -89,6 +94,11 @@ public class LevelSettings : MonoBehaviour
     public bool EndlessHyperHyperMode => SavedEndlessBaseModifier == EndlessBaseModifier.HyperHyper;
     public bool EndlessFlawlessMode => SavedEndlessFlawlessMode;
     public bool EndlessFailureMode => EndlessFlawlessMode;
+    public bool EndlessFadingLight => gameMode == LevelGameMode.Endless && SavedEndlessFadingLight;
+    public bool EndlessNightFall => gameMode == LevelGameMode.Endless && SavedEndlessNightFall;
+    public bool EndlessExpensiveMagic => gameMode == LevelGameMode.Endless && SavedEndlessExpensiveMagic;
+    public bool EndlessTransformationFatigue => gameMode == LevelGameMode.Endless && SavedEndlessTransformationFatigue;
+    public bool EndlessLingeringEffects => gameMode == LevelGameMode.Endless && SavedEndlessLingeringEffects;
 
     public static EndlessBaseModifier SavedEndlessBaseModifier
     {
@@ -106,6 +116,11 @@ public class LevelSettings : MonoBehaviour
     }
 
     public static bool SavedEndlessFlawlessMode => GetSavedBool(EndlessFailureModeKey);
+    public static bool SavedEndlessFadingLight => GetSavedBool(EndlessFadingLightKey);
+    public static bool SavedEndlessNightFall => GetSavedBool(EndlessNightFallKey);
+    public static bool SavedEndlessExpensiveMagic => GetSavedBool(EndlessExpensiveMagicKey);
+    public static bool SavedEndlessTransformationFatigue => GetSavedBool(EndlessTransformationFatigueKey);
+    public static bool SavedEndlessLingeringEffects => GetSavedBool(EndlessLingeringEffectsKey);
 
     public static float SavedEndlessBaseScoreMultiplier
     {
@@ -124,7 +139,13 @@ public class LevelSettings : MonoBehaviour
     }
 
     public static float SavedEndlessTotalScoreMultiplier =>
-        SavedEndlessBaseScoreMultiplier * (SavedEndlessFlawlessMode ? 2f : 1f);
+        SavedEndlessBaseScoreMultiplier
+        * (SavedEndlessFlawlessMode ? 2f : 1f)
+        * (SavedEndlessFadingLight ? 1.2f : 1f)
+        * (SavedEndlessNightFall ? 1.2f : 1f)
+        * (SavedEndlessExpensiveMagic ? 1.5f : 1f)
+        * (SavedEndlessTransformationFatigue ? 1.5f : 1f)
+        * (SavedEndlessLingeringEffects ? 1.25f : 1f);
 
     public static void SetSavedEndlessBaseModifier(EndlessBaseModifier modifier)
     {
@@ -136,6 +157,12 @@ public class LevelSettings : MonoBehaviour
     {
         SetSavedBool(EndlessFailureModeKey, active, true);
     }
+
+    public static void SetSavedEndlessFadingLight(bool active) => SetSavedBool(EndlessFadingLightKey, active, true);
+    public static void SetSavedEndlessNightFall(bool active) => SetSavedBool(EndlessNightFallKey, active, true);
+    public static void SetSavedEndlessExpensiveMagic(bool active) => SetSavedBool(EndlessExpensiveMagicKey, active, true);
+    public static void SetSavedEndlessTransformationFatigue(bool active) => SetSavedBool(EndlessTransformationFatigueKey, active, true);
+    public static void SetSavedEndlessLingeringEffects(bool active) => SetSavedBool(EndlessLingeringEffectsKey, active, true);
 
     public void SetEndlessHyperMode(bool active)
     {
@@ -171,6 +198,11 @@ public class LevelSettings : MonoBehaviour
     {
         SetSavedEndlessBaseModifier(EndlessBaseModifier.Normal);
         SetSavedEndlessFlawlessMode(false);
+        SetSavedEndlessFadingLight(false);
+        SetSavedEndlessNightFall(false);
+        SetSavedEndlessExpensiveMagic(false);
+        SetSavedEndlessTransformationFatigue(false);
+        SetSavedEndlessLingeringEffects(false);
     }
 
     private static bool GetSavedBool(string key)

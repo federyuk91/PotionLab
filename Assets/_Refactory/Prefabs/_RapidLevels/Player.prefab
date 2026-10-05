@@ -2284,6 +2284,7 @@ GameObject:
   - component: {fileID: 7758763451385991435}
   - component: {fileID: 1582163399501677070}
   - component: {fileID: 2710115401643320104}
+  - component: {fileID: 3347086935686603101}
   - component: {fileID: 7335516976547852054}
   - component: {fileID: 7619072265542337895}
   m_Layer: 0
@@ -2458,6 +2459,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba5502c60d62cc440beb81611f26eb2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSystem.CharacterSpells
+  transformationManager: {fileID: 1225089884597636322}
+  characterStats: {fileID: 2020922328670040875}
+--- !u!114 &3347086935686603101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3175400394553905838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c43c2b9e0a5d4b92b776c94958d17e1f, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::EndlessMode.TransformationFatigueController
   transformationManager: {fileID: 1225089884597636322}
   characterStats: {fileID: 2020922328670040875}
 --- !u!82 &7335516976547852054

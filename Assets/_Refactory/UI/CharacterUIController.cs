@@ -635,7 +635,11 @@ public class CharacterUIController : MonoBehaviour, IPointerClickHandler
 
         if (spellCosts != null && index < spellCosts.Length && spellCosts[index] != null)
         {
-            spellCosts[index].text = spell.costo.ToString();
+            BaseCharacter currentCharacter = transformationManager != null ? transformationManager.Current : null;
+            int displayedCost = currentCharacter != null
+                ? currentCharacter.GetEffectiveSpellManaCost(spell)
+                : spell.costo;
+            spellCosts[index].text = displayedCost.ToString();
         }
     }
 
@@ -1757,7 +1761,7 @@ public class CharacterUIController : MonoBehaviour, IPointerClickHandler
             return Mathf.RoundToInt(multiplier).ToString();
         }
 
-        return multiplier.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture);
+        return multiplier.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
     }
 
     private string FormatClassicScore(int potionCount, int totalPotion, int currentHP, int bestHealth, int malusCount, int maxMalus)

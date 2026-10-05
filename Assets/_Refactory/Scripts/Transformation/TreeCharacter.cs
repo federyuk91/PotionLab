@@ -147,13 +147,14 @@ namespace CharacterSystem
 
         private bool TrySpendMana(Spell spell, string notEnoughManaDialog)
         {
-            if (!stats.HasMana(spell.costo))
+            int manaCost = GetEffectiveSpellManaCost(spell);
+            if (!stats.HasMana(manaCost))
             {
                 dialogManager.PopDialog(notEnoughManaDialog, 3f);
                 return false;
             }
 
-            stats.LoseMana(spell.costo);
+            stats.LoseMana(manaCost);
             return true;
         }
 

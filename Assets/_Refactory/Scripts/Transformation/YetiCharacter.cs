@@ -66,7 +66,7 @@ namespace CharacterSystem
             }
 
             int healing = powered ? 4 : 3;
-            stats.ModifyHPAndMP(healing, -spell.costo);
+            stats.ModifyHPAndMP(healing, -GetEffectiveSpellManaCost(spell));
             return true;
         }
 
@@ -78,7 +78,7 @@ namespace CharacterSystem
             }
 
             int selfDamage = powered ? 1 : 2;
-            stats.ModifyHPAndMP(-selfDamage, -spell.costo);
+            stats.ModifyHPAndMP(-selfDamage, -GetEffectiveSpellManaCost(spell));
             punchPotionHitCount = 0;
 
             if (punchObject == null)
@@ -108,13 +108,13 @@ namespace CharacterSystem
                 return false;
             }
 
-            stats.LoseMana(spell.costo);
+            stats.LoseMana(GetEffectiveSpellManaCost(spell));
             return true;
         }
 
         private bool HasEnoughMana(Spell spell, string notEnoughManaDialog)
         {
-            if (stats.HasMana(spell.costo))
+            if (stats.HasMana(GetEffectiveSpellManaCost(spell)))
             {
                 return true;
             }

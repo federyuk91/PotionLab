@@ -36,6 +36,19 @@ namespace CharacterSystem
         public Color TransformationLightColor => transformationLightColor;
         public bool IsReturnMagePending { get; private set; }
 
+        public int GetEffectiveSpellManaCost(Spell spell)
+        {
+            if (spell == null)
+            {
+                return 0;
+            }
+
+            LevelSettings settings = transformationManager != null && transformationManager.lightController != null
+                ? transformationManager.lightController.LevelSettings
+                : null;
+            return settings != null && settings.EndlessExpensiveMagic ? spell.costo + 1 : spell.costo;
+        }
+
 
         private void Awake()
         {

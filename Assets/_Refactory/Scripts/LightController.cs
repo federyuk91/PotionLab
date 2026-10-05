@@ -37,6 +37,7 @@ public class LightController : MonoBehaviour
     public LightFieldType CurrentLightField => currentLightField;
     public int LightIntensity => lightIntensity;
     public float LightDecayProgress => GetLightDecayProgress();
+    public LevelSettings LevelSettings => levelSettings;
 
     public event Action<int> LightLevelChanged;
     public event Action<float> LightTimerChanged;
@@ -603,7 +604,7 @@ public class LightController : MonoBehaviour
             return 1;
         }
 
-        return levelSettings.StartingLightIntensity;
+        return levelSettings.EndlessNightFall ? 0 : levelSettings.StartingLightIntensity;
     }
 
     private bool GetDecayLightOverTime()
@@ -614,7 +615,7 @@ public class LightController : MonoBehaviour
             return false;
         }
 
-        return levelSettings.DecayLightOverTime;
+        return levelSettings.DecayLightOverTime || levelSettings.EndlessFadingLight;
     }
 
     private float GetLightDecayInterval()
@@ -625,7 +626,9 @@ public class LightController : MonoBehaviour
             return 43f;
         }
 
-        return levelSettings.LightDecayInterval;
+        return levelSettings.EndlessFadingLight
+            ? levelSettings.LightDecayInterval / 1.2f
+            : levelSettings.LightDecayInterval;
     }
 
     private void WarnMissingLevelSettings()

@@ -1,10 +1,12 @@
 using CharacterSystem;
+using InspectorValidation;
 using UnityEngine;
 
 public class StatusTickRunner : MonoBehaviour
 {
-    [SerializeField] private CharacterStatusController status;
-    [SerializeField] private TransformationManager transformationManager;
+    private const float LingeringEffectsTickMultiplier = 1.25f;
+    [SerializeField, RequiredInspectorReference] private CharacterStatusController status;
+    [SerializeField, RequiredInspectorReference] private TransformationManager transformationManager;
 
     private float fireTimer;
     private float poisonTimer;
@@ -72,7 +74,7 @@ public class StatusTickRunner : MonoBehaviour
         fireTimer += Time.deltaTime;
 
         BaseCharacter character = transformationManager.Current;
-        float delay = character.GetFireTickDelay();
+        float delay = GetModifiedTickDelay(character.GetFireTickDelay());
 
         if (fireTimer >= delay)
         {
@@ -91,7 +93,7 @@ public class StatusTickRunner : MonoBehaviour
         poisonTimer += Time.deltaTime;
 
         BaseCharacter character = transformationManager.Current;
-        if (poisonTimer >= character.GetPoisonTickDelay())
+        if (poisonTimer >= GetModifiedTickDelay(character.GetPoisonTickDelay()))
         {
             poisonTimer = 0f;
             character.PoisonTick();
@@ -108,7 +110,7 @@ public class StatusTickRunner : MonoBehaviour
         groundTimer += Time.deltaTime;
 
         BaseCharacter character = transformationManager.Current;
-        if (groundTimer >= character.GetGroundTickDelay())
+        if (groundTimer >= GetModifiedTickDelay(character.GetGroundTickDelay()))
         {
             groundTimer = 0f;
             character.GroundTick();
@@ -125,11 +127,21 @@ public class StatusTickRunner : MonoBehaviour
         iceTimer += Time.deltaTime;
 
         BaseCharacter character = transformationManager.Current;
-        if (iceTimer >= character.GetIceTickDelay())
+        if (iceTimer >= GetModifiedTickDelay(character.GetIceTickDelay()))
         {
             iceTimer = 0f;
             character.IceTick();
         }
+    }
+
+    private float GetModifiedTickDelay(float baseDelay)
+    {
+        LevelSettings settings = transformationManager != null && transformationManager.lightController != null
+            ? transformationManager.lightController.LevelSettings
+            : null;
+        return settings != null && settings.EndlessLingeringEffects
+            ? baseDelay / LingeringEffectsTickMultiplier
+            : baseDelay;
     }
 
     private void WarnMissingStatus()

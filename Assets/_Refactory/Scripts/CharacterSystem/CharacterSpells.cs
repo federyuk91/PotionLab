@@ -126,7 +126,7 @@ namespace CharacterSystem
                 }
 
                 Spell spell = spells[i];
-                bool isActive = CanPaySpellCost(character, spell.costo);
+                bool isActive = CanPaySpellCost(character, character.GetEffectiveSpellManaCost(spell));
                 SpellAvailabilityChanged?.Invoke(i, spell, isActive);
             }
         }
