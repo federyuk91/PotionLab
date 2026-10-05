@@ -299,7 +299,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activationPitchMin: 0.85
   activationPitchMax: 1.2
-  potion: {fileID: 11400000, guid: 4ce7f634bb7134d44b1b22c6e081ff14, type: 2}
+  potion: {fileID: 11400000, guid: 6a79b5d7adb9f7f45b99dfa7a2ee8b24, type: 2}
+  potionSize: 1
   whiteSquare: {fileID: 6532710812204122752}
   isActive: 1
   isStackable: 1

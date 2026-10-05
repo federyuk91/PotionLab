@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08045c5222042224d87a969403307576, type: 3}
   m_Name: LavaPotion
   m_EditorClassIdentifier: 
+  potionId: 2
   _name: Lava Potion
   _potColor: {r: 1, g: 0.34162226, b: 0, a: 0.8666667}
   dialogs:
@@ -19,6 +20,24 @@ MonoBehaviour:
   - So hot!
   - Blergh...
   effectType: 3
+  defaultSize: 2
+  variants:
+  - size: 2
+    effectValue: 4
+    visibleInCompendium: 1
+    narrativeDescription: Bottled fury from beneath the earth. Merciless to flesh,
+      surprisingly useful against the cold, and strangely tempting when you are already
+      burning.
+    icon: {fileID: -8366473302825249247, guid: 0c2a77bcd3e4413429911e488f313155, type: 3}
+    animationFrames:
+    - {fileID: -6229212478814258359, guid: 0c2a77bcd3e4413429911e488f313155, type: 3}
+    - {fileID: -8366473302825249247, guid: 0c2a77bcd3e4413429911e488f313155, type: 3}
+    - {fileID: 2027828057859621854, guid: 0c2a77bcd3e4413429911e488f313155, type: 3}
+    - {fileID: 2383377191146848529, guid: 0c2a77bcd3e4413429911e488f313155, type: 3}
+    animationFrameRate: 12
+    useCustomEffectDescription: 0
+    customEffectDescription: 
+    dialogOverrides: []
   burned: oh not again, where did I put the flame of Anor?
   freezed: 
   wet: 
@@ -35,4 +54,3 @@ MonoBehaviour:
   tree_audio: {fileID: 0}
   balrog_audio: {fileID: 8300000, guid: e05fae91473184b478941338d90f1f26, type: 3}
   pupperFish_audio: {fileID: 0}
-  baseValue: 4

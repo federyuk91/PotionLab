@@ -11,8 +11,9 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08045c5222042224d87a969403307576, type: 3}
   m_Name: AntiMagicPotion
-  m_EditorClassIdentifier: 
-  _name: Anti-Magic Potion
+  m_EditorClassIdentifier:
+  potionId: 10
+  _name: Dark Potion
   _potColor: {r: 0.4792453, g: 0.071434624, b: 0.32950622, a: 0.8666667}
   dialogs:
   - Nooooo! My magic!
@@ -21,6 +22,22 @@ MonoBehaviour:
   - why i drink that!
   - Not a good taste...
   effectType: 8
+  defaultSize: 0
+  variants:
+  - size: 0
+    effectValue: 1
+    visibleInCompendium: 1
+    narrativeDescription: It drains your magic and occasionally your health. Once your magical reserves run dry, it starts collecting a more personal payment. Some forms, however, have acquired a taste for it.
+    icon: {fileID: -5469023944784030602, guid: 531bc38a7e672414482189974260f0f8, type: 3}
+    animationFrames:
+    - {fileID: -144116324112393674, guid: 531bc38a7e672414482189974260f0f8, type: 3}
+    - {fileID: -5469023944784030602, guid: 531bc38a7e672414482189974260f0f8, type: 3}
+    - {fileID: 4649272594587223783, guid: 531bc38a7e672414482189974260f0f8, type: 3}
+    - {fileID: 9199872429839816550, guid: 531bc38a7e672414482189974260f0f8, type: 3}
+    animationFrameRate: 12
+    useCustomEffectDescription: 1
+    customEffectDescription: Drains 1 MP. At 0 MP, deals 2 damage and increases Curse.
+    dialogOverrides: []
   burned: 
   freezed: 
   wet: 
@@ -37,4 +54,3 @@ MonoBehaviour:
   tree_audio: {fileID: 0}
   balrog_audio: {fileID: 0}
   pupperFish_audio: {fileID: 0}
-  baseValue: 1

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using InspectorValidation;
+using PotionSystem;
 using ProgressSystem;
 using TMPro;
 using UnityEngine;
@@ -22,8 +23,9 @@ namespace Refactory.UI.GridList
         }
 
         [Header("Data")]
-        [SerializeField] private GridListDatabase database;
+        [SerializeField, RequiredInspectorReference] private GridListDatabase database;
         [SerializeField, RequiredInspectorReference] private AchievementDatabase achievementDatabase;
+        [SerializeField, RequiredInspectorReference] private PotionCatalog potionCatalog;
         [SerializeField] private GridListCategoryType startingCategory = GridListCategoryType.Home;
 
         [Header("Book Pages")]
@@ -478,6 +480,12 @@ namespace Refactory.UI.GridList
                 return;
             }
 
+            if (currentCategory == GridListCategoryType.Potion)
+            {
+                RenderPotionCategory();
+                return;
+            }
+
             if (!database.TryGetCategory(currentCategory, out GridListCategoryData category))
             {
                 Debug.LogWarning($"{name}: category {currentCategory} is missing from GridListDatabase.", this);
@@ -827,6 +835,42 @@ namespace Refactory.UI.GridList
             }
 
             RenderCategory(GridListCategoryType.Achievement, "Achievements", achievementEntries);
+        }
+
+        private void RenderPotionCategory()
+        {
+            if (potionCatalog == null)
+            {
+                Debug.LogError($"{name}: Potion Catalog reference is missing. Assign it in Inspector to display potions.", this);
+                ClearEntries();
+                ClearDetails();
+                return;
+            }
+
+            List<GridListEntryData> potionEntries = new List<GridListEntryData>();
+            foreach (PotionScriptable potion in potionCatalog.Potions)
+            {
+                if (potion == null)
+                {
+                    continue;
+                }
+
+                foreach (PotionScriptable.PotionVariant variant in potion.Variants)
+                {
+                    if (variant == null || !variant.VisibleInCompendium)
+                    {
+                        continue;
+                    }
+
+                    GridListEntryData entry = GridListEntryData.CreatePotion(potion, variant);
+                    if (entry != null)
+                    {
+                        potionEntries.Add(entry);
+                    }
+                }
+            }
+
+            RenderCategory(GridListCategoryType.Potion, "Potions", potionEntries);
         }
 
         private void RenderCategory(

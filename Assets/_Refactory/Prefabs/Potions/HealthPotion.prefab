@@ -109,11 +109,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6532710811918012456}
+  - component: {fileID: 6532710811918012463}
   - component: {fileID: 6532710811918012459}
   - component: {fileID: 6532710811918012458}
   - component: {fileID: 6532710811918012461}
   - component: {fileID: 6532710811918012460}
-  - component: {fileID: 6532710811918012463}
   - component: {fileID: 1280218390344348825}
   m_Layer: 0
   m_Name: HealthPotion
@@ -139,6 +139,26 @@ Transform:
   - {fileID: 6532710811638313494}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6532710811918012463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6532710811918012449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2806e29d1701db43aa3c9c73e46ad29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whiteSquare: {fileID: 6532710812204122752}
+  isActive: 1
+  activationPitchMin: 0.85
+  activationPitchMax: 1.2
+  potion: {fileID: 11400000, guid: 6a79b5d7adb9f7f45b99dfa7a2ee8b24, type: 2}
+  potionSize: 0
+  isStackable: 1
+  stock: []
 --- !u!212 &6532710811918012459
 SpriteRenderer:
   serializedVersion: 2
@@ -293,25 +313,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &6532710811918012463
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6532710811918012449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2806e29d1701db43aa3c9c73e46ad29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activationPitchMin: 0.85
-  activationPitchMax: 1.2
-  potion: {fileID: 11400000, guid: 6a79b5d7adb9f7f45b99dfa7a2ee8b24, type: 2}
-  whiteSquare: {fileID: 6532710812204122752}
-  isActive: 1
-  isStackable: 1
-  stock: []
 --- !u!82 &1280218390344348825
 AudioSource:
   m_ObjectHideFlags: 0

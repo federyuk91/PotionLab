@@ -131,7 +131,7 @@ namespace CharacterSystem
         }
 
 
-        public override void ApplyFire(PotionScriptable ps)
+        public override void ApplyFire(PotionScriptable ps, int effectValue)
         {
             if (status.Has(Status.Grounded))
             {
@@ -195,7 +195,7 @@ namespace CharacterSystem
             status.Increase(Status.Burned);
         }
         /***** TRASFORMAZIONE ***** Il ghiaccio transforma in Yeti se si è grounded */
-        public override void ApplyIce(PotionScriptable ps)
+        public override void ApplyIce(PotionScriptable ps, int effectValue)
         {
             //Se sto bruciando, divento bagnato
             if (status.Has(Status.Burned))
@@ -245,7 +245,7 @@ namespace CharacterSystem
 
         }
 
-        public override void ApplyGrass(PotionScriptable ps)
+        public override void ApplyGrass(PotionScriptable ps, int effectValue)
         {
             if (status.Has(Status.Freezed) || status.Has(Status.Algae) || status.Has(Status.Poisoned))
             {
@@ -276,7 +276,7 @@ namespace CharacterSystem
 
         }
 
-        public override void ApplyGround(PotionScriptable ps)
+        public override void ApplyGround(PotionScriptable ps, int effectValue)
         {
             if (status.Has(Status.Burned))
             {
@@ -314,15 +314,15 @@ namespace CharacterSystem
             }
         }
 
-        public override void ApplyHeal(PotionScriptable ps)
+        public override void ApplyHeal(PotionScriptable ps, int effectValue)
         {
             RequestAchievement(AchievementId.TheGoodnightPotion);
-            stats.Heal(ps.baseValue);
+            stats.Heal(effectValue);
             TryUnlockFreshAndClean();
         }
 
         /***** TRASFORMAZIONE ***** Il fuoco transforma in Balrog se si è burned */
-        public override void ApplyLava(PotionScriptable ps)
+        public override void ApplyLava(PotionScriptable ps, int effectValue)
         {
             animator.SetTrigger("lavaDrunked");
             // Se sto bruciando, mi trasformo in Balrog
@@ -341,7 +341,7 @@ namespace CharacterSystem
             if (status.Has(Status.Wet))
             {
                 status.Remove(Status.Wet);
-                stats.TakeDamage(ps.baseValue - 1);
+                stats.TakeDamage(effectValue - 1);
                 return;
             }
             if (status.Has(Status.Grounded))
@@ -350,14 +350,14 @@ namespace CharacterSystem
 
                 return;
             }
-            stats.TakeDamage(ps.baseValue);
+            stats.TakeDamage(effectValue);
 
         }
 
-        public override void ApplyLight(PotionScriptable ps)
+        public override void ApplyLight(PotionScriptable ps, int effectValue)
         {
             SetCurseLevel(0);
-            stats.AddMana(ps.baseValue);
+            stats.AddMana(effectValue);
             TryUnlockFreshAndClean();
             if (stats.MP == stats.MaxMP)
             {
@@ -372,7 +372,7 @@ namespace CharacterSystem
 
 
         /***** TRASFORMAZIONE ***** Il veleno transforma in Pesce se si è bagnati */
-        public override void ApplyPoison(PotionScriptable ps)
+        public override void ApplyPoison(PotionScriptable ps, int effectValue)
         {
             //L'erba neutralizza il veleno e viene rimossa
             if (status.Has(Status.Grass))
@@ -410,7 +410,7 @@ namespace CharacterSystem
         }
 
         /***** TRASFORMAZIONE ***** L'acqua transforma in albero se sta crescendo l'erba */
-        public override void ApplyWet(PotionScriptable ps)
+        public override void ApplyWet(PotionScriptable ps, int effectValue)
         {
             if (status.Has(Status.Freezed))
             {
@@ -463,7 +463,7 @@ namespace CharacterSystem
 
         }
 
-        public override void ApplyDark(PotionScriptable ps)
+        public override void ApplyDark(PotionScriptable ps, int effectValue)
         {
             SetBlessLevel(0);
             Debug.Log("Dark potion?");
@@ -491,7 +491,7 @@ namespace CharacterSystem
                 Debug.Log("Mage darkLevel reset");
                 SetCurseLevel(0);
             }
-            stats.LoseMana(ps.baseValue);
+            stats.LoseMana(effectValue);
 
         }
 

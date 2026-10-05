@@ -1,66 +1,76 @@
 using System.Collections.Generic;
+using InspectorValidation;
 using UnityEngine;
 
 public class MagicSlidingPlatform : MonoBehaviour
 {
+    private const float MinimumSegmentLength = 0.0001f;
+
+    private sealed class PathFollower
+    {
+        public GameObject Object;
+        public Rigidbody2D Body;
+        public float Distance;
+    }
+
     [Header("Movement")]
-    [SerializeField, Range(0f, 0.1f)] private float speed = 0.01f;
-    [SerializeField] private List<Transform> points = new List<Transform>();
+    [SerializeField, Min(0f)] private float speedUnitsPerSecond = 1.75f;
+    [SerializeField, RequiredInspectorReference] private List<Transform> points = new List<Transform>();
     [SerializeField] private bool reversePath;
 
+    [Header("Initial Placement")]
+    [Tooltip("0 preserves the authored spacing after snapping to the path. 1 distributes every object evenly across the full path.")]
+    [SerializeField, Range(0f, 1f)] private float initialSpacing;
+
     [Header("Transported Objects")]
-    [SerializeField] private List<GameObject> trappedObjects = new List<GameObject>();
-    [SerializeField] private List<int> dest = new List<int>();
+    [SerializeField, RequiredInspectorReference] private List<GameObject> trappedObjects = new List<GameObject>();
 
+    private readonly List<PathFollower> followers = new List<PathFollower>();
     private bool isConfigured;
-    private bool missingPointWarningShown;
+    private bool missingConfigurationWarningShown;
 
-    private void Awake()
+    private void Start()
     {
-        NormalizeDestinations();
+        ConfigureFollowers();
     }
 
     private void FixedUpdate()
     {
-        if (!isConfigured)
+        if (!isConfigured || !TryGetPathLength(out float pathLength))
         {
             return;
         }
 
-        for (int index = trappedObjects.Count - 1; index >= 0; index--)
+        float distanceDelta = speedUnitsPerSecond * Time.fixedDeltaTime;
+        if (reversePath)
         {
-            GameObject trappedObject = trappedObjects[index];
-            if (trappedObject == null)
+            distanceDelta = -distanceDelta;
+        }
+
+        for (int index = followers.Count - 1; index >= 0; index--)
+        {
+            PathFollower follower = followers[index];
+            if (follower.Object == null || follower.Body == null)
             {
-                trappedObjects.RemoveAt(index);
-                dest.RemoveAt(index);
+                followers.RemoveAt(index);
                 continue;
             }
 
-            int destinationIndex = dest[index];
-            Transform destination = points[destinationIndex];
-            if (destination == null)
+            // DroppableObject owns the transition to Dynamic and must no longer be moved by the path.
+            if (follower.Body.bodyType == RigidbodyType2D.Dynamic)
             {
-                WarnMissingPoint();
+                trappedObjects.Remove(follower.Object);
+                followers.RemoveAt(index);
                 continue;
             }
 
-            if (Vector3.Distance(trappedObject.transform.position, destination.position) < 0.1f)
+            follower.Distance = Mathf.Repeat(follower.Distance + distanceDelta, pathLength);
+            if (!TryGetPointOnPath(follower.Distance, pathLength, out Vector2 nextPosition))
             {
-                destinationIndex = reversePath
-                    ? (destinationIndex - 1 + points.Count) % points.Count
-                    : (destinationIndex + 1) % points.Count;
-                dest[index] = destinationIndex;
-                destination = points[destinationIndex];
+                continue;
             }
 
-            if (destination != null)
-            {
-                trappedObject.transform.position = Vector3.MoveTowards(
-                    trappedObject.transform.position,
-                    destination.position,
-                    speed);
-            }
+            follower.Body.MovePosition(nextPosition);
         }
     }
 
@@ -84,81 +94,217 @@ public class MagicSlidingPlatform : MonoBehaviour
 
     public void FreeObject(GameObject obj)
     {
-        int index = trappedObjects.IndexOf(obj);
-        if (index < 0)
+        bool wasConfiguredObject = trappedObjects.Remove(obj);
+        bool wasFollower = RemoveFollower(obj);
+
+        if (!wasConfiguredObject && !wasFollower)
         {
             Debug.LogWarning($"{name}: cannot free an object that is not assigned to this moving platform.", this);
-            return;
         }
-
-        trappedObjects.RemoveAt(index);
-        dest.RemoveAt(index);
     }
 
-    [ContextMenu("Shuffle Points")]
-    public void ShufflePoints()
+    private void ConfigureFollowers()
     {
-        if (points == null)
+        followers.Clear();
+        isConfigured = false;
+
+        if (!TryGetPathLength(out float pathLength))
         {
             return;
         }
 
-        for (int index = points.Count - 1; index > 0; index--)
+        for (int index = 0; index < trappedObjects.Count; index++)
         {
-            int swapIndex = Random.Range(0, index + 1);
-            Transform temporaryPoint = points[index];
-            points[index] = points[swapIndex];
-            points[swapIndex] = temporaryPoint;
+            GameObject trappedObject = trappedObjects[index];
+            if (trappedObject == null)
+            {
+                continue;
+            }
+
+            Rigidbody2D body = trappedObject.GetComponent<Rigidbody2D>();
+            if (body == null)
+            {
+                Debug.LogError($"{name}: assign a Rigidbody2D to transported object '{trappedObject.name}'.", trappedObject);
+                continue;
+            }
+
+            if (!TryProjectOntoPath(body.position, out float projectedDistance))
+            {
+                WarnMissingConfiguration();
+                return;
+            }
+
+            PathFollower follower = new PathFollower
+            {
+                Object = trappedObject,
+                Body = body,
+                Distance = projectedDistance
+            };
+
+            followers.Add(follower);
         }
 
-        NormalizeDestinations();
+        followers.Sort(CompareFollowersByDistance);
+        ApplyInitialSpacing(pathLength);
+
+        for (int index = 0; index < followers.Count; index++)
+        {
+            PathFollower follower = followers[index];
+            if (TryGetPointOnPath(follower.Distance, pathLength, out Vector2 position))
+            {
+                follower.Body.position = position;
+            }
+        }
+
+        isConfigured = followers.Count > 0;
     }
 
-    private void NormalizeDestinations()
+    private void ApplyInitialSpacing(float pathLength)
     {
-        if (points == null || points.Count == 0)
+        if (followers.Count == 0 || initialSpacing <= 0f)
         {
-            isConfigured = false;
-            Debug.LogWarning($"{name}: Moving Platform requires at least one path point.", this);
             return;
         }
 
-        if (trappedObjects == null)
-        {
-            trappedObjects = new List<GameObject>();
-        }
+        float firstFollowerDistance = followers[0].Distance;
+        float regularSpacing = pathLength / followers.Count;
 
-        if (dest == null)
+        for (int index = 0; index < followers.Count; index++)
         {
-            dest = new List<int>();
+            PathFollower follower = followers[index];
+            float regularDistance = Mathf.Repeat(firstFollowerDistance + regularSpacing * index, pathLength);
+            follower.Distance = LerpWrappedDistance(follower.Distance, regularDistance, pathLength, initialSpacing);
         }
-
-        while (dest.Count < trappedObjects.Count)
-        {
-            dest.Add(dest.Count % points.Count);
-        }
-
-        while (dest.Count > trappedObjects.Count)
-        {
-            dest.RemoveAt(dest.Count - 1);
-        }
-
-        for (int index = 0; index < dest.Count; index++)
-        {
-            dest[index] = Mathf.Clamp(dest[index], 0, points.Count - 1);
-        }
-
-        isConfigured = true;
     }
 
-    private void WarnMissingPoint()
+    private bool TryGetPathLength(out float pathLength)
     {
-        if (missingPointWarningShown)
+        pathLength = 0f;
+        if (points == null || points.Count < 2)
+        {
+            WarnMissingConfiguration();
+            return false;
+        }
+
+        for (int index = 0; index < points.Count; index++)
+        {
+            Transform currentPoint = points[index];
+            Transform nextPoint = points[(index + 1) % points.Count];
+            if (currentPoint == null || nextPoint == null)
+            {
+                WarnMissingConfiguration();
+                return false;
+            }
+
+            pathLength += Vector2.Distance(currentPoint.position, nextPoint.position);
+        }
+
+        if (pathLength < MinimumSegmentLength)
+        {
+            WarnMissingConfiguration();
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool TryProjectOntoPath(Vector2 position, out float projectedDistance)
+    {
+        projectedDistance = 0f;
+        float nearestSqrDistance = float.MaxValue;
+        float accumulatedDistance = 0f;
+
+        for (int index = 0; index < points.Count; index++)
+        {
+            Vector2 start = points[index].position;
+            Vector2 end = points[(index + 1) % points.Count].position;
+            Vector2 segment = end - start;
+            float segmentLength = segment.magnitude;
+
+            if (segmentLength < MinimumSegmentLength)
+            {
+                continue;
+            }
+
+            float interpolation = Mathf.Clamp01(Vector2.Dot(position - start, segment) / segment.sqrMagnitude);
+            Vector2 closestPosition = start + segment * interpolation;
+            float sqrDistance = (position - closestPosition).sqrMagnitude;
+            if (sqrDistance < nearestSqrDistance)
+            {
+                nearestSqrDistance = sqrDistance;
+                projectedDistance = accumulatedDistance + segmentLength * interpolation;
+            }
+
+            accumulatedDistance += segmentLength;
+        }
+
+        return nearestSqrDistance < float.MaxValue;
+    }
+
+    private bool TryGetPointOnPath(float distance, float pathLength, out Vector2 position)
+    {
+        float wrappedDistance = Mathf.Repeat(distance, pathLength);
+        float accumulatedDistance = 0f;
+
+        for (int index = 0; index < points.Count; index++)
+        {
+            Vector2 start = points[index].position;
+            Vector2 end = points[(index + 1) % points.Count].position;
+            float segmentLength = Vector2.Distance(start, end);
+            if (segmentLength < MinimumSegmentLength)
+            {
+                continue;
+            }
+
+            if (wrappedDistance <= accumulatedDistance + segmentLength)
+            {
+                float interpolation = (wrappedDistance - accumulatedDistance) / segmentLength;
+                position = Vector2.Lerp(start, end, interpolation);
+                return true;
+            }
+
+            accumulatedDistance += segmentLength;
+        }
+
+        position = Vector2.zero;
+        return false;
+    }
+
+    private bool RemoveFollower(GameObject obj)
+    {
+        for (int index = followers.Count - 1; index >= 0; index--)
+        {
+            if (followers[index].Object != obj)
+            {
+                continue;
+            }
+
+            followers.RemoveAt(index);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void WarnMissingConfiguration()
+    {
+        if (missingConfigurationWarningShown)
         {
             return;
         }
 
-        missingPointWarningShown = true;
-        Debug.LogWarning($"{name}: a moving platform path point is missing. Assign all points in Inspector.", this);
+        missingConfigurationWarningShown = true;
+        Debug.LogWarning($"{name}: assign at least two valid path points to MagicSlidingPlatform.", this);
+    }
+
+    private static int CompareFollowersByDistance(PathFollower first, PathFollower second)
+    {
+        return first.Distance.CompareTo(second.Distance);
+    }
+
+    private static float LerpWrappedDistance(float from, float to, float pathLength, float interpolation)
+    {
+        float difference = Mathf.Repeat(to - from + pathLength * 0.5f, pathLength) - pathLength * 0.5f;
+        return Mathf.Repeat(from + difference * interpolation, pathLength);
     }
 }

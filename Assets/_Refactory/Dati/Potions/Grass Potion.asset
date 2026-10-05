@@ -11,8 +11,9 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08045c5222042224d87a969403307576, type: 3}
   m_Name: Grass Potion
-  m_EditorClassIdentifier: 
-  _name: Grass Potion
+  m_EditorClassIdentifier:
+  potionId: 4
+  _name: Seed Potion
   _potColor: {r: 0.23844782, g: 0.6415094, b: 0.3234199, a: 0.8666667}
   dialogs:
   - Grass everywhere, just like in '68
@@ -21,6 +22,22 @@ MonoBehaviour:
   - I like it
   - I like it
   effectType: 6
+  defaultSize: 0
+  variants:
+  - size: 0
+    effectValue: 1
+    visibleInCompendium: 1
+    narrativeDescription: Some excellent seeds. They grow very fast. A little water can work wonders, good soil helps them thrive, and open flames are a terrible gardening companion.
+    icon: {fileID: 8392550403479288723, guid: c46ed72b71de0254e8f156952ce6a115, type: 3}
+    animationFrames:
+    - {fileID: 8392550403479288723, guid: c46ed72b71de0254e8f156952ce6a115, type: 3}
+    - {fileID: 4256750863456478757, guid: c46ed72b71de0254e8f156952ce6a115, type: 3}
+    - {fileID: -4835166150651608890, guid: c46ed72b71de0254e8f156952ce6a115, type: 3}
+    - {fileID: -3519168952378432172, guid: c46ed72b71de0254e8f156952ce6a115, type: 3}
+    animationFrameRate: 12
+    useCustomEffectDescription: 0
+    customEffectDescription:
+    dialogOverrides: []
   burned: Maybe some water can help me
   freezed: I'm fr...zing
   wet: 
@@ -37,4 +54,3 @@ MonoBehaviour:
   tree_audio: {fileID: 0}
   balrog_audio: {fileID: 0}
   pupperFish_audio: {fileID: 0}
-  baseValue: 1

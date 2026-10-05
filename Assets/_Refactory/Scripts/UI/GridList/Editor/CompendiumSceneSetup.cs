@@ -1,4 +1,6 @@
 using Refactory.UI.GridList;
+using PotionSystem;
+using ProgressSystem;
 using TMPro;
 using UnityEditor;
 using UnityEditor.Events;
@@ -14,6 +16,8 @@ namespace Refactory.UI.GridList.Editor
     {
         private const string ScenePath = "Assets/_Refactory/Scene/TestingNew.unity";
         private const string DatabasePath = "Assets/_Refactory/Dati/GridList/GridListDatabase.asset";
+        private const string AchievementDatabasePath = "Assets/_Refactory/Dati/Achievements/Refactored Achievement Database.asset";
+        private const string PotionCatalogPath = "Assets/_Refactory/Dati/Potions/PotionCatalog.asset";
 
         [MenuItem("TheGoodNightPotion/Refactory/Setup Compendium In TestingNew")]
         public static void SetupTestingNew()
@@ -43,6 +47,8 @@ namespace Refactory.UI.GridList.Editor
             }
 
             GridListDatabase database = AssetDatabase.LoadAssetAtPath<GridListDatabase>(DatabasePath);
+            AchievementDatabase achievementDatabase = AssetDatabase.LoadAssetAtPath<AchievementDatabase>(AchievementDatabasePath);
+            PotionCatalog potionCatalog = AssetDatabase.LoadAssetAtPath<PotionCatalog>(PotionCatalogPath);
             TMP_Text tabNameText = CreateTabName(leftPage);
             RectTransform scrollRoot = CreateScrollView(leftPage);
             RectTransform entriesContainer = scrollRoot.transform.Find("Viewport/EntriesContent") as RectTransform;
@@ -52,6 +58,8 @@ namespace Refactory.UI.GridList.Editor
 
             SerializedObject viewObject = new SerializedObject(compendiumView);
             SetObject(viewObject, "database", database);
+            SetObject(viewObject, "achievementDatabase", achievementDatabase);
+            SetObject(viewObject, "potionCatalog", potionCatalog);
             SetEnum(viewObject, "startingCategory", GridListCategoryType.Home);
             SetObject(viewObject, "pageLeft", leftPage.GetComponent<RectTransform>());
             SetObject(viewObject, "pageRight", rightPage.GetComponent<RectTransform>());

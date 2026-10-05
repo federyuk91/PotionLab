@@ -45,6 +45,27 @@ namespace Refactory.UI.GridList
             };
         }
 
+        public static GridListEntryData CreatePotion(
+            PotionScriptable potion,
+            PotionScriptable.PotionVariant variant)
+        {
+            if (potion == null || variant == null)
+            {
+                return null;
+            }
+
+            return new GridListEntryData
+            {
+                id = $"{potion.Id}_{variant.Size}",
+                displayName = potion.GetDisplayName(variant),
+                description = potion.GetCompendiumDescription(variant),
+                sprite = variant.Icon,
+                animationFrames = variant.AnimationFrames,
+                animationFrameRate = variant.AnimationFrameRate,
+                unlockedByDefault = true
+            };
+        }
+
         public Sprite GetAnimatedSprite(float elapsedSeconds)
         {
             if (animationFrames == null || animationFrames.Length == 0)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using InspectorValidation;
 using UnityEngine;
 
 public class PotionScript : DroppableObject
@@ -14,16 +15,25 @@ public class PotionScript : DroppableObject
     [SerializeField, Range(0.1f, 3f)] private float activationPitchMin = 0.85f;
     [SerializeField, Range(0.1f, 3f)] private float activationPitchMax = 1.2f;
 
-    public PotionScriptable potion;
+    [RequiredInspectorReference] public PotionScriptable potion;
+    [SerializeField] private PotionScriptable.PotionSize potionSize = PotionScriptable.PotionSize.Medium;
     public bool isStackable = true;
 
     public List<PotionScript> stock = new List<PotionScript>();
+
+    public PotionScriptable.PotionSize Size => potionSize;
+    public int EffectValue => potion != null ? potion.GetEffectValue(potionSize) : 0;
 
     protected override void Awake()
     {
         base.Awake();
         EnsureRuntimeReferences();
         stock.Add(this);
+
+        if (potion != null && !potion.TryGetVariant(potionSize, out PotionScriptable.PotionVariant unusedVariant))
+        {
+            Debug.LogWarning($"{name}: PotionScriptable '{potion.name}' has no '{potionSize}' variant. Assign a supported size in Inspector.", this);
+        }
     }
 
     public void ResetRuntimeStateForPool()

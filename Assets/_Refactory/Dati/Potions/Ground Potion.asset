@@ -11,7 +11,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08045c5222042224d87a969403307576, type: 3}
   m_Name: Ground Potion
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
+  potionId: 6
   _name: Ground Potion
   _potColor: {r: 0.4716981, g: 0.271802, b: 0.20202918, a: 0.8666667}
   dialogs:
@@ -21,6 +22,22 @@ MonoBehaviour:
   - solid
   - grounded!
   effectType: 10
+  defaultSize: 0
+  variants:
+  - size: 0
+    effectValue: 2
+    visibleInCompendium: 1
+    narrativeDescription: A handful of earth to smother some flames. Helps dry a soggy robe and keeps unruly greenery under control. Try not to bury yourself in the process.
+    icon: {fileID: 909782368918440197, guid: 1a103b75ec8e47743b5cab6823f048c3, type: 3}
+    animationFrames:
+    - {fileID: 909782368918440197, guid: 1a103b75ec8e47743b5cab6823f048c3, type: 3}
+    - {fileID: 1358720898326617198, guid: 1a103b75ec8e47743b5cab6823f048c3, type: 3}
+    - {fileID: -4490480078811904652, guid: 1a103b75ec8e47743b5cab6823f048c3, type: 3}
+    - {fileID: -4789055134675694822, guid: 1a103b75ec8e47743b5cab6823f048c3, type: 3}
+    animationFrameRate: 12
+    useCustomEffectDescription: 0
+    customEffectDescription:
+    dialogOverrides: []
   burned: Maybe some water can help me
   freezed: I'm fr...zing
   wet: 
@@ -37,4 +54,3 @@ MonoBehaviour:
   tree_audio: {fileID: 0}
   balrog_audio: {fileID: 0}
   pupperFish_audio: {fileID: 0}
-  baseValue: 2

@@ -129,12 +129,12 @@ namespace CharacterSystem
 
         public void Drunk(PotionScript potion)
         {
-            if (potion == null)
+            if (potion == null || potion.potion == null)
             {
                 return;
             }
 
-            Drunk(potion.potion);
+            StartCoroutine(ResolveDrink(potion.potion, potion.Size));
         }
 
         public void Drunk(PotionScriptable potion)
@@ -144,7 +144,7 @@ namespace CharacterSystem
                 return;
             }
 
-            StartCoroutine(ResolveDrink(potion));
+            StartCoroutine(ResolveDrink(potion, potion.DefaultSize));
         }
 
         // The drinking trigger hosts this routine so changing form cannot cancel a pending drink.
@@ -155,7 +155,17 @@ namespace CharacterSystem
                 yield break;
             }
 
-            dialogManager.OnPotionDrunk(potion, GetCharacterForm(), status);
+            yield return ResolveDrink(potion, potion.DefaultSize);
+        }
+
+        public IEnumerator ResolveDrink(PotionScriptable potion, PotionScriptable.PotionSize size)
+        {
+            if (potion == null)
+            {
+                yield break;
+            }
+
+            dialogManager.OnPotionDrunk(potion, size, GetCharacterForm(), status);
             animator.SetTrigger("Drunk");
             yield return new WaitForSeconds(1f);
 
@@ -171,10 +181,10 @@ namespace CharacterSystem
                 yield break;
             }
 
-            recipient.ResolvePotionEffect(potion);
+            recipient.ResolvePotionEffect(potion, potion.GetEffectValue(size));
         }
 
-        private void ResolvePotionEffect(PotionScriptable potion)
+        private void ResolvePotionEffect(PotionScriptable potion, int effectValue)
         {
             List<Status> previousStatuses = new List<Status>(status.GetCurrentStatuses());
             PotionEffectResolving?.Invoke(this, potion, previousStatuses);
@@ -182,34 +192,34 @@ namespace CharacterSystem
             switch (potion.effectType)
             {
                 case PotionScriptable.EffectType.healing:
-                    ApplyHeal(potion);
+                    ApplyHeal(potion, effectValue);
                     break;
                 case PotionScriptable.EffectType.fire:
-                    ApplyFire(potion);
+                    ApplyFire(potion, effectValue);
                     break;
                 case PotionScriptable.EffectType.lava:
-                    ApplyLava(potion);
+                    ApplyLava(potion, effectValue);
                     break;
                 case PotionScriptable.EffectType.ice:
-                    ApplyIce(potion);
+                    ApplyIce(potion, effectValue);
                     break;
                 case PotionScriptable.EffectType.water:
-                    ApplyWet(potion);
+                    ApplyWet(potion, effectValue);
                     break;
                 case PotionScriptable.EffectType.grass:
-                    ApplyGrass(potion);
+                    ApplyGrass(potion, effectValue);
                     break;
                 case PotionScriptable.EffectType.light:
-                    ApplyLight(potion);
+                    ApplyLight(potion, effectValue);
                     break;
                 case PotionScriptable.EffectType.dark:
-                    ApplyDark(potion);
+                    ApplyDark(potion, effectValue);
                     break;
                 case PotionScriptable.EffectType.poisoned:
-                    ApplyPoison(potion);
+                    ApplyPoison(potion, effectValue);
                     break;
                 case PotionScriptable.EffectType.grounded:
-                    ApplyGround(potion);
+                    ApplyGround(potion, effectValue);
                     break;
 
                     default:
@@ -243,16 +253,16 @@ namespace CharacterSystem
             return Mathf.Infinity;
         }
 
-        public abstract void ApplyHeal(PotionScriptable ps);
-        public abstract void ApplyFire(PotionScriptable ps);
-        public abstract void ApplyLava(PotionScriptable ps);
-        public abstract void ApplyIce(PotionScriptable ps);
-        public abstract void ApplyWet(PotionScriptable ps);
-        public abstract void ApplyGrass(PotionScriptable ps);
-        public abstract void ApplyLight(PotionScriptable ps);
-        public abstract void ApplyDark(PotionScriptable ps);
-        public abstract void ApplyPoison(PotionScriptable ps);
-        public abstract void ApplyGround(PotionScriptable ps);
+        public abstract void ApplyHeal(PotionScriptable ps, int effectValue);
+        public abstract void ApplyFire(PotionScriptable ps, int effectValue);
+        public abstract void ApplyLava(PotionScriptable ps, int effectValue);
+        public abstract void ApplyIce(PotionScriptable ps, int effectValue);
+        public abstract void ApplyWet(PotionScriptable ps, int effectValue);
+        public abstract void ApplyGrass(PotionScriptable ps, int effectValue);
+        public abstract void ApplyLight(PotionScriptable ps, int effectValue);
+        public abstract void ApplyDark(PotionScriptable ps, int effectValue);
+        public abstract void ApplyPoison(PotionScriptable ps, int effectValue);
+        public abstract void ApplyGround(PotionScriptable ps, int effectValue);
 
         public void Cast(int index, bool powered)
         {

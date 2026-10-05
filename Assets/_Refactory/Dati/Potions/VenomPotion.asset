@@ -11,8 +11,9 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08045c5222042224d87a969403307576, type: 3}
   m_Name: VenomPotion
-  m_EditorClassIdentifier: 
-  _name: Venom Potion
+  m_EditorClassIdentifier:
+  potionId: 7
+  _name: Poison Potion
   _potColor: {r: 0.5943396, g: 0, b: 0.5393421, a: 0.8666667}
   dialogs:
   - I'm poisoned!
@@ -21,6 +22,22 @@ MonoBehaviour:
   - bleargh!
   - 72' poison, what a wonderful year!
   effectType: 9
+  defaultSize: 0
+  variants:
+  - size: 0
+    effectValue: 4
+    visibleInCompendium: 1
+    narrativeDescription: Don’t drink poison. A little greenery might spare you the worst, but fire makes it dangerously excitable. Drinking it while soaking wet could leave you feeling rather fishy.
+    icon: {fileID: -517353636276603117, guid: 88bee5b2da11771489473878b514bbfb, type: 3}
+    animationFrames:
+    - {fileID: 7266228807692468408, guid: 88bee5b2da11771489473878b514bbfb, type: 3}
+    - {fileID: -517353636276603117, guid: 88bee5b2da11771489473878b514bbfb, type: 3}
+    - {fileID: 9167658607632584497, guid: 88bee5b2da11771489473878b514bbfb, type: 3}
+    - {fileID: 8899822833018859902, guid: 88bee5b2da11771489473878b514bbfb, type: 3}
+    animationFrameRate: 12
+    useCustomEffectDescription: 0
+    customEffectDescription:
+    dialogOverrides: []
   burned: 
   freezed: 
   wet: 
@@ -37,4 +54,3 @@ MonoBehaviour:
   tree_audio: {fileID: 0}
   balrog_audio: {fileID: 8300000, guid: cfe7a0d49f07b40459112117ebfcd4a8, type: 3}
   pupperFish_audio: {fileID: 8300000, guid: cfe7a0d49f07b40459112117ebfcd4a8, type: 3}
-  baseValue: 4

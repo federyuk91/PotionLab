@@ -87,7 +87,7 @@ namespace CharacterSystem
         private IEnumerator ConsumePotionRoutine(PotionScript potion, BaseCharacter character)
         {
             // Await this exact drink, not the shared event emitted by every concurrent potion.
-            yield return character.ResolveDrink(potion.potion);
+            yield return character.ResolveDrink(potion.potion, potion.Size);
             yield return WaitForPendingTransformation();
 
             RegisterConsumedPotion(potion, true);

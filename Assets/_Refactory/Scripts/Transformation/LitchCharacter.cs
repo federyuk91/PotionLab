@@ -132,15 +132,15 @@ namespace CharacterSystem
             return true;
         }
 
-        public override void ApplyDark(PotionScriptable ps)
+        public override void ApplyDark(PotionScriptable ps, int effectValue)
         {
             if(stats.HP < stats.MaxHP)
-                stats.Heal(ps.baseValue);
+                stats.Heal(effectValue);
             else
-                stats.AddMana(ps.baseValue);
+                stats.AddMana(effectValue);
         }
 
-        public override void ApplyFire(PotionScriptable ps)
+        public override void ApplyFire(PotionScriptable ps, int effectValue)
         {
             if (status.Has(Status.Freezed))
             {
@@ -150,7 +150,7 @@ namespace CharacterSystem
                     status.Remove(Status.Freezed);
                     return;
                 }
-                stats.TakeDamage(ps.baseValue);
+                stats.TakeDamage(effectValue);
                 status.Remove(Status.Freezed);
                 return;
             }
@@ -164,7 +164,7 @@ namespace CharacterSystem
             status.Increase(Status.Burned);
         }
 
-        public override void ApplyIce(PotionScriptable ps)
+        public override void ApplyIce(PotionScriptable ps, int effectValue)
         {
             if (status.Has(Status.Freezed))
             {
@@ -180,7 +180,7 @@ namespace CharacterSystem
                     status.Remove(Status.Burned);
                     return;
                 }
-                stats.TakeDamage(ps.baseValue);
+                stats.TakeDamage(effectValue);
                 status.Remove(Status.Burned);
                 return;
             }
@@ -188,13 +188,13 @@ namespace CharacterSystem
             status.Add(Status.Freezed);
         }
 
-        public override void ApplyGrass(PotionScriptable ps)
+        public override void ApplyGrass(PotionScriptable ps, int effectValue)
         {
-            int damage = ps.baseValue + status.groundLevel;
+            int damage = effectValue + status.groundLevel;
             stats.TakeDamage(damage);
         }
 
-        public override void ApplyGround(PotionScriptable ps)
+        public override void ApplyGround(PotionScriptable ps, int effectValue)
         {
             status.Increase(Status.Grounded);
 
@@ -206,12 +206,12 @@ namespace CharacterSystem
             }
         }
 
-        public override void ApplyHeal(PotionScriptable ps)
+        public override void ApplyHeal(PotionScriptable ps, int effectValue)
         {
-            stats.TakeDamage(ps.baseValue);
+            stats.TakeDamage(effectValue);
         }
 
-        public override void ApplyLava(PotionScriptable ps)
+        public override void ApplyLava(PotionScriptable ps, int effectValue)
         {
             if (status.groundLevel > 0)
             {
@@ -225,24 +225,24 @@ namespace CharacterSystem
                 return;
             }
 
-            stats.TakeDamage(ps.baseValue);
+            stats.TakeDamage(effectValue);
             if(status.Has(Status.Freezed))
             {
                 stats.TakeDamage(1);
             }
         }
 
-        public override void ApplyLight(PotionScriptable ps)
+        public override void ApplyLight(PotionScriptable ps, int effectValue)
         {
-            stats.TakeDamage(ps.baseValue);
+            stats.TakeDamage(effectValue);
         }
 
-        public override void ApplyPoison(PotionScriptable ps)
+        public override void ApplyPoison(PotionScriptable ps, int effectValue)
         {
             status.TriggerImmunity();
         }
 
-        public override void ApplyWet(PotionScriptable ps)
+        public override void ApplyWet(PotionScriptable ps, int effectValue)
         {
             if(status.groundLevel>0)
             {
@@ -252,7 +252,7 @@ namespace CharacterSystem
 
             if (status.Has(Status.Burned))
             {
-                stats.TakeDamage(ps.baseValue);
+                stats.TakeDamage(effectValue);
                 return;
             }
 

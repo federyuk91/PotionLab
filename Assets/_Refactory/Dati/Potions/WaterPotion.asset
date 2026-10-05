@@ -11,7 +11,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08045c5222042224d87a969403307576, type: 3}
   m_Name: WaterPotion
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
+  potionId: 5
   _name: Water Potion
   _potColor: {r: 0, g: 0.5121491, b: 1, a: 0.8666667}
   dialogs:
@@ -20,6 +21,22 @@ MonoBehaviour:
   - '*bubble*'
   - Like a river
   effectType: 5
+  defaultSize: 0
+  variants:
+  - size: 0
+    effectValue: 1
+    visibleInCompendium: 1
+    narrativeDescription: Some fresh water, always useful and refreshing. Washes away unpleasant surprises and settles fiery tempers. Be careful what you water—and what you pour it over when frozen.
+    icon: {fileID: 3833926529033503733, guid: 1a1694ee82ded3342bde68515610b0d6, type: 3}
+    animationFrames:
+    - {fileID: 3833926529033503733, guid: 1a1694ee82ded3342bde68515610b0d6, type: 3}
+    - {fileID: 9002340328652074540, guid: 1a1694ee82ded3342bde68515610b0d6, type: 3}
+    - {fileID: 4985813154701257781, guid: 1a1694ee82ded3342bde68515610b0d6, type: 3}
+    - {fileID: -8717805206734982904, guid: 1a1694ee82ded3342bde68515610b0d6, type: 3}
+    animationFrameRate: 12
+    useCustomEffectDescription: 0
+    customEffectDescription:
+    dialogOverrides: []
   burned: What a relief!
   freezed: 
   wet: 
@@ -36,4 +53,3 @@ MonoBehaviour:
   tree_audio: {fileID: 0}
   balrog_audio: {fileID: 0}
   pupperFish_audio: {fileID: 8300000, guid: 9cac0e3bc9262b945add7c7c1783ffeb, type: 3}
-  baseValue: 1

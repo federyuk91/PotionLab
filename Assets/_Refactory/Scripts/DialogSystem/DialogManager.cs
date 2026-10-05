@@ -31,7 +31,12 @@ namespace CharacterSystem
             }
         }
 
-        public void OnPotionDrunk(PotionScriptable potion, CharacterType character, CharacterStatusController statusController, float popUpDuration = 1.5f)
+        public void OnPotionDrunk(
+            PotionScriptable potion,
+            PotionScriptable.PotionSize size,
+            CharacterType character,
+            CharacterStatusController statusController,
+            float popUpDuration = 1.5f)
         {
             if (potion == null)
             {
@@ -43,7 +48,7 @@ namespace CharacterSystem
                 return;
             }
 
-            PickADialog(potion.dialogs, popUpDuration);
+            PickADialog(potion.GetDialogs(size), popUpDuration);
         }
 
         public void OnPotionDrunk(PotionScriptable.EffectType effectType, CharacterType character, CharacterStatusController statusController, float popUpDuration = 1.5f)
@@ -93,7 +98,7 @@ namespace CharacterSystem
             return false;
         }
 
-        public void PickADialog(List<string> dialogs, float duration = -1f)
+        public void PickADialog(IReadOnlyList<string> dialogs, float duration = -1f)
         {
             if (dialogs == null || dialogs.Count == 0)
             {

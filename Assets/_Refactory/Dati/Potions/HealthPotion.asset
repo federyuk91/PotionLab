@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08045c5222042224d87a969403307576, type: 3}
+  m_Name: HealthPotion
+  m_EditorClassIdentifier:
+  potionId: 1
+  _name: Health Potion
+  _potColor: {r: 1, g: 0.02964538, b: 0, a: 0.8666667}
+  dialogs:
+  - Nice!
+  - Love it!
+  - So juicy!
+  - Red like me!
+  effectType: 0
+  defaultSize: 0
+  variants:
+  - size: 1
+    effectValue: 1
+    visibleInCompendium: 1
+    narrativeDescription: A little comfort in a tiny bottle. Just enough to patch up a scratch and pretend everything is fine.
+    icon: {fileID: 2610106904654260277, guid: f0c6963eeeba0e741b05332e7de9ae97, type: 3}
+    animationFrames:
+    - {fileID: 6468837596063034635, guid: f0c6963eeeba0e741b05332e7de9ae97, type: 3}
+    - {fileID: 2610106904654260277, guid: f0c6963eeeba0e741b05332e7de9ae97, type: 3}
+    - {fileID: 8897779110357489536, guid: f0c6963eeeba0e741b05332e7de9ae97, type: 3}
+    - {fileID: -5264364972671565825, guid: f0c6963eeeba0e741b05332e7de9ae97, type: 3}
+    animationFrameRate: 12
+    useCustomEffectDescription: 0
+    customEffectDescription:
+    dialogOverrides:
+    - '*sip*'
+    - Gnam!
+    - '*slurp*'
+    - '*burp*'
+  - size: 0
+    effectValue: 3
+    visibleInCompendium: 1
+    narrativeDescription: A dependable remedy for a difficult night. Best enjoyed before your wounds become someone else’s problem.
+    icon: {fileID: 4541355803882593998, guid: 4519fb72ad3086c4197faba476ecdb1d, type: 3}
+    animationFrames:
+    - {fileID: -6716467235744403431, guid: 4519fb72ad3086c4197faba476ecdb1d, type: 3}
+    - {fileID: 4541355803882593998, guid: 4519fb72ad3086c4197faba476ecdb1d, type: 3}
+    - {fileID: 8668383501134534308, guid: 4519fb72ad3086c4197faba476ecdb1d, type: 3}
+    - {fileID: 2287155549514399587, guid: 4519fb72ad3086c4197faba476ecdb1d, type: 3}
+    animationFrameRate: 12
+    useCustomEffectDescription: 0
+    customEffectDescription:
+    dialogOverrides: []
+  - size: 2
+    effectValue: 5
+    visibleInCompendium: 1
+    narrativeDescription: A generous dose of second chances. For nights when a small sip simply won’t put you back together.
+    icon: {fileID: -1834088911562275152, guid: 3bcbfe3450d294a45a466ee92b5a7219, type: 3}
+    animationFrames:
+    - {fileID: -1834088911562275152, guid: 3bcbfe3450d294a45a466ee92b5a7219, type: 3}
+    - {fileID: 725045715109579705, guid: 3bcbfe3450d294a45a466ee92b5a7219, type: 3}
+    - {fileID: -7871615091322047850, guid: 3bcbfe3450d294a45a466ee92b5a7219, type: 3}
+    - {fileID: 2377688999188809073, guid: 3bcbfe3450d294a45a466ee92b5a7219, type: 3}
+    animationFrameRate: 12
+    useCustomEffectDescription: 0
+    customEffectDescription:
+    dialogOverrides:
+    - WOW!
+    - AMAZING!
+    - I'm felling 22!
+    - 'SLURP '
+  burned: 
+  freezed: 
+  wet: 
+  grass: 
+  tree: 
+  balrog: 
+  none: {fileID: 8300000, guid: 701ac6075b8881643ab3713ad0a6e8ac, type: 3}
+  burned_audio: {fileID: 0}
+  freezed_audio: {fileID: 0}
+  wet_audio: {fileID: 0}
+  grass_audio: {fileID: 0}
+  tree_audio: {fileID: 0}
+  balrog_audio: {fileID: 0}

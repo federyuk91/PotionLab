@@ -11,7 +11,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08045c5222042224d87a969403307576, type: 3}
   m_Name: FirePotion
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
+  potionId: 3
   _name: Fire Potion
   _potColor: {r: 1, g: 0.044128034, b: 0, a: 0.8666667}
   dialogs:
@@ -21,6 +22,22 @@ MonoBehaviour:
   - I'd like some fresh water
   - ahi!
   effectType: 2
+  defaultSize: 0
+  variants:
+  - size: 0
+    effectValue: 3
+    visibleInCompendium: 1
+    narrativeDescription: Great for drying yourself off or lighting up some weeds. Thaws chilly fingers, warms cold bones, and should never be mixed carelessly with poison.
+    icon: {fileID: -2172864323747464720, guid: edab2cf6e83ce054aa717b7051e46c14, type: 3}
+    animationFrames:
+    - {fileID: -818994644622335576, guid: edab2cf6e83ce054aa717b7051e46c14, type: 3}
+    - {fileID: 6695512830216543636, guid: edab2cf6e83ce054aa717b7051e46c14, type: 3}
+    - {fileID: 867770312288079976, guid: edab2cf6e83ce054aa717b7051e46c14, type: 3}
+    - {fileID: -2172864323747464720, guid: edab2cf6e83ce054aa717b7051e46c14, type: 3}
+    animationFrameRate: 12
+    useCustomEffectDescription: 0
+    customEffectDescription:
+    dialogOverrides: []
   burned: 
   freezed: I'm still wet, I guess that's an improvement
   wet: Washed and dried, ready to sleep?
@@ -37,4 +54,3 @@ MonoBehaviour:
   tree_audio: {fileID: 8300000, guid: 3d4f6ea1cf117674f9492e94d6be4aa6, type: 3}
   balrog_audio: {fileID: 8300000, guid: e05fae91473184b478941338d90f1f26, type: 3}
   pupperFish_audio: {fileID: 0}
-  baseValue: 3

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08045c5222042224d87a969403307576, type: 3}
   m_Name: LightPotion
   m_EditorClassIdentifier: 
+  potionId: 9
   _name: Light Potion
   _potColor: {r: 1, g: 0.9260169, b: 0, a: 0.8666667}
   dialogs:
@@ -21,12 +22,53 @@ MonoBehaviour:
   - '**sparkle sparkle**'
   - Too bright!
   effectType: 7
+  defaultSize: 2
+  variants:
+  - size: 1
+    effectValue: 1
+    visibleInCompendium: 1
+    narrativeDescription: A little light and a little magic for a weary wizard. Enough
+      to brighten a gloomy moment. Even a small spark feels different when you are
+      already brimming with power.
+    icon: {fileID: 8897779110357489536, guid: f7f07477b3f60e94087be0d65b69b410, type: 3}
+    animationFrames:
+    - {fileID: 6468837596063034635, guid: f7f07477b3f60e94087be0d65b69b410, type: 3}
+    - {fileID: 2610106904654260277, guid: f7f07477b3f60e94087be0d65b69b410, type: 3}
+    - {fileID: 8897779110357489536, guid: f7f07477b3f60e94087be0d65b69b410, type: 3}
+    - {fileID: -5264364972671565825, guid: f7f07477b3f60e94087be0d65b69b410, type: 3}
+    animationFrameRate: 12
+    useCustomEffectDescription: 0
+    customEffectDescription: 
+    dialogOverrides:
+    - ye!
+    - slurp!
+    - My magic is going Up!
+    - '**sparkle **'
+    - Too bright!
+  - size: 2
+    effectValue: 3
+    visibleInCompendium: 1
+    narrativeDescription: Bring some light to the lab and put a little wonder back
+      in your wand. Chases away darker influences. A wizard already full of magic
+      may find it especially uplifting.
+    icon: {fileID: 2202341305063842851, guid: 6a03806f08d40034fa2368e51554b262, type: 3}
+    animationFrames:
+    - {fileID: 537329105770137586, guid: 6a03806f08d40034fa2368e51554b262, type: 3}
+    - {fileID: -1822847902653869205, guid: 6a03806f08d40034fa2368e51554b262, type: 3}
+    - {fileID: 3302742921862709503, guid: 6a03806f08d40034fa2368e51554b262, type: 3}
+    - {fileID: 2202341305063842851, guid: 6a03806f08d40034fa2368e51554b262, type: 3}
+    animationFrameRate: 12
+    useCustomEffectDescription: 0
+    customEffectDescription: 
+    dialogOverrides: []
   burned: 
   freezed: 
   wet: 
   grass: 
   tree: 
   balrog: 
+  poisoned: 
+  pupperFish: 
   none: {fileID: 8300000, guid: d78875c2f4d1dbb40a06f170643a006f, type: 3}
   burned_audio: {fileID: 0}
   freezed_audio: {fileID: 0}
@@ -34,4 +76,4 @@ MonoBehaviour:
   grass_audio: {fileID: 0}
   tree_audio: {fileID: 0}
   balrog_audio: {fileID: 0}
-  baseValue: 1
+  pupperFish_audio: {fileID: 0}

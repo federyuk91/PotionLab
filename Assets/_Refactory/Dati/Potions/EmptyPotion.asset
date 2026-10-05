@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08045c5222042224d87a969403307576, type: 3}
+  m_Name: EmptyPotion
+  m_EditorClassIdentifier:
+  potionId: 11
+  _name: Empty Potion
+  _potColor: {r: 1, g: 1, b: 1, a: 1}
+  dialogs: []
+  effectType: 11
+  defaultSize: 0
+  variants:
+  - size: 0
+    effectValue: 0
+    visibleInCompendium: 1
+    narrativeDescription: I hate these empty bottles. Smash them! No remedy, no magic, not even a disappointing sip—just glass taking up valuable potion space.
+    icon: {fileID: 21300000, guid: ef82a48044edd41449c29d52a5e2cdb8, type: 3}
+    animationFrames: []
+    animationFrameRate: 12
+    useCustomEffectDescription: 0
+    customEffectDescription:
+    dialogOverrides: []
+  burned:
+  freezed:
+  wet:
+  grass:
+  tree:
+  balrog:
+  poisoned:
+  pupperFish:
+  none: {fileID: 0}
+  burned_audio: {fileID: 0}
+  freezed_audio: {fileID: 0}
+  wet_audio: {fileID: 0}
+  grass_audio: {fileID: 0}
+  tree_audio: {fileID: 0}
+  balrog_audio: {fileID: 0}
+  pupperFish_audio: {fileID: 0}

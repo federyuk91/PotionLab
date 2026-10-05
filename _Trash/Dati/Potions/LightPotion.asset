@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08045c5222042224d87a969403307576, type: 3}
-  m_Name: LightPotion_medium
+  m_Name: LightPotion
   m_EditorClassIdentifier: 
   _name: Light Potion
   _potColor: {r: 1, g: 0.9260169, b: 0, a: 0.8666667}
@@ -27,8 +27,6 @@ MonoBehaviour:
   grass: 
   tree: 
   balrog: 
-  poisoned: 
-  pupperFish: 
   none: {fileID: 8300000, guid: d78875c2f4d1dbb40a06f170643a006f, type: 3}
   burned_audio: {fileID: 0}
   freezed_audio: {fileID: 0}
@@ -36,5 +34,4 @@ MonoBehaviour:
   grass_audio: {fileID: 0}
   tree_audio: {fileID: 0}
   balrog_audio: {fileID: 0}
-  pupperFish_audio: {fileID: 0}
-  baseValue: 3
+  baseValue: 1

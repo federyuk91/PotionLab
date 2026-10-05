@@ -12382,7 +12382,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activationPitchMin: 0.85
   activationPitchMax: 1.2
-  potion: {fileID: 11400000, guid: 2f6527ff88708b843b9353ea407c2f83, type: 2}
+  potion: {fileID: 11400000, guid: 218697ff58b5ea443a76bee267d35415, type: 2}
+  potionSize: 1
   whiteSquare: {fileID: 1517701955}
   isActive: 1
   isStackable: 1
@@ -20651,7 +20652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 815d18cb40a75d2419e9548c85fdac89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.035
+  speedUnitsPerSecond: 1.75
   points:
   - {fileID: 1127603944}
   - {fileID: 690235001}
@@ -20669,7 +20670,7 @@ MonoBehaviour:
   - {fileID: 213199964}
   - {fileID: 652717357}
   - {fileID: 1198276142}
-  dest: 000000000200000004000000060000000700000000000000
+  initialSpacing: 0
 --- !u!61 &1406047596
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -24480,7 +24481,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activationPitchMin: 0.85
   activationPitchMax: 1.2
-  potion: {fileID: 11400000, guid: 2f6527ff88708b843b9353ea407c2f83, type: 2}
+  potion: {fileID: 11400000, guid: 218697ff58b5ea443a76bee267d35415, type: 2}
+  potionSize: 1
   whiteSquare: {fileID: 3256015}
   isActive: 1
   isStackable: 1

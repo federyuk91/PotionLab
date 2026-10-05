@@ -49,48 +49,48 @@ namespace CharacterSystem
             return true;
         }
 
-        public override void ApplyDark(PotionScriptable ps)
+        public override void ApplyDark(PotionScriptable ps, int effectValue)
         {
-            stats.AddMana(ps.baseValue);
+            stats.AddMana(effectValue);
             Debug.Log("Una vecchia strega sa apprezzare oscurit� in bottiglia");
         }
 
-        public override void ApplyFire(PotionScriptable ps)
+        public override void ApplyFire(PotionScriptable ps, int effectValue)
         {
             Debug.Log("Noi streghe non andiamo d'accordo con le fiamme");
             status.TriggerImmunity();
             return;
         }
 
-        public override void ApplyIce(PotionScriptable ps)
+        public override void ApplyIce(PotionScriptable ps, int effectValue)
         {
             Debug.Log($"Un po' di ghiaccio � l'ideale per un succo sulla spiaggia");
-            stats.Heal(ps.baseValue);
+            stats.Heal(effectValue);
             return;
         }
 
-        public override void ApplyGrass(PotionScriptable ps)
+        public override void ApplyGrass(PotionScriptable ps, int effectValue)
         {
             Debug.Log($"Eh eh, ingrediente segreto");
             status.TriggerImmunity();
             return;
         }
 
-        public override void ApplyGround(PotionScriptable ps)
+        public override void ApplyGround(PotionScriptable ps, int effectValue)
         {
             Debug.Log($"Questo roviner� il mio intruglio D:");
             status.TriggerImmunity();
             return;
         }
 
-        public override void ApplyHeal(PotionScriptable ps)
+        public override void ApplyHeal(PotionScriptable ps, int effectValue)
         {
             Debug.Log("Non mi fa' impazzire questa roba");
             status.TriggerImmunity();
             return;
         }
 
-        public override void ApplyLava(PotionScriptable ps)
+        public override void ApplyLava(PotionScriptable ps, int effectValue)
         {
 
             Debug.Log($"Solo quel vecchio idiota pu� bere una cosa del genere");
@@ -98,7 +98,7 @@ namespace CharacterSystem
             return;
         }
 
-        public override void ApplyLight(PotionScriptable ps)
+        public override void ApplyLight(PotionScriptable ps, int effectValue)
         {
 
             Debug.Log($"Dovrei tenerne un po' per quel pelato");
@@ -106,14 +106,14 @@ namespace CharacterSystem
             return;
         }
 
-        public override void ApplyPoison(PotionScriptable ps)
+        public override void ApplyPoison(PotionScriptable ps, int effectValue)
         {
             Debug.Log($"La mia favorit�");
             status.TriggerImmunity();
             return;
         }
 
-        public override void ApplyWet(PotionScriptable ps)
+        public override void ApplyWet(PotionScriptable ps, int effectValue)
         {
 
             Debug.Log($"mmm Annacquato");

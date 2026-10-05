@@ -33763,7 +33763,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activationPitchMin: 0.85
   activationPitchMax: 1.2
-  potion: {fileID: 11400000, guid: c81c9f3d4e0874e459ff4e22b4699dd2, type: 2}
+  potion: {fileID: 11400000, guid: 6a79b5d7adb9f7f45b99dfa7a2ee8b24, type: 2}
+  potionSize: 2
   whiteSquare: {fileID: 98919787}
   isActive: 1
   isStackable: 1
@@ -36848,7 +36849,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activationPitchMin: 0.85
   activationPitchMax: 1.2
-  potion: {fileID: 11400000, guid: 4ce7f634bb7134d44b1b22c6e081ff14, type: 2}
+  potion: {fileID: 11400000, guid: 6a79b5d7adb9f7f45b99dfa7a2ee8b24, type: 2}
+  potionSize: 1
   whiteSquare: {fileID: 1345755392}
   isActive: 1
   isStackable: 1
@@ -45476,7 +45478,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activationPitchMin: 0.85
   activationPitchMax: 1.2
-  potion: {fileID: 11400000, guid: 4ce7f634bb7134d44b1b22c6e081ff14, type: 2}
+  potion: {fileID: 11400000, guid: 6a79b5d7adb9f7f45b99dfa7a2ee8b24, type: 2}
+  potionSize: 1
   whiteSquare: {fileID: 786358085}
   isActive: 1
   isStackable: 1
@@ -46155,7 +46158,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activationPitchMin: 0.85
   activationPitchMax: 1.2
-  potion: {fileID: 11400000, guid: 2f6527ff88708b843b9353ea407c2f83, type: 2}
+  potion: {fileID: 11400000, guid: 218697ff58b5ea443a76bee267d35415, type: 2}
+  potionSize: 1
   whiteSquare: {fileID: 650550672}
   isActive: 1
   isStackable: 1
