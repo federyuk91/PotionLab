@@ -1,4 +1,5 @@
 using System;
+using ProgressSystem;
 using UnityEngine;
 
 namespace Refactory.UI.GridList
@@ -16,6 +17,8 @@ namespace Refactory.UI.GridList
         [SerializeField] private bool unlockedByDefault;
         [SerializeField] private int sceneBuildIndex = -1;
 
+        private AchievementId runtimeAchievementId;
+
         public string Id => id;
         public string DisplayName => displayName;
         public string ShortDescription => shortDescription;
@@ -24,6 +27,23 @@ namespace Refactory.UI.GridList
         public bool UnlockedByDefault => unlockedByDefault;
         public int SceneBuildIndex => sceneBuildIndex;
         public bool HasScene => sceneBuildIndex >= 0;
+        public AchievementId RuntimeAchievementId => runtimeAchievementId;
+
+        public static GridListEntryData CreateAchievement(
+            AchievementId achievementId,
+            string achievementDisplayName,
+            string achievementDescription,
+            Sprite achievementSprite)
+        {
+            return new GridListEntryData
+            {
+                id = achievementId.ToString(),
+                displayName = achievementDisplayName,
+                description = achievementDescription,
+                sprite = achievementSprite,
+                runtimeAchievementId = achievementId
+            };
+        }
 
         public Sprite GetAnimatedSprite(float elapsedSeconds)
         {
