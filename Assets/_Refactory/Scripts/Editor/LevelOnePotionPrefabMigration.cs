@@ -14,7 +14,7 @@ public static class LevelOnePotionPrefabMigration
     private const string LightMediumPrefabPath = "Assets/_Refactory/Prefabs/Potions/Light Potion.prefab";
     private const string LightSmallPrefabPath = "Assets/_Refactory/Prefabs/Potions/LightPotionSmall.prefab";
 
-    [MenuItem("Tools/The Good Night Potion/Migration/Replace Active Level Potion Prefabs")]
+    [MenuItem("Tools/The Good Night Potion/Migration/Replace Active Level Potion Prefabs %&m")]
     private static void ReplacePotionPrefabs()
     {
         Scene scene = SceneManager.GetActiveScene();

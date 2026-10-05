@@ -11,18 +11,20 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08045c5222042224d87a969403307576, type: 3}
   m_Name: Ice Potion
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   potionId: 8
   _name: Ice Potion
   _potColor: {r: 0.51677644, g: 0.6341661, b: 0.745283, a: 0.8666667}
   dialogs: []
   effectType: 4
-  defaultSize: 0
+  defaultSize: 2
   variants:
-  - size: 0
+  - size: 2
     effectValue: 1
     visibleInCompendium: 1
-    narrativeDescription: A bitter chill to freeze your heart and silence an unruly garden. Takes the heat out of a bad situation, but wet robes make poor winter clothing.
+    narrativeDescription: A bitter chill to freeze your heart and silence an unruly
+      garden. Takes the heat out of a bad situation, but wet robes make poor winter
+      clothing.
     icon: {fileID: -6273755256659582499, guid: df86eb8c0b6abf0499a295c1d9b330b3, type: 3}
     animationFrames:
     - {fileID: 8456340560046226029, guid: df86eb8c0b6abf0499a295c1d9b330b3, type: 3}
@@ -31,7 +33,7 @@ MonoBehaviour:
     - {fileID: 1547809334161273600, guid: df86eb8c0b6abf0499a295c1d9b330b3, type: 3}
     animationFrameRate: 12
     useCustomEffectDescription: 0
-    customEffectDescription:
+    customEffectDescription: 
     dialogOverrides: []
   burned: 
   freezed: 

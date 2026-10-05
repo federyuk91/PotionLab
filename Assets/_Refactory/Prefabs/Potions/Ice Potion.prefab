@@ -205,11 +205,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2806e29d1701db43aa3c9c73e46ad29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  whiteSquare: {fileID: 5559203232184586319}
+  isActive: 1
   activationPitchMin: 0.85
   activationPitchMax: 1.2
   potion: {fileID: 11400000, guid: b3f7d9cfe32bdb84bbc428f2825d888c, type: 2}
-  whiteSquare: {fileID: 5559203232184586319}
-  isActive: 1
+  potionSize: 2
   isStackable: 1
   stock: []
 --- !u!82 &3038806741272832876
