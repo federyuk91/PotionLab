@@ -9,6 +9,8 @@ namespace EndlessSystem
 {
     public class EndlessManager : MonoBehaviour
     {
+        private const float SpawnRetryDelay = 0.1f;
+
         public int CurrentWave => Mathf.Max(1, waveNumber);
         public EndlessPhaseSettings CurrentPhase => phases != null && phases.Count > 0
             ? phases[Mathf.Clamp(phaseIndex, 0, phases.Count - 1)]
@@ -31,9 +33,7 @@ namespace EndlessSystem
         [RequiredInspectorReference(ResolveMode.SceneSingleton)]
         [SerializeField] private EndlessEventController eventController;
         [RequiredInspectorReference]
-        [SerializeField] private Transform spawnPoint;
-        [RequiredInspectorReference(ResolveMode.SceneSingleton)]
-        [SerializeField] private PotionPool potionPool;
+        [SerializeField] private Spawner automaticSpawner;
 
         [Header("Wave Audio")]
         [RequiredInspectorReference]
@@ -52,14 +52,12 @@ namespace EndlessSystem
         private int spawnedPotionsInCurrentPhase;
         private Coroutine spawnCoroutine;
         private CharacterStats flawlessCharacterStats;
-        private readonly HashSet<PotionScript> activeEndlessPotions = new HashSet<PotionScript>();
         private bool flawlessEndingRun;
         private bool missingGameManagerWarningShown;
         private bool missingLightControllerWarningShown;
         private bool missingLevelSettingsWarningShown;
-        private bool missingSpawnPointWarningShown;
         private bool missingEventControllerWarningShown;
-        private bool missingPotionPoolWarningShown;
+        private bool missingAutomaticSpawnerWarningShown;
 
         private void OnEnable()
         {
@@ -72,8 +70,7 @@ namespace EndlessSystem
             gameManager.LevelInteractionStarted += HandleLevelInteractionStarted;
             gameManager.LevelCompleted += StopEndless;
             gameManager.CharacterDied += HandleCharacterDied;
-            gameManager.PotionRemoved += HandlePotionRemoved;
-            gameManager.PotionReplaced += HandlePotionReplaced;
+            gameManager.PotionRegistered += HandlePotionRegistered;
         }
 
         private void OnDisable()
@@ -83,8 +80,7 @@ namespace EndlessSystem
                 gameManager.LevelInteractionStarted -= HandleLevelInteractionStarted;
                 gameManager.LevelCompleted -= StopEndless;
                 gameManager.CharacterDied -= HandleCharacterDied;
-                gameManager.PotionRemoved -= HandlePotionRemoved;
-                gameManager.PotionReplaced -= HandlePotionReplaced;
+                gameManager.PotionRegistered -= HandlePotionRegistered;
             }
 
             StopEndless();
@@ -118,7 +114,8 @@ namespace EndlessSystem
             {
                 activeLightController.ResumeLightDuration();
             }
-            activeEndlessPotions.Clear();
+            ConfigureAutomaticSpawner(CurrentPhase);
+            automaticSpawner.EnsurePotionAvailable();
             SubscribeToFlawlessDamage();
             PhaseChanged?.Invoke(phaseIndex);
             WaveChanged?.Invoke(CurrentWave);
@@ -143,45 +140,23 @@ namespace EndlessSystem
             {
                 EndlessPhaseSettings phase = phases[phaseIndex];
                 spawnedPotionsInCurrentPhase = 0;
+                ConfigureAutomaticSpawner(phase);
 
                 while (spawnedPotionsInCurrentPhase < phase.NextPhaseAfterSpawnedPotions)
                 {
                     yield return new WaitForSeconds(GetSpawnInterval(phase));
-                    SpawnPotion(phase);
+
+                    while (!automaticSpawner.TryDropPotion())
+                    {
+                        yield return new WaitForSeconds(SpawnRetryDelay);
+                    }
+
                     spawnedPotionsInCurrentPhase++;
                     NotifyPhaseProgress();
                 }
 
                 TriggerPhaseEvent(phase);
                 AdvancePhase();
-            }
-        }
-
-        private void SpawnPotion(EndlessPhaseSettings phase)
-        {
-            GameObject potionPrefab = phase.PickRandomPotionPrefab();
-            if (potionPrefab == null)
-            {
-                Debug.LogWarning($"{name}: Endless phase '{phase.name}' did not return a potion prefab.", this);
-                return;
-            }
-
-            PotionScript potion = potionPool.Get(potionPrefab, spawnPoint.position, Quaternion.identity);
-
-            if (potion == null)
-            {
-                Debug.LogWarning($"{name}: Spawned endless prefab '{potionPrefab.name}' has no PotionScript component.", this);
-                return;
-            }
-
-            potion.DropPotion(false);
-            activeEndlessPotions.Add(potion);
-            gameManager.RegisterSpawnedPotion(potion);
-            SpawnedPotionCountChanged?.Invoke(gameManager.spawnedPotion);
-
-            if (activeEndlessPotions.Count > levelSettings.MaxActivePotionsBeforeBomb)
-            {
-                TriggerOverflowBombEvent();
             }
         }
 
@@ -228,6 +203,7 @@ namespace EndlessSystem
 
             spawnedPotionsInCurrentPhase = 0;
             waveNumber++;
+            ConfigureAutomaticSpawner(CurrentPhase);
             PlayNextWaveAudio();
             PhaseChanged?.Invoke(phaseIndex);
             WaveChanged?.Invoke(CurrentWave);
@@ -334,15 +310,9 @@ namespace EndlessSystem
                 canStart = false;
             }
 
-            if (spawnPoint == null)
+            if (automaticSpawner == null)
             {
-                WarnMissingSpawnPoint();
-                canStart = false;
-            }
-
-            if (potionPool == null)
-            {
-                WarnMissingPotionPool();
+                WarnMissingAutomaticSpawner();
                 canStart = false;
             }
 
@@ -385,26 +355,28 @@ namespace EndlessSystem
             return gameManager != null ? gameManager.lightController : null;
         }
 
-        private void HandlePotionRemoved(PotionScript potion, bool drunked)
+        private void ConfigureAutomaticSpawner(EndlessPhaseSettings phase)
         {
-            if (potion == null)
+            if (automaticSpawner == null || phase == null)
             {
                 return;
             }
 
-            activeEndlessPotions.Remove(potion);
+            automaticSpawner.SetSpawnSettings(phase);
         }
 
-        private void HandlePotionReplaced(PotionScript sourcePotion, PotionScript replacementPotion)
+        private void HandlePotionRegistered(PotionScript potion)
         {
-            if (sourcePotion != null)
+            if (potion == null || gameManager == null || levelSettings == null)
             {
-                activeEndlessPotions.Remove(sourcePotion);
+                return;
             }
 
-            if (replacementPotion != null)
+            SpawnedPotionCountChanged?.Invoke(gameManager.spawnedPotion);
+
+            if (gameManager.ActivePotionCount > levelSettings.MaxActivePotionsBeforeBomb)
             {
-                activeEndlessPotions.Add(replacementPotion);
+                TriggerOverflowBombEvent();
             }
         }
 
@@ -479,17 +451,6 @@ namespace EndlessSystem
             Debug.LogWarning($"{name}: LevelSettings reference is missing. Assign it in Inspector so endless mode settings can be read.", this);
         }
 
-        private void WarnMissingSpawnPoint()
-        {
-            if (missingSpawnPointWarningShown)
-            {
-                return;
-            }
-
-            missingSpawnPointWarningShown = true;
-            Debug.LogWarning($"{name}: SpawnPoint reference is missing. Assign it in Inspector to spawn endless potions.", this);
-        }
-
         private void WarnMissingEventController()
         {
             if (missingEventControllerWarningShown)
@@ -501,15 +462,15 @@ namespace EndlessSystem
             Debug.LogWarning($"{name}: EndlessEventController reference is missing. Assign it in Inspector to run endless phase events.", this);
         }
 
-        private void WarnMissingPotionPool()
+        private void WarnMissingAutomaticSpawner()
         {
-            if (missingPotionPoolWarningShown)
+            if (missingAutomaticSpawnerWarningShown)
             {
                 return;
             }
 
-            missingPotionPoolWarningShown = true;
-            Debug.LogWarning($"{name}: PotionPool reference is missing. Assign it in Inspector so endless can reuse potion instances.", this);
+            missingAutomaticSpawnerWarningShown = true;
+            Debug.LogWarning($"{name}: Automatic Spawner reference is missing. Assign a dedicated Spawner in Inspector to release endless potions.", this);
         }
     }
 }

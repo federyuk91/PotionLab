@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public event Action LevelCompleted;
     public event Action<bool> SpellBarVisibilityChanged;
     public event Action<string> CharacterDied;
+    public event Action<PotionScript> PotionRegistered;
     public event Action<PotionScript, bool> PotionRemoved;
     public event Action<PotionScript, PotionScript> PotionReplaced;
 
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
     public bool IsLaboratoryMode => GameMode == LevelGameMode.Laboratory;
     public bool IsEndlessMode => GameMode == LevelGameMode.Endless;
     public int LevelPotionTarget => levelPotionTarget;
+    public int ActivePotionCount => levelPotions != null ? levelPotions.Count : 0;
     public int BestHealthScore => GetBestHealthScore();
     public int MaxMalusScore => GetMaxMalusScore();
     public int BestProceduralScore => GetBestProceduralScore();
@@ -259,6 +261,7 @@ public class GameManager : MonoBehaviour
 
         spawnedPotion++;
         levelPotions.Add(potion);
+        PotionRegistered?.Invoke(potion);
     }
 
     public void ReplacePotion(PotionScript sourcePotion, PotionScript replacementPotion)

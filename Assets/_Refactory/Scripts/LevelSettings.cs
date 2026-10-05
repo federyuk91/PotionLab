@@ -68,7 +68,7 @@ public class LevelSettings : MonoBehaviour
     [SerializeField] private float minimumSpawnSeconds = 1f;
 
     [Header("Endless Events")]
-    [SerializeField] private int maxActivePotionsBeforeBomb = 30;
+    [SerializeField] private int maxActivePotionsBeforeBomb = 40;
 
     public bool IsPuzzleMode => isPuzzleMode;
     public LevelGameMode GameMode => gameMode;

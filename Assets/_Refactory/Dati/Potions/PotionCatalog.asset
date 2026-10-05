@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1996495881d4787920a8d35d06e0162, type: 3}
   m_Name: PotionCatalog
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   potions:
   - {fileID: 11400000, guid: 6a79b5d7adb9f7f45b99dfa7a2ee8b24, type: 2}
   - {fileID: 11400000, guid: dab092527feed49418cfd26d92f6be57, type: 2}
@@ -21,6 +21,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 328b8ae070cfa72438b2cd0adddce806, type: 2}
   - {fileID: 11400000, guid: 6f3bfe39ec1a5a348ba1c25e83c55c7e, type: 2}
   - {fileID: 11400000, guid: b3f7d9cfe32bdb84bbc428f2825d888c, type: 2}
-  - {fileID: 11400000, guid: 218697ff58b5ea443a76bee267d35415, type: 2}
+  - {fileID: 11400000, guid: 5db99fd33fbb1984a9b17773c886032a, type: 2}
   - {fileID: 11400000, guid: 3183458a90755324f9ee7c8a44ea51df, type: 2}
   - {fileID: 11400000, guid: 384e0a85d0f34f0f9ae48da7c8cd28ae, type: 2}

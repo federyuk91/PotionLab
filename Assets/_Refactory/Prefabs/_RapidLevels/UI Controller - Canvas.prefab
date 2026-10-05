@@ -10516,9 +10516,9 @@ RectTransform:
   - {fileID: 6283774188228294147}
   m_Father: {fileID: 8593287428375794570}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 440, y: -118}
   m_SizeDelta: {x: 280, y: 110}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &3799413891948766072
@@ -12695,9 +12695,9 @@ RectTransform:
   - {fileID: 5877974042548492960}
   m_Father: {fileID: 8593287428375794570}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 140, y: -118}
   m_SizeDelta: {x: 280, y: 110}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &2985031502667781455
@@ -16025,7 +16025,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2740231437043694328
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24444,6 +24444,7 @@ MonoBehaviour:
   grimoireBaseCanvasGroup: {fileID: 7774305128063412215}
   grimoireBaseFadeDuration: 0.25
   compendiumView: {fileID: 5616860986716701568}
+  shakyShakyDamageWindow: 1
   grimoireCursorTexture: {fileID: 2800000, guid: 1ae000fdba9131440a2166da2b85de67, type: 3}
   grimoireCursorHotspot: {x: 16, y: 16}
   grimoireCursorMode: 1

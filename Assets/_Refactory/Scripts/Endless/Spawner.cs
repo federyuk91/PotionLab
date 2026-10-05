@@ -29,8 +29,11 @@ public class Spawner : MonoBehaviour
     private bool missingSpawnSettingsWarningShown;
     private bool missingBlockColliderWarningShown;
     private bool missingSpawnerButtonWarningShown;
+    private bool missingAnimatorWarningShown;
 
     public PotionScript potion => currentPotion;
+
+    public bool HasPotionAvailable => currentPotion != null;
 
     private void Awake()
     {
@@ -109,6 +112,28 @@ public class Spawner : MonoBehaviour
         currentPotion.DropPotion(false);
     }
 
+    public void SetSpawnSettings(EndlessPhaseSettings settings)
+    {
+        if (settings == null)
+        {
+            Debug.LogWarning($"{name}: cannot assign missing spawn settings.", this);
+            return;
+        }
+
+        spawnSettings = settings;
+    }
+
+    public bool EnsurePotionAvailable()
+    {
+        if (currentPotion != null)
+        {
+            return true;
+        }
+
+        Spawn();
+        return currentPotion != null;
+    }
+
     public void ActivateButton()
     {
         SetSpawnerButtonActive(true);
@@ -116,23 +141,37 @@ public class Spawner : MonoBehaviour
 
     public void DropPotion()
     {
+        TryDropPotion();
+    }
+
+    public bool TryDropPotion()
+    {
         if (stopDrop || !CanCharacterContinue())
         {
-            Debug.Log("Wait");
-            return;
+            return false;
         }
 
         if (currentPotion == null)
         {
             ScheduleSpawn(replaceMissingPotionDelay);
-            return;
+            return false;
         }
-        animator.SetTrigger("Open");
+
+        if (animator == null)
+        {
+            WarnMissingAnimator();
+        }
+        else
+        {
+            animator.SetTrigger("Open");
+        }
+
         blockCollider.enabled = false;
         SetSpawnerButtonActive(false);
 
         ClickLightEvents.RaiseTargetClicked(currentPotion.transform);
         ScheduleSpawn(dropTime);
+        return true;
     }
 
     public void EnableBlockCollider()
@@ -321,5 +360,16 @@ public class Spawner : MonoBehaviour
 
         missingSpawnerButtonWarningShown = true;
         Debug.LogWarning($"{name}: SpawnerButton reference is missing. Assign it in Inspector so the manual drop button can be shown/hidden.", this);
+    }
+
+    private void WarnMissingAnimator()
+    {
+        if (missingAnimatorWarningShown)
+        {
+            return;
+        }
+
+        missingAnimatorWarningShown = true;
+        Debug.LogWarning($"{name}: Animator reference is missing. Assign the hatch Animator in Inspector to play the opening animation.", this);
     }
 }
