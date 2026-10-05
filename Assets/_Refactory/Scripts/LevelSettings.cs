@@ -139,13 +139,14 @@ public class LevelSettings : MonoBehaviour
     }
 
     public static float SavedEndlessTotalScoreMultiplier =>
-        SavedEndlessBaseScoreMultiplier
-        * (SavedEndlessFlawlessMode ? 2f : 1f)
-        * (SavedEndlessFadingLight ? 1.2f : 1f)
-        * (SavedEndlessNightFall ? 1.2f : 1f)
-        * (SavedEndlessExpensiveMagic ? 1.5f : 1f)
-        * (SavedEndlessTransformationFatigue ? 1.5f : 1f)
-        * (SavedEndlessLingeringEffects ? 1.25f : 1f);
+        1f
+        + (SavedEndlessBaseScoreMultiplier - 1f)
+        + (SavedEndlessFlawlessMode ? 1f : 0f)
+        + (SavedEndlessFadingLight ? 0.2f : 0f)
+        + (SavedEndlessNightFall ? 0.2f : 0f)
+        + (SavedEndlessExpensiveMagic ? 0.5f : 0f)
+        + (SavedEndlessTransformationFatigue ? 0.5f : 0f)
+        + (SavedEndlessLingeringEffects ? 0.25f : 0f);
 
     public static void SetSavedEndlessBaseModifier(EndlessBaseModifier modifier)
     {

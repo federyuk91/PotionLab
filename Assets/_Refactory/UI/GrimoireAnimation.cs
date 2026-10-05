@@ -15,6 +15,9 @@ public class GrimoireAnimation : MonoBehaviour
     [SerializeField, Min(0f)] private float grimoireBaseFadeDuration = 0.25f;
     [SerializeField] private CompendiumView compendiumView;
 
+    [Header("Achievements")]
+    [SerializeField, Min(0f)] private float shakyShakyDamageWindow = 1f;
+
     [Header("Grimoire Cursor Light")]
     [SerializeField, RequiredInspectorReference] private Texture2D grimoireCursorTexture;
     [SerializeField] private Vector2 grimoireCursorHotspot = new Vector2(16f, 16f);
@@ -42,7 +45,7 @@ public class GrimoireAnimation : MonoBehaviour
         {
             Time.timeScale = 0;
             SetGrimoireCursor();
-            if (CameraShakeController.IsAnyCameraShaking)
+            if (CameraShakeController.WasDamageTakenRecently(shakyShakyDamageWindow))
             {
                 AchievementRequestHub.Request(AchievementId.ShakyShaky);
             }

@@ -7,6 +7,8 @@ namespace Refactory.CameraSystem
     public class CameraShakeController : MonoBehaviour
     {
         public static bool IsAnyCameraShaking { get; private set; }
+        private static float lastDamageTime = float.NegativeInfinity;
+
         [Header("References")]
         [SerializeField] private Transform shakeTarget;
         [SerializeField] private CharacterStats characterStats;
@@ -22,6 +24,19 @@ namespace Refactory.CameraSystem
 
         private Coroutine shakeRoutine;
         private Vector3 restLocalPosition;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStaticState()
+        {
+            IsAnyCameraShaking = false;
+            lastDamageTime = float.NegativeInfinity;
+        }
+
+        public static bool WasDamageTakenRecently(float maximumElapsedTime)
+        {
+            return maximumElapsedTime >= 0f
+                && Time.unscaledTime - lastDamageTime <= maximumElapsedTime;
+        }
 
         private void Awake()
         {
@@ -93,6 +108,7 @@ namespace Refactory.CameraSystem
                 return;
             }
 
+            lastDamageTime = Time.unscaledTime;
             Shake(damageDuration, damageMagnitude);
         }
 

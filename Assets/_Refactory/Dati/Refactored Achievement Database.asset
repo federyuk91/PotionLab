@@ -237,7 +237,7 @@ MonoBehaviour:
     googlePlayId: 
   - id: 38
     displayName: Shaky Shaky
-    description: Open Grimoire while taking damage!
+    description: Take damage, then immediately open the Grimoire!
     icon: {fileID: 7394717361452921571, guid: d22192a8ee92ea04aa8805a838f81b8d, type: 3}
     steamApiName: SHAKY_SHAKY
     googlePlayId: 

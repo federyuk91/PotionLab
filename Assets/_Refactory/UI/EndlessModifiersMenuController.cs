@@ -18,6 +18,11 @@ public sealed class EndlessModifiersMenuController : MonoBehaviour
     [SerializeField, RequiredInspectorReference] private Toggle hyperToggle;
     [SerializeField, RequiredInspectorReference] private Toggle hyperHyperToggle;
     [SerializeField, RequiredInspectorReference] private Toggle flawlessToggle;
+    [SerializeField, RequiredInspectorReference] private Toggle fadingLightToggle;
+    [SerializeField, RequiredInspectorReference] private Toggle nightFallToggle;
+    [SerializeField, RequiredInspectorReference] private Toggle expensiveMagicToggle;
+    [SerializeField, RequiredInspectorReference] private Toggle transformationFatigueToggle;
+    [SerializeField, RequiredInspectorReference] private Toggle lingeringEffectsToggle;
     [SerializeField, RequiredInspectorReference] private TMP_Text totalModifierValueText;
 
     [Header("Tooltip")]
@@ -52,11 +57,6 @@ public sealed class EndlessModifiersMenuController : MonoBehaviour
     private RectTransform totalModifierRectTransform;
     private float displayedTotalMultiplier = 1f;
     private bool panelOpen;
-    private Toggle fadingLightToggle;
-    private Toggle nightFallToggle;
-    private Toggle expensiveMagicToggle;
-    private Toggle transformationFatigueToggle;
-    private Toggle lingeringEffectsToggle;
 
     private void Awake()
     {
@@ -75,7 +75,6 @@ public sealed class EndlessModifiersMenuController : MonoBehaviour
         totalModifierBaseScale = totalModifierRectTransform != null ? totalModifierRectTransform.localScale : Vector3.one;
         totalModifierBasePosition = totalModifierRectTransform != null ? totalModifierRectTransform.anchoredPosition : Vector2.zero;
 
-        CreateSecondaryModifierToggles();
         BindListeners();
         RefreshFromPreferences(false);
         SetPanelOpen(false, false);
@@ -293,77 +292,6 @@ public sealed class EndlessModifiersMenuController : MonoBehaviour
         SetSecondaryToggleState(lingeringEffectsToggle, LevelSettings.SavedEndlessLingeringEffects);
 
         RefreshTotalModifierValue(animateTotalModifier);
-    }
-
-    private void CreateSecondaryModifierToggles()
-    {
-        if (flawlessToggle == null)
-        {
-            return;
-        }
-
-        RectTransform content = flawlessToggle.transform.parent as RectTransform;
-        RectTransform flawlessRect = flawlessToggle.transform as RectTransform;
-        if (content == null || flawlessRect == null)
-        {
-            Debug.LogError($"{name}: Flawless Toggle must be inside a RectTransform content container.", this);
-            return;
-        }
-
-        const float optionScale = 1.25f;
-        float startY = 120f;
-        float spacing = 48f;
-        EndlessModifierOptionView flawlessOption = flawlessToggle.GetComponent<EndlessModifierOptionView>();
-        if (flawlessOption != null)
-        {
-            flawlessOption.SetBaseScale(optionScale);
-        }
-
-        flawlessRect.anchoredPosition = new Vector2(flawlessRect.anchoredPosition.x, startY);
-        fadingLightToggle = CreateSecondaryToggle(content, flawlessToggle, "FADING LIGHT", "x1.2", "FADING LIGHT",
-            "The light fades 20% faster during the run. Score multiplier: x1.2.", startY - spacing);
-        nightFallToggle = CreateSecondaryToggle(content, flawlessToggle, "NIGHT FALL", "x1.2", "NIGHT FALL",
-            "Begin the run in complete darkness, with Light at 0. Score multiplier: x1.2.", startY - spacing * 2f);
-        expensiveMagicToggle = CreateSecondaryToggle(content, flawlessToggle, "EXPENSIVE MAGIC", "x1.5", "EXPENSIVE MAGIC",
-            "Every spell costs 1 additional MP. Score multiplier: x1.5.", startY - spacing * 3f);
-        transformationFatigueToggle = CreateSecondaryToggle(content, flawlessToggle, "TRANSFORMATION FATIGUE", "x1.5", "TRANSFORMATION FATIGUE",
-            "Every transformation into another form consumes 2 MP. Score multiplier: x1.5.", startY - spacing * 4f);
-        lingeringEffectsToggle = CreateSecondaryToggle(content, flawlessToggle, "LINGERING EFFECTS", "x1.25", "LINGERING EFFECTS",
-            "Active status effects trigger 25% more often. Score multiplier: x1.25.", startY - spacing * 5f);
-
-        content.sizeDelta = new Vector2(Mathf.Max(content.sizeDelta.x, 180f), Mathf.Max(content.sizeDelta.y, 310f));
-        if (secondaryPanelRectTransform != null)
-        {
-            secondaryPanelRectTransform.sizeDelta = new Vector2(
-                Mathf.Max(secondaryPanelRectTransform.sizeDelta.x, 210f),
-                Mathf.Max(secondaryPanelRectTransform.sizeDelta.y, 370f));
-        }
-    }
-
-    private Toggle CreateSecondaryToggle(
-        RectTransform parent,
-        Toggle template,
-        string label,
-        string multiplier,
-        string tooltipTitle,
-        string tooltipDescription,
-        float anchoredY)
-    {
-        Toggle createdToggle = Instantiate(template, parent);
-        RectTransform createdRect = createdToggle.transform as RectTransform;
-        if (createdRect != null)
-        {
-            createdRect.anchoredPosition = new Vector2(0f, anchoredY);
-        }
-
-        EndlessModifierOptionView optionView = createdToggle.GetComponent<EndlessModifierOptionView>();
-        if (optionView != null)
-        {
-            optionView.Configure(this, label, multiplier, tooltipTitle, tooltipDescription);
-        }
-
-        createdToggle.SetIsOnWithoutNotify(false);
-        return createdToggle;
     }
 
     private static void SetSecondaryToggleState(Toggle toggle, bool active)

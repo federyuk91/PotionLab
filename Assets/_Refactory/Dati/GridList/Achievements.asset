@@ -279,7 +279,7 @@ MonoBehaviour:
   - id: Shaky_Shaky
     displayName: Shaky Shaky
     shortDescription: 
-    description: Open Grimoire while taking damage!
+    description: Take damage, then immediately open the Grimoire!
     sprite: {fileID: 7394717361452921571, guid: d22192a8ee92ea04aa8805a838f81b8d, type: 3}
     unlockedByDefault: 0
     sceneBuildIndex: -1
