@@ -100,6 +100,7 @@ namespace ProgressSystem
             {
                 progress.endlessUnlocked = true;
                 UnlockAchievement(AchievementId.TheClassic);
+                UnlockAchievement(AchievementId.IceAge);
             }
 
             SaveProgress();

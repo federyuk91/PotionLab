@@ -45,7 +45,8 @@ namespace ProgressSystem
         ShakyShaky = 38,
         PileOfGround = 39,
         HolyPileOfGround = 40,
-        SmartButFart = 41
+        SmartButFart = 41,
+        IceAge = 42
     }
 
     public static class AchievementRequestHub
