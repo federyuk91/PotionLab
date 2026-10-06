@@ -9446,7 +9446,7 @@ PrefabInstance:
     - target: {fileID: 9100000000000000001, guid: 6cf3e5e4522e7a04096e674b6d3afb95, type: 3}
       propertyPath: endlessManager
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 291578615}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
