@@ -3,8 +3,11 @@ using UnityEngine;
 
 namespace ProgressSystem
 {
-    public class ProgressService : MonoBehaviour
-    {
+public class ProgressService : MonoBehaviour
+{
+        private const int FirstClassicActLastLevelBuildIndex = 10;
+        private const int SecondClassicActLastLevelBuildIndex = 20;
+
         public event Action<PlayerProgress> ProgressChanged;
         public event Action<int> BestProceduralScoreChanged;
         public event Action<AchievementId> AchievementUnlocked;
@@ -118,6 +121,16 @@ namespace ProgressSystem
             if (sceneBuildIndex != finalClassicLevelBuildIndex && sceneBuildIndex + 1 > progress.maxClassicLevelReached)
             {
                 progress.maxClassicLevelReached = sceneBuildIndex + 1;
+            }
+
+            if (sceneBuildIndex >= FirstClassicActLastLevelBuildIndex)
+            {
+                UnlockAchievement(AchievementId.Act1);
+            }
+
+            if (sceneBuildIndex >= SecondClassicActLastLevelBuildIndex)
+            {
+                UnlockAchievement(AchievementId.Act2);
             }
 
             if (sceneBuildIndex >= finalClassicLevelBuildIndex)

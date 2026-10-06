@@ -285,3 +285,15 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: f22e4e170fb87ec49a8dfc996d24f87a, type: 3}
     steamApiName: RED_HOT_CHILI
     googlePlayId:
+  - displayName: Act 1
+    id: 46
+    description: Complete the first 10 Classic levels.
+    icon: {fileID: 21300000, guid: 758082c0ae3d70242bfaa112cfbcfb2d, type: 3}
+    steamApiName: ACT_1
+    googlePlayId:
+  - displayName: Act 2
+    id: 47
+    description: Complete the first 20 Classic levels.
+    icon: {fileID: 21300000, guid: a5e16b740d641394f874f098f9911b30, type: 3}
+    steamApiName: ACT_2
+    googlePlayId:

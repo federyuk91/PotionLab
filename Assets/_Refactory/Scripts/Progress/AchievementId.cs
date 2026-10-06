@@ -49,7 +49,9 @@ namespace ProgressSystem
         IceAge = 42,
         WelcomeToTheFuture = 43,
         AndOrPepperoni = 44,
-        RedHotChili = 45
+        RedHotChili = 45,
+        Act1 = 46,
+        Act2 = 47
     }
 
     public static class AchievementRequestHub
