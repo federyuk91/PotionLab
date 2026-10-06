@@ -71,7 +71,7 @@ MonoBehaviour:
   - displayName: Thank you lara
     id: 10
     description: But your butler Winston is in another freezer
-    icon: {fileID: 8643757184048541398, guid: 0018984556d04474ea74cbb8f492fd8d, type: 3}
+    icon: {fileID: 21300000, guid: 16340c100a6f33d408f5144dd615c0b4, type: 3}
     steamApiName: THANK_YOU_LARA
     googlePlayId: 
   - displayName: Advance knowledge
@@ -267,3 +267,21 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: 2ad2be50e778313499af6082d067adb1, type: 3}
     steamApiName: ICE_AGE
     googlePlayId: 
+  - displayName: Welcome to the future
+    id: 43
+    description: Drink one potion of every type.
+    icon: {fileID: 21300000, guid: 43f1e3c62a9d62b499a6330257ad66bf, type: 3}
+    steamApiName: WELCOME_TO_THE_FUTURE
+    googlePlayId:
+  - displayName: ...And/Or Pepperoni
+    id: 44
+    description: Drink at least 100 potions in a single Potion Lab run.
+    icon: {fileID: 21300000, guid: cfda2b0dd85f5c34990048d4e85824ab, type: 3}
+    steamApiName: AND_OR_PEPPERONI
+    googlePlayId:
+  - displayName: Red Hot Chili
+    id: 45
+    description: Drink a fire potion while burning.
+    icon: {fileID: 21300000, guid: f22e4e170fb87ec49a8dfc996d24f87a, type: 3}
+    steamApiName: RED_HOT_CHILI
+    googlePlayId:

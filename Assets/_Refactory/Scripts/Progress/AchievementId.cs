@@ -46,7 +46,10 @@ namespace ProgressSystem
         PileOfGround = 39,
         HolyPileOfGround = 40,
         SmartButFart = 41,
-        IceAge = 42
+        IceAge = 42,
+        WelcomeToTheFuture = 43,
+        AndOrPepperoni = 44,
+        RedHotChili = 45
     }
 
     public static class AchievementRequestHub

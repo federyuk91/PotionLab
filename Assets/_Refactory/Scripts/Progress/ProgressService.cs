@@ -66,6 +66,30 @@ namespace ProgressSystem
             SaveProgress();
         }
 
+        public void RegisterPotionTypeDrunk(PotionScriptable.PotionId potionId)
+        {
+            if (!IsPotionTypeRequiredForWelcomeToTheFuture(potionId))
+            {
+                return;
+            }
+
+            EnsureProgressLoaded();
+            EnsureProgressDefaults();
+
+            if (progress.drunkPotionIds.Contains(potionId))
+            {
+                return;
+            }
+
+            progress.drunkPotionIds.Add(potionId);
+            SaveProgress();
+
+            if (HasDrunkEveryPotionType())
+            {
+                UnlockAchievement(AchievementId.WelcomeToTheFuture);
+            }
+        }
+
         public void SaveClassicLevelResult(int sceneBuildIndex, int score)
         {
             if (sceneBuildIndex <= 0)
@@ -388,6 +412,11 @@ namespace ProgressSystem
             {
                 progress.unlockedAchievementIds = new System.Collections.Generic.List<AchievementId>();
             }
+
+            if (progress.drunkPotionIds == null)
+            {
+                progress.drunkPotionIds = new System.Collections.Generic.List<PotionScriptable.PotionId>();
+            }
         }
 
         private static bool SetIfGreater(ref int currentValue, int candidateValue)
@@ -417,6 +446,26 @@ namespace ProgressSystem
             }
 
             return true;
+        }
+
+        private bool HasDrunkEveryPotionType()
+        {
+            foreach (PotionScriptable.PotionId potionId in Enum.GetValues(typeof(PotionScriptable.PotionId)))
+            {
+                if (IsPotionTypeRequiredForWelcomeToTheFuture(potionId)
+                    && !progress.drunkPotionIds.Contains(potionId))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static bool IsPotionTypeRequiredForWelcomeToTheFuture(PotionScriptable.PotionId potionId)
+        {
+            return potionId != PotionScriptable.PotionId.None
+                && potionId != PotionScriptable.PotionId.EmptyBottle;
         }
 
         private void TryUnlockCompletionAchievement(AchievementId unlockedAchievementId)

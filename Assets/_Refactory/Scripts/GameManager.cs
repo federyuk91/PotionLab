@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private static readonly int DieParameter = Animator.StringToHash("Die");
+    private const int LaboratoryPepperoniPotionTarget = 100;
 
     public event Action LevelStarted;
     public event Action LevelIntroPresentationStarted;
@@ -432,6 +433,11 @@ public class GameManager : MonoBehaviour
         {
             potionDrunked++;
 
+            if (IsLaboratoryMode)
+            {
+                TryUnlockLaboratoryAchievements();
+            }
+
             if (!IsPuzzleMode)
             {
                 endlessScore++;
@@ -714,8 +720,20 @@ public class GameManager : MonoBehaviour
         PotionScriptable potion,
         IReadOnlyCollection<Status> previousStatuses)
     {
+        if (potion == null)
+        {
+            return;
+        }
+
+        RegisterPotionTypeForAchievements(potion);
+
+        if (potion.Id == PotionScriptable.PotionId.Fire
+            && ContainsStatus(previousStatuses, Status.Burned))
+        {
+            UnlockAchievementIfAvailable(AchievementId.RedHotChili);
+        }
+
         if (character is not MageCharacter
-            || potion == null
             || potion.effectType != PotionScriptable.EffectType.fire
             || !ContainsStatus(previousStatuses, Status.Freezed))
         {
@@ -726,6 +744,17 @@ public class GameManager : MonoBehaviour
             ? AchievementId.PizzaExpress3000
             : AchievementId.ThankYouLara;
         UnlockAchievementIfAvailable(achievementId);
+    }
+
+    private void RegisterPotionTypeForAchievements(PotionScriptable potion)
+    {
+        if (progressService == null)
+        {
+            WarnMissingProgressService();
+            return;
+        }
+
+        progressService.RegisterPotionTypeDrunk(potion.Id);
     }
 
     private static bool ContainsStatus(IReadOnlyCollection<Status> statuses, Status expectedStatus)
@@ -948,6 +977,14 @@ public class GameManager : MonoBehaviour
         if (EndlessScore >= 1000)
         {
             UnlockAchievementIfAvailable(AchievementId.GodOfLibations);
+        }
+    }
+
+    private void TryUnlockLaboratoryAchievements()
+    {
+        if (potionDrunked >= LaboratoryPepperoniPotionTarget)
+        {
+            UnlockAchievementIfAvailable(AchievementId.AndOrPepperoni);
         }
     }
 

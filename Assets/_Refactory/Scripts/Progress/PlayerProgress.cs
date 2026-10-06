@@ -21,6 +21,7 @@ namespace ProgressSystem
         public bool endlessUnlocked;
         public List<int> classicLevelScores = new List<int>();
         public List<AchievementId> unlockedAchievementIds = new List<AchievementId>();
+        public List<PotionScriptable.PotionId> drunkPotionIds = new List<PotionScriptable.PotionId>();
 
         public void EnsureClassicLevelCount(int levelCount)
         {
