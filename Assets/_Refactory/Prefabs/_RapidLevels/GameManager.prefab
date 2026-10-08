@@ -282,7 +282,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SteamIntegration.SteamAchievementUploader
   progressService: {fileID: 619804325845619802}
   achievementDatabase: {fileID: 11400000, guid: 201de1488cd74036aa246f04fafb8984, type: 2}
-  submitExistingUnlockedOnStart: 1
   logKnownAchievementNamesOnFailure: 1
 --- !u!114 &8641056418368551660
 MonoBehaviour:

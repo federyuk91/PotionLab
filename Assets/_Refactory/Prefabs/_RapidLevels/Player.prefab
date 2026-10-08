@@ -2288,6 +2288,7 @@ GameObject:
   - component: {fileID: 2710115401643320104}
   - component: {fileID: 3347086935686603101}
   - component: {fileID: 7335516976547852054}
+  - component: {fileID: 9000000000000000090}
   - component: {fileID: 7619072265542337895}
   m_Layer: 0
   m_Name: Player
@@ -2473,7 +2474,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c43c2b9e0a5d4b92b776c94958d17e1f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EndlessMode.TransformationFatigueController
   transformationManager: {fileID: 1225089884597636322}
   characterStats: {fileID: 2020922328670040875}
@@ -2491,6 +2492,103 @@ AudioSource:
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &9000000000000000090
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3175400394553905838}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.698
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2592,6 +2690,65 @@ MonoBehaviour:
   feedbackSource: {fileID: 7335516976547852054}
   spellSource: {fileID: 7335516976547852054}
   potionSource: {fileID: 7335516976547852054}
+  drinkSource: {fileID: 9000000000000000090}
+  drinkAudioProfiles:
+  - characterType: 0
+    drinkClips:
+    - {fileID: 8300000, guid: 9d1e0a34fbc1e7e4c9eb9099b1d0fd3f, type: 3}
+    - {fileID: 8300000, guid: 0ba1eaf382563ca44bc99399cbb13f54, type: 3}
+    - {fileID: 8300000, guid: e6fa03dc9fe26d74ba93fa402bb4e879, type: 3}
+    - {fileID: 8300000, guid: 619a9b59c2edbfc42ad3ff7ef7fee7f5, type: 3}
+    - {fileID: 8300000, guid: 8a4b403c919541142ab263c02eb30ae9, type: 3}
+    - {fileID: 8300000, guid: bac130f99651f41418ebfa683fec39ef, type: 3}
+    positiveReactionClips:
+    - {fileID: 8300000, guid: ac58d087937e12d439ff8ca4c5c00f14, type: 3}
+    - {fileID: 8300000, guid: 716307e0c1b6a724b87aa1f81f7b42bc, type: 3}
+    - {fileID: 8300000, guid: 1c341ebce8f6ffa4d921c6c8e7dc3789, type: 3}
+    - {fileID: 8300000, guid: 36442e3947732a646bc49333c0016274, type: 3}
+    negativeReactionClips:
+    - {fileID: 8300000, guid: 1b71179e559e92e4383804777e2622bf, type: 3}
+    - {fileID: 8300000, guid: e47ee0adb73b9d34d965e3ccf6d3fa5a, type: 3}
+    - {fileID: 8300000, guid: 291841b66a5f0c244a1bfd91efd230c3, type: 3}
+    - {fileID: 8300000, guid: 7098fb8843353f84190deb400df59a90, type: 3}
+    neutralReactionClips:
+    - {fileID: 8300000, guid: 15e801d01955c1e4e8ea5cc1b2c50182, type: 3}
+    - {fileID: 8300000, guid: d8eb8a03ffe800548b6e094cdbab14a2, type: 3}
+    - {fileID: 8300000, guid: 563ef8fa0777f5147ae3d6df22939a7f, type: 3}
+  - characterType: 1
+    drinkClips: []
+    positiveReactionClips: []
+    negativeReactionClips: []
+    neutralReactionClips: []
+  - characterType: 2
+    drinkClips: []
+    positiveReactionClips: []
+    negativeReactionClips: []
+    neutralReactionClips: []
+  - characterType: 3
+    drinkClips: []
+    positiveReactionClips: []
+    negativeReactionClips: []
+    neutralReactionClips: []
+  - characterType: 4
+    drinkClips: []
+    positiveReactionClips: []
+    negativeReactionClips: []
+    neutralReactionClips: []
+  - characterType: 5
+    drinkClips: []
+    positiveReactionClips: []
+    negativeReactionClips: []
+    neutralReactionClips: []
+  - characterType: 6
+    drinkClips: []
+    positiveReactionClips: []
+    negativeReactionClips: []
+    neutralReactionClips: []
+  - characterType: 7
+    drinkClips: []
+    positiveReactionClips: []
+    negativeReactionClips: []
+    neutralReactionClips: []
   statusEffectSources:
   - {fileID: 6919721646537242302}
   - {fileID: 8512990516612545693}
@@ -2829,6 +2986,8 @@ MonoBehaviour:
   lightPotionAchievement: 33
   increaseLightAfterNonLightPotions: 1
   nonLightPotionsBeforeLightIncrease: 5
+  destroyedPotionsForAchievement: 0
+  destroyedPotionAchievement: 0
 --- !u!114 &5179760529710894296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4180,6 +4339,8 @@ MonoBehaviour:
   lightPotionAchievement: 33
   increaseLightAfterNonLightPotions: 1
   nonLightPotionsBeforeLightIncrease: 5
+  destroyedPotionsForAchievement: 0
+  destroyedPotionAchievement: 0
 --- !u!114 &855069011108395782
 MonoBehaviour:
   m_ObjectHideFlags: 0

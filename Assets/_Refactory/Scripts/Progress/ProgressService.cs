@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProgressSystem
@@ -245,6 +246,28 @@ public class ProgressService : MonoBehaviour
             TryUnlockCompletionAchievement(achievementId);
         }
 
+        public void ReplaceUnlockedAchievementsFromSteam(IReadOnlyCollection<AchievementId> steamAchievementIds)
+        {
+            EnsureProgressLoaded();
+            EnsureProgressDefaults();
+
+            HashSet<AchievementId> steamAchievements = steamAchievementIds != null
+                ? new HashSet<AchievementId>(steamAchievementIds)
+                : new HashSet<AchievementId>();
+            steamAchievements.Remove(AchievementId.None);
+
+            HashSet<AchievementId> currentAchievements = new HashSet<AchievementId>(progress.unlockedAchievementIds);
+            if (currentAchievements.SetEquals(steamAchievements))
+            {
+                return;
+            }
+
+            progress.unlockedAchievementIds.Clear();
+            progress.unlockedAchievementIds.AddRange(steamAchievements);
+            SaveProgress();
+            Debug.Log($"{name}: Loaded {steamAchievements.Count} achievement(s) from Steam as the authoritative state.", this);
+        }
+
         public bool IsAchievementUnlocked(AchievementId achievementId)
         {
             if (achievementId == AchievementId.None)
@@ -374,8 +397,20 @@ public class ProgressService : MonoBehaviour
 
             progress = repository.Load();
             EnsureProgressDefaults();
+            DiscardPersistedAchievementState();
             LogPlayerNameFlow($"Progress loaded from repository. Current player name: '{progress.playerName}'.");
             ProgressChanged?.Invoke(progress);
+        }
+
+        private void DiscardPersistedAchievementState()
+        {
+            if (progress.unlockedAchievementIds.Count == 0)
+            {
+                return;
+            }
+
+            progress.unlockedAchievementIds.Clear();
+            Debug.Log($"{name}: Ignored locally persisted achievements. Steam is the authoritative achievement source.", this);
         }
 
         private void SaveProgress()

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using InspectorValidation;
 using UnityEngine;
@@ -7,6 +8,102 @@ namespace CharacterSystem
 {
     public class CharacterAudioController : MonoBehaviour
     {
+        private enum DrinkReactionType
+        {
+            Positive,
+            Negative,
+            Neutral
+        }
+
+        [Serializable]
+        private sealed class DrinkAudioProfile
+        {
+            [SerializeField] private CharacterType characterType;
+            [SerializeField] private AudioClip[] drinkClips = Array.Empty<AudioClip>();
+            [SerializeField] private AudioClip[] positiveReactionClips = Array.Empty<AudioClip>();
+            [SerializeField] private AudioClip[] negativeReactionClips = Array.Empty<AudioClip>();
+            [SerializeField] private AudioClip[] neutralReactionClips = Array.Empty<AudioClip>();
+
+            private int lastDrinkClipIndex = -1;
+            private int lastPositiveReactionClipIndex = -1;
+            private int lastNegativeReactionClipIndex = -1;
+            private int lastNeutralReactionClipIndex = -1;
+
+            public CharacterType CharacterType => characterType;
+
+            public AudioClip GetRandomDrinkClip()
+            {
+                return GetRandomClip(drinkClips, ref lastDrinkClipIndex);
+            }
+
+            public AudioClip GetRandomReactionClip(DrinkReactionType reactionType)
+            {
+                switch (reactionType)
+                {
+                    case DrinkReactionType.Positive:
+                        return GetRandomClip(positiveReactionClips, ref lastPositiveReactionClipIndex);
+                    case DrinkReactionType.Negative:
+                        return GetRandomClip(negativeReactionClips, ref lastNegativeReactionClipIndex);
+                    default:
+                        return GetRandomClip(neutralReactionClips, ref lastNeutralReactionClipIndex);
+                }
+            }
+
+            private static AudioClip GetRandomClip(AudioClip[] clips, ref int lastPlayedClipIndex)
+            {
+                if (clips == null || clips.Length == 0)
+                {
+                    return null;
+                }
+
+                int validClipCount = 0;
+                for (int index = 0; index < clips.Length; index++)
+                {
+                    if (clips[index] != null)
+                    {
+                        validClipCount++;
+                    }
+                }
+
+                if (validClipCount == 0)
+                {
+                    return null;
+                }
+
+                int selectedValidClip = UnityEngine.Random.Range(0, validClipCount);
+                int selectedClipIndex = GetClipIndexByValidPosition(clips, selectedValidClip);
+                if (validClipCount > 1 && selectedClipIndex == lastPlayedClipIndex)
+                {
+                    selectedValidClip = (selectedValidClip + 1) % validClipCount;
+                    selectedClipIndex = GetClipIndexByValidPosition(clips, selectedValidClip);
+                }
+
+                lastPlayedClipIndex = selectedClipIndex;
+                return clips[selectedClipIndex];
+            }
+
+            private static int GetClipIndexByValidPosition(AudioClip[] clips, int validPosition)
+            {
+                int currentValidPosition = 0;
+                for (int index = 0; index < clips.Length; index++)
+                {
+                    if (clips[index] == null)
+                    {
+                        continue;
+                    }
+
+                    if (currentValidPosition == validPosition)
+                    {
+                        return index;
+                    }
+
+                    currentValidPosition++;
+                }
+
+                return 0;
+            }
+        }
+
         [Header("References")]
         [SerializeField] private CharacterStats stats;
         [SerializeField] private CharacterStatusController statusController;
@@ -16,6 +113,10 @@ namespace CharacterSystem
         [SerializeField] private AudioSource feedbackSource;
         [SerializeField] private AudioSource spellSource;
         [SerializeField] private AudioSource potionSource;
+        [SerializeField, RequiredInspectorReference] private AudioSource drinkSource;
+
+        [Header("Drink Voices")]
+        [SerializeField] private DrinkAudioProfile[] drinkAudioProfiles = Array.Empty<DrinkAudioProfile>();
 
         [Header("Status Effect Audio")]
         [SerializeField, RequiredInspectorReference] private AudioSource[] statusEffectSources = Array.Empty<AudioSource>();
@@ -32,6 +133,7 @@ namespace CharacterSystem
         [SerializeField] private AudioClip explosionClip;
 
         private BaseCharacter currentCharacter;
+        private Coroutine pendingDrinkReaction;
         private bool characterDead;
 
         private void Awake()
@@ -158,8 +260,114 @@ namespace CharacterSystem
                 return;
             }
 
-            AudioClip clip = GetPotionClip(character.GetCharacterForm(), potion, previousStatuses);
-            PlayOneShot(potionSource, clip, $"potion '{potion._name}'");
+            CharacterType characterType = character.GetCharacterForm();
+            int previousHP = stats != null ? stats.HP : 0;
+            int previousMP = stats != null ? stats.MP : 0;
+            AudioClip drinkClip = PlayDrinkAudio(characterType);
+            AudioClip potionClip = GetPotionClip(characterType, potion, previousStatuses);
+            PlayOneShot(potionSource, potionClip, $"potion '{potion._name}'");
+
+            if (drinkClip != null)
+            {
+                if (pendingDrinkReaction != null)
+                {
+                    StopCoroutine(pendingDrinkReaction);
+                }
+
+                pendingDrinkReaction = StartCoroutine(PlayReactionAfterDrink(
+                    characterType,
+                    drinkClip,
+                    previousHP,
+                    previousMP));
+            }
+        }
+
+        private AudioClip PlayDrinkAudio(CharacterType characterType)
+        {
+            DrinkAudioProfile profile = FindDrinkAudioProfile(characterType);
+            if (profile == null)
+            {
+                return null;
+            }
+
+            AudioClip clip = profile.GetRandomDrinkClip();
+            if (clip == null)
+            {
+                return null;
+            }
+
+            StopAudioSource(drinkSource);
+            PlayOneShot(drinkSource, clip, $"{characterType} drink voice");
+            return clip;
+        }
+
+        private IEnumerator PlayReactionAfterDrink(
+            CharacterType characterType,
+            AudioClip drinkClip,
+            int previousHP,
+            int previousMP)
+        {
+            float playbackStartTime = Time.realtimeSinceStartup;
+            yield return null;
+
+            DrinkReactionType reactionType = GetDrinkReactionType(previousHP, previousMP);
+            float pitch = drinkSource != null ? Mathf.Abs(drinkSource.pitch) : 1f;
+            float drinkDuration = pitch > 0f ? drinkClip.length / pitch : drinkClip.length;
+            float remainingDuration = drinkDuration - (Time.realtimeSinceStartup - playbackStartTime);
+            if (remainingDuration > 0f)
+            {
+                yield return new WaitForSecondsRealtime(remainingDuration);
+            }
+
+            pendingDrinkReaction = null;
+            if (characterDead)
+            {
+                yield break;
+            }
+
+            DrinkAudioProfile profile = FindDrinkAudioProfile(characterType);
+            AudioClip reactionClip = profile != null ? profile.GetRandomReactionClip(reactionType) : null;
+            if (reactionClip != null)
+            {
+                PlayOneShot(drinkSource, reactionClip, $"{characterType} {reactionType} drink reaction");
+            }
+        }
+
+        private DrinkReactionType GetDrinkReactionType(int previousHP, int previousMP)
+        {
+            if (stats == null)
+            {
+                return DrinkReactionType.Neutral;
+            }
+
+            int hpDelta = stats.HP - previousHP;
+            int mpDelta = stats.MP - previousMP;
+            if (hpDelta < 0 || mpDelta < 0)
+            {
+                return DrinkReactionType.Negative;
+            }
+
+            return hpDelta > 0 || mpDelta > 0
+                ? DrinkReactionType.Positive
+                : DrinkReactionType.Neutral;
+        }
+
+        private DrinkAudioProfile FindDrinkAudioProfile(CharacterType characterType)
+        {
+            if (drinkAudioProfiles == null)
+            {
+                return null;
+            }
+
+            foreach (DrinkAudioProfile profile in drinkAudioProfiles)
+            {
+                if (profile != null && profile.CharacterType == characterType)
+                {
+                    return profile;
+                }
+            }
+
+            return null;
         }
 
         private void OnSpellCastSucceeded(BaseCharacter character, int index, Spell spell, bool powered)
@@ -268,6 +476,12 @@ namespace CharacterSystem
         private void PlayDeath()
         {
             characterDead = true;
+            if (pendingDrinkReaction != null)
+            {
+                StopCoroutine(pendingDrinkReaction);
+                pendingDrinkReaction = null;
+            }
+
             StopActiveAudio();
             PlayOneShot(feedbackSource, deathClip, "death feedback");
         }
@@ -312,6 +526,13 @@ namespace CharacterSystem
             if (potionSource != feedbackSource && potionSource != spellSource)
             {
                 StopAudioSource(potionSource);
+            }
+
+            if (drinkSource != feedbackSource
+                && drinkSource != spellSource
+                && drinkSource != potionSource)
+            {
+                StopAudioSource(drinkSource);
             }
 
             if (statusEffectSources == null)

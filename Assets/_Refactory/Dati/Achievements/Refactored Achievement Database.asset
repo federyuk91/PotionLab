@@ -16,134 +16,134 @@ MonoBehaviour:
   - displayName: Goodnight!
     id: 1
     description: The only true goodnight potion!
-    icon: {fileID: -6716467235744403431, guid: 4519fb72ad3086c4197faba476ecdb1d, type: 3}
+    icon: {fileID: 21300000, guid: ad4279b8f95aaac4b8b4fcf9d146695f, type: 3}
     steamApiName: THE_GOODNIGHT_POTION
     googlePlayId: 
   - displayName: Under the sea! Under the sea!
     id: 6
     description: Transform into a pupperfish!
-    icon: {fileID: 6762519587811461384, guid: a7dbe47dcf575bb4694625dd90dd9ff2, type: 3}
+    icon: {fileID: 21300000, guid: 4735ef2f5adc7964d88ee19c58c35424, type: 3}
     steamApiName: UNDER_THE_SEA
     googlePlayId: 
   - displayName: Udun flame
     id: 7
     description: The Dwarves dug too greedily and too deep.
-    icon: {fileID: 2412548871939554092, guid: 2ab09d5d5751a61488632ad2537225ea, type: 3}
+    icon: {fileID: 21300000, guid: b8571c0cadf3e2845bdd9a0661a74169, type: 3}
     steamApiName: UDUN_FLAME
     googlePlayId: 
   - displayName: Wet wizard, lucky wizard
     id: 9
     description: Extinguish the flames that are burning the magician
-    icon: {fileID: -5495861832342831202, guid: 64f179e91eb8e6e4f8509b5ab4136a91, type: 3}
+    icon: {fileID: 21300000, guid: 7bb144af300f7af4396862ca645a3d9a, type: 3}
     steamApiName: WET_WIZARD_LUCKY_WIZARD
     googlePlayId: 
   - displayName: Shaky Shaky
     id: 38
     description: Take damage, then immediately open the Grimoire!
-    icon: {fileID: 7394717361452921571, guid: d22192a8ee92ea04aa8805a838f81b8d, type: 3}
+    icon: {fileID: 21300000, guid: 7595bc56a558de2408383fd6ab2bc837, type: 3}
     steamApiName: SHAKY_SHAKY
     googlePlayId: 
   - displayName: Time to think
     id: 5
     description: Ents are a race that thinks and speaks very slowly, and acts even
       more slowly
-    icon: {fileID: 1773732111931389266, guid: 531bb2b4bd6d9e5428c80fea1e50f8b9, type: 3}
+    icon: {fileID: 21300000, guid: e69f7aa4b81cd3845846e9c935b2c7a0, type: 3}
     steamApiName: TIME_TO_THINK
     googlePlayId: 
   - displayName: Burn Baby BURN!
     id: 30
     description: Burn with a level 3 flames!
-    icon: {fileID: -5417896545150781075, guid: 25474e329b6f63f468c33b477ee7eeda, type: 3}
+    icon: {fileID: 21300000, guid: 066ae50edf140944b9cdf4396913946e, type: 3}
     steamApiName: BURN_BABY_BURN
     googlePlayId: 
   - displayName: Fresh and Clean
     id: 36
     description: Reach max mana with full health in mage form!
-    icon: {fileID: -4808516141538984660, guid: c4b16c870c962fa43b07385d1b2a6305, type: 3}
+    icon: {fileID: 21300000, guid: e2b8e7ec53aa6f5479aa3cf776f26b99, type: 3}
     steamApiName: FRESH_AND_CLEAN
     googlePlayId: 
   - displayName: Necrotic Death!
     id: 37
     description: Die with an Antimagic Potion!
-    icon: {fileID: 9199872429839816550, guid: 531bc38a7e672414482189974260f0f8, type: 3}
+    icon: {fileID: 21300000, guid: 39394c1e2908efe4f95597db6c37f1fc, type: 3}
     steamApiName: NECROTIC_DEATH
     googlePlayId: 
   - displayName: Pile of S...
     id: 39
     description: Ground on ground on ground!
-    icon: {fileID: -8870062075813610288, guid: 978c1b8ea02a26f4faa1213e0b580bdc, type: 3}
+    icon: {fileID: 21300000, guid: 1cec9d18af5ddbd45af863e67a99bd68, type: 3}
     steamApiName: PILE_OF_GROUND
     googlePlayId: 
   - displayName: ICE TW-ICE
     id: 20
     description: Drink two potion of ice consecutively
-    icon: {fileID: 1547809334161273600, guid: df86eb8c0b6abf0499a295c1d9b330b3, type: 3}
+    icon: {fileID: 21300000, guid: 91f117ecb6123c44bbf5785fb442d581, type: 3}
     steamApiName: ICE_TWICE
     googlePlayId: 
   - displayName: Thank you lara
     id: 10
     description: But your butler Winston is in another freezer
-    icon: {fileID: 21300000, guid: 16340c100a6f33d408f5144dd615c0b4, type: 3}
+    icon: {fileID: 21300000, guid: a0b2059dbe48e874b893ba51e47f868e, type: 3}
     steamApiName: THANK_YOU_LARA
     googlePlayId: 
   - displayName: Exotic Interaction
     id: 13
     description: Cast Bark Shield while flaming!
-    icon: {fileID: 21300000, guid: a6be9dd9eb58dd144873eca7fb2e2d23, type: 3}
+    icon: {fileID: 21300000, guid: 9770528a00104c0449e3fa4164a20a8c, type: 3}
     steamApiName: EXOTIC_INTERACTION
     googlePlayId: 
   - displayName: Old Toby
     id: 19
     description: Old Toby, The finest weed in the Southfarthing.
-    icon: {fileID: 1773732111931389266, guid: bfdb12d5b05c3b14aa58fe379216ce6a, type: 3}
+    icon: {fileID: 21300000, guid: 98cac037a66a7d742ab6aaaa2f522875, type: 3}
     steamApiName: OLD_TOBY
     googlePlayId: 
   - displayName: Ice Age
     id: 42
     description: Complete the Freezer area in Classic mode.
-    icon: {fileID: 21300000, guid: 2ad2be50e778313499af6082d067adb1, type: 3}
+    icon: {fileID: 21300000, guid: 679c32a597dd7424f87144737489045e, type: 3}
     steamApiName: ICE_AGE
     googlePlayId: 
   - displayName: Mr.White
     id: 8
     description: Transform into a Yeti!
-    icon: {fileID: 21300000, guid: a220a565c0e22dd4790d26b7027df338, type: 3}
+    icon: {fileID: 21300000, guid: f566a351eb55bc549b010b767c17acaa, type: 3}
     steamApiName: MR_WHITE
     googlePlayId: 
   - displayName: Casual Drinker
     id: 24
     description: Drink 25 potions in Endless Mode!
-    icon: {fileID: 8745328279068976687, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
+    icon: {fileID: 21300000, guid: fb7f02aef6650184c99d4e04342cae2e, type: 3}
     steamApiName: CASUAL_DRINKER
     googlePlayId: 
   - displayName: Regular Drinker
     id: 25
     description: Drink 75 potions in Endless Mode!
-    icon: {fileID: 4157264983450105251, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
+    icon: {fileID: 21300000, guid: e74f7798d9113ff4cb7c86e75c2e3f72, type: 3}
     steamApiName: REGULAR_DRINKER
     googlePlayId: 
   - displayName: Hardcore Drinker
     id: 26
     description: Drink 150 potions in Endless Mode!
-    icon: {fileID: 71855861439738458, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
+    icon: {fileID: 21300000, guid: d0dde34b8b9e5b54fb79fb891cb1cb44, type: 3}
     steamApiName: HARDCORE_DRINKER
     googlePlayId: 
   - displayName: Master Drinker
     id: 27
     description: Obtain 300 points in Endless Mode!
-    icon: {fileID: 6709105514680536145, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
+    icon: {fileID: 21300000, guid: abc4b55ec38a30d4a890947fd42ec454, type: 3}
     steamApiName: MASTER_DRINKER
     googlePlayId: 
   - displayName: Almost a problem...Drinker
     id: 28
     description: Obtain 600 points in Endless Mode!
-    icon: {fileID: 5068339059601472793, guid: d7de1fd2bdc506349b987b822b99bf24, type: 3}
+    icon: {fileID: 21300000, guid: a417b001f0a7f7a469c6f22788443a1f, type: 3}
     steamApiName: ALMOST_A_PROBLEM_DRINKER
     googlePlayId: 
   - displayName: God of Libations!
     id: 29
     description: Obtain 1200 points in Endless Mode!
-    icon: {fileID: 2914355713501389530, guid: 2fc0ad7e336c4b34080be2916f5c7705, type: 3}
+    icon: {fileID: 21300000, guid: 22067fe70f429e04b9382ded80bc8d3b, type: 3}
     steamApiName: GOD_OF_LIBATIONS
     googlePlayId: 
   - displayName: Act 1
@@ -161,19 +161,19 @@ MonoBehaviour:
   - displayName: Not a waster
     id: 34
     description: In Advance mode brings the light to minimum power
-    icon: {fileID: 6954784277877991272, guid: 4e598912d44a1fc4487d01aeff638030, type: 3}
+    icon: {fileID: 21300000, guid: 80ec4d67384e2244dbc66c6b1a48b436, type: 3}
     steamApiName: NOT_A_WASTER
     googlePlayId: 
   - displayName: Red Hot Chili
     id: 45
     description: Drink a fire potion while burning.
-    icon: {fileID: 21300000, guid: f22e4e170fb87ec49a8dfc996d24f87a, type: 3}
+    icon: {fileID: 21300000, guid: 4afe03bac9d53204ab912087b36237a3, type: 3}
     steamApiName: RED_HOT_CHILI
     googlePlayId: 
   - displayName: ...And/Or Pepperoni
     id: 44
     description: Drink at least 100 potions in a single Potion Lab run.
-    icon: {fileID: 21300000, guid: cfda2b0dd85f5c34990048d4e85824ab, type: 3}
+    icon: {fileID: 21300000, guid: 34e1b271aafde0d4da693293d0114734, type: 3}
     steamApiName: AND_OR_PEPPERONI
     googlePlayId: 
   - displayName: Welcome to the future
@@ -185,37 +185,37 @@ MonoBehaviour:
   - displayName: The sacrifice of the gray wizard
     id: 23
     description: Sacrifice yourself to kill the demon.
-    icon: {fileID: -2317178936316941921, guid: ee4a1a338bee81745bac56940f402586, type: 3}
+    icon: {fileID: 21300000, guid: 49c3967d92a733c4eaed5245ad474c1e, type: 3}
     steamApiName: GRAY_WIZARD_SACRIFICE
     googlePlayId: 
   - displayName: Mastro Lindo
     id: 22
     description: Use cleanse on poisoned Ice!
-    icon: {fileID: 21300000, guid: e9d2678241ac54a47b783c9091a87090, type: 3}
+    icon: {fileID: 21300000, guid: e37641f0b9d32e54a9231e129e50280f, type: 3}
     steamApiName: MASTRO_LINDO
     googlePlayId: 
   - displayName: Holy pile of ground!
     id: 40
     description: Heal yourself as a tree with ground.
-    icon: {fileID: 21300000, guid: c8aab11bd7de7e1429e1d1b8b7cc7f31, type: 3}
+    icon: {fileID: 21300000, guid: 468aca00f0ae81240bf81e8a3bf32847, type: 3}
     steamApiName: HOLY_PILE_OF_GROUND
     googlePlayId: 
   - displayName: Falcon PUNCH!
     id: 18
     description: Punch as Yeti 4 potions!
-    icon: {fileID: 21300000, guid: a2d9ee4c1ec982c44afe6e930544a0aa, type: 3}
+    icon: {fileID: 21300000, guid: ca2d09fcb60313945ae8847532695fde, type: 3}
     steamApiName: FALCON_PUNCH
     googlePlayId: 
   - displayName: Mana BURN!
     id: 33
     description: Destroy with calduron 5 light potion!
-    icon: {fileID: -872718845115054588, guid: 29a8c16f09ae89b41833d4846453ff2b, type: 3}
+    icon: {fileID: 21300000, guid: 3bb7bb40190fc4849b6eb0d88399cd48, type: 3}
     steamApiName: MANA_BURN
     googlePlayId: 
   - displayName: Cooking Dada!
     id: 16
     description: Summon the cauldron at maximum power.
-    icon: {fileID: -872718845115054588, guid: 29a8c16f09ae89b41833d4846453ff2b, type: 3}
+    icon: {fileID: 21300000, guid: 9e0230159f4f3b44e81e42ed2b1b0cc7, type: 3}
     steamApiName: COOKING_MAMA
     googlePlayId: 
   - displayName: GnamGnam!
@@ -263,7 +263,7 @@ MonoBehaviour:
   - displayName: The mage of the demo
     id: 2
     description: Unlock 49 achievements.
-    icon: {fileID: -1919134810339289107, guid: e4a6490334af6724ba53101b13463fe5, type: 3}
+    icon: {fileID: 21300000, guid: e5284d8b4903f7646bcba12deb6bf96b, type: 3}
     steamApiName: THE_DEMO_MAGE
     googlePlayId: 
   - displayName: Perfectionist
@@ -300,7 +300,7 @@ MonoBehaviour:
   - displayName: Greedy
     id: 50
     description: The Yeti is strong but not always intelligent.
-    icon: {fileID: 21300000, guid: a220a565c0e22dd4790d26b7027df338, type: 3}
+    icon: {fileID: 21300000, guid: 0e36ba65f9bef1746bd13d4ab172f1ae, type: 3}
     steamApiName: GREEDY
     googlePlayId: 
   - displayName: Inflaction

@@ -15,12 +15,13 @@ namespace SteamIntegration
 {
     public sealed class SteamAchievementUploader : MonoBehaviour
     {
+        private const float StatsRequestRetryDelay = 2f;
+
         [Header("References")]
         [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private ProgressService progressService;
         [SerializeField, RequiredInspectorReference] private AchievementDatabase achievementDatabase;
 
         [Header("Steam Achievements")]
-        [SerializeField] private bool submitExistingUnlockedOnStart = true;
         [SerializeField] private bool logKnownAchievementNamesOnFailure = true;
 
         private readonly HashSet<AchievementId> pendingAchievementIds = new HashSet<AchievementId>();
@@ -29,6 +30,7 @@ namespace SteamIntegration
         private CallResult<UserStatsReceived_t> userStatsReceivedResult;
         private bool statsReady;
         private bool statsRequestSent;
+        private float nextStatsRequestTime;
 #endif
 
         private void Awake()
@@ -40,6 +42,8 @@ namespace SteamIntegration
 
         private void OnEnable()
         {
+            SteamManager.SteamInitialized += OnSteamInitialized;
+
             if (progressService == null)
             {
                 Debug.LogWarning($"{name}: ProgressService reference is missing. Assign it in Inspector to submit Steam achievements.", this);
@@ -60,26 +64,12 @@ namespace SteamIntegration
 #if !DISABLESTEAMWORKS
             RequestCurrentStatsIfAvailable();
 #endif
-
-            if (!submitExistingUnlockedOnStart || progressService == null || progressService.Progress == null)
-            {
-                return;
-            }
-
-            List<AchievementId> unlockedAchievementIds = progressService.Progress.unlockedAchievementIds;
-            if (unlockedAchievementIds == null)
-            {
-                return;
-            }
-
-            foreach (AchievementId achievementId in unlockedAchievementIds)
-            {
-                UnlockSteamAchievement(achievementId);
-            }
         }
 
         private void OnDisable()
         {
+            SteamManager.SteamInitialized -= OnSteamInitialized;
+
             if (progressService != null)
             {
                 progressService.AchievementUnlocked -= UnlockSteamAchievement;
@@ -95,7 +85,7 @@ namespace SteamIntegration
 
         private void Update()
         {
-            if (pendingAchievementIds.Count == 0 || !CanUseSteam())
+            if (!CanUseSteam())
             {
                 return;
             }
@@ -107,7 +97,10 @@ namespace SteamIntegration
                 return;
             }
 
-            FlushPendingAchievements();
+            if (pendingAchievementIds.Count > 0)
+            {
+                FlushPendingAchievements();
+            }
 #endif
         }
 
@@ -193,13 +186,25 @@ namespace SteamIntegration
 #endif
         }
 
+        private void OnSteamInitialized()
+        {
+#if !DISABLESTEAMWORKS
+            RequestCurrentStatsIfAvailable();
+#endif
+        }
+
 #if !DISABLESTEAMWORKS
         private void RequestCurrentStatsIfAvailable()
         {
-            if (!CanUseSteam() || statsReady || statsRequestSent)
+            if (!CanUseSteam()
+                || statsReady
+                || statsRequestSent
+                || Time.unscaledTime < nextStatsRequestTime)
             {
                 return;
             }
+
+            nextStatsRequestTime = Time.unscaledTime + StatsRequestRetryDelay;
 
             SteamAPICall_t statsRequest = SteamUserStats.RequestUserStats(SteamUser.GetSteamID());
             if (statsRequest == SteamAPICall_t.Invalid)
@@ -214,13 +219,13 @@ namespace SteamIntegration
 
         private void OnUserStatsReceived(UserStatsReceived_t callback, bool ioFailure)
         {
+            statsRequestSent = false;
             uint currentAppId = SteamUtils.GetAppID().m_AppId;
             if (callback.m_nGameID != currentAppId)
             {
                 return;
             }
 
-            statsRequestSent = false;
             if (ioFailure || callback.m_eResult != EResult.k_EResultOK)
             {
                 Debug.LogWarning($"{name}: Steam user stats could not be loaded for App ID {currentAppId}. Result: {callback.m_eResult}; IO failure: {ioFailure}. Pending achievements will be retried.", this);
@@ -228,7 +233,47 @@ namespace SteamIntegration
             }
 
             statsReady = true;
-            Debug.Log($"{name}: Steam user stats loaded. {pendingAchievementIds.Count} pending achievement(s) can now be processed.", this);
+            FlushPendingAchievements();
+            LoadAuthoritativeAchievementsFromSteam();
+            Debug.Log($"{name}: Steam user stats and achievements loaded. {pendingAchievementIds.Count} pending achievement(s) remain.", this);
+        }
+
+        private void LoadAuthoritativeAchievementsFromSteam()
+        {
+            if (progressService == null || achievementDatabase == null)
+            {
+                return;
+            }
+
+            HashSet<AchievementId> unlockedAchievementIds = new HashSet<AchievementId>();
+            foreach (AchievementDatabase.AchievementDefinition definition in achievementDatabase.Achievements)
+            {
+                if (definition == null
+                    || definition.id == AchievementId.None
+                    || string.IsNullOrWhiteSpace(definition.steamApiName))
+                {
+                    continue;
+                }
+
+                if (!SteamListsAchievement(definition.steamApiName))
+                {
+                    Debug.LogWarning($"{name}: Steam does not list API name '{definition.steamApiName}' for achievement '{definition.id}'. It will remain locked.", this);
+                    continue;
+                }
+
+                if (!SteamUserStats.GetAchievement(definition.steamApiName, out bool unlocked))
+                {
+                    Debug.LogWarning($"{name}: Steam achievement '{definition.steamApiName}' could not be read. It will remain locked.", this);
+                    continue;
+                }
+
+                if (unlocked)
+                {
+                    unlockedAchievementIds.Add(definition.id);
+                }
+            }
+
+            progressService.ReplaceUnlockedAchievementsFromSteam(unlockedAchievementIds);
         }
 
         private static bool SteamListsAchievement(string steamAchievementApiName)
