@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using InspectorValidation;
 using Refactory.LevelObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CharacterSystem
 {
@@ -11,7 +12,7 @@ namespace CharacterSystem
     {
         [SerializeField, RequiredInspectorReference] private YetiCharacter yetiCharacter;
         [SerializeField] private Vector2 punchDirection = new Vector2(-0.7f, 0.5f);
-        [SerializeField, Min(0f)] private float punchForce = 10f;
+        [SerializeField, FormerlySerializedAs("punchForce"), Min(0f)] private float punchSpeed = 6.5f;
 
         private readonly HashSet<int> hitTargets = new HashSet<int>();
 
@@ -41,7 +42,7 @@ namespace CharacterSystem
                 return;
             }
 
-            if (!droppableObject.ApplyImpulse(punchDirection, punchForce))
+            if (!droppableObject.ApplyLaunchVelocity(punchDirection, punchSpeed))
             {
                 return;
             }

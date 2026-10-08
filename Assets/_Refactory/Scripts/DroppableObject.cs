@@ -45,15 +45,19 @@ public class DroppableObject : MonoBehaviour
         TryDrop(true);
     }
 
-    public bool ApplyImpulse(Vector2 direction, float force)
+    public bool ApplyLaunchVelocity(Vector2 direction, float speed)
     {
-        if (body == null || direction.sqrMagnitude <= Mathf.Epsilon || force <= 0f)
+        if (body == null || direction.sqrMagnitude <= Mathf.Epsilon || speed <= 0f)
         {
             return false;
         }
 
-        ActivatePhysics(false);
-        body.AddForce(direction.normalized * force, ForceMode2D.Impulse);
+        if (!ActivatePhysics(false))
+        {
+            return false;
+        }
+
+        body.linearVelocity = direction.normalized * speed;
         return true;
     }
 

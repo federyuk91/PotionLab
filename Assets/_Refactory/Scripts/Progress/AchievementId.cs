@@ -51,7 +51,9 @@ namespace ProgressSystem
         AndOrPepperoni = 44,
         RedHotChili = 45,
         Act1 = 46,
-        Act2 = 47
+        Act2 = 47,
+        AshThroughtTime = 48,
+        Ibernation = 49
     }
 
     public static class AchievementRequestHub

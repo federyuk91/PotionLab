@@ -297,3 +297,15 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: a5e16b740d641394f874f098f9911b30, type: 3}
     steamApiName: ACT_2
     googlePlayId:
+  - displayName: Ash throught time
+    id: 48
+    description: Die in Tree form.
+    icon: {fileID: 1773732111931389266, guid: 531bb2b4bd6d9e5428c80fea1e50f8b9, type: 3}
+    steamApiName: ASH_THROUGHT_TIME
+    googlePlayId:
+  - displayName: Ibernation
+    id: 49
+    description: Die in Yeti form.
+    icon: {fileID: 21300000, guid: a220a565c0e22dd4790d26b7027df338, type: 3}
+    steamApiName: IBERNATION
+    googlePlayId:

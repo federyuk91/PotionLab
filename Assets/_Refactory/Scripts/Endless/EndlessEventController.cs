@@ -12,7 +12,7 @@ namespace EndlessSystem
         public event Action<int> LightLevelSet;
 
         [Header("References")]
-        [SerializeField] private LightController lightController;
+        [SerializeField, RequiredInspectorReference] private LightController lightController;
         [SerializeField] private DialogManager dialogManager;
         [SerializeField, RequiredInspectorReference(ResolveMode.SceneSingleton)] private GameManager gameManager;
         [SerializeField] private CameraShakeController cameraShakeController;
@@ -34,6 +34,26 @@ namespace EndlessSystem
         private GameObject currentObstacle;
         private bool missingLightControllerWarningShown;
         private bool missingDialogManagerWarningShown;
+        private bool missingGameManagerWarningShown;
+
+        private void OnEnable()
+        {
+            if (lightController == null)
+            {
+                WarnMissingLightController();
+                return;
+            }
+
+            lightController.LightLevelChanged += OnLightLevelChanged;
+        }
+
+        private void OnDisable()
+        {
+            if (lightController != null)
+            {
+                lightController.LightLevelChanged -= OnLightLevelChanged;
+            }
+        }
 
         public void StartEvent(EndlessEventType eventType, float value)
         {
@@ -74,11 +94,6 @@ namespace EndlessSystem
             lightController.SetLightLevel(clampedIntensity);
             LightLevelSet?.Invoke(clampedIntensity);
 
-            if (clampedIntensity == 0 && gameManager != null)
-            {
-                gameManager.UnlockAchievementIfAvailable(AchievementId.NotAWaster);
-            }
-
             if (intensity < 0)
             {
                 PopDialog("I need my power back! HURRY!");
@@ -86,6 +101,22 @@ namespace EndlessSystem
             }
 
             PopDialog("My power is low!");
+        }
+
+        private void OnLightLevelChanged(int lightLevel)
+        {
+            if (lightLevel != 0)
+            {
+                return;
+            }
+
+            if (gameManager == null)
+            {
+                WarnMissingGameManager();
+                return;
+            }
+
+            gameManager.UnlockAchievementIfAvailable(AchievementId.NotAWaster);
         }
 
         public void SetUpperPlatformSpeed(float speed)
@@ -237,6 +268,17 @@ namespace EndlessSystem
 
             missingDialogManagerWarningShown = true;
             Debug.LogWarning($"{name}: DialogManager reference is missing. Assign it in Inspector to show endless event dialogs.", this);
+        }
+
+        private void WarnMissingGameManager()
+        {
+            if (missingGameManagerWarningShown)
+            {
+                return;
+            }
+
+            missingGameManagerWarningShown = true;
+            Debug.LogError($"{name}: GameManager reference is missing. Assign it in Inspector to unlock endless achievements.", this);
         }
     }
 }

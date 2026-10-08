@@ -66,6 +66,7 @@ namespace CharacterSystem
             if (powered)
             {
                 stats.Heal(2);
+                RequestAchievement(AchievementId.Blob);
             }
 
             return true;
@@ -90,7 +91,6 @@ namespace CharacterSystem
             if (powered)
             {
                 stats.AddMana(3);
-                RequestAchievement(AchievementId.Blob);
             }
 
             return true;

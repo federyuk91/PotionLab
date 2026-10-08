@@ -785,13 +785,20 @@ public class GameManager : MonoBehaviour
         switch (character.GetCharacterForm())
         {
             case CharacterType.Tree:
-                UnlockAchievementIfAvailable(AchievementId.OldToby);
+                UnlockAchievementIfAvailable(AchievementId.AshThroughtTime);
+                if (character.status != null && character.status.Has(Status.Burned))
+                {
+                    UnlockAchievementIfAvailable(AchievementId.OldToby);
+                }
                 break;
             case CharacterType.PupperFish:
                 UnlockAchievementIfAvailable(AchievementId.FlounderIsDeath);
                 break;
             case CharacterType.Balrog:
                 UnlockAchievementIfAvailable(AchievementId.GrayWizardSacrifice);
+                break;
+            case CharacterType.Yeti:
+                UnlockAchievementIfAvailable(AchievementId.Ibernation);
                 break;
         }
     }
