@@ -22,8 +22,13 @@ public class PotionDestroyTrigger : MonoBehaviour
     [SerializeField] private bool increaseLightAfterNonLightPotions = true;
     [SerializeField] private int nonLightPotionsBeforeLightIncrease = 5;
 
+    [Header("Optional Destruction Achievement")]
+    [SerializeField] private int destroyedPotionsForAchievement;
+    [SerializeField] private AchievementId destroyedPotionAchievement = AchievementId.None;
+
     private int destroyedLightPotionCount;
     private int destroyedNonLightPotionCount;
+    private int destroyedPotionCount;
     private bool missingGameManagerWarningShown;
     private bool missingLightControllerWarningShown;
 
@@ -84,6 +89,7 @@ public class PotionDestroyTrigger : MonoBehaviour
     {
         destroyedLightPotionCount = 0;
         destroyedNonLightPotionCount = 0;
+        destroyedPotionCount = 0;
     }
 
     private void DestroyPotion(PotionScript potion)
@@ -128,6 +134,8 @@ public class PotionDestroyTrigger : MonoBehaviour
             return;
         }
 
+        RegisterDestroyedPotionAchievement();
+
         if (potionData.effectType == PotionScriptable.EffectType.light)
         {
             RegisterDestroyedLightPotion();
@@ -135,6 +143,22 @@ public class PotionDestroyTrigger : MonoBehaviour
         }
 
         RegisterDestroyedNonLightPotion();
+    }
+
+    private void RegisterDestroyedPotionAchievement()
+    {
+        if (destroyedPotionAchievement == AchievementId.None || destroyedPotionsForAchievement <= 0)
+        {
+            return;
+        }
+
+        destroyedPotionCount++;
+        if (destroyedPotionCount != destroyedPotionsForAchievement)
+        {
+            return;
+        }
+
+        AchievementRequestHub.Request(destroyedPotionAchievement);
     }
 
     private void RegisterDestroyedLightPotion()

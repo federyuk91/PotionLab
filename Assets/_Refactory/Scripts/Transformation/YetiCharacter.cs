@@ -78,6 +78,12 @@ namespace CharacterSystem
             }
 
             int selfDamage = powered ? 1 : 2;
+            bool isSelfPunchLethal = stats.HP > 0 && stats.HP <= selfDamage;
+            if (isSelfPunchLethal)
+            {
+                RequestAchievement(AchievementId.Greedy);
+            }
+
             stats.ModifyHPAndMP(-selfDamage, -GetEffectiveSpellManaCost(spell));
             punchPotionHitCount = 0;
 

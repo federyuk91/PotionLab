@@ -51,7 +51,10 @@ namespace ProgressSystem
         Act1 = 46,
         Act2 = 47,
         AshThroughtTime = 48,
-        Ibernation = 49
+        Ibernation = 49,
+        Greedy = 50,
+        Inflaction = 51,
+        Cursed = 52
     }
 
     public static class AchievementRequestHub

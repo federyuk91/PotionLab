@@ -297,3 +297,21 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: db2976ced8dfe314aa5e89c96c41fc34, type: 3}
     steamApiName: PIZZA_EXPRESS_3000
     googlePlayId: 
+  - displayName: Greedy
+    id: 50
+    description: The Yeti is strong but not always intelligent.
+    icon: {fileID: 21300000, guid: a220a565c0e22dd4790d26b7027df338, type: 3}
+    steamApiName: GREEDY
+    googlePlayId: 
+  - displayName: Inflaction
+    id: 51
+    description: Destroy 8 potions with PufferFish.
+    icon: {fileID: 6762519587811461384, guid: a7dbe47dcf575bb4694625dd90dd9ff2, type: 3}
+    steamApiName: INFLACTION
+    googlePlayId: 
+  - displayName: Cursed
+    id: 52
+    description: A dark shadow looms on the horizon.
+    icon: {fileID: 9199872429839816550, guid: 531bc38a7e672414482189974260f0f8, type: 3}
+    steamApiName: CURSED
+    googlePlayId: 

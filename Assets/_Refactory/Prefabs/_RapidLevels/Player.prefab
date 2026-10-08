@@ -503,6 +503,8 @@ MonoBehaviour:
   lightPotionAchievement: 33
   increaseLightAfterNonLightPotions: 1
   nonLightPotionsBeforeLightIncrease: 5
+  destroyedPotionsForAchievement: 8
+  destroyedPotionAchievement: 51
 --- !u!114 &8305332181286969948
 MonoBehaviour:
   m_ObjectHideFlags: 0

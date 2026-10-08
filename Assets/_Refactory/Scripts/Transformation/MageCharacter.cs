@@ -482,6 +482,7 @@ namespace CharacterSystem
                 //Se darkLevel raggiunge 3, il mago si trasforma in Lictch
                 if (curseLevel > 2)
                 {
+                    RequestAchievement(AchievementId.Cursed);
                     transformationManager.SwitchTo(CharacterType.Litch);
                     SetCurseLevel(0);
                 }
