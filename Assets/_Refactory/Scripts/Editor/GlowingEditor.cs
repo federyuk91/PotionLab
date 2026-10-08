@@ -11,15 +11,6 @@ namespace Refactory.Editor
         private SerializedProperty glowMaterial;
         private SerializedProperty glowActive;
         private SerializedProperty imageColor;
-        private SerializedProperty rayColor;
-        private SerializedProperty rayCount;
-        private SerializedProperty rotationDegreesPerSecond;
-        private SerializedProperty minimumPulse;
-        private SerializedProperty pulseAmplitude;
-        private SerializedProperty pulseSpeed;
-        private SerializedProperty innerRadiusRatio;
-        private SerializedProperty shortRayHalfAngle;
-        private SerializedProperty longRayHalfAngle;
 
         protected override void OnEnable()
         {
@@ -28,15 +19,6 @@ namespace Refactory.Editor
             glowMaterial = serializedObject.FindProperty("glowMaterial");
             glowActive = serializedObject.FindProperty("glowActive");
             imageColor = serializedObject.FindProperty("imageColor");
-            rayColor = serializedObject.FindProperty("rayColor");
-            rayCount = serializedObject.FindProperty("rayCount");
-            rotationDegreesPerSecond = serializedObject.FindProperty("rotationDegreesPerSecond");
-            minimumPulse = serializedObject.FindProperty("minimumPulse");
-            pulseAmplitude = serializedObject.FindProperty("pulseAmplitude");
-            pulseSpeed = serializedObject.FindProperty("pulseSpeed");
-            innerRadiusRatio = serializedObject.FindProperty("innerRadiusRatio");
-            shortRayHalfAngle = serializedObject.FindProperty("shortRayHalfAngle");
-            longRayHalfAngle = serializedObject.FindProperty("longRayHalfAngle");
         }
 
         public override void OnInspectorGUI()
@@ -55,16 +37,6 @@ namespace Refactory.Editor
             EditorGUILayout.LabelField("Glow", EditorStyles.boldLabel);
             DrawProperty(glowActive);
             DrawProperty(imageColor);
-            DrawProperty(rayColor);
-            EditorGUILayout.Space();
-            DrawProperty(rayCount);
-            DrawProperty(rotationDegreesPerSecond);
-            DrawProperty(minimumPulse);
-            DrawProperty(pulseAmplitude);
-            DrawProperty(pulseSpeed);
-            DrawProperty(innerRadiusRatio);
-            DrawProperty(shortRayHalfAngle);
-            DrawProperty(longRayHalfAngle);
             serializedObject.ApplyModifiedProperties();
         }
 

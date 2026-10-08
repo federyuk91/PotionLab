@@ -12,7 +12,8 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _USERANDOMSEED_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -30,21 +31,23 @@ Material:
     m_Ints: []
     m_Floats:
     - _ColorMask: 15
-    - _InnerRadiusRatio: 0.24
-    - _LongRayHalfAngle: 0.17
-    - _MinimumPulse: 0.58
-    - _PulseAmplitude: 0.32
-    - _PulseSpeed: 2.4
+    - _InnerRadiusRatio: 0.4
+    - _LongRayHalfAngle: 0.12
+    - _MinimumPulse: 0.15
+    - _PulseAmplitude: 0.3
+    - _PulseSpeed: 1.5
+    - _PulseSpeedVariation: 0.5
     - _RayCount: 12
-    - _RotationSpeed: -0.34906584
-    - _ShortRayHalfAngle: 0.055
+    - _RotationSpeed: 0.25
+    - _ShortRayHalfAngle: 0.05
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
+    - _UseRandomSeed: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _RayColor: {r: 1, g: 0.72, b: 0.16, a: 1}
+    - _RayColor: {r: 1, g: 0.72, b: 0.16, a: 0.8666667}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

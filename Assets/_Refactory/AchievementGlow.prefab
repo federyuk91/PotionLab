@@ -140,15 +140,6 @@ MonoBehaviour:
   glowMaterial: {fileID: 2100000, guid: 75892e1fa555a014ba9d61ad2a68e758, type: 2}
   glowActive: 0
   imageColor: {r: 1, g: 1, b: 1, a: 1}
-  rayColor: {r: 1, g: 0.72, b: 0.16, a: 1}
-  rayCount: 12
-  rotationDegreesPerSecond: -20
-  minimumPulse: 0.58
-  pulseAmplitude: 0.32
-  pulseSpeed: 2.4
-  innerRadiusRatio: 0.24
-  shortRayHalfAngle: 0.055
-  longRayHalfAngle: 0.17
 --- !u!1 &5452593056336993516
 GameObject:
   m_ObjectHideFlags: 0

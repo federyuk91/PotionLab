@@ -10,6 +10,8 @@ Shader "TheGoodNightPotion/UI/Glowing Rays"
         _MinimumPulse ("Minimum Pulse", Range(0,1)) = 0.58
         _PulseAmplitude ("Pulse Amplitude", Range(0,1)) = 0.32
         _PulseSpeed ("Pulse Speed", Float) = 2.4
+        [Toggle] _UseRandomSeed ("Use Random Seed", Float) = 0
+        _PulseSpeedVariation ("Pulse Speed Variation", Range(0,1)) = 0.15
         _InnerRadiusRatio ("Inner Radius Ratio", Range(0,1)) = 0.24
         _ShortRayHalfAngle ("Short Ray Half Angle", Range(0,0.5)) = 0.055
         _LongRayHalfAngle ("Long Ray Half Angle", Range(0,0.5)) = 0.17
@@ -54,6 +56,7 @@ Shader "TheGoodNightPotion/UI/Glowing Rays"
                 float4 vertex : POSITION;
                 fixed4 color : COLOR;
                 float2 texcoord : TEXCOORD0;
+                float4 texcoord1 : TEXCOORD1;
             };
 
             struct v2f
@@ -62,6 +65,7 @@ Shader "TheGoodNightPotion/UI/Glowing Rays"
                 fixed4 color : COLOR;
                 float2 uv : TEXCOORD0;
                 float4 worldPosition : TEXCOORD1;
+                float seed : TEXCOORD2;
             };
 
             fixed4 _Color;
@@ -71,6 +75,8 @@ Shader "TheGoodNightPotion/UI/Glowing Rays"
             float _MinimumPulse;
             float _PulseAmplitude;
             float _PulseSpeed;
+            float _UseRandomSeed;
+            float _PulseSpeedVariation;
             float _InnerRadiusRatio;
             float _ShortRayHalfAngle;
             float _LongRayHalfAngle;
@@ -83,6 +89,7 @@ Shader "TheGoodNightPotion/UI/Glowing Rays"
                 output.vertex = UnityObjectToClipPos(output.worldPosition);
                 output.uv = input.texcoord;
                 output.color = input.color * _Color;
+                output.seed = input.texcoord1.x;
                 return output;
             }
 
@@ -100,7 +107,10 @@ Shader "TheGoodNightPotion/UI/Glowing Rays"
                 float halfAngle = lerp(_ShortRayHalfAngle, _LongRayHalfAngle, longRay);
                 float angularMask = 1.0 - smoothstep(halfAngle, halfAngle + 0.02, rayAngle);
                 float radialMask = step(_InnerRadiusRatio, radius) * (1.0 - smoothstep(_InnerRadiusRatio, 1.0, radius));
-                float pulse = _MinimumPulse + sin(_Time.y * _PulseSpeed) * _PulseAmplitude;
+                float randomSeedEnabled = step(0.5, _UseRandomSeed);
+                float pulseSpeedMultiplier = lerp(1.0 - _PulseSpeedVariation, 1.0 + _PulseSpeedVariation, input.seed);
+                float pulseTime = _Time.y * _PulseSpeed * lerp(1.0, pulseSpeedMultiplier, randomSeedEnabled);
+                float pulse = _MinimumPulse + sin(pulseTime + input.seed * twoPi * randomSeedEnabled) * _PulseAmplitude;
                 fixed4 color = _RayColor * input.color;
                 color.a *= angularMask * radialMask * pulse * step(radius, 1.0);
 

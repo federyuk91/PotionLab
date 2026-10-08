@@ -19,97 +19,6 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: ad4279b8f95aaac4b8b4fcf9d146695f, type: 3}
     steamApiName: THE_GOODNIGHT_POTION
     googlePlayId: 
-  - displayName: Under the sea! Under the sea!
-    id: 6
-    description: Transform into a pupperfish!
-    icon: {fileID: 21300000, guid: 4735ef2f5adc7964d88ee19c58c35424, type: 3}
-    steamApiName: UNDER_THE_SEA
-    googlePlayId: 
-  - displayName: Udun flame
-    id: 7
-    description: The Dwarves dug too greedily and too deep.
-    icon: {fileID: 21300000, guid: b8571c0cadf3e2845bdd9a0661a74169, type: 3}
-    steamApiName: UDUN_FLAME
-    googlePlayId: 
-  - displayName: Wet wizard, lucky wizard
-    id: 9
-    description: Extinguish the flames that are burning the magician
-    icon: {fileID: 21300000, guid: 7bb144af300f7af4396862ca645a3d9a, type: 3}
-    steamApiName: WET_WIZARD_LUCKY_WIZARD
-    googlePlayId: 
-  - displayName: Shaky Shaky
-    id: 38
-    description: Take damage, then immediately open the Grimoire!
-    icon: {fileID: 21300000, guid: 7595bc56a558de2408383fd6ab2bc837, type: 3}
-    steamApiName: SHAKY_SHAKY
-    googlePlayId: 
-  - displayName: Time to think
-    id: 5
-    description: Ents are a race that thinks and speaks very slowly, and acts even
-      more slowly
-    icon: {fileID: 21300000, guid: e69f7aa4b81cd3845846e9c935b2c7a0, type: 3}
-    steamApiName: TIME_TO_THINK
-    googlePlayId: 
-  - displayName: Burn Baby BURN!
-    id: 30
-    description: Burn with a level 3 flames!
-    icon: {fileID: 21300000, guid: 066ae50edf140944b9cdf4396913946e, type: 3}
-    steamApiName: BURN_BABY_BURN
-    googlePlayId: 
-  - displayName: Fresh and Clean
-    id: 36
-    description: Reach max mana with full health in mage form!
-    icon: {fileID: 21300000, guid: e2b8e7ec53aa6f5479aa3cf776f26b99, type: 3}
-    steamApiName: FRESH_AND_CLEAN
-    googlePlayId: 
-  - displayName: Necrotic Death!
-    id: 37
-    description: Die with an Antimagic Potion!
-    icon: {fileID: 21300000, guid: 39394c1e2908efe4f95597db6c37f1fc, type: 3}
-    steamApiName: NECROTIC_DEATH
-    googlePlayId: 
-  - displayName: Pile of S...
-    id: 39
-    description: Ground on ground on ground!
-    icon: {fileID: 21300000, guid: 1cec9d18af5ddbd45af863e67a99bd68, type: 3}
-    steamApiName: PILE_OF_GROUND
-    googlePlayId: 
-  - displayName: ICE TW-ICE
-    id: 20
-    description: Drink two potion of ice consecutively
-    icon: {fileID: 21300000, guid: 91f117ecb6123c44bbf5785fb442d581, type: 3}
-    steamApiName: ICE_TWICE
-    googlePlayId: 
-  - displayName: Thank you lara
-    id: 10
-    description: But your butler Winston is in another freezer
-    icon: {fileID: 21300000, guid: a0b2059dbe48e874b893ba51e47f868e, type: 3}
-    steamApiName: THANK_YOU_LARA
-    googlePlayId: 
-  - displayName: Exotic Interaction
-    id: 13
-    description: Cast Bark Shield while flaming!
-    icon: {fileID: 21300000, guid: 9770528a00104c0449e3fa4164a20a8c, type: 3}
-    steamApiName: EXOTIC_INTERACTION
-    googlePlayId: 
-  - displayName: Old Toby
-    id: 19
-    description: Old Toby, The finest weed in the Southfarthing.
-    icon: {fileID: 21300000, guid: 98cac037a66a7d742ab6aaaa2f522875, type: 3}
-    steamApiName: OLD_TOBY
-    googlePlayId: 
-  - displayName: Ice Age
-    id: 42
-    description: Complete the Freezer area in Classic mode.
-    icon: {fileID: 21300000, guid: 679c32a597dd7424f87144737489045e, type: 3}
-    steamApiName: ICE_AGE
-    googlePlayId: 
-  - displayName: Mr.White
-    id: 8
-    description: Transform into a Yeti!
-    icon: {fileID: 21300000, guid: f566a351eb55bc549b010b767c17acaa, type: 3}
-    steamApiName: MR_WHITE
-    googlePlayId: 
   - displayName: Casual Drinker
     id: 24
     description: Drink 25 potions in Endless Mode!
@@ -146,41 +55,11 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: 22067fe70f429e04b9382ded80bc8d3b, type: 3}
     steamApiName: GOD_OF_LIBATIONS
     googlePlayId: 
-  - displayName: Act 1
-    id: 46
-    description: Complete the first 10 Classic levels.
-    icon: {fileID: 21300000, guid: 758082c0ae3d70242bfaa112cfbcfb2d, type: 3}
-    steamApiName: ACT_1
-    googlePlayId: 
-  - displayName: Act 2
-    id: 47
-    description: Complete the first 20 Classic levels.
-    icon: {fileID: 21300000, guid: a5e16b740d641394f874f098f9911b30, type: 3}
-    steamApiName: ACT_2
-    googlePlayId: 
-  - displayName: Not a waster
-    id: 34
-    description: In Advance mode brings the light to minimum power
-    icon: {fileID: 21300000, guid: 80ec4d67384e2244dbc66c6b1a48b436, type: 3}
-    steamApiName: NOT_A_WASTER
-    googlePlayId: 
-  - displayName: Red Hot Chili
-    id: 45
-    description: Drink a fire potion while burning.
-    icon: {fileID: 21300000, guid: 4afe03bac9d53204ab912087b36237a3, type: 3}
-    steamApiName: RED_HOT_CHILI
-    googlePlayId: 
-  - displayName: ...And/Or Pepperoni
-    id: 44
-    description: Drink at least 100 potions in a single Potion Lab run.
-    icon: {fileID: 21300000, guid: 34e1b271aafde0d4da693293d0114734, type: 3}
-    steamApiName: AND_OR_PEPPERONI
-    googlePlayId: 
-  - displayName: Welcome to the future
-    id: 43
-    description: Drink one potion of every type.
-    icon: {fileID: 21300000, guid: 43f1e3c62a9d62b499a6330257ad66bf, type: 3}
-    steamApiName: WELCOME_TO_THE_FUTURE
+  - displayName: Shaky Shaky
+    id: 38
+    description: Take damage, then immediately open the Grimoire!
+    icon: {fileID: 21300000, guid: 7595bc56a558de2408383fd6ab2bc837, type: 3}
+    steamApiName: SHAKY_SHAKY
     googlePlayId: 
   - displayName: The sacrifice of the gray wizard
     id: 23
@@ -188,23 +67,157 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: 49c3967d92a733c4eaed5245ad474c1e, type: 3}
     steamApiName: GRAY_WIZARD_SACRIFICE
     googlePlayId: 
-  - displayName: Mastro Lindo
-    id: 22
-    description: Use cleanse on poisoned Ice!
-    icon: {fileID: 21300000, guid: e37641f0b9d32e54a9231e129e50280f, type: 3}
-    steamApiName: MASTRO_LINDO
+  - displayName: Act 1\nBasement
+    id: 46
+    description: Complete the first 10 Classic levels.
+    icon: {fileID: 21300000, guid: 758082c0ae3d70242bfaa112cfbcfb2d, type: 3}
+    steamApiName: ACT_1
     googlePlayId: 
-  - displayName: Holy pile of ground!
-    id: 40
-    description: Heal yourself as a tree with ground.
-    icon: {fileID: 21300000, guid: 468aca00f0ae81240bf81e8a3bf32847, type: 3}
-    steamApiName: HOLY_PILE_OF_GROUND
+  - displayName: Udun flame
+    id: 7
+    description: The Dwarves dug too greedily and too deep.
+    icon: {fileID: 21300000, guid: b8571c0cadf3e2845bdd9a0661a74169, type: 3}
+    steamApiName: UDUN_FLAME
+    googlePlayId: 
+  - displayName: Under the sea! Under the sea!
+    id: 6
+    description: Transform into a pupperfish!
+    icon: {fileID: 21300000, guid: 4735ef2f5adc7964d88ee19c58c35424, type: 3}
+    steamApiName: UNDER_THE_SEA
+    googlePlayId: 
+  - displayName: Time to think
+    id: 5
+    description: Ents are a race that thinks and speaks very slowly, and acts even
+      more slowly
+    icon: {fileID: 21300000, guid: e69f7aa4b81cd3845846e9c935b2c7a0, type: 3}
+    steamApiName: TIME_TO_THINK
+    googlePlayId: 
+  - displayName: Old Toby
+    id: 19
+    description: Old Toby, The finest weed in the Southfarthing.
+    icon: {fileID: 21300000, guid: 98cac037a66a7d742ab6aaaa2f522875, type: 3}
+    steamApiName: OLD_TOBY
+    googlePlayId: 
+  - displayName: ...And/Or Pepperoni
+    id: 44
+    description: The secret ingrendients. Drink at least 100 potions in a single
+      Potion Lab run.
+    icon: {fileID: 21300000, guid: cfda2b0dd85f5c34990048d4e85824ab, type: 3}
+    steamApiName: AND_OR_PEPPERONI
+    googlePlayId: 
+  - displayName: Red Hot Chili
+    id: 45
+    description: Drink a fire potion, then another, then ...
+    icon: {fileID: 21300000, guid: 4afe03bac9d53204ab912087b36237a3, type: 3}
+    steamApiName: RED_HOT_CHILI
+    googlePlayId: 
+  - displayName: Burn Baby BURN!
+    id: 30
+    description: Burn with a level 3 flames!
+    icon: {fileID: 21300000, guid: 066ae50edf140944b9cdf4396913946e, type: 3}
+    steamApiName: BURN_BABY_BURN
+    googlePlayId: 
+  - displayName: Necrotic Death!
+    id: 37
+    description: Die with an Antimagic Potion!
+    icon: {fileID: 21300000, guid: 39394c1e2908efe4f95597db6c37f1fc, type: 3}
+    steamApiName: NECROTIC_DEATH
+    googlePlayId: 
+  - displayName: Pile of S...
+    id: 39
+    description: Ground on ground on ground!
+    icon: {fileID: 21300000, guid: 1cec9d18af5ddbd45af863e67a99bd68, type: 3}
+    steamApiName: PILE_OF_GROUND
+    googlePlayId: 
+  - displayName: Act 2\nLaboratory
+    id: 47
+    description: Complete the first 20 Classic levels.
+    icon: {fileID: 21300000, guid: a5e16b740d641394f874f098f9911b30, type: 3}
+    steamApiName: ACT_2
+    googlePlayId: 
+  - displayName: ICE TW-ICE
+    id: 20
+    description: Drink two potion of ice consecutively
+    icon: {fileID: 21300000, guid: 91f117ecb6123c44bbf5785fb442d581, type: 3}
+    steamApiName: ICE_TWICE
+    googlePlayId: 
+  - displayName: Thank you lara
+    id: 10
+    description: But your butler Winston is in another freezer
+    icon: {fileID: 21300000, guid: a0b2059dbe48e874b893ba51e47f868e, type: 3}
+    steamApiName: THANK_YOU_LARA
+    googlePlayId: 
+  - displayName: Wet wizard, lucky wizard
+    id: 9
+    description: Extinguish the flames that are burning the magician
+    icon: {fileID: 21300000, guid: 7bb144af300f7af4396862ca645a3d9a, type: 3}
+    steamApiName: WET_WIZARD_LUCKY_WIZARD
+    googlePlayId: 
+  - displayName: Mr.White
+    id: 8
+    description: Transform into a Yeti!
+    icon: {fileID: 21300000, guid: f566a351eb55bc549b010b767c17acaa, type: 3}
+    steamApiName: MR_WHITE
     googlePlayId: 
   - displayName: Falcon PUNCH!
     id: 18
     description: Punch as Yeti 4 potions!
     icon: {fileID: 21300000, guid: ca2d09fcb60313945ae8847532695fde, type: 3}
     steamApiName: FALCON_PUNCH
+    googlePlayId: 
+  - displayName: Smart but fart!
+    id: 41
+    description: Try to heal up as yeti with full life!
+    icon: {fileID: -2054490447, guid: 98a132d39923e9041abb209d5e5ca729, type: 3}
+    steamApiName: SMART_BUT_FART
+    googlePlayId: 
+  - displayName: Ibernation
+    id: 49
+    description: Die in Yeti form.
+    icon: {fileID: 21300000, guid: a220a565c0e22dd4790d26b7027df338, type: 3}
+    steamApiName: IBERNATION
+    googlePlayId: 
+  - displayName: Another Lousy Millennium
+    id: 43
+    description: Drank every potion type. Woke up 1000 years later.
+    icon: {fileID: 21300000, guid: 43f1e3c62a9d62b499a6330257ad66bf, type: 3}
+    steamApiName: WELCOME_TO_THE_FUTURE
+    googlePlayId: 
+  - displayName: Mastro Lindo
+    id: 22
+    description: Use cleanse on poisoned Ice!
+    icon: {fileID: 21300000, guid: e37641f0b9d32e54a9231e129e50280f, type: 3}
+    steamApiName: MASTRO_LINDO
+    googlePlayId: 
+  - displayName: Act 3\nIce Age
+    id: 42
+    description: Complete the Freezer area in Classic mode.
+    icon: {fileID: 21300000, guid: 679c32a597dd7424f87144737489045e, type: 3}
+    steamApiName: ICE_AGE
+    googlePlayId: 
+  - displayName: Advance Tatics!
+    id: 12
+    description: Drink an ice potion when you're burning as tree
+    icon: {fileID: -4610821296591359423, guid: e79dd9cdda6c41f4aac0df98ab79e79b, type: 3}
+    steamApiName: ADVANCE_TACTICS
+    googlePlayId: 
+  - displayName: Exotic Interaction
+    id: 13
+    description: Cast Bark Shield while flaming!
+    icon: {fileID: 21300000, guid: 9770528a00104c0449e3fa4164a20a8c, type: 3}
+    steamApiName: EXOTIC_INTERACTION
+    googlePlayId: 
+  - displayName: Not a waster
+    id: 34
+    description: In Advance mode brings the light to minimum power
+    icon: {fileID: 21300000, guid: 80ec4d67384e2244dbc66c6b1a48b436, type: 3}
+    steamApiName: NOT_A_WASTER
+    googlePlayId: 
+  - displayName: Holy pile of ground!
+    id: 40
+    description: Heal yourself as a tree with ground.
+    icon: {fileID: 21300000, guid: 468aca00f0ae81240bf81e8a3bf32847, type: 3}
+    steamApiName: HOLY_PILE_OF_GROUND
     googlePlayId: 
   - displayName: Mana BURN!
     id: 33
@@ -236,41 +249,11 @@ MonoBehaviour:
     icon: {fileID: 1773732111931389266, guid: 531bb2b4bd6d9e5428c80fea1e50f8b9, type: 3}
     steamApiName: ASH_THROUGHT_TIME
     googlePlayId: 
-  - displayName: Ibernation
-    id: 49
-    description: Die in Yeti form.
-    icon: {fileID: 21300000, guid: a220a565c0e22dd4790d26b7027df338, type: 3}
-    steamApiName: IBERNATION
-    googlePlayId: 
   - displayName: Advance knowledge
     id: 11
     description: Burn alghae at maximum growth!
     icon: {fileID: 868961405481983498, guid: 7bbe159fa1be31748aca5317906d97ba, type: 3}
     steamApiName: ADVANCE_KNOWLEDGE
-    googlePlayId: 
-  - displayName: Smart but fart!
-    id: 41
-    description: Try to heal up as yeti with full life!
-    icon: {fileID: -2054490447, guid: 98a132d39923e9041abb209d5e5ca729, type: 3}
-    steamApiName: SMART_BUT_FART
-    googlePlayId: 
-  - displayName: Advance Tatics!
-    id: 12
-    description: Drink an ice potion when you're burning as tree
-    icon: {fileID: -4610821296591359423, guid: e79dd9cdda6c41f4aac0df98ab79e79b, type: 3}
-    steamApiName: ADVANCE_TACTICS
-    googlePlayId: 
-  - displayName: The mage of the demo
-    id: 2
-    description: Unlock 49 achievements.
-    icon: {fileID: 21300000, guid: e5284d8b4903f7646bcba12deb6bf96b, type: 3}
-    steamApiName: THE_DEMO_MAGE
-    googlePlayId: 
-  - displayName: Perfectionist
-    id: 3
-    description: Complete all level of Classic mode with max score!
-    icon: {fileID: 21300000, guid: 758082c0ae3d70242bfaa112cfbcfb2d, type: 3}
-    steamApiName: PERFECTIONIST
     googlePlayId: 
   - displayName: Shapeshifter!
     id: 31
@@ -278,7 +261,13 @@ MonoBehaviour:
     icon: {fileID: 4495391339491798990, guid: 4331130546b08d74ba2d7cbef2266dc9, type: 3}
     steamApiName: SHAPESHIFTER
     googlePlayId: 
-  - displayName: Ditto's Follower
+  - displayName: Fresh and Clean
+    id: 36
+    description: Reach max mana with full health in mage form!
+    icon: {fileID: 21300000, guid: e2b8e7ec53aa6f5479aa3cf776f26b99, type: 3}
+    steamApiName: FRESH_AND_CLEAN
+    googlePlayId: 
+  - displayName: Chimera
     id: 32
     description: Transform 20 times in a run!
     icon: {fileID: 21300000, guid: dec810c3c308b6947860c7d0d743067a, type: 3}
@@ -292,8 +281,10 @@ MonoBehaviour:
     googlePlayId: 
   - displayName: Pizza Express 3000
     id: 14
-    description: My God! It's the future. My parents, my co-workers, my girlfriend.
-      I'll never see any of them again. Yahoo!
+    description: 'Is this the future? I''ll never see my co-workers again. Yahoo!
+
+      Thaw
+      the wizard with the last potion.'
     icon: {fileID: 21300000, guid: db2976ced8dfe314aa5e89c96c41fc34, type: 3}
     steamApiName: PIZZA_EXPRESS_3000
     googlePlayId: 
@@ -314,4 +305,16 @@ MonoBehaviour:
     description: A dark shadow looms on the horizon.
     icon: {fileID: 9199872429839816550, guid: 531bc38a7e672414482189974260f0f8, type: 3}
     steamApiName: CURSED
+    googlePlayId: 
+  - displayName: The mage of the demo
+    id: 2
+    description: Unlock 49 achievements.
+    icon: {fileID: 21300000, guid: e5284d8b4903f7646bcba12deb6bf96b, type: 3}
+    steamApiName: THE_DEMO_MAGE
+    googlePlayId: 
+  - displayName: Perfectionist
+    id: 3
+    description: Complete all level of Classic mode with max score!
+    icon: {fileID: 21300000, guid: 758082c0ae3d70242bfaa112cfbcfb2d, type: 3}
+    steamApiName: PERFECTIONIST
     googlePlayId: 
