@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using ProgressSystem;
 using Refactory.CameraSystem;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -143,13 +142,8 @@ public class FamiliarMover : MonoBehaviour
             familiarAudioSource.Play();
         }
 
-        if (clickCount >= 5)
-        {
-            if (gameManager != null)
-            {
-                gameManager.UnlockAchievementIfAvailable(AchievementId.Spammer);
-            }
-        }
+        // Full-game achievement disabled in the demo.
+        // gameManager.UnlockAchievementIfAvailable(AchievementId.Spammer);
 
         switch (type)
         {

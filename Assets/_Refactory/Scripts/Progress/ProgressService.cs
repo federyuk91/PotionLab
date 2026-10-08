@@ -7,6 +7,7 @@ public class ProgressService : MonoBehaviour
 {
         private const int FirstClassicActLastLevelBuildIndex = 10;
         private const int SecondClassicActLastLevelBuildIndex = 20;
+        private const int RequiredAchievementCountForTheMage = 49;
 
         public event Action<PlayerProgress> ProgressChanged;
         public event Action<int> BestProceduralScoreChanged;
@@ -136,7 +137,8 @@ public class ProgressService : MonoBehaviour
             if (sceneBuildIndex >= finalClassicLevelBuildIndex)
             {
                 progress.endlessUnlocked = true;
-                UnlockAchievement(AchievementId.TheClassic);
+                // Full-game achievement disabled in the demo.
+                // UnlockAchievement(AchievementId.TheClassic);
                 UnlockAchievement(AchievementId.IceAge);
             }
 
@@ -489,6 +491,7 @@ public class ProgressService : MonoBehaviour
                 return;
             }
 
+            int unlockedAchievementCount = 0;
             Array achievementIds = Enum.GetValues(typeof(AchievementId));
             foreach (object value in achievementIds)
             {
@@ -498,13 +501,16 @@ public class ProgressService : MonoBehaviour
                     continue;
                 }
 
-                if (!progress.unlockedAchievementIds.Contains(achievementId))
+                if (progress.unlockedAchievementIds.Contains(achievementId))
                 {
-                    return;
+                    unlockedAchievementCount++;
                 }
             }
 
-            UnlockAchievement(AchievementId.TheMage);
+            if (unlockedAchievementCount >= RequiredAchievementCountForTheMage)
+            {
+                UnlockAchievement(AchievementId.TheMage);
+            }
         }
 
         private void LogPlayerNameFlow(string message)

@@ -278,7 +278,8 @@ namespace SteamIntegration
                 return;
             }
 
-            Debug.LogWarning($"{name}: Steam does not list achievement '{failedSteamAchievementApiName}' for App ID {SteamUtils.GetAppID().m_AppId}. Known achievements: {string.Join(", ", achievementNames)}", this);
+            Debug.LogWarning($"{name}: Steam does not list achievement '{failedSteamAchievementApiName}' for App ID {SteamUtils.GetAppID().m_AppId}."); //Known achievements: {string.Join(", ", achievementNames)}", this);
+
         }
 
         private void FlushPendingAchievements()
