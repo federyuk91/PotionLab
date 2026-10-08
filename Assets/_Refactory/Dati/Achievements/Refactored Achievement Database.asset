@@ -61,11 +61,11 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: 7595bc56a558de2408383fd6ab2bc837, type: 3}
     steamApiName: SHAKY_SHAKY
     googlePlayId: 
-  - displayName: The sacrifice of the gray wizard
-    id: 23
-    description: Sacrifice yourself to kill the demon.
-    icon: {fileID: 21300000, guid: 49c3967d92a733c4eaed5245ad474c1e, type: 3}
-    steamApiName: GRAY_WIZARD_SACRIFICE
+  - displayName: Udun flame
+    id: 7
+    description: The Dwarves dug too greedily and too deep.
+    icon: {fileID: 21300000, guid: b8571c0cadf3e2845bdd9a0661a74169, type: 3}
+    steamApiName: UDUN_FLAME
     googlePlayId: 
   - displayName: Act 1\nBasement
     id: 46
@@ -73,30 +73,29 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: 758082c0ae3d70242bfaa112cfbcfb2d, type: 3}
     steamApiName: ACT_1
     googlePlayId: 
-  - displayName: Udun flame
-    id: 7
-    description: The Dwarves dug too greedily and too deep.
-    icon: {fileID: 21300000, guid: b8571c0cadf3e2845bdd9a0661a74169, type: 3}
-    steamApiName: UDUN_FLAME
-    googlePlayId: 
   - displayName: Under the sea! Under the sea!
     id: 6
     description: Transform into a pupperfish!
     icon: {fileID: 21300000, guid: 4735ef2f5adc7964d88ee19c58c35424, type: 3}
     steamApiName: UNDER_THE_SEA
     googlePlayId: 
-  - displayName: Time to think
-    id: 5
-    description: Ents are a race that thinks and speaks very slowly, and acts even
-      more slowly
-    icon: {fileID: 21300000, guid: e69f7aa4b81cd3845846e9c935b2c7a0, type: 3}
-    steamApiName: TIME_TO_THINK
+  - displayName: GnamGnam!
+    id: 17
+    description: What a delightfull dinner! Eat Algae under the sea
+    icon: {fileID: 1114599881857385755, guid: a2ced4c912a303e46acd5cb340f4fac6, type: 3}
+    steamApiName: BLOB
     googlePlayId: 
-  - displayName: Old Toby
-    id: 19
-    description: Old Toby, The finest weed in the Southfarthing.
-    icon: {fileID: 21300000, guid: 98cac037a66a7d742ab6aaaa2f522875, type: 3}
-    steamApiName: OLD_TOBY
+  - displayName: Flounder is death
+    id: 21
+    description: They found your fish body upside down! Bye!
+    icon: {fileID: 2301780388802313298, guid: fe1fad6cc4261224aafa1db8c296f6fe, type: 3}
+    steamApiName: FLOUNDER_IS_DEATH
+    googlePlayId: 
+  - displayName: Inflaction
+    id: 51
+    description: Destroy 8 potions with PufferFish.
+    icon: {fileID: 6762519587811461384, guid: a7dbe47dcf575bb4694625dd90dd9ff2, type: 3}
+    steamApiName: INFLACTION
     googlePlayId: 
   - displayName: ...And/Or Pepperoni
     id: 44
@@ -117,17 +116,17 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: 066ae50edf140944b9cdf4396913946e, type: 3}
     steamApiName: BURN_BABY_BURN
     googlePlayId: 
-  - displayName: Necrotic Death!
-    id: 37
-    description: Die with an Antimagic Potion!
-    icon: {fileID: 21300000, guid: 39394c1e2908efe4f95597db6c37f1fc, type: 3}
-    steamApiName: NECROTIC_DEATH
-    googlePlayId: 
   - displayName: Pile of S...
     id: 39
     description: Ground on ground on ground!
     icon: {fileID: 21300000, guid: 1cec9d18af5ddbd45af863e67a99bd68, type: 3}
     steamApiName: PILE_OF_GROUND
+    googlePlayId: 
+  - displayName: The sacrifice of the gray wizard
+    id: 23
+    description: Sacrifice yourself to kill the demon.
+    icon: {fileID: 21300000, guid: 49c3967d92a733c4eaed5245ad474c1e, type: 3}
+    steamApiName: GRAY_WIZARD_SACRIFICE
     googlePlayId: 
   - displayName: Act 2\nLaboratory
     id: 47
@@ -147,12 +146,6 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: a0b2059dbe48e874b893ba51e47f868e, type: 3}
     steamApiName: THANK_YOU_LARA
     googlePlayId: 
-  - displayName: Wet wizard, lucky wizard
-    id: 9
-    description: Extinguish the flames that are burning the magician
-    icon: {fileID: 21300000, guid: 7bb144af300f7af4396862ca645a3d9a, type: 3}
-    steamApiName: WET_WIZARD_LUCKY_WIZARD
-    googlePlayId: 
   - displayName: Mr.White
     id: 8
     description: Transform into a Yeti!
@@ -171,6 +164,12 @@ MonoBehaviour:
     icon: {fileID: -2054490447, guid: 98a132d39923e9041abb209d5e5ca729, type: 3}
     steamApiName: SMART_BUT_FART
     googlePlayId: 
+  - displayName: Greedy
+    id: 50
+    description: The Yeti is strong but not always intelligent.
+    icon: {fileID: 21300000, guid: 0e36ba65f9bef1746bd13d4ab172f1ae, type: 3}
+    steamApiName: GREEDY
+    googlePlayId: 
   - displayName: Ibernation
     id: 49
     description: Die in Yeti form.
@@ -183,17 +182,30 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: 43f1e3c62a9d62b499a6330257ad66bf, type: 3}
     steamApiName: WELCOME_TO_THE_FUTURE
     googlePlayId: 
-  - displayName: Mastro Lindo
-    id: 22
-    description: Use cleanse on poisoned Ice!
-    icon: {fileID: 21300000, guid: e37641f0b9d32e54a9231e129e50280f, type: 3}
-    steamApiName: MASTRO_LINDO
+  - displayName: Cooking Dada!
+    id: 16
+    description: Summon the cauldron at maximum power.
+    icon: {fileID: 21300000, guid: 9e0230159f4f3b44e81e42ed2b1b0cc7, type: 3}
+    steamApiName: COOKING_MAMA
     googlePlayId: 
   - displayName: Act 3\nIce Age
     id: 42
     description: Complete the Freezer area in Classic mode.
     icon: {fileID: 21300000, guid: 679c32a597dd7424f87144737489045e, type: 3}
     steamApiName: ICE_AGE
+    googlePlayId: 
+  - displayName: Time to think
+    id: 5
+    description: Ents are a race that thinks and speaks very slowly, and acts even
+      more slowly
+    icon: {fileID: 21300000, guid: e69f7aa4b81cd3845846e9c935b2c7a0, type: 3}
+    steamApiName: TIME_TO_THINK
+    googlePlayId: 
+  - displayName: Sylvanus Blessing
+    id: 15
+    description: Summon a flower with maximum power!
+    icon: {fileID: 8712213265624741136, guid: b8778942a0a08ed48918a18a28b63fdd, type: 3}
+    steamApiName: SYLVANUS_BLESSING
     googlePlayId: 
   - displayName: Advance Tatics!
     id: 12
@@ -207,41 +219,17 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: 9770528a00104c0449e3fa4164a20a8c, type: 3}
     steamApiName: EXOTIC_INTERACTION
     googlePlayId: 
-  - displayName: Not a waster
-    id: 34
-    description: In Advance mode brings the light to minimum power
-    icon: {fileID: 21300000, guid: 80ec4d67384e2244dbc66c6b1a48b436, type: 3}
-    steamApiName: NOT_A_WASTER
-    googlePlayId: 
   - displayName: Holy pile of ground!
     id: 40
     description: Heal yourself as a tree with ground.
     icon: {fileID: 21300000, guid: 468aca00f0ae81240bf81e8a3bf32847, type: 3}
     steamApiName: HOLY_PILE_OF_GROUND
     googlePlayId: 
-  - displayName: Mana BURN!
-    id: 33
-    description: Destroy with calduron 5 light potion!
-    icon: {fileID: 21300000, guid: 3bb7bb40190fc4849b6eb0d88399cd48, type: 3}
-    steamApiName: MANA_BURN
-    googlePlayId: 
-  - displayName: Cooking Dada!
-    id: 16
-    description: Summon the cauldron at maximum power.
-    icon: {fileID: 21300000, guid: 9e0230159f4f3b44e81e42ed2b1b0cc7, type: 3}
-    steamApiName: COOKING_MAMA
-    googlePlayId: 
-  - displayName: GnamGnam!
-    id: 17
-    description: What a delightfull dinner! Eat Algae under the sea
-    icon: {fileID: 1114599881857385755, guid: a2ced4c912a303e46acd5cb340f4fac6, type: 3}
-    steamApiName: BLOB
-    googlePlayId: 
-  - displayName: Flounder is death
-    id: 21
-    description: They found your fish body upside down! Bye!
-    icon: {fileID: 2301780388802313298, guid: fe1fad6cc4261224aafa1db8c296f6fe, type: 3}
-    steamApiName: FLOUNDER_IS_DEATH
+  - displayName: Old Toby
+    id: 19
+    description: Old Toby, The finest weed in the Southfarthing.
+    icon: {fileID: 21300000, guid: 98cac037a66a7d742ab6aaaa2f522875, type: 3}
+    steamApiName: OLD_TOBY
     googlePlayId: 
   - displayName: Ash throught time
     id: 48
@@ -255,29 +243,11 @@ MonoBehaviour:
     icon: {fileID: 868961405481983498, guid: 7bbe159fa1be31748aca5317906d97ba, type: 3}
     steamApiName: ADVANCE_KNOWLEDGE
     googlePlayId: 
-  - displayName: Shapeshifter!
-    id: 31
-    description: Transform 10 times in a run!
-    icon: {fileID: 4495391339491798990, guid: 4331130546b08d74ba2d7cbef2266dc9, type: 3}
-    steamApiName: SHAPESHIFTER
-    googlePlayId: 
-  - displayName: Fresh and Clean
-    id: 36
-    description: Reach max mana with full health in mage form!
-    icon: {fileID: 21300000, guid: e2b8e7ec53aa6f5479aa3cf776f26b99, type: 3}
-    steamApiName: FRESH_AND_CLEAN
-    googlePlayId: 
-  - displayName: Chimera
-    id: 32
-    description: Transform 20 times in a run!
-    icon: {fileID: 21300000, guid: dec810c3c308b6947860c7d0d743067a, type: 3}
-    steamApiName: DITTOS_FOLLOWER
-    googlePlayId: 
-  - displayName: Sylvanus Blessing
-    id: 15
-    description: Summon a flower with maximum power!
-    icon: {fileID: 8712213265624741136, guid: b8778942a0a08ed48918a18a28b63fdd, type: 3}
-    steamApiName: SYLVANUS_BLESSING
+  - displayName: Mana BURN!
+    id: 33
+    description: Destroy with calduron 5 light potion!
+    icon: {fileID: 21300000, guid: 3bb7bb40190fc4849b6eb0d88399cd48, type: 3}
+    steamApiName: MANA_BURN
     googlePlayId: 
   - displayName: Pizza Express 3000
     id: 14
@@ -288,17 +258,47 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: db2976ced8dfe314aa5e89c96c41fc34, type: 3}
     steamApiName: PIZZA_EXPRESS_3000
     googlePlayId: 
-  - displayName: Greedy
-    id: 50
-    description: The Yeti is strong but not always intelligent.
-    icon: {fileID: 21300000, guid: 0e36ba65f9bef1746bd13d4ab172f1ae, type: 3}
-    steamApiName: GREEDY
+  - displayName: Wet wizard, lucky wizard
+    id: 9
+    description: Extinguish the flames that are burning the magician
+    icon: {fileID: 21300000, guid: 7bb144af300f7af4396862ca645a3d9a, type: 3}
+    steamApiName: WET_WIZARD_LUCKY_WIZARD
     googlePlayId: 
-  - displayName: Inflaction
-    id: 51
-    description: Destroy 8 potions with PufferFish.
-    icon: {fileID: 6762519587811461384, guid: a7dbe47dcf575bb4694625dd90dd9ff2, type: 3}
-    steamApiName: INFLACTION
+  - displayName: Mastro Lindo
+    id: 22
+    description: Use cleanse on poisoned Ice!
+    icon: {fileID: 21300000, guid: e37641f0b9d32e54a9231e129e50280f, type: 3}
+    steamApiName: MASTRO_LINDO
+    googlePlayId: 
+  - displayName: Fresh and Clean
+    id: 36
+    description: Reach max mana with full health in mage form!
+    icon: {fileID: 21300000, guid: e2b8e7ec53aa6f5479aa3cf776f26b99, type: 3}
+    steamApiName: FRESH_AND_CLEAN
+    googlePlayId: 
+  - displayName: Not a waster
+    id: 34
+    description: In Advance mode brings the light to minimum power
+    icon: {fileID: 21300000, guid: 80ec4d67384e2244dbc66c6b1a48b436, type: 3}
+    steamApiName: NOT_A_WASTER
+    googlePlayId: 
+  - displayName: Shapeshifter!
+    id: 31
+    description: Transform 10 times in a run!
+    icon: {fileID: 4495391339491798990, guid: 4331130546b08d74ba2d7cbef2266dc9, type: 3}
+    steamApiName: SHAPESHIFTER
+    googlePlayId: 
+  - displayName: Chimera
+    id: 32
+    description: Transform 20 times in a run!
+    icon: {fileID: 21300000, guid: dec810c3c308b6947860c7d0d743067a, type: 3}
+    steamApiName: DITTOS_FOLLOWER
+    googlePlayId: 
+  - displayName: Necrotic Death!
+    id: 37
+    description: Die with an Antimagic Potion!
+    icon: {fileID: 21300000, guid: 39394c1e2908efe4f95597db6c37f1fc, type: 3}
+    steamApiName: NECROTIC_DEATH
     googlePlayId: 
   - displayName: Cursed
     id: 52
