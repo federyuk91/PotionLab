@@ -16,6 +16,7 @@ namespace Refactory.UI
         [SerializeField, RequiredInspectorReference] private AchievementDatabase achievementDatabase;
         [SerializeField, RequiredInspectorReference] private RectTransform achievementGrid;
         [SerializeField, RequiredInspectorReference] private GameObject descriptionAchievement;
+        [SerializeField, RequiredInspectorReference] private Image achievementPreviewImage;
         [SerializeField, RequiredInspectorReference] private TMP_Text achievementNameText;
         [SerializeField, RequiredInspectorReference] private TMP_Text descriptionAchievementText;
         [SerializeField, RequiredInspectorReference] private TMP_Text unlockedAchievementCounter;
@@ -40,14 +41,25 @@ namespace Refactory.UI
         private readonly System.Random revealRandom = new System.Random();
         private bool missingSlotWarningShown;
         private string defaultAchievementTitle;
+        private Sprite defaultAchievementPreviewSprite;
+        private Color defaultAchievementPreviewColor = Color.white;
+        private bool defaultAchievementPreviewEnabled;
         private float achievementAudioBasePitch = 1f;
         private Coroutine revealCoroutine;
+        private MainMenuAchievementSlot defaultAchievementSlot;
 
         public float HoverScaleMultiplier => hoverScaleMultiplier;
 
         private void Awake()
         {
             defaultAchievementTitle = achievementNameText != null ? achievementNameText.text : string.Empty;
+            if (achievementPreviewImage != null)
+            {
+                defaultAchievementPreviewSprite = achievementPreviewImage.sprite;
+                defaultAchievementPreviewColor = achievementPreviewImage.color;
+                defaultAchievementPreviewEnabled = achievementPreviewImage.enabled;
+            }
+
             BuildSlotList();
             if (achievementAppearAudioSource != null)
             {
@@ -148,7 +160,6 @@ namespace Refactory.UI
 
         private void Refresh()
         {
-            HideDescription();
             if (progressService == null || achievementDatabase == null)
             {
                 Debug.LogError($"{name}: Progress Service and Achievement Database must be assigned to populate the achievement panel.", this);
@@ -163,6 +174,7 @@ namespace Refactory.UI
             IReadOnlyList<AchievementDatabase.AchievementDefinition> achievements = achievementDatabase.Achievements;
             int unlockedCount = 0;
             int displayedAchievementCount = 0;
+            defaultAchievementSlot = null;
             for (int index = 0; index < achievements.Count; index++)
             {
                 AchievementDatabase.AchievementDefinition definition = achievements[index];
@@ -183,7 +195,13 @@ namespace Refactory.UI
                     continue;
                 }
 
-                slots[displayedAchievementCount].Bind(this, definition, isUnlocked);
+                MainMenuAchievementSlot slot = slots[displayedAchievementCount];
+                slot.Bind(this, definition, isUnlocked);
+                if (definition.id == AchievementId.TheGoodnightPotion)
+                {
+                    defaultAchievementSlot = slot;
+                }
+
                 displayedAchievementCount++;
             }
 
@@ -196,9 +214,20 @@ namespace Refactory.UI
             {
                 unlockedAchievementCounter.text = $"{unlockedCount}/{displayedAchievementCount}";
             }
+
+            if (defaultAchievementSlot == null && displayedAchievementCount > 0)
+            {
+                defaultAchievementSlot = slots[0];
+            }
+
+            HideDescription();
         }
 
-        public void ShowDescription(AchievementDatabase.AchievementDefinition definition)
+        public void ShowDescription(
+            AchievementDatabase.AchievementDefinition definition,
+            bool isUnlocked,
+            Sprite previewSprite,
+            Color previewColor)
         {
             if (definition == null || descriptionAchievement == null)
             {
@@ -207,12 +236,19 @@ namespace Refactory.UI
 
             if (achievementNameText != null)
             {
-                achievementNameText.text = definition.displayName;
+                achievementNameText.text = isUnlocked ? definition.displayName : "LOCKED";
             }
 
             if (descriptionAchievementText != null)
             {
-                descriptionAchievementText.text = definition.description;
+                descriptionAchievementText.text = isUnlocked ? definition.description : "LOCKED";
+            }
+
+            if (achievementPreviewImage != null)
+            {
+                achievementPreviewImage.sprite = previewSprite;
+                achievementPreviewImage.color = previewColor;
+                achievementPreviewImage.enabled = previewSprite != null;
             }
 
             descriptionAchievement.SetActive(true);
@@ -220,6 +256,12 @@ namespace Refactory.UI
 
         public void HideDescription()
         {
+            if (defaultAchievementSlot != null && defaultAchievementSlot.IsBound)
+            {
+                defaultAchievementSlot.ShowInPanel();
+                return;
+            }
+
             if (achievementNameText != null)
             {
                 achievementNameText.text = defaultAchievementTitle;
@@ -228,6 +270,13 @@ namespace Refactory.UI
             if (descriptionAchievementText != null)
             {
                 descriptionAchievementText.text = string.Empty;
+            }
+
+            if (achievementPreviewImage != null)
+            {
+                achievementPreviewImage.sprite = defaultAchievementPreviewSprite;
+                achievementPreviewImage.color = defaultAchievementPreviewColor;
+                achievementPreviewImage.enabled = defaultAchievementPreviewEnabled;
             }
 
             if (descriptionAchievement != null)
@@ -409,6 +458,9 @@ namespace Refactory.UI
         private Vector3 defaultScale;
         private bool defaultScaleCached;
         private bool isUnlocked;
+        private bool isBound;
+
+        public bool IsBound => isBound;
 
         public void Configure(
             Button achievementButton,
@@ -433,6 +485,7 @@ namespace Refactory.UI
             panel = owner;
             definition = achievementDefinition;
             isUnlocked = unlocked;
+            isBound = definition != null;
 
             if (icon != null)
             {
@@ -469,11 +522,21 @@ namespace Refactory.UI
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (isUnlocked && panel != null)
+            if (isBound && panel != null)
             {
                 SetHovered(true);
-                panel.ShowDescription(definition);
+                ShowInPanel();
             }
+        }
+
+        public void ShowInPanel()
+        {
+            if (!isBound || panel == null || icon == null)
+            {
+                return;
+            }
+
+            panel.ShowDescription(definition, isUnlocked, icon.sprite, icon.color);
         }
 
         public void OnPointerExit(PointerEventData eventData)

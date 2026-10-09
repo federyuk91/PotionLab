@@ -29,6 +29,7 @@ public sealed class MainMenuController : MonoBehaviour
     [SerializeField, RequiredInspectorReference] private Animator legacyMenuMovementAnimator;
     [FormerlySerializedAs("buttonAnimator")]
     [SerializeField, RequiredInspectorReference] private Animator[] buttonAnimators;
+    [SerializeField, RequiredInspectorReference] private GameObject secondaryMenuButtonsRoot;
     [SerializeField, RequiredInspectorReference] private Camera menuCamera;
 
     [Header("Title Intro Audio")]
@@ -52,6 +53,12 @@ public sealed class MainMenuController : MonoBehaviour
     [Header("Transition Timing")]
     [SerializeField, Min(0f)] private float buttonAnimationDelay = 1f;
     [SerializeField, Min(0f)] private float buttonAnimationStagger = 0.2f;
+
+    [Header("Mode Button Reveal Audio")]
+    [SerializeField, RequiredInspectorReference] private AudioClip buttonAppearClip;
+    [SerializeField, Range(0f, 1f)] private float buttonAppearVolume = 1f;
+    [SerializeField, Range(0.1f, 3f)] private float buttonAppearPitchMin = 0.85f;
+    [SerializeField, Range(0.1f, 3f)] private float buttonAppearPitchMax = 1.2f;
 
     [Header("Choice Potion Fall")]
     [SerializeField, Min(0.01f)] private float choiceFallDuration = 0.9f;
@@ -79,6 +86,7 @@ public sealed class MainMenuController : MonoBehaviour
     private const string StartLightTrigger = "Start";
     private const string LightMenuParameter = "menu";
     private const string VersionPreferenceKey = "Version";
+    private const int ModeButtonCount = 3;
 
     private Coroutine sectionTransitionCoroutine;
     private Coroutine buttonAnimationCoroutine;
@@ -88,6 +96,7 @@ public sealed class MainMenuController : MonoBehaviour
     private Quaternion[] choiceHomeLocalRotations;
     private Vector3[] choiceHomeLocalScales;
     private bool choiceHomePoseCaptured;
+    private float menuAudioBasePitch = 1f;
 
     private void OnEnable()
     {
@@ -108,6 +117,11 @@ public sealed class MainMenuController : MonoBehaviour
     private void Awake()
     {
         Time.timeScale = 1f;
+        if (audioSource != null)
+        {
+            menuAudioBasePitch = audioSource.pitch;
+        }
+
         activeSection = ResolveInitiallyActiveSection();
         RefreshPlayerNameInput();
         ShowUpdateLogForNewVersion();
@@ -357,6 +371,8 @@ public sealed class MainMenuController : MonoBehaviour
         }
 
         transitionLocked = true;
+        SetTitleScreenVisible(false);
+        secondaryMenuButtonsRoot.SetActive(false);
         PrepareChoiceButtonsForFalling();
 
         if (section != MenuSection.Endless)
@@ -386,6 +402,7 @@ public sealed class MainMenuController : MonoBehaviour
 
         transitionLocked = true;
         sectionPanel.SetActive(false);
+        SetTitleScreenVisible(true);
 
         if (section == MenuSection.Records && coffeeMage != null)
         {
@@ -395,10 +412,23 @@ public sealed class MainMenuController : MonoBehaviour
         lightAnimator.SetInteger(LightMenuParameter, 0);
         PrepareChoiceButtonsForFalling();
         yield return AnimateChoiceButtons(true);
+        RestoreSecondaryMenuButtons();
+        secondaryMenuButtonsRoot.SetActive(true);
 
         activeSection = MenuSection.None;
         transitionLocked = false;
         sectionTransitionCoroutine = null;
+    }
+
+    private void SetTitleScreenVisible(bool visible)
+    {
+        if (titleScreenAnimation == null)
+        {
+            Debug.LogError("MainMenuController requires the Title Screen Animation Inspector reference.", this);
+            return;
+        }
+
+        titleScreenAnimation.gameObject.SetActive(visible);
     }
 
     private void PlayButtonAnimation()
@@ -421,8 +451,9 @@ public sealed class MainMenuController : MonoBehaviour
     {
         yield return WaitUnscaled(buttonAnimationDelay);
 
-        foreach (Animator buttonAnimator in buttonAnimators)
+        for (int buttonIndex = 0; buttonIndex < buttonAnimators.Length; buttonIndex++)
         {
+            Animator buttonAnimator = buttonAnimators[buttonIndex];
             if (buttonAnimator == null)
             {
                 Debug.LogError("MainMenuController has a missing element in Button Animators. Assign every element in Inspector.", this);
@@ -430,10 +461,40 @@ public sealed class MainMenuController : MonoBehaviour
             }
 
             buttonAnimator.SetTrigger(ButtonPopTrigger);
+            if (buttonIndex < ModeButtonCount)
+            {
+                PlayModeButtonAppearSound();
+            }
+
             yield return WaitUnscaled(buttonAnimationStagger);
         }
 
+        if (audioSource != null)
+        {
+            audioSource.pitch = menuAudioBasePitch;
+        }
+
         buttonAnimationCoroutine = null;
+    }
+
+    private void PlayModeButtonAppearSound()
+    {
+        if (audioSource == null)
+        {
+            Debug.LogError("MainMenuController requires the Audio Source Inspector reference for button reveal audio.", this);
+            return;
+        }
+
+        if (buttonAppearClip == null)
+        {
+            Debug.LogError("MainMenuController requires the Button Appear Clip Inspector reference.", this);
+            return;
+        }
+
+        float minimumPitch = Mathf.Min(buttonAppearPitchMin, buttonAppearPitchMax);
+        float maximumPitch = Mathf.Max(buttonAppearPitchMin, buttonAppearPitchMax);
+        audioSource.pitch = UnityEngine.Random.Range(minimumPitch, maximumPitch);
+        audioSource.PlayOneShot(buttonAppearClip, buttonAppearVolume);
     }
 
     private void PrepareChoiceButtonsForFalling()
@@ -488,7 +549,7 @@ public sealed class MainMenuController : MonoBehaviour
 
     private IEnumerator AnimateChoiceButtons(bool fallingIntoMenu)
     {
-        int buttonCount = buttonAnimators.Length;
+        int buttonCount = Mathf.Min(ModeButtonCount, buttonAnimators.Length);
         float animationDuration = fallingIntoMenu ? choiceReturnDuration : choiceFallDuration;
         float totalDuration = animationDuration + choiceFallStagger * Mathf.Max(0, buttonCount - 1);
         float elapsed = 0f;
@@ -565,6 +626,21 @@ public sealed class MainMenuController : MonoBehaviour
         buttonTransform.localPosition = choiceHomeLocalPositions[index];
         buttonTransform.localRotation = choiceHomeLocalRotations[index];
         buttonTransform.localScale = choiceHomeLocalScales[index];
+    }
+
+    private void RestoreSecondaryMenuButtons()
+    {
+        for (int index = ModeButtonCount; index < buttonAnimators.Length; index++)
+        {
+            Animator buttonAnimator = buttonAnimators[index];
+            if (buttonAnimator == null)
+            {
+                continue;
+            }
+
+            buttonAnimator.gameObject.SetActive(true);
+            RestoreChoiceButtonPose(index);
+        }
     }
 
     private float GetOffscreenLocalY(Transform buttonTransform, bool aboveScreen)
@@ -715,6 +791,12 @@ public sealed class MainMenuController : MonoBehaviour
             return false;
         }
 
+        if (secondaryMenuButtonsRoot == null)
+        {
+            Debug.LogError("MainMenuController requires the Secondary Menu Buttons Root Inspector reference.", this);
+            return false;
+        }
+
         foreach (Animator buttonAnimator in buttonAnimators)
         {
             if (buttonAnimator == null)
@@ -741,6 +823,7 @@ public sealed class MainMenuController : MonoBehaviour
             return;
         }
 
+        audioSource.pitch = menuAudioBasePitch;
         audioSource.Play();
     }
 
