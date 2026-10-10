@@ -4853,7 +4853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSystem.YetiPunchHitbox
   yetiCharacter: {fileID: 5498118413747246837}
   punchDirection: {x: -0.7, y: 0.5}
-  punchSpeed: 6.5
+  punchSpeed: 8
 --- !u!61 &421538571444878225
 BoxCollider2D:
   m_ObjectHideFlags: 0
